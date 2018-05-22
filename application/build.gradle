@@ -1,0 +1,22 @@
+buildscript{
+    repositories {
+        mavenCentral()
+    }
+    dependencies{
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE'
+    }
+}
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies{
+    compile 'org.springframework.boot:spring-boot-starter-web:2.0.2.RELEASE'
+    compile project(':serviceapi')
+    compile project(':repositoryapi')
+    compile project(':service')
+    compile project(':web')
+}

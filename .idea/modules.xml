@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/application.iml" filepath="$PROJECT_DIR$/.idea/modules/application/application.iml" group="application" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/application_main.iml" filepath="$PROJECT_DIR$/.idea/modules/application/application_main.iml" group="application" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/application_test.iml" filepath="$PROJECT_DIR$/.idea/modules/application/application_test.iml" group="application" />
+      <module fileurl="file://$PROJECT_DIR$/nightmanager.iml" filepath="$PROJECT_DIR$/nightmanager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/repositoryapi/repositoryapi.iml" filepath="$PROJECT_DIR$/.idea/modules/repositoryapi/repositoryapi.iml" group="repositoryapi" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/repositoryapi/repositoryapi_main.iml" filepath="$PROJECT_DIR$/.idea/modules/repositoryapi/repositoryapi_main.iml" group="repositoryapi" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/repositoryapi/repositoryapi_test.iml" filepath="$PROJECT_DIR$/.idea/modules/repositoryapi/repositoryapi_test.iml" group="repositoryapi" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/service.iml" filepath="$PROJECT_DIR$/.idea/modules/service/service.iml" group="service" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/service_main.iml" filepath="$PROJECT_DIR$/.idea/modules/service/service_main.iml" group="service" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/service_test.iml" filepath="$PROJECT_DIR$/.idea/modules/service/service_test.iml" group="service" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serviceapi/serviceapi.iml" filepath="$PROJECT_DIR$/.idea/modules/serviceapi/serviceapi.iml" group="serviceapi" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serviceapi/serviceapi_main.iml" filepath="$PROJECT_DIR$/.idea/modules/serviceapi/serviceapi_main.iml" group="serviceapi" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serviceapi/serviceapi_test.iml" filepath="$PROJECT_DIR$/.idea/modules/serviceapi/serviceapi_test.iml" group="serviceapi" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/web/web.iml" filepath="$PROJECT_DIR$/.idea/modules/web/web.iml" group="web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/web/web_main.iml" filepath="$PROJECT_DIR$/.idea/modules/web/web_main.iml" group="web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/web/web_test.iml" filepath="$PROJECT_DIR$/.idea/modules/web/web_test.iml" group="web" />
+    </modules>
+  </component>
+</project>
