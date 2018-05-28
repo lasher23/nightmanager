@@ -1,0 +1,5 @@
+service: sb-gcp
+env: flex
+runtime: custom   # Java runtime
+runtime_config:
+  jdk: openjdk8 # use OpenJDK 8

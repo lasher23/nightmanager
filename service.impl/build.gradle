@@ -1,0 +1,13 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter:2.0.2.RELEASE'
+    compile 'org.springframework:spring-aop'
+    compile project(':service.api')
+    compile project(':repository.api')
+}

@@ -2,14 +2,16 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="application_endpointsSrc" target="1.8" />
+      <module name="application_functionalTest" target="1.8" />
       <module name="application_main" target="1.8" />
       <module name="application_test" target="1.8" />
-      <module name="repositoryapi_main" target="1.8" />
-      <module name="repositoryapi_test" target="1.8" />
-      <module name="service_main" target="1.8" />
-      <module name="service_test" target="1.8" />
-      <module name="serviceapi_main" target="1.8" />
-      <module name="serviceapi_test" target="1.8" />
+      <module name="repository.api_main" target="1.8" />
+      <module name="repository.api_test" target="1.8" />
+      <module name="service.api_main" target="1.8" />
+      <module name="service.api_test" target="1.8" />
+      <module name="service.impl_main" target="1.8" />
+      <module name="service.impl_test" target="1.8" />
       <module name="web_main" target="1.8" />
       <module name="web_test" target="1.8" />
     </bytecodeTargetLevel>

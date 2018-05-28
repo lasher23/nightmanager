@@ -1,0 +1,11 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies{
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa:2.0.2.RELEASE'
+    compile 'mysql:mysql-connector-java:8.0.11'
+}
