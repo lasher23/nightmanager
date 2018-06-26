@@ -1,7 +1,1 @@
 rootProject.name = 'nightmanager'
-
-include ':service.api'
-include ':repository.api'
-include ':web'
-include ':application'
-include ':service.impl'
