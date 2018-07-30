@@ -8,7 +8,7 @@ public class Team {
     @Id
     @GeneratedValue
     private long id;
-    @Column
+    @Column(unique = true)
     private String name;
     @Column(name = "flagPlaceholder")
     private boolean placeholder;

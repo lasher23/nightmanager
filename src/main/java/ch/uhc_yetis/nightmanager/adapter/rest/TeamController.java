@@ -41,4 +41,12 @@ public class TeamController {
         }
         return ResponseEntity.ok(teamService.save(team));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable long id, @RequestBody Team team){
+        if (team.getId() != id && team.getId() != 0) {
+            return ResponseEntity.notFound().build();
+        }
+        return  ResponseEntity.ok().build();
+    }
 }
