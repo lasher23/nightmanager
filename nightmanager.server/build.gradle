@@ -33,3 +33,7 @@ docker {
     files bootJar.archivePath
     buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
 }
+
+processResources{
+    from "$projectDir/../nightmanager.client/dist/nightmanager" into "public" include "*"
+}

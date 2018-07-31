@@ -8,8 +8,10 @@ public class Game {
     @GeneratedValue
     @Id
     private long id;
+    @ManyToOne
     @JoinColumn(name = "fk_team_home")
     private Team teamHome;
+    @ManyToOne
     @JoinColumn(name = "fk_team_guest")
     private Team teamGuest;
     @Column(name = "goals_team_guest")
