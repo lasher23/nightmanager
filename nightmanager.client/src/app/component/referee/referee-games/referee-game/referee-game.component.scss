@@ -1,0 +1,34 @@
+.referee-game {
+  .home {
+    width: 50%;
+    float: left;
+    button {
+      width: 100%;
+    }
+  }
+  .guest {
+    width: 50%;
+    float: right;
+    button {
+      width: 100%;
+    }
+  }
+  .add {
+    height: 100px;
+    mat-icon {
+      font-size: 100px;
+      width: 100%;
+    }
+  }
+  .center {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+  mat-icon{
+    height: 100%;
+  }
+  .complete{
+    width: 100%;
+  }
+}

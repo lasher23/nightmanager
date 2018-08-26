@@ -3,7 +3,7 @@ package ch.uhc_yetis.nightmanager.domain.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "category")
+@Table(name = "categories")
 public class Category {
     @Id
     @GeneratedValue
@@ -20,7 +20,7 @@ public class Category {
     private CategoryState state;
 
     public long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(long id) {
@@ -28,7 +28,7 @@ public class Category {
     }
 
     public long getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(long name) {
@@ -36,7 +36,7 @@ public class Category {
     }
 
     public Category getParentCategory() {
-        return parentCategory;
+        return this.parentCategory;
     }
 
     public void setParentCategory(Category parentCategory) {
@@ -44,7 +44,7 @@ public class Category {
     }
 
     public boolean isCroki() {
-        return croki;
+        return this.croki;
     }
 
     public void setCroki(boolean croki) {
@@ -52,7 +52,7 @@ public class Category {
     }
 
     public CategoryState getState() {
-        return state;
+        return this.state;
     }
 
     public void setState(CategoryState state) {

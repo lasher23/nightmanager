@@ -1,0 +1,16 @@
+<div class="refree-games">
+  <table mat-table [dataSource]="games">
+    <ng-container matColumnDef="teamHome">
+      <th mat-header-cell *matHeaderCellDef>Heim</th>
+      <td mat-cell *matCellDef="let element"> {{element.teamHome.name}} </td>
+    </ng-container>
+    <ng-container matColumnDef="teamGuest">
+      <th mat-header-cell *matHeaderCellDef>Gast</th>
+      <td mat-cell *matCellDef="let element"> {{element.teamGuest.name}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onGameClick(row)"></tr>
+  </table>
+
+</div>

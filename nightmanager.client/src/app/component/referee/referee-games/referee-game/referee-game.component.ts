@@ -1,0 +1,53 @@
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material';
+import {RefereeGameDialogComponent} from './referee-game-dialog/referee-game-dialog.component';
+import {ActivatedRoute, Route} from '@angular/router';
+import {GameService} from '../../../../service/game.service';
+import {Game} from '../../../../model/Game';
+
+@Component({
+  selector: 'app-referee-game',
+  templateUrl: './referee-game.component.html',
+  styleUrls: ['./referee-game.component.scss']
+})
+export class RefereeGameComponent implements OnInit {
+  game: Game;
+
+  constructor(public dialog: MatDialog, route: ActivatedRoute, private gameService: GameService) {
+    route.params.subscribe(x => this.gameService.getGameById(Number(x['id'])).then(y => this.game = y));
+  }
+
+  ngOnInit() {
+    /*Promise.resolve().then(() => this.dialog.open(RefereeGameDialogComponent, {
+      width: '250px',
+      data: {text: 'some fancy text'}
+    }));*/
+  }
+
+  addGoalHome() {
+    this.game.goalsTeamHome = this.game.goalsTeamHome + 1;
+  }
+
+  minusGoalHome() {
+    if (this.game.goalsTeamHome > 0) {
+      this.game.goalsTeamHome = this.game.goalsTeamHome - 1;
+    }
+  }
+
+  addGoalGuest() {
+    this.game.goalsTeamGuest = this.game.goalsTeamGuest + 1;
+  }
+
+  minusGoalGuest() {
+    if (this.game.goalsTeamGuest > 0) {
+      this.game.goalsTeamGuest = this.game.goalsTeamGuest - 1;
+    }
+  }
+
+  completeGame() {
+    this.gameService.updateGame(this.game).then(x => this.onGameCompleted());
+  }
+
+  private onGameCompleted() {
+  }
+}

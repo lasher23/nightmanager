@@ -23,9 +23,28 @@ public class Game {
     private GameState state;
     @Column(name = "flagPlaceholder")
     private boolean placeholder;
+    @ManyToOne
+    @JoinColumn(name = "fk_hall")
+    private Hall hall;
+    @ManyToOne
+    @JoinColumn(name = "fk_category")
+    private Category category;
+
+    public Hall getHall() {
+        return this.hall;
+    }
+
+    public void setHall(Hall hall) {
+        this.hall = hall;
+    }
+
+    public void setId(long id) {
+
+        this.id = id;
+    }
 
     public boolean isPlaceholder() {
-        return placeholder;
+        return this.placeholder;
     }
 
     public void setPlaceholder(boolean placeholder) {
@@ -33,11 +52,11 @@ public class Game {
     }
 
     public long getId() {
-        return id;
+        return this.id;
     }
 
     public Team getTeamHome() {
-        return teamHome;
+        return this.teamHome;
     }
 
     public void setTeamHome(Team teamHome) {
@@ -45,7 +64,7 @@ public class Game {
     }
 
     public Team getTeamGuest() {
-        return teamGuest;
+        return this.teamGuest;
     }
 
     public void setTeamGuest(Team teamGuest) {
@@ -53,7 +72,7 @@ public class Game {
     }
 
     public int getGoalsTeamGuest() {
-        return goalsTeamGuest;
+        return this.goalsTeamGuest;
     }
 
     public void setGoalsTeamGuest(int goalsTeamGuest) {
@@ -61,7 +80,7 @@ public class Game {
     }
 
     public int getGoalsTeamHome() {
-        return goalsTeamHome;
+        return this.goalsTeamHome;
     }
 
     public void setGoalsTeamHome(int goalsTeamHome) {
@@ -69,10 +88,14 @@ public class Game {
     }
 
     public GameState getState() {
-        return state;
+        return this.state;
     }
 
     public void setState(GameState state) {
         this.state = state;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

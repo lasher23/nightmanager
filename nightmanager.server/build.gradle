@@ -25,6 +25,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web:2.0.2.RELEASE')
     compile 'org.springframework.boot:spring-boot-starter-data-jpa:2.0.2.RELEASE'
     compile 'org.postgresql:postgresql:9.4-1206-jdbc42'
+    compile 'org.springframework.boot:spring-boot-starter-security:2.0.2.RELEASE'
+    compile("io.jsonwebtoken:jjwt:0.9.0")
 }
 
 docker {
@@ -34,6 +36,7 @@ docker {
     buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
 }
 
-processResources{
+processResources {
+    println 'gugus'
     from "$projectDir/../nightmanager.client/dist/nightmanager" into "public" include "*"
 }

@@ -1,0 +1,40 @@
+<div class="referee-game">
+  <div class="home">
+    <h1 class="center">
+      {{game?.teamHome.name}}
+    </h1>
+    <div class="center">
+      <h2>{{game?.goalsTeamHome}}</h2>
+    </div>
+    <div>
+      <button mat-button (click)="addGoalHome()" class="add">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div>
+      <button mat-button (click)="minusGoalHome()">
+        <mat-icon>remove</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="guest">
+    <h1 class="center">
+      {{game?.teamGuest.name}}
+    </h1>
+    <div class="center">
+      <h2>{{game?.goalsTeamGuest}}</h2>
+    </div>
+    <div>
+      <button mat-button (click)="addGoalGuest()" class="add">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div>
+      <button mat-button (click)="minusGoalGuest()">
+        <mat-icon>remove</mat-icon>
+      </button>
+    </div>
+  </div>
+  <button mat-button (click)="completeGame()" class="complete">Abschliessen</button>
+</div>
+
