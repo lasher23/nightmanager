@@ -27,6 +27,10 @@ public class Category {
         this.id = id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public long getName() {
         return this.name;
     }
