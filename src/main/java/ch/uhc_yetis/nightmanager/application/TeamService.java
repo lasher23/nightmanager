@@ -1,6 +1,7 @@
 package ch.uhc_yetis.nightmanager.application;
 
 import ch.uhc_yetis.nightmanager.domain.model.Team;
+import ch.uhc_yetis.nightmanager.domain.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ public class TeamService {
 
     public Team createNewTeam(Team team){
         // TODO: if already exists?
+        team.setId(0);
         return teamRepository.save(team);
     }
 
