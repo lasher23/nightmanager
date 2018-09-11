@@ -1,6 +1,7 @@
 package ch.uhc_yetis.nightmanager.application;
 
 import ch.uhc_yetis.nightmanager.domain.model.Game;
+import ch.uhc_yetis.nightmanager.domain.model.GameState;
 import ch.uhc_yetis.nightmanager.domain.repository.GameRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +13,13 @@ public class GameService {
     private final GameRepository gameRepository;
     private final HallService hallService;
     private final CategoryService categoryService;
+    private final GameSpecifications gameSpecifications;
 
-    public GameService(GameRepository gameRepository, HallService hallService, CategoryService categoryService) {
+    public GameService(GameRepository gameRepository, HallService hallService, CategoryService categoryService, GameSpecifications gameSpecifications) {
         this.gameRepository = gameRepository;
         this.hallService = hallService;
         this.categoryService = categoryService;
+        this.gameSpecifications = gameSpecifications;
     }
 
     public List<Game> getAll() {
@@ -47,8 +50,13 @@ public class GameService {
 
     public Game complete(Game game) {
         if (this.gameRepository.existsById(game.getId())) {
+            game.setState(GameState.DONE);
             return this.gameRepository.save(game);
         }
-        throw new CustomException("Spiel " + game.getId() + "exisiert nicht", Status.NOT_FOUND);
+        throw new CustomException("Spiel " + game.getId() + " exisiert nicht", Status.NOT_FOUND);
+    }
+
+    public List<Game> getAll(GameRequestParams requestParams) {
+        return this.gameRepository.findAll(this.gameSpecifications.withStateCategoryAndHall(requestParams.getState(), requestParams.getCategoryId(), requestParams.getHallId()));
     }
 }

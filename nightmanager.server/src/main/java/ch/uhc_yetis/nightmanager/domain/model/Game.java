@@ -39,7 +39,6 @@ public class Game {
     }
 
     public void setId(long id) {
-
         this.id = id;
     }
 
@@ -93,9 +92,5 @@ public class Game {
 
     public void setState(GameState state) {
         this.state = state;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }

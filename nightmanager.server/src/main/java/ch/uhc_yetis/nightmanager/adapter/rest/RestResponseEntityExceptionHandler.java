@@ -11,10 +11,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {CustomException.class})
     protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
-        System.out.print("we did it");
         CustomException customException = (CustomException) ex;
         customException.setPath(request.getContextPath());
         customException.setTimestamp(System.currentTimeMillis() + "");
+        customException.setStatus(customException.getStatus());
         return ResponseEntity.status(customException.getStatus().getHttpCode()).body(customException);
     }
 }

@@ -23,7 +23,6 @@ export class HttpProxyService {
 
   post<T>(url, data): Promise<T> {
     const headers = this.createAuthorizationHeader();
-    debugger
     return this.http.post<T>(this.rootService.url + url, data, {
       headers: headers
     }).toPromise();

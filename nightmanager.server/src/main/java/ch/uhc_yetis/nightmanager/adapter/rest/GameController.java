@@ -1,11 +1,14 @@
 package ch.uhc_yetis.nightmanager.adapter.rest;
 
+import ch.uhc_yetis.nightmanager.application.GameRequestParams;
 import ch.uhc_yetis.nightmanager.application.GameService;
 import ch.uhc_yetis.nightmanager.domain.model.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,16 +19,8 @@ public class GameController {
     private GameService gameService;
 
     @GetMapping
-    public List<Game> getAll(@RequestParam(name = "category", required = false) Long categoryId, @RequestParam(name = "hall", required = false) Long hallId) {
-        if (categoryId != null && hallId != null) {
-            return this.gameService.getAllByHallAndCategory(hallId, categoryId);
-        } else if (categoryId != null && hallId == null) {
-            return this.gameService.getAllByCategory(categoryId);
-        } else if (categoryId == null && hallId != null) {
-            return this.gameService.getAllByHall(hallId);
-        } else {
-            return this.gameService.getAll();
-        }
+    public List<Game> getAll(@Valid GameRequestParams requestPrams) {
+        return this.gameService.getAll(requestPrams);
     }
 
     @GetMapping("/{id}")
@@ -37,13 +32,8 @@ public class GameController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping
-    public Game saveNewGame(Game game) {
-        return this.gameService.createNewGame(game);
-    }
-
     @PostMapping("/complete")
-    public Game completeGame(@RequestBody Game game) {
+    public Game completeGame(@RequestBody Game game) throws IOException {
         return this.gameService.complete(game);
     }
 }

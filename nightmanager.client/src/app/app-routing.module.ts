@@ -8,6 +8,7 @@ import {RefereeTeamComponent} from './component/referee/referee-teams/referee-te
 import {RefereeHallsComponent} from './component/referee/referee-halls/referee-halls.component';
 import {RefereeGamesComponent} from './component/referee/referee-games/referee-games.component';
 import {RefereeGameComponent} from './component/referee/referee-games/referee-game/referee-game.component';
+import {DisplayHomeComponent} from './component/display/display-home-component/display-home.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,11 @@ const routes: Routes = [
   {
     path: 'referee',
     component: RefereeGamesComponent,
+    canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'display',
+    component: DisplayHomeComponent,
     canActivate: [AuthenticationGuard]
   },
   {

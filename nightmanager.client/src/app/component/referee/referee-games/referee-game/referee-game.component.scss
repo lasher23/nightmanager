@@ -1,13 +1,13 @@
 .referee-game {
   .home {
-    width: 50%;
+    width: 48%;
     float: left;
     button {
       width: 100%;
     }
   }
   .guest {
-    width: 50%;
+    width: 48%;
     float: right;
     button {
       width: 100%;
@@ -25,10 +25,26 @@
     height: 100%;
     text-align: center;
   }
-  mat-icon{
+  mat-icon {
     height: 100%;
   }
-  .complete{
+  .complete {
     width: 100%;
+  }
+  mat-spinner {
+    margin: 0 auto;
+  }
+  button {
+    border-width: 1px;
+  }
+  .guest {
+    margin: 1%;
+  }
+  .home {
+    margin: 1%;
+  }
+
+  button {
+    margin-bottom: 5px;
   }
 }

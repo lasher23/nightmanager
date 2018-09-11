@@ -11,8 +11,8 @@ export class GameService {
   constructor(private http: HttpProxyService) {
   }
 
-  getAllGamesByHall(hall: Hall): Promise<Array<Game>> {
-    return this.http.get<Array<Game>>('games', {hall: hall.id});
+  getAllGamesByHallAndNotCompleted(hall: Hall): Promise<Array<Game>> {
+    return this.http.get<Array<Game>>('games', {hall: hall.id, state: 'OPEN'});
   }
 
   getGameById(id: number): Promise<Game> {

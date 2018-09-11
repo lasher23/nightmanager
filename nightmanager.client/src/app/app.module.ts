@@ -11,7 +11,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatDialogModule, MatIconModule, MatSnackBarModule, MatTableModule} from '@angular/material';
+import {MatDialogModule, MatIconModule, MatProgressSpinnerModule, MatSnackBarModule, MatTableModule} from '@angular/material';
 import {HttpProxyService} from './service/http-proxy.service';
 import {GlobalErrorHandler} from './global-error-handler';
 import {SnackbarService} from './service/snackbar.service';
@@ -28,10 +28,13 @@ import {RefereeHallsComponent} from './component/referee/referee-halls/referee-h
 import {GameService} from './service/game.service';
 import {RefereeGameComponent} from './component/referee/referee-games/referee-game/referee-game.component';
 import {RefereeGameDialogComponent} from './component/referee/referee-games/referee-game/referee-game-dialog/referee-game-dialog.component';
+import {RefereeGameConfirmDialogComponent} from './component/referee/referee-games/referee-game/referee-game-confirm-dialog/referee-game-confirm-dialog.component';
+import { DisplayHomeComponent } from './component/display/display-home-component/display-home.component';
 
 @NgModule({
   entryComponents: [
-    RefereeGameDialogComponent
+    RefereeGameDialogComponent,
+    RefereeGameConfirmDialogComponent,
   ],
   declarations: [
     AppComponent,
@@ -42,7 +45,9 @@ import {RefereeGameDialogComponent} from './component/referee/referee-games/refe
     RefereeGamesComponent,
     RefereeHallsComponent,
     RefereeGameComponent,
-    RefereeGameDialogComponent
+    RefereeGameDialogComponent,
+    RefereeGameConfirmDialogComponent,
+    DisplayHomeComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +64,7 @@ import {RefereeGameDialogComponent} from './component/referee/referee-games/refe
     MatSnackBarModule,
     MatDialogModule,
     MatIconModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     LoginService,

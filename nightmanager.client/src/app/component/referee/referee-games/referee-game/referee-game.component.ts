@@ -1,9 +1,12 @@
 import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {RefereeGameDialogComponent} from './referee-game-dialog/referee-game-dialog.component';
-import {ActivatedRoute, Route} from '@angular/router';
+import {ActivatedRoute, Route, Router} from '@angular/router';
 import {GameService} from '../../../../service/game.service';
 import {Game} from '../../../../model/Game';
+import {SnackbarService} from '../../../../service/snackbar.service';
+import {RoleService} from '../../../../service/role.service';
+import {RefereeGameConfirmDialogComponent} from './referee-game-confirm-dialog/referee-game-confirm-dialog.component';
 
 @Component({
   selector: 'app-referee-game',
@@ -13,7 +16,8 @@ import {Game} from '../../../../model/Game';
 export class RefereeGameComponent implements OnInit {
   game: Game;
 
-  constructor(public dialog: MatDialog, route: ActivatedRoute, private gameService: GameService) {
+  constructor(public dialog: MatDialog, route: ActivatedRoute, private gameService: GameService, private snackbarService: SnackbarService,
+              private router: Router, private roleService: RoleService) {
     route.params.subscribe(x => this.gameService.getGameById(Number(x['id'])).then(y => this.game = y));
   }
 
@@ -45,9 +49,15 @@ export class RefereeGameComponent implements OnInit {
   }
 
   completeGame() {
-    this.gameService.updateGame(this.game).then(x => this.onGameCompleted());
+    Promise.resolve().then(() => this.dialog.open(RefereeGameConfirmDialogComponent, {
+      width: '250px',
+      data: {text: 'Spiel abschliessen?', onConfirmation: () => this.completeGameFinally()}
+    }));
   }
 
-  private onGameCompleted() {
+  completeGameFinally() {
+    this.snackbarService.showMessage('Speichert Team', 10000);
+    this.gameService.updateGame(this.game).then(x => this.snackbarService.dismiss());
+    this.router.navigateByUrl(this.roleService.getDefaultRoute());
   }
 }

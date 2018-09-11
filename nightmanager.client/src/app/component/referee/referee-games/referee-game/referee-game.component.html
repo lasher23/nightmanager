@@ -1,5 +1,6 @@
 <div class="referee-game">
-  <div class="home">
+  <mat-spinner *ngIf="game==undefined"></mat-spinner>
+  <div class="home" *ngIf="game">
     <h1 class="center">
       {{game?.teamHome.name}}
     </h1>
@@ -7,17 +8,17 @@
       <h2>{{game?.goalsTeamHome}}</h2>
     </div>
     <div>
-      <button mat-button (click)="addGoalHome()" class="add">
+      <button mat-flat-button (click)="addGoalHome()" class="add">
         <mat-icon>add</mat-icon>
       </button>
     </div>
     <div>
-      <button mat-button (click)="minusGoalHome()">
+      <button mat-flat-button (click)="minusGoalHome()">
         <mat-icon>remove</mat-icon>
       </button>
     </div>
   </div>
-  <div class="guest">
+  <div class="guest" *ngIf="game">
     <h1 class="center">
       {{game?.teamGuest.name}}
     </h1>
@@ -25,16 +26,16 @@
       <h2>{{game?.goalsTeamGuest}}</h2>
     </div>
     <div>
-      <button mat-button (click)="addGoalGuest()" class="add">
+      <button mat-flat-button (click)="addGoalGuest()" class="add">
         <mat-icon>add</mat-icon>
       </button>
     </div>
     <div>
-      <button mat-button (click)="minusGoalGuest()">
+      <button mat-flat-button (click)="minusGoalGuest()">
         <mat-icon>remove</mat-icon>
       </button>
     </div>
   </div>
-  <button mat-button (click)="completeGame()" class="complete">Abschliessen</button>
+  <button mat-stroked-button (click)="completeGame()" class="complete" *ngIf="game">Abschliessen</button>
 </div>
 

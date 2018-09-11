@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/nightmanager.iml" filepath="$PROJECT_DIR$/nightmanager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/nightmanager.iml" filepath="$PROJECT_DIR$/.idea/modules/nightmanager.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/nightmanager_main.iml" filepath="$PROJECT_DIR$/.idea/modules/nightmanager_main.iml" group="nightmanager" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/nightmanager_test.iml" filepath="$PROJECT_DIR$/.idea/modules/nightmanager_test.iml" group="nightmanager" />
     </modules>

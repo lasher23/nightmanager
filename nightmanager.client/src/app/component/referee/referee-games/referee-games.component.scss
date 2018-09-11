@@ -1,5 +1,14 @@
-.refree-games{
-  table{
+.refree-games {
+  table {
     width: 100%;
+  }
+  mat-spinner {
+    margin: 0 auto;
+  }
+  td {
+    text-align: center;
+  }
+  th {
+    text-align: center;
   }
 }
