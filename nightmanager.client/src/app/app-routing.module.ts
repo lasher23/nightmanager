@@ -8,7 +8,9 @@ import {RefereeTeamComponent} from './component/referee/referee-teams/referee-te
 import {RefereeHallsComponent} from './component/referee/referee-halls/referee-halls.component';
 import {RefereeGamesComponent} from './component/referee/referee-games/referee-games.component';
 import {RefereeGameComponent} from './component/referee/referee-games/referee-game/referee-game.component';
-import {DisplayHomeComponent} from './component/display/display-home-component/display-home.component';
+import {DisplayHomeComponent} from './component/display/display-home/display-home.component';
+import {DisplayGamesComponent} from './component/display/display-games/display-games.component';
+import {DisplayCategoryComponent} from './component/display/display-category/display-category.component';
 
 const routes: Routes = [
   {
@@ -48,6 +50,16 @@ const routes: Routes = [
   {
     path: 'display',
     component: DisplayHomeComponent,
+    canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'display/games',
+    component: DisplayGamesComponent,
+    canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'display/categories/:id',
+    component: DisplayCategoryComponent,
     canActivate: [AuthenticationGuard]
   },
   {

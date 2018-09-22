@@ -9,7 +9,7 @@ public class Category {
     @GeneratedValue
     private long id;
     @Column
-    private long name;
+    private String name;
     @ManyToOne
     @JoinColumn(name = "fk_parent_category")
     private Category parentCategory;
@@ -27,11 +27,11 @@ public class Category {
         this.id = id;
     }
 
-    public long getName() {
+    public String getName() {
         return this.name;
     }
 
-    public void setName(long name) {
+    public void setName(String name) {
         this.name = name;
     }
 

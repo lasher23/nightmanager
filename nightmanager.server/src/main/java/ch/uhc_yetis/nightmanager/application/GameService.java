@@ -2,11 +2,18 @@ package ch.uhc_yetis.nightmanager.application;
 
 import ch.uhc_yetis.nightmanager.domain.model.Game;
 import ch.uhc_yetis.nightmanager.domain.model.GameState;
+import ch.uhc_yetis.nightmanager.domain.model.Team;
 import ch.uhc_yetis.nightmanager.domain.repository.GameRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class GameService {
@@ -57,6 +64,29 @@ public class GameService {
     }
 
     public List<Game> getAll(GameRequestParams requestParams) {
-        return this.gameRepository.findAll(this.gameSpecifications.withStateCategoryAndHall(requestParams.getState(), requestParams.getCategoryId(), requestParams.getHallId()));
+        List<Game> games = this.gameRepository.findAll(this.gameSpecifications.withStateCategoryAndHall(requestParams.getState(), requestParams.getCategoryId(), requestParams.getHallId()));
+        List<Game> gamesSorted = games.stream().sorted(Comparator.comparing(Game::getStartDate)).collect(Collectors.toList());
+        if (requestParams.getAfterNow() != null && requestParams.getBeforeNow() != null && games.size() >= requestParams.getAfterNow() + requestParams.getBeforeNow()) {
+            LocalDateTime now = LocalDateTime.now();
+            Game closestToNow = this.getDateClosestToDate(gamesSorted, now);
+            int index = IntStream.range(0, gamesSorted.size()).filter(x -> gamesSorted.get(x).getId() == closestToNow.getId()).findFirst().getAsInt();
+            int fromIndex = index - requestParams.getBeforeNow() > 0 ? index - requestParams.getBeforeNow() : 0;
+            int toIndex = index - requestParams.getAfterNow() > gamesSorted.size() - 1 ? index - requestParams.getAfterNow() : gamesSorted.size();
+            return gamesSorted.subList(fromIndex, toIndex);
+        }
+        return gamesSorted;
+    }
+
+    private Game getDateClosestToDate(List<Game> games, LocalDateTime now) {
+        Game game = Collections.min(games, (d1, d2) -> {
+            long diff1 = Duration.between(d1.getStartDate(), now).getSeconds();
+            long diff2 = Duration.between(d2.getStartDate(), now).getSeconds();
+            return Long.compare(diff1, diff2);
+        });
+        return game;
+    }
+
+    public List<Game> getAllFromTeam(Team team) {
+        return this.gameRepository.findAllByTeamGuestOrTeamHome(team, team);
     }
 }

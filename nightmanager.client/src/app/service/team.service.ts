@@ -11,10 +11,14 @@ export class TeamService {
   }
 
   getAll(): Promise<Array<Team>> {
-    return this.http.get<Array<Team>>('/teams');
+    return this.http.get<Array<Team>>('teams');
   }
 
   getTeam(id: number): Promise<Team> {
-    return this.http.get<Team>('/teams/' + id);
+    return this.http.get<Team>('teams/' + id);
+  }
+
+  getAllByCategory(categoryId: number) {
+    return this.http.get<Array<Team>>('teams', {categoryId: categoryId});
   }
 }

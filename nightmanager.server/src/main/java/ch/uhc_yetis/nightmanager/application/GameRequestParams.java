@@ -6,6 +6,24 @@ public class GameRequestParams {
     private Long categoryId;
     private Long hallId;
     private GameState state;
+    private Integer afterNow;
+    private Integer beforeNow;
+
+    public Integer getAfterNow() {
+        return this.afterNow;
+    }
+
+    public void setAfterNow(Integer afterNow) {
+        this.afterNow = afterNow;
+    }
+
+    public Integer getBeforeNow() {
+        return this.beforeNow;
+    }
+
+    public void setBeforeNow(Integer beforeNow) {
+        this.beforeNow = beforeNow;
+    }
 
     public Long getCategoryId() {
         return this.categoryId;

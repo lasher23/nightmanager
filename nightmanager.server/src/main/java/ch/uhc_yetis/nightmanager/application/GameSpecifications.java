@@ -38,6 +38,10 @@ public final class GameSpecifications {
             if (hallId != null) {
                 disjunction.getExpressions().add(criteriaBuilder.equal(root.get("hall"), this.hallService.getById(hallId)));
             }
+            if (state == null && categoryId == null && hallId == null) {
+                disjunction.getExpressions().add(criteriaBuilder.notEqual(root.get("hall"), 10000));
+            }
+
             return disjunction;
         };
     }

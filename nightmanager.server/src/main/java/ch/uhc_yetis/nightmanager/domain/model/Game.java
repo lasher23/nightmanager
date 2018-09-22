@@ -1,6 +1,7 @@
 package ch.uhc_yetis.nightmanager.domain.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "games")
@@ -18,10 +19,10 @@ public class Game {
     private int goalsTeamGuest;
     @Column(name = "goals_team_home")
     private int goalsTeamHome;
-    @Column
+    @Column(nullable = false, columnDefinition = "default 1")
     @Enumerated(EnumType.ORDINAL)
     private GameState state;
-    @Column(name = "flagPlaceholder")
+    @Column(name = "flagPlaceholder", nullable = false, columnDefinition = "boolean default false")
     private boolean placeholder;
     @ManyToOne
     @JoinColumn(name = "fk_hall")
@@ -29,6 +30,34 @@ public class Game {
     @ManyToOne
     @JoinColumn(name = "fk_category")
     private Category category;
+    @Column
+    private LocalDateTime startDate;
+    @Column(nullable = false, columnDefinition = "bigint default 720000")
+    private long duration;
+
+    public Category getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public LocalDateTime getStartDate() {
+        return this.startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public long getDuration() {
+        return this.duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
 
     public Hall getHall() {
         return this.hall;

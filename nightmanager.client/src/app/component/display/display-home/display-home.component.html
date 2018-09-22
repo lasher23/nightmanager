@@ -1,0 +1,6 @@
+<div *ngIf="isCategory()">
+  <app-display-category [category]="currentDisplayble.data"></app-display-category>
+</div>
+<div *ngIf="isGames()">
+  <app-display-games [games]="currentDisplayble.data"></app-display-games>
+</div>

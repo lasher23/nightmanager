@@ -12,11 +12,19 @@ export class GameService {
   }
 
   getAllGamesByHallAndNotCompleted(hall: Hall): Promise<Array<Game>> {
-    return this.http.get<Array<Game>>('games', {hall: hall.id, state: 'OPEN'});
+    return this.http.get<Array<Game>>('games', {hallId: hall.id, state: 'OPEN'});
   }
 
   getGameById(id: number): Promise<Game> {
     return this.http.get<Game>('games/' + id);
+  }
+
+  getAllGames(beforeNow: number, afterNow: number): Promise<Array<Game>> {
+    return this.http.get<Array<Game>>('games', {beforeNow: beforeNow, afterNow: afterNow});
+  }
+
+  getAllGamesByCategory(categoryId: number, beforeNow: number, afterNow: number): Promise<Array<Game>> {
+    return this.http.get<Array<Game>>('games', {categoryId: categoryId, beforeNow: beforeNow, afterNow: afterNow});
   }
 
   updateGame(game: Game): Promise<Game> {

@@ -28,8 +28,11 @@ import {RefereeHallsComponent} from './component/referee/referee-halls/referee-h
 import {GameService} from './service/game.service';
 import {RefereeGameComponent} from './component/referee/referee-games/referee-game/referee-game.component';
 import {RefereeGameDialogComponent} from './component/referee/referee-games/referee-game/referee-game-dialog/referee-game-dialog.component';
-import {RefereeGameConfirmDialogComponent} from './component/referee/referee-games/referee-game/referee-game-confirm-dialog/referee-game-confirm-dialog.component';
-import { DisplayHomeComponent } from './component/display/display-home-component/display-home.component';
+import {RefereeGameConfirmDialogComponent} from
+    './component/referee/referee-games/referee-game/referee-game-confirm-dialog/referee-game-confirm-dialog.component';
+import {DisplayHomeComponent} from './component/display/display-home/display-home.component';
+import {DisplayCategoryComponent} from './component/display/display-category/display-category.component';
+import { DisplayGamesComponent } from './component/display/display-games/display-games.component';
 
 @NgModule({
   entryComponents: [
@@ -47,7 +50,9 @@ import { DisplayHomeComponent } from './component/display/display-home-component
     RefereeGameComponent,
     RefereeGameDialogComponent,
     RefereeGameConfirmDialogComponent,
-    DisplayHomeComponent
+    DisplayHomeComponent,
+    DisplayCategoryComponent,
+    DisplayGamesComponent
   ],
   imports: [
     BrowserModule,

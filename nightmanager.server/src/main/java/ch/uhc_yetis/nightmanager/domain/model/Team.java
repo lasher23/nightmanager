@@ -8,13 +8,25 @@ public class Team {
     @Id
     @GeneratedValue
     private long id;
+    @ManyToOne
+    @JoinColumn(name = "fk_category")
+    private Category category;
     @Column(unique = true)
     private String name;
     @Column(name = "flagPlaceholder")
     private boolean placeholder;
 
+
+    public Category getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public boolean isPlaceholder() {
-        return placeholder;
+        return this.placeholder;
     }
 
     public void setPlaceholder(boolean placeholder) {
@@ -22,7 +34,7 @@ public class Team {
     }
 
     public long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(long id) {
@@ -30,7 +42,7 @@ public class Team {
     }
 
     public String getName() {
-        return name;
+        return this.name;
 
     }
 
