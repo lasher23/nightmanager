@@ -38,5 +38,13 @@ docker {
 }
 
 processResources {
-    from "$projectDir/../nightmanager.client/dist/nightmanager" into "public" include "*"
+    dependsOn 'buildAngular'
+    from("$projectDir/../nightmanager.client/dist/nightmanager") {
+        into "static"
+    }
+}
+
+task buildAngular(type: Exec) {
+    workingDir "../nightmanager.client/"
+    commandLine "ng.cmd", "build"
 }

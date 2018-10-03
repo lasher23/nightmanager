@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     private ApplicationUserRepository applicationUserRepository;
@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping
-    public void signUp(@RequestBody ApplicationUser user) {
+    public void authorize(@RequestBody ApplicationUser user) {
         user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
         this.applicationUserRepository.save(user);
     }

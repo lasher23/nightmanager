@@ -15,7 +15,7 @@ export class LoginService {
 
   public login(user: User): Observable<boolean> {
     const subject = new Subject<boolean>();
-    this.http.post(this.authService.url + '/login', user, {observe: 'response'})
+    this.http.post('sign-in', user, {observe: 'response'})
       .subscribe(x => {
         this.authService.saveAuthorizationHeader(x.headers.get('Authorization'));
         subject.next(true);

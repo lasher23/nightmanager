@@ -6,7 +6,6 @@
         <option value="activate" />
         <option value="organizeImports" />
         <option value="reformat" />
-        <option value="compile" />
         <option value="unqualifiedFieldAccess" />
         <option value="unqualifiedMethodAccess" />
         <option value="missingOverrideAnnotation" />
