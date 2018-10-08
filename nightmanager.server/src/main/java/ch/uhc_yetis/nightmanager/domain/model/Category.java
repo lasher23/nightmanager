@@ -18,6 +18,17 @@ public class Category {
     @Enumerated(EnumType.ORDINAL)
     @Column
     private CategoryState state;
+    @JoinColumn(nullable = false, name = "fk_tournament")
+    @ManyToOne
+    private Tournament tournament;
+
+    public Tournament getTournament() {
+        return this.tournament;
+    }
+
+    public void setTournament(Tournament tournament) {
+        this.tournament = tournament;
+    }
 
     public long getId() {
         return this.id;

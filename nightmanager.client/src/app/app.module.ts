@@ -11,7 +11,14 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatDialogModule, MatIconModule, MatProgressSpinnerModule, MatSnackBarModule, MatTableModule} from '@angular/material';
+import {
+  MatDialogModule,
+  MatIconModule,
+  MatProgressSpinnerModule,
+  MatSnackBarModule,
+  MatTableModule,
+  MatTabsModule
+} from '@angular/material';
 import {HttpProxyService} from './service/http-proxy.service';
 import {GlobalErrorHandler} from './global-error-handler';
 import {SnackbarService} from './service/snackbar.service';
@@ -33,6 +40,8 @@ import {RefereeGameConfirmDialogComponent} from
 import {DisplayHomeComponent} from './component/display/display-home/display-home.component';
 import {DisplayCategoryComponent} from './component/display/display-category/display-category.component';
 import { DisplayGamesComponent } from './component/display/display-games/display-games.component';
+import { AdminGameOverviewComponent } from './component/admin/admin-game-overview/admin-game-overview.component';
+import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
 
 @NgModule({
   entryComponents: [
@@ -52,7 +61,9 @@ import { DisplayGamesComponent } from './component/display/display-games/display
     RefereeGameConfirmDialogComponent,
     DisplayHomeComponent,
     DisplayCategoryComponent,
-    DisplayGamesComponent
+    DisplayGamesComponent,
+    AdminGameOverviewComponent,
+    AdminHomeComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +81,7 @@ import { DisplayGamesComponent } from './component/display/display-games/display
     MatDialogModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
   ],
   providers: [
     LoginService,

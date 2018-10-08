@@ -2,6 +2,7 @@ package ch.uhc_yetis.nightmanager.application;
 
 import ch.uhc_yetis.nightmanager.domain.model.Game;
 import ch.uhc_yetis.nightmanager.domain.model.GameState;
+import ch.uhc_yetis.nightmanager.domain.model.GameType;
 import ch.uhc_yetis.nightmanager.domain.model.Team;
 import ch.uhc_yetis.nightmanager.domain.repository.GameRepository;
 import org.springframework.stereotype.Service;
@@ -88,5 +89,16 @@ public class GameService {
 
     public List<Game> getAllFromTeam(Team team) {
         return this.gameRepository.findAllByTeamGuestOrTeamHome(team, team);
+    }
+
+    public Game reset(Game game) {
+        game.setGoalsTeamGuest(0);
+        game.setGoalsTeamHome(0);
+        game.setState(GameState.OPEN);
+        return this.gameRepository.save(game);
+    }
+
+    public List<Game> getAllGroupstageGamesFromTeam(Team team) {
+        return this.gameRepository.findAllByTeamGuestOrTeamHomeAndType(team, team, GameType.GROUP_STAGE);
     }
 }

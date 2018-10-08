@@ -48,7 +48,30 @@ public class TeamService {
                 .withPlaceholder(team.isPlaceholder())
                 .withGoalsShot(this.getGoalsShot(team))
                 .withGoalsGotten(this.getGoalsGotten(team))
+                .wihtPoints(this.getPoints(team))
                 .build();
+    }
+
+    private int getPoints(Team team) {
+        return this.gameService.getAllGroupstageGamesFromTeam(team).stream().map(game -> this.getPointsForTeam(team, game)).mapToInt(value -> value).sum();
+    }
+
+    private int getPointsForTeam(Team team, Game game) {
+        if (game.getGoalsTeamGuest() > game.getGoalsTeamHome()) {
+            if (game.getTeamGuest().getId() == team.getId()) {
+                return 3;
+            } else {
+                return 0;
+            }
+        } else if (game.getGoalsTeamGuest() < game.getGoalsTeamHome()) {
+            if (game.getTeamHome().getId() == team.getId()) {
+                return 3;
+            } else {
+                return 0;
+            }
+        } else {
+            return 1;
+        }
     }
 
     private int getGoalsGotten(Team team) {

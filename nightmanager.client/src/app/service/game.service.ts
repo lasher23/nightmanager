@@ -23,11 +23,19 @@ export class GameService {
     return this.http.get<Array<Game>>('games', {beforeNow: beforeNow, afterNow: afterNow});
   }
 
+  getGames(): Promise<Array<Game>> {
+    return this.http.get<Array<Game>>('games');
+  }
+
   getAllGamesByCategory(categoryId: number, beforeNow: number, afterNow: number): Promise<Array<Game>> {
     return this.http.get<Array<Game>>('games', {categoryId: categoryId, beforeNow: beforeNow, afterNow: afterNow});
   }
 
   updateGame(game: Game): Promise<Game> {
     return this.http.post<Game>('games/complete', game);
+  }
+
+  resetGame(game: Game): Promise<Game> {
+    return this.http.post<Game>('games/reset', game);
   }
 }

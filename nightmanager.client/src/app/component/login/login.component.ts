@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
 import {RoleService} from '../../service/role.service';
 import {Role} from '../../model/Role';
+import {SnackbarService} from '../../service/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,11 @@ export class LoginComponent implements OnInit {
   roleChoosing = false;
   roles: Array<Role>;
 
-  constructor(private loginService: LoginService, private router: Router, private authService: AuthenticationService, private roleService: RoleService) {
+  constructor(private loginService: LoginService,
+              private router: Router,
+              private authService: AuthenticationService,
+              private roleService: RoleService,
+              private snackbarService: SnackbarService) {
   }
 
   ngOnInit() {
@@ -30,7 +35,13 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    this.loginService.login(this.user).subscribe(() => this.roleChoosing = true);
+    this.loginService.login(this.user).then((x) => {
+      if (x) {
+        this.roleChoosing = true;
+      } else {
+        this.snackbarService.showMessage('Falsches Login');
+      }
+    });
   }
 
   chooseRole(role: Role) {

@@ -28,7 +28,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.antMatcher("api/login").authorizeRequests().anyRequest().authenticated().and()
+        http.csrf().disable().antMatcher("api/login").authorizeRequests().anyRequest().authenticated().and()
                 .antMatcher("/api/**").authorizeRequests().anyRequest().authenticated().and()
                 .addFilter(new JWTAuthorizationFilter(this.authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

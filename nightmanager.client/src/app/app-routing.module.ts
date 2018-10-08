@@ -11,6 +11,7 @@ import {RefereeGameComponent} from './component/referee/referee-games/referee-ga
 import {DisplayHomeComponent} from './component/display/display-home/display-home.component';
 import {DisplayGamesComponent} from './component/display/display-games/display-games.component';
 import {DisplayCategoryComponent} from './component/display/display-category/display-category.component';
+import {AdminHomeComponent} from './component/admin/admin-home/admin-home.component';
 
 const routes: Routes = [
   {
@@ -60,6 +61,11 @@ const routes: Routes = [
   {
     path: 'display/categories/:id',
     component: DisplayCategoryComponent,
+    canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'admin',
+    component: AdminHomeComponent,
     canActivate: [AuthenticationGuard]
   },
   {

@@ -19,10 +19,10 @@ public class Game {
     private int goalsTeamGuest;
     @Column(name = "goals_team_home")
     private int goalsTeamHome;
-    @Column(nullable = false, columnDefinition = "default 1")
+    @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private GameState state;
-    @Column(name = "flagPlaceholder", nullable = false, columnDefinition = "boolean default false")
+    @Column(name = "flagPlaceholder")
     private boolean placeholder;
     @ManyToOne
     @JoinColumn(name = "fk_hall")
@@ -32,8 +32,20 @@ public class Game {
     private Category category;
     @Column
     private LocalDateTime startDate;
-    @Column(nullable = false, columnDefinition = "bigint default 720000")
+    @Column(nullable = false)
     private long duration;
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private GameType type;
+
+
+    public GameType getType() {
+        return this.type;
+    }
+
+    public void setType(GameType type) {
+        this.type = type;
+    }
 
     public Category getCategory() {
         return this.category;

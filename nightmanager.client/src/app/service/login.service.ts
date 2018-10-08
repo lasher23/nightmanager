@@ -13,13 +13,13 @@ export class LoginService {
   constructor(private http: HttpClient, private router: Router, private authService: AuthenticationService) {
   }
 
-  public login(user: User): Observable<boolean> {
-    const subject = new Subject<boolean>();
-    this.http.post('sign-in', user, {observe: 'response'})
-      .subscribe(x => {
+  public login(user: User): Promise<boolean> {
+    return this.http.post('sign-in', user, {observe: 'response'}).toPromise().then(x => {
+      if (x.headers.has('Authorization')) {
         this.authService.saveAuthorizationHeader(x.headers.get('Authorization'));
-        subject.next(true);
-      });
-    return subject;
+        return true;
+      }
+      return false;
+    });
   }
 }

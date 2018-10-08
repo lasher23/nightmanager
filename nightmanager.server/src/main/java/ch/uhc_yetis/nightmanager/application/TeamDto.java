@@ -6,11 +6,11 @@ public class TeamDto {
     private long id;
     private String name;
     private Category category;
-
     private boolean placeholder;
-
     private int goalsShot;
     private int goalsGotten;
+    private int points;
+
 
     private TeamDto() {
     }
@@ -39,11 +39,15 @@ public class TeamDto {
         return this.placeholder;
     }
 
+    public int getPoints() {
+        return this.points;
+    }
+
     public static NameBuilder withId(long id) {
         return new TeamDtoBuilder().withId(id);
     }
 
-    public static class TeamDtoBuilder implements IDBuilder, NameBuilder, PlaceholderBuilder, GoalsGottenBuilder, GoalsShotBuilder, OptionalFieldsBuilder, CategoryBuilder {
+    public static class TeamDtoBuilder implements IDBuilder, NameBuilder, PlaceholderBuilder, GoalsGottenBuilder, GoalsShotBuilder, OptionalFieldsBuilder, CategoryBuilder, PointBuilder {
 
 
         private TeamDto teamDto;
@@ -77,7 +81,7 @@ public class TeamDto {
         }
 
         @Override
-        public OptionalFieldsBuilder withGoalsGotten(int goalsGotten) {
+        public PointBuilder withGoalsGotten(int goalsGotten) {
             this.teamDto.goalsGotten = goalsGotten;
             return this;
         }
@@ -90,6 +94,12 @@ public class TeamDto {
         @Override
         public PlaceholderBuilder withCategory(Category category) {
             this.teamDto.category = category;
+            return this;
+        }
+
+        @Override
+        public OptionalFieldsBuilder wihtPoints(int points) {
+            this.teamDto.points = points;
             return this;
         }
     }
@@ -115,7 +125,11 @@ public class TeamDto {
     }
 
     public interface GoalsGottenBuilder {
-        OptionalFieldsBuilder withGoalsGotten(int goalsGotten);
+        PointBuilder withGoalsGotten(int goalsGotten);
+    }
+
+    public interface PointBuilder {
+        OptionalFieldsBuilder wihtPoints(int points);
     }
 
     public interface OptionalFieldsBuilder {
