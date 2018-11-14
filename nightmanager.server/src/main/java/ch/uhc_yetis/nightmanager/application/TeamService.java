@@ -1,5 +1,6 @@
 package ch.uhc_yetis.nightmanager.application;
 
+import ch.uhc_yetis.nightmanager.domain.model.Category;
 import ch.uhc_yetis.nightmanager.domain.model.Game;
 import ch.uhc_yetis.nightmanager.domain.model.Team;
 import ch.uhc_yetis.nightmanager.domain.repository.TeamRepository;
@@ -96,5 +97,9 @@ public class TeamService {
             }
             return 0;
         }).mapToInt(Integer::intValue).sum();
+    }
+
+    public List<TeamDto> findByCategory(Category category) {
+        return this.teamRepository.findByCategory(category).stream().map(this::mapToDto).collect(Collectors.toList());
     }
 }

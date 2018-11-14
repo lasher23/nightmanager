@@ -1,9 +1,6 @@
 package ch.uhc_yetis.nightmanager.application;
 
-import ch.uhc_yetis.nightmanager.domain.model.Game;
-import ch.uhc_yetis.nightmanager.domain.model.GameState;
-import ch.uhc_yetis.nightmanager.domain.model.GameType;
-import ch.uhc_yetis.nightmanager.domain.model.Team;
+import ch.uhc_yetis.nightmanager.domain.model.*;
 import ch.uhc_yetis.nightmanager.domain.repository.GameRepository;
 import org.springframework.stereotype.Service;
 
@@ -100,5 +97,25 @@ public class GameService {
 
     public List<Game> getAllGroupstageGamesFromTeam(Team team) {
         return this.gameRepository.findAllByTeamGuestOrTeamHomeAndType(team, team, GameType.GROUP_STAGE);
+    }
+
+    public List<Game> getAllGamesByCategoryAndType(Category category, GameType gameType) {
+        return this.gameRepository.findAllByCategoryAndType(category, gameType);
+    }
+
+    public List<Game> getAllByCategory(Category category) {
+        return this.gameRepository.findByCategory(category);
+    }
+
+    public Optional<Game> findGameByTwoTeamsAndType(TeamDto team1, TeamDto team2, GameType gameType) {
+        return this.gameRepository.findByTwoTeamsAndType(team1, team2, gameType);
+    }
+
+    public List<Game> getGamesByGameTypeAndCategory(GameType gameType, Category category) {
+        return this.gameRepository.findAllByCategoryAndType(category, gameType);
+    }
+
+    public Game save(Game firstSemi) {
+        return this.gameRepository.save(firstSemi);
     }
 }

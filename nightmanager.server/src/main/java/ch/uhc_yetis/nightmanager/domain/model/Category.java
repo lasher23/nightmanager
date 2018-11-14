@@ -13,8 +13,9 @@ public class Category {
     @ManyToOne
     @JoinColumn(name = "fk_parent_category")
     private Category parentCategory;
-    @Column(name = "flagCroki")
-    private boolean croki;
+    @Enumerated(EnumType.ORDINAL)
+    @Column
+    private CategoryType type;
     @Enumerated(EnumType.ORDINAL)
     @Column
     private CategoryState state;
@@ -54,12 +55,12 @@ public class Category {
         this.parentCategory = parentCategory;
     }
 
-    public boolean isCroki() {
-        return this.croki;
+    public CategoryType getType() {
+        return this.type;
     }
 
-    public void setCroki(boolean croki) {
-        this.croki = croki;
+    public void setType(CategoryType type) {
+        this.type = type;
     }
 
     public CategoryState getState() {

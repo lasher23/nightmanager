@@ -1,5 +1,5 @@
 package ch.uhc_yetis.nightmanager.domain.model;
 
 public enum CategoryState {
-    GROUP_PHASE, KO_PHASE,FINISHED
+    CROKI_FIRST, GROUP_PHASE, SEMI_FINAL, FINAL, FINISHED
 }

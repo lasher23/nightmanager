@@ -42,6 +42,7 @@ import {DisplayCategoryComponent} from './component/display/display-category/dis
 import { DisplayGamesComponent } from './component/display/display-games/display-games.component';
 import { AdminGameOverviewComponent } from './component/admin/admin-game-overview/admin-game-overview.component';
 import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
+import { AdminGenerationComponent } from './component/admin/admin-generation/admin-generation.component';
 
 @NgModule({
   entryComponents: [
@@ -63,7 +64,8 @@ import { AdminHomeComponent } from './component/admin/admin-home/admin-home.comp
     DisplayCategoryComponent,
     DisplayGamesComponent,
     AdminGameOverviewComponent,
-    AdminHomeComponent
+    AdminHomeComponent,
+    AdminGenerationComponent
   ],
   imports: [
     BrowserModule,
