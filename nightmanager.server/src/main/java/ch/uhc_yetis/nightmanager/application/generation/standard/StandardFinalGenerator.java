@@ -14,8 +14,6 @@ import java.util.stream.Collectors;
 public class StandardFinalGenerator implements Generator {
     @Autowired
     private GameService gameService;
-    @Autowired
-    private TeamService teamService;
 
     @Override
     public void generate(Category category) {
@@ -23,11 +21,21 @@ public class StandardFinalGenerator implements Generator {
         if (games.stream().allMatch(game -> game.getState().equals(GameState.DONE))) {
             List<Game> semiFinals = this.gameService.getAllGamesByCategoryAndType(category, GameType.SEMI_FINAL);
             List<Game> finals = this.gameService.getAllGamesByCategoryAndType(category, GameType.FINAL).stream().sorted(Comparator.comparingLong(game -> game.getHall().getId())).collect(Collectors.toList());
+            Game bigFinal = finals.get(0);
             Game semi1 = semiFinals.get(0);
             Game semi2 = semiFinals.get(1);
+            Team winner1 = this.getWinner(semi1, category);
+            Team winner2 = this.getWinner(semi2, category);
+            bigFinal.setTeamHome(winner1);
+            bigFinal.setTeamGuest(winner2);
+            this.gameService.save(bigFinal);
 
-            this.getWinner(semi1, category);
-            semiFinals.get(1);
+            Game littleFinal = finals.get(1);
+            Team looser1 = this.getLooser(semi1, category);
+            Team looser2 = this.getLooser(semi2, category);
+            littleFinal.setTeamHome(looser1);
+            littleFinal.setTeamGuest(looser2);
+            this.gameService.save(littleFinal);
         } else {
             throw new GenerationException(category, "Es sind noch nicht alle Halbfinal Spiele abgeschlossen");
         }
@@ -35,22 +43,10 @@ public class StandardFinalGenerator implements Generator {
     }
 
     private Team getWinner(Game game, Category category) {
-        if (game.getGoalsTeamHome() > game.getGoalsTeamGuest()) {
-            return game.getTeamHome();
-        } else if (game.getGoalsTeamHome() < game.getGoalsTeamGuest()) {
-            return game.getTeamGuest();
-        } else {
-            throw new GenerationException(category, "Darf keine Unentschieden in den Halbfinale geben");
-        }
+        return this.gameService.getWinner(game).orElseThrow(() -> new GenerationException(category, "In einem Halbfinale braucht es immer ein Gewinner"));
     }
 
     private Team getLooser(Game game, Category category) {
-        if (game.getGoalsTeamHome() < game.getGoalsTeamGuest()) {
-            return game.getTeamHome();
-        } else if (game.getGoalsTeamHome() > game.getGoalsTeamGuest()) {
-            return game.getTeamGuest();
-        } else {
-            throw new GenerationException(category, "Darf keine Unentschieden in den Halbfinale geben");
-        }
+        return this.gameService.getLooser(game).orElseThrow(() -> new GenerationException(category, "In einem Halbfinale braucht es immer ein Gewinner"));
     }
 }

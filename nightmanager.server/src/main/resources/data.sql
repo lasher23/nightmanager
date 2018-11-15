@@ -1,17 +1,17 @@
-insert into tournaments(id, name) values (1,'Schüler');
-insert into tournaments(id, name) values (2,'Night');
+--insert into tournaments(id, name) values (1,'Schüler');
+--insert into tournaments(id, name) values (2,'Night');
 
-COPY categories(id,name,flag_croki,state,fk_tournament)
-FROM 'C:\temp\categories.csv' DELIMITER ',' CSV HEADER;
+--COPY categories(id,name,flag_croki,state,fk_tournament)
+--FROM 'C:\temp\categories.csv' DELIMITER ',' CSV HEADER;
 
-COPY teams(id,name,flag_placeholder,fk_category)
-FROM 'C:\temp\teams.csv' DELIMITER ',' CSV HEADER;
+--COPY teams(id,name,flag_placeholder,fk_category)
+--FROM 'C:\temp\teams.csv' DELIMITER ',' CSV HEADER;
 
-COPY halls(id,name)
-FROM 'C:\temp\halls.csv' DELIMITER ',' CSV HEADER;
+--COPY halls(id,name)
+--FROM 'C:\temp\halls.csv' DELIMITER ',' CSV HEADER;
 
-COPY games(id,fk_team_home,fk_team_guest,goals_team_home,goals_team_guest,state,fk_hall,fk_category,start_date,flag_placeholder,duration)
-FROM 'C:\temp\games.csv' DELIMITER ',' CSV HEADER;
+--COPY games(id,fk_team_home,fk_team_guest,goals_team_home,goals_team_guest,state,fk_hall,fk_category,start_date,flag_placeholder,duration)
+--FROM 'C:\temp\games.csv' DELIMITER ',' CSV HEADER;
 --insert into tournaments values (1, 'Schueler');
 --INSERT INTO categories(id, name, flag_croki, state, fk_parent_category, fk_tournament) VALUES (1,'Kategorie 1',0,0,NULL,0),(2,'Kategorie 2',0,0,NULL,0),(3,'Kategorie 3',0,0,NULL,0),(4,'Kategorie 4',0,0,NULL,1),(100,'DUMMY-Kategorie',0,0,NULL,0);
 --INSERT INTO halls VALUES (1,'Inpuls'),(2,'Matte');

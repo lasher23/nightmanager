@@ -118,4 +118,24 @@ public class GameService {
     public Game save(Game firstSemi) {
         return this.gameRepository.save(firstSemi);
     }
+
+    public Optional<Team> getWinner(Game game) {
+        if (game.getGoalsTeamHome() > game.getGoalsTeamGuest()) {
+            return Optional.of(game.getTeamHome());
+        } else if (game.getGoalsTeamHome() < game.getGoalsTeamGuest()) {
+            return Optional.of(game.getTeamGuest());
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<Team> getLooser(Game game) {
+        if (game.getGoalsTeamHome() < game.getGoalsTeamGuest()) {
+            return Optional.of(game.getTeamHome());
+        } else if (game.getGoalsTeamHome() > game.getGoalsTeamGuest()) {
+            return Optional.of(game.getTeamGuest());
+        } else {
+            return Optional.empty();
+        }
+    }
 }

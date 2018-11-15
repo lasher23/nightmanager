@@ -15,7 +15,8 @@ public class Team {
     private String name;
     @Column(name = "flagPlaceholder")
     private boolean placeholder;
-
+    @Column
+    private int rank;
 
     public Category getCategory() {
         return this.category;

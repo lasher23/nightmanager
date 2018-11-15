@@ -5,6 +5,7 @@ import ch.uhc_yetis.nightmanager.domain.model.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,6 @@ public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificat
 
     List<Game> findAllByCategoryAndType(Category category, GameType type);
 
-    @Query("select * from games where (fk_team_guest=:team1 or fk_team_home=:team1) and (fk_team_guest=:team2 or fk_team_home=:team2) and type = :type")
-    Optional<Game> findByTwoTeamsAndType(TeamDto team1, TeamDto team2, GameType type);
+    @Query("select g from Game g where (teamHome=:team1 or teamGuest=:team1) and (teamHome=:team2 or teamGuest=:team2) and type = :type")
+    Optional<Game> findByTwoTeamsAndType(@Param("team1") TeamDto team1, @Param("team2") TeamDto team2, @Param("type") GameType type);
 }
