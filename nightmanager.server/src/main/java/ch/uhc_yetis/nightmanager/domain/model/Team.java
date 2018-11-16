@@ -18,6 +18,15 @@ public class Team {
     @Column
     private int rank;
 
+
+    public int getRank() {
+        return this.rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
     public Category getCategory() {
         return this.category;
     }

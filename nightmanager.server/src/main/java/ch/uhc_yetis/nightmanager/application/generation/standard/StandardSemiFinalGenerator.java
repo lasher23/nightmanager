@@ -6,10 +6,7 @@ import ch.uhc_yetis.nightmanager.application.TeamService;
 import ch.uhc_yetis.nightmanager.application.generation.GenerationException;
 import ch.uhc_yetis.nightmanager.application.generation.Generator;
 import ch.uhc_yetis.nightmanager.application.generation.TeamComperator;
-import ch.uhc_yetis.nightmanager.domain.model.Category;
-import ch.uhc_yetis.nightmanager.domain.model.Game;
-import ch.uhc_yetis.nightmanager.domain.model.GameState;
-import ch.uhc_yetis.nightmanager.domain.model.GameType;
+import ch.uhc_yetis.nightmanager.domain.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Comparator;
@@ -36,10 +33,20 @@ public class StandardSemiFinalGenerator implements Generator {
             secondSemi.setTeamHome(this.teamService.findById(sortedTeams.get(1).getId()).get());
             secondSemi.setTeamHome(this.teamService.findById(sortedTeams.get(2).getId()).get());
             this.gameService.save(secondSemi);
+            this.setRankingOfNotForPlayoffQualifiedTeams(sortedTeams);
         } else {
             throw new GenerationException(category, "Alle Gruppenspiele müssen abgeschlossen sein");
         }
+    }
 
+    private void setRankingOfNotForPlayoffQualifiedTeams(List<TeamDto> sortedTeams) {
+        List<TeamDto> notQualifiedTeams = sortedTeams.subList(4, sortedTeams.size() - 1);
+        for (int i = 0; i < notQualifiedTeams.size(); i++) {
+            TeamDto team = notQualifiedTeams.get(i);
+            Team teamToSave = this.teamService.findById(team.getId()).orElseThrow(() -> new RuntimeException());
+            teamToSave.setRank(i + 5);
+            this.teamService.save(teamToSave);
+        }
     }
 
     private List<TeamDto> getSortedTeams(Category category) {

@@ -49,7 +49,7 @@ public class TeamService {
                 .withPlaceholder(team.isPlaceholder())
                 .withGoalsShot(this.getGoalsShot(team))
                 .withGoalsGotten(this.getGoalsGotten(team))
-                .wihtPoints(this.getPoints(team))
+                .withPoints(this.getPoints(team))
                 .build();
     }
 

@@ -98,7 +98,7 @@ public class TeamDto {
         }
 
         @Override
-        public OptionalFieldsBuilder wihtPoints(int points) {
+        public OptionalFieldsBuilder withPoints(int points) {
             this.teamDto.points = points;
             return this;
         }
@@ -129,7 +129,11 @@ public class TeamDto {
     }
 
     public interface PointBuilder {
-        OptionalFieldsBuilder wihtPoints(int points);
+        OptionalFieldsBuilder withPoints(int points);
+    }
+
+    public interface RankBuilder {
+        OptionalFieldsBuilder withRank(int rank);
     }
 
     public interface OptionalFieldsBuilder {
