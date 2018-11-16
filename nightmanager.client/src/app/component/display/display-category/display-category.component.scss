@@ -1,9 +1,18 @@
 .display-category {
   width: 100%;
+  .title {
+    width: 100%;
+    text-align: center;
+  }
+  .teams {
+    width: 28%;
+  }
+  .games {
+    width: 68%;
+  }
   div {
     float: left;
     margin: 1%;
-    width: 48%;
     h1 {
       width: 100%;
       text-align: center;

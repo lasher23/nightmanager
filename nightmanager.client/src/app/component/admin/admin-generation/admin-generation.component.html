@@ -7,16 +7,16 @@
     <th mat-header-cell *matHeaderCellDef>Generieren</th>
     <td mat-cell *matCellDef="let element">
       <div *ngIf="element.state === 'CROKI_FIRST'">
-        <button mat-button>Croki generierung</button>
+        <button mat-button (click)="generate(element)">Croki generierung</button>
       </div>
       <div *ngIf="element.state === 'GROUP_PHASE'">
-        <button mat-button>Halbfinale generieren</button>
+        <button mat-button (click)="generate(element)">Halbfinale generieren</button>
       </div>
       <div *ngIf="element.state === 'SEMI_FINAL'">
-        <button mat-button>Finale generieren</button>
+        <button mat-button (click)="generate(element)">Finale generieren</button>
       </div>
       <div *ngIf="element.state === 'FINAL'">
-        <button mat-button>Endtabelle generieren</button>
+        <button mat-button (click)="generate(element)">Endtabelle generieren</button>
       </div>
       <div *ngIf="element.state === 'FINISHED'">
         Kategorie Abgeschlossen

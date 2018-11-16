@@ -7,4 +7,6 @@ export interface Team {
   goalsShot: number;
   goalsGotten: number;
   category: Category;
+  rank: number;
+  points: number;
 }

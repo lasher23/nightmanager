@@ -1,5 +1,6 @@
 <div class="display-category">
-  <div>
+  <h1 class="title">{{category?.name}}</h1>
+  <div class="teams">
     <h1>Rangliste</h1>
     <table mat-table [dataSource]="teams">
       <ng-container matColumnDef="index">
@@ -19,12 +20,12 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumnsTeams;"></tr>
     </table>
   </div>
-  <div>
+  <div class="games">
     <h1>Spiele</h1>
     <table mat-table [dataSource]="games">
       <ng-container matColumnDef="time">
         <th mat-header-cell *matHeaderCellDef>Zeit</th>
-        <td mat-cell *matCellDef="let element"> {{element.startDate | date: 'HH:mm'}}</td>
+        <td mat-cell *matCellDef="let element"> {{element.startDate }}</td>
       </ng-container>
       <ng-container matColumnDef="teamHome">
         <th mat-header-cell *matHeaderCellDef>Heim</th>

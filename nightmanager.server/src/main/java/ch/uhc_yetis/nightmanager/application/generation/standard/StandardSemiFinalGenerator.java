@@ -7,17 +7,21 @@ import ch.uhc_yetis.nightmanager.application.generation.GenerationException;
 import ch.uhc_yetis.nightmanager.application.generation.Generator;
 import ch.uhc_yetis.nightmanager.application.generation.TeamComperator;
 import ch.uhc_yetis.nightmanager.domain.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class StandardSemiFinalGenerator implements Generator {
-    @Autowired
     private GameService gameService;
-    @Autowired
     private TeamService teamService;
+
+    public StandardSemiFinalGenerator(GameService gameService, TeamService teamService) {
+        this.gameService = gameService;
+        this.teamService = teamService;
+    }
 
     @Override
     public void generate(Category category) {

@@ -8,6 +8,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GeneratorFactoryProducer {
+
+    private StandardGeneratorFactory standardGeneratorFactory;
+
+    public GeneratorFactoryProducer(StandardGeneratorFactory standardGeneratorFactory) {
+        this.standardGeneratorFactory = standardGeneratorFactory;
+    }
+
     public GeneratorFactory getFactory(Category category) {
         switch (category.getType()) {
             case SPLIT_CATEGORIES:
@@ -15,7 +22,7 @@ public class GeneratorFactoryProducer {
             case YETIS_CUP:
                 return new YetisCupGeneratorFactory();
             case STANDARD:
-                return new StandardGeneratorFactory();
+                return this.standardGeneratorFactory;
             default:
                 return new NullGeneratorFactory();
         }

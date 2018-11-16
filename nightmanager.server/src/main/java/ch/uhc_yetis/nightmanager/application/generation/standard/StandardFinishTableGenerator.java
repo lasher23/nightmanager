@@ -9,16 +9,23 @@ import ch.uhc_yetis.nightmanager.domain.model.Game;
 import ch.uhc_yetis.nightmanager.domain.model.GameType;
 import ch.uhc_yetis.nightmanager.domain.model.Team;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class StandardFinishTableGenerator implements Generator {
     @Autowired
     private GameService gameService;
     @Autowired
     private TeamService teamService;
+
+    public StandardFinishTableGenerator(GameService gameService, TeamService teamService) {
+        this.gameService = gameService;
+        this.teamService = teamService;
+    }
 
     @Override
     public void generate(Category category) {

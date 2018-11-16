@@ -1,19 +1,22 @@
 package ch.uhc_yetis.nightmanager.application.generation.standard;
 
 import ch.uhc_yetis.nightmanager.application.GameService;
-import ch.uhc_yetis.nightmanager.application.TeamService;
 import ch.uhc_yetis.nightmanager.application.generation.GenerationException;
 import ch.uhc_yetis.nightmanager.application.generation.Generator;
 import ch.uhc_yetis.nightmanager.domain.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class StandardFinalGenerator implements Generator {
-    @Autowired
     private GameService gameService;
+
+    public StandardFinalGenerator(GameService gameService) {
+        this.gameService = gameService;
+    }
 
     @Override
     public void generate(Category category) {

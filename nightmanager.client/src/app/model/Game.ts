@@ -1,5 +1,6 @@
 import {Team} from './Team';
 import {Hall} from './Hall';
+import {Time} from '@angular/common';
 
 export interface Game {
   id: number;
@@ -10,5 +11,5 @@ export interface Game {
   state: string;
   placeholder: boolean;
   hall: Hall;
-  startDate: Date;
+  startDate: string;
 }

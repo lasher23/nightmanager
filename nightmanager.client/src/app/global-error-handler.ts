@@ -11,17 +11,13 @@ export class GlobalErrorHandler implements ErrorHandler {
   }
 
   public handleError(error: any): void {
-    if (error instanceof HttpErrorResponse) {
-      const errorResponse = <Error>(<HttpErrorResponse>error).error;
+    try {
+      const httpError = (error as HttpErrorResponse);
+      const errorResponse = <Error>httpError.error;
       const responseText = <string>errorResponse.error;
-      try {
-        this.snackBarService.showMessage(responseText);
-      } catch (ex) {
-        console.log(ex);
-      }
-    } else {
-      console.dir(error);
-      this.snackBarService.showMessage('Unexpected Error, Please call your Support');
+      this.snackBarService.showMessage(responseText);
+    } catch (ex) {
+      this.snackBarService.showMessage('Unerwarter Fehler');
     }
   }
 }

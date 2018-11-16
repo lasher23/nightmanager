@@ -1,7 +1,7 @@
 package ch.uhc_yetis.nightmanager.domain.model;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "games")
@@ -31,7 +31,7 @@ public class Game {
     @JoinColumn(name = "fk_category")
     private Category category;
     @Column
-    private LocalDateTime startDate;
+    private LocalTime startDate;
     @Column(nullable = false)
     private long duration;
     @Column(nullable = false)
@@ -55,11 +55,11 @@ public class Game {
         this.category = category;
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalTime getStartDate() {
         return this.startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(LocalTime startDate) {
         this.startDate = startDate;
     }
 
