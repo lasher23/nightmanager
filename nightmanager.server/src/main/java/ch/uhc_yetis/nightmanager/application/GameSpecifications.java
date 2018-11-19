@@ -30,7 +30,7 @@ public final class GameSpecifications {
         return (root, query, criteriaBuilder) -> {
             Predicate disjunction = criteriaBuilder.disjunction();
             if (state != null) {
-                disjunction.getExpressions().add(criteriaBuilder.equal(root.get("state"), state));
+                disjunction.getExpressions().add(criteriaBuilder.equal(root.get("state"), state.ordinal()));
             }
             if (categoryId != null) {
                 disjunction.getExpressions().add(criteriaBuilder.equal(root.get("category"), this.categoryService.findById(categoryId)));
