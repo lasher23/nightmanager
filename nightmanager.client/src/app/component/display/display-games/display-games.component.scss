@@ -7,16 +7,23 @@
       width: 100%;
       text-align: center;
     }
-    table {
+  }
+  .flex-4 {
+    flex: 4;
+  }
+  .flex-2 {
+    flex: 2;
+  }
+  .mat-cell {
+    span {
+      text-align: center;
       width: 100%;
     }
   }
-  .mat-cell {
-    text-align: center;
-    width: 20%;
-  }
   .mat-header-cell {
-    text-align: center;
-    width: 20%;
+    span {
+      text-align: center;
+      width: 100%;
+    }
   }
 }

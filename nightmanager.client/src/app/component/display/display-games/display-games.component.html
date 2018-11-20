@@ -1,34 +1,34 @@
 <div class="display-games">
   <div *ngFor="let gameHallAssingment of gamesHallAssingments" [style.width]="widthPerHallTable">
     <h1>{{gameHallAssingment.hall.name}}</h1>
-    <table mat-table [dataSource]="gameHallAssingment.games">
-      <ng-container matColumnDef="time">
-        <th mat-header-cell *matHeaderCellDef>Zeit</th>
-        <td mat-cell *matCellDef="let element"> {{element.startDate }}</td>
+    <mat-table [dataSource]="gameHallAssingment.games">
+      <ng-container cdkColumnDef="time">
+        <mat-header-cell *cdkHeaderCellDef class="flex-2"><span>Zeit</span></mat-header-cell>
+        <mat-cell *cdkCellDef="let element" class="flex-2"><span>{{element.startDate }}</span></mat-cell>
       </ng-container>
-      <ng-container matColumnDef="teamHome">
-        <th mat-header-cell *matHeaderCellDef>Heim</th>
-        <td mat-cell *matCellDef="let element"> {{element.teamHome.name}}</td>
+      <ng-container cdkColumnDef="teamHome">
+        <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Heim</span></mat-header-cell>
+        <mat-cell *cdkCellDef="let element" class="flex-4"><span>{{element.teamHome.name}}</span></mat-cell>
       </ng-container>
-      <ng-container matColumnDef="goalsTeamHome">
-        <th mat-header-cell *matHeaderCellDef>Tore</th>
-        <td mat-cell *matCellDef="let element"> {{element.goalsTeamHome}}</td>
+      <ng-container cdkColumnDef="goalsTeamHome">
+        <mat-header-cell *cdkHeaderCellDef>Tore</mat-header-cell>
+        <mat-cell *cdkCellDef="let element"><span>{{element.goalsTeamHome}}</span></mat-cell>
       </ng-container>
-      <ng-container matColumnDef="placeholder">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">:</td>
+      <ng-container cdkColumnDef="placeholder">
+        <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+        <mat-cell *cdkCellDef="let element"><span>:</span></mat-cell>
       </ng-container>
-      <ng-container matColumnDef="goalsTeamGuest">
-        <th mat-header-cell *matHeaderCellDef>Tore</th>
-        <td mat-cell *matCellDef="let element"> {{element.goalsTeamGuest}}</td>
+      <ng-container cdkColumnDef="goalsTeamGuest">
+        <mat-header-cell *cdkHeaderCellDef><span>Tore</span></mat-header-cell>
+        <mat-cell *cdkCellDef="let element"><span>{{element.goalsTeamGuest}}</span></mat-cell>
       </ng-container>
-      <ng-container matColumnDef="teamGuest">
-        <th mat-header-cell *matHeaderCellDef>Gast</th>
-        <td mat-cell *matCellDef="let element"> {{element.teamGuest.name}}</td>
+      <ng-container cdkColumnDef="teamGuest">
+        <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Gast</span></mat-header-cell>
+        <mat-cell *cdkCellDef="let element" class="flex-4"><span>{{element.teamGuest.name}}</span></mat-cell>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
   </div>
 </div>

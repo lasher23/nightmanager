@@ -13,12 +13,13 @@ import {Game} from '../../../model/Game';
   styleUrls: ['./display-category.component.scss']
 })
 export class DisplayCategoryComponent implements OnInit {
-  @Input() category: Category;
+  _category: Category;
   teams: Array<Team> = [];
   displayedColumnsTeams = [
     'index',
     'name',
-    'goals',
+    'points',
+    'goals'
   ];
   games: Array<Game> = [];
   displayedColumnsGames: Array<String> = [
@@ -37,10 +38,16 @@ export class DisplayCategoryComponent implements OnInit {
               private gameService: GameService) {
   }
 
+  @Input() set category(category: Category) {
+    this._category = category;
+    this.initTeams();
+    this.initGames();
+  }
+
   ngOnInit() {
-    if (!this.category) {
+    if (!this._category) {
       this.route.params.subscribe(x => this.categoryService.getById(x['id'])
-        .then(category => this.category = category)
+        .then(category => this._category = category)
         .then(() => {
           this.initTeams();
           this.initGames();
@@ -52,11 +59,11 @@ export class DisplayCategoryComponent implements OnInit {
   }
 
   private initTeams(): Promise<any> {
-    return this.teamService.getAllByCategory(this.category.id).then(teams => this.teams = this.sortTeams(teams));
+    return this.teamService.getAllByCategory(this._category.id).then(teams => this.teams = this.sortTeams(teams));
   }
 
   private sortTeams(teams: Array<Team>): Array<Team> {
-    if (this.category.state === CategoryState.FINISHED) {
+    if (this._category.state === CategoryState.FINISHED) {
       return teams.sort((team1, team2) => {
         if (team1.rank < team2.rank) {
           return 1;
@@ -99,7 +106,7 @@ export class DisplayCategoryComponent implements OnInit {
   }
 
   private initGames() {
-    return this.gameService.getAllGamesByCategory(this.category.id, 5, 10).then(games => {
+    return this.gameService.getAllGamesByCategory(this._category.id, 5, 10).then(games => {
       this.games = games;
     });
   }

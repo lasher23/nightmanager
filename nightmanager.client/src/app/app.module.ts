@@ -35,14 +35,15 @@ import {RefereeHallsComponent} from './component/referee/referee-halls/referee-h
 import {GameService} from './service/game.service';
 import {RefereeGameComponent} from './component/referee/referee-games/referee-game/referee-game.component';
 import {RefereeGameDialogComponent} from './component/referee/referee-games/referee-game/referee-game-dialog/referee-game-dialog.component';
-import {RefereeGameConfirmDialogComponent} from
-    './component/referee/referee-games/referee-game/referee-game-confirm-dialog/referee-game-confirm-dialog.component';
+import {RefereeGameConfirmDialogComponent}
+  from './component/referee/referee-games/referee-game/referee-game-confirm-dialog/referee-game-confirm-dialog.component';
 import {DisplayHomeComponent} from './component/display/display-home/display-home.component';
 import {DisplayCategoryComponent} from './component/display/display-category/display-category.component';
-import { DisplayGamesComponent } from './component/display/display-games/display-games.component';
-import { AdminGameOverviewComponent } from './component/admin/admin-game-overview/admin-game-overview.component';
-import { AdminHomeComponent } from './component/admin/admin-home/admin-home.component';
-import { AdminGenerationComponent } from './component/admin/admin-generation/admin-generation.component';
+import {DisplayGamesComponent} from './component/display/display-games/display-games.component';
+import {AdminGameOverviewComponent} from './component/admin/admin-game-overview/admin-game-overview.component';
+import {AdminHomeComponent} from './component/admin/admin-home/admin-home.component';
+import {AdminGenerationComponent} from './component/admin/admin-generation/admin-generation.component';
+import {CdkTableModule} from '@angular/cdk/table';
 
 @NgModule({
   entryComponents: [
@@ -84,6 +85,7 @@ import { AdminGenerationComponent } from './component/admin/admin-generation/adm
     MatIconModule,
     MatProgressSpinnerModule,
     MatTabsModule,
+    CdkTableModule,
   ],
   providers: [
     LoginService,
