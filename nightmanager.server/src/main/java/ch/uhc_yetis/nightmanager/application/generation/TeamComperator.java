@@ -33,7 +33,7 @@ public class TeamComperator implements Comparator<TeamDto> {
             }
 
         }
-        return result;
+        return result * -1; // lowest value first!
     }
 
     private int getResultByDirectGame(TeamDto team1, TeamDto team2) {

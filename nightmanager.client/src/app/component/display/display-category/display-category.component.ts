@@ -66,17 +66,17 @@ export class DisplayCategoryComponent implements OnInit {
     if (this._category.state === CategoryState.FINISHED) {
       return teams.sort((team1, team2) => {
         if (team1.rank < team2.rank) {
-          return 1;
-        } else {
           return -1;
+        } else {
+          return 1;
         }
       });
     } else {
       return teams.sort((a, b) => {
         if (a.points > b.points) {
-          return 1;
-        } else if (a.points < b.points) {
           return -1;
+        } else if (a.points < b.points) {
+          return 1;
         } else {
           return this.compareEqualPointedTeams(a, b);
         }
@@ -88,9 +88,9 @@ export class DisplayCategoryComponent implements OnInit {
     const aGoalDifference = a.goalsShot - a.goalsGotten;
     const bGoalDifference = b.goalsShot - b.goalsGotten;
     if (aGoalDifference > bGoalDifference) {
-      return 1;
-    } else if (aGoalDifference < bGoalDifference) {
       return -1;
+    } else if (aGoalDifference < bGoalDifference) {
+      return 1;
     } else {
       return this.compareEqualTeamsWithEqualGoalDifferenceAndPoints(a, b);
     }
@@ -98,9 +98,9 @@ export class DisplayCategoryComponent implements OnInit {
 
   compareEqualTeamsWithEqualGoalDifferenceAndPoints(a: Team, b: Team): number {
     if (a.goalsShot > b.goalsShot) {
-      return 1;
-    } else if (a.goalsShot < b.goalsShot) {
       return -1;
+    } else if (a.goalsShot < b.goalsShot) {
+      return 1;
     }
     return 0;
   }
