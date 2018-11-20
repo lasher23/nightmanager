@@ -1,5 +1,6 @@
 package ch.uhc_yetis.nightmanager.application.generation.standard;
 
+import ch.uhc_yetis.nightmanager.application.CategoryService;
 import ch.uhc_yetis.nightmanager.application.GameService;
 import ch.uhc_yetis.nightmanager.application.TeamDto;
 import ch.uhc_yetis.nightmanager.application.TeamService;
@@ -17,15 +18,19 @@ import java.util.stream.Collectors;
 public class StandardSemiFinalGenerator implements Generator {
     private GameService gameService;
     private TeamService teamService;
+    private TeamComperator teamComperator;
+    private CategoryService categoryService;
 
-    public StandardSemiFinalGenerator(GameService gameService, TeamService teamService) {
+    public StandardSemiFinalGenerator(GameService gameService, TeamService teamService, TeamComperator teamComperator, CategoryService categoryService) {
         this.gameService = gameService;
         this.teamService = teamService;
+        this.teamComperator = teamComperator;
+        this.categoryService = categoryService;
     }
 
     @Override
     public void generate(Category category) {
-        List<Game> games = this.gameService.getAllGamesByCategoryAndType(category, GameType.SEMI_FINAL);
+        List<Game> games = this.gameService.getAllGamesByCategoryAndType(category, GameType.GROUP_STAGE);
         if (games.stream().allMatch(game -> game.getState().equals(GameState.DONE))) {
             List<TeamDto> sortedTeams = this.getSortedTeams(category);
             List<Game> sortedSemifinals = this.getSortedSemiFinals(category);
@@ -35,9 +40,11 @@ public class StandardSemiFinalGenerator implements Generator {
             this.gameService.save(firstSemi);
             Game secondSemi = sortedSemifinals.get(1);
             secondSemi.setTeamHome(this.teamService.findById(sortedTeams.get(1).getId()).get());
-            secondSemi.setTeamHome(this.teamService.findById(sortedTeams.get(2).getId()).get());
+            secondSemi.setTeamGuest(this.teamService.findById(sortedTeams.get(2).getId()).get());
             this.gameService.save(secondSemi);
             this.setRankingOfNotForPlayoffQualifiedTeams(sortedTeams);
+            category.setState(CategoryState.SEMI_FINAL);
+            this.categoryService.save(category);
         } else {
             throw new GenerationException(category, "Alle Gruppenspiele müssen abgeschlossen sein");
         }
@@ -54,7 +61,7 @@ public class StandardSemiFinalGenerator implements Generator {
     }
 
     private List<TeamDto> getSortedTeams(Category category) {
-        return this.teamService.findByCategory(category).stream().sorted(new TeamComperator()).collect(Collectors.toList());
+        return this.teamService.findByCategory(category).stream().sorted(this.teamComperator).collect(Collectors.toList());
     }
 
     private List<Game> getSortedSemiFinals(Category category) {

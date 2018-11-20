@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Hall} from '../model/Hall';
 import {HttpProxyService} from './http-proxy.service';
-import {Game, GameState} from '../model/Game';
+import {Game} from '../model/Game';
 
 @Injectable({
   providedIn: 'root'

@@ -115,7 +115,7 @@ public class GameService {
         return this.gameRepository.findByCategory(category);
     }
 
-    public Optional<Game> findGameByTwoTeamsAndType(TeamDto team1, TeamDto team2, GameType gameType) {
+    public Optional<Game> findGameByTwoTeamsAndType(Team team1, Team team2, GameType gameType) {
         return this.gameRepository.findByTwoTeamsAndType(team1, team2, gameType);
     }
 
