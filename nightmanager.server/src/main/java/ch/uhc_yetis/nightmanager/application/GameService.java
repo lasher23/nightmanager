@@ -2,6 +2,7 @@ package ch.uhc_yetis.nightmanager.application;
 
 import ch.uhc_yetis.nightmanager.domain.model.*;
 import ch.uhc_yetis.nightmanager.domain.repository.GameRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -18,13 +19,11 @@ public class GameService {
     private final GameRepository gameRepository;
     private final HallService hallService;
     private final CategoryService categoryService;
-    private final GameSpecifications gameSpecifications;
 
-    public GameService(GameRepository gameRepository, HallService hallService, CategoryService categoryService, GameSpecifications gameSpecifications) {
+    public GameService(GameRepository gameRepository, HallService hallService, CategoryService categoryService) {
         this.gameRepository = gameRepository;
         this.hallService = hallService;
         this.categoryService = categoryService;
-        this.gameSpecifications = gameSpecifications;
     }
 
     public List<Game> getAll() {
@@ -62,7 +61,8 @@ public class GameService {
     }
 
     public List<Game> getAll(GameRequestParams requestParams) {
-        List<Game> games = this.gameRepository.findAll(this.gameSpecifications.withStateCategoryAndHall(requestParams.getState(), requestParams.getCategoryId(), requestParams.getHallId()));
+        Specification<Game> gameSpecs = this.getGameSpecs(requestParams);
+        List<Game> games = this.gameRepository.findAll(gameSpecs);
         List<Game> gamesSorted = games.stream().sorted(Comparator.comparing(Game::getStartDate)).collect(Collectors.toList());
         if (requestParams.getAfterNow() != null && requestParams.getBeforeNow() != null && games.size() >= requestParams.getAfterNow() + requestParams.getBeforeNow()) {
             LocalDateTime now = LocalDateTime.now();
@@ -73,6 +73,14 @@ public class GameService {
             return gamesSorted.subList(fromIndex, toIndex);
         }
         return gamesSorted;
+    }
+
+    private Specification<Game> getGameSpecs(GameRequestParams requestParams) {
+        return new GameSpecificationsBuilder()
+                .withCategory(requestParams.getCategoryId())
+                .withHall(requestParams.getHallId())
+                .withState(requestParams.getState())
+                .build();
     }
 
     private Game getDateClosestToDate(List<Game> games, LocalDateTime now) {

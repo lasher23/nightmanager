@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +17,7 @@ public class GameController {
     private GameService gameService;
 
     @GetMapping
-    public List<Game> getAll(@Valid GameRequestParams requestPrams) {
+    public List<Game> getAll(GameRequestParams requestPrams) {
         return this.gameService.getAll(requestPrams);
     }
 

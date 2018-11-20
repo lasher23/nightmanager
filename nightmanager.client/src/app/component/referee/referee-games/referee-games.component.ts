@@ -20,7 +20,9 @@ export class RefereeGamesComponent implements OnInit {
     if (!this.hallService.isHallSet()) {
       this.router.navigateByUrl('referee/halls');
     } else {
-      this.hallService.getCurrentHall().then(x => this.gameService.getAllGamesByHallAndNotCompleted(x).then(y => this.games = y));
+      this.hallService.getCurrentHall().then(x => this.gameService.getAllGamesByHallAndNotCompleted(x).then(y => {
+        this.games = y;
+      }));
     }
   }
 

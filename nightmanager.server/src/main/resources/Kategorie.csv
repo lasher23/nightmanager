@@ -1,0 +1,6 @@
+id,name,state,type,fk_tournament
+1,Kategorie 1,1,0,1
+2,Kategorie 2,1,0,1
+3,Kategorie 3,1,0,1
+4,Kategorie 4,1,0,1
+100,DUMMY-Kategorie,1,0,1
