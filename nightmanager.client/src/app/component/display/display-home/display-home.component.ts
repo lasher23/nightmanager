@@ -36,15 +36,16 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
 
   private setDisplayData() {
     console.log('setDisplayData');
-    const categoryPromise = this.categoryService.getAll().then(x => this.displayables.push(...x.sort((a: Category, b: Category) => {
-      if (a.id < b.id) {
-        return -1;
-      } else if (a.id > b.id) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }).map(y => <Displayable>{type: DisplayType.CATEGORY, data: y})));
+    const categoryPromise = this.categoryService.getAll().then(x => this.displayables.push(...x.filter(y => !y.name.includes('DUMMY'))
+      .sort((a: Category, b: Category) => {
+        if (a.id < b.id) {
+          return -1;
+        } else if (a.id > b.id) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }).map(y => <Displayable>{type: DisplayType.CATEGORY, data: y})));
     const gamePromise = this.gameService.getAllGames(10, 20).then(x => {
       this.displayables.push(<Displayable>{
         type: DisplayType.GAMES,
