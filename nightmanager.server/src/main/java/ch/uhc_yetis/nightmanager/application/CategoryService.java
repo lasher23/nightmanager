@@ -28,4 +28,8 @@ public class CategoryService {
     public Category save(Category category) {
         return this.categoryRepository.save(category);
     }
+
+    public List<Category> findByParentCategory(Category category) {
+        return this.categoryRepository.findByParentCategory(category);
+    }
 }
