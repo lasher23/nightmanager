@@ -1,50 +1,50 @@
-id,name,flag_placeholder,fk_category
-11,Popcorn-Schiesser,0,1
-12,Gurkenplatzer,0,1
-13,Jugi Schoetz 1,0,1
-14,Jugi Schoetz 2,0,1
-15,Jugi Schoetz 3,0,1
-16,Orange,0,1
-21,D`Eidgenosse,0,2
-22,#Cheesburgers,0,2
-23,#Hoeudisheimer,0,2
-24,Poly Gang,0,2
-25,Nutellakiller,0,2
-26,Hoeudi-Dogs,0,2
-27,Eicher,0,2
-28,Lila horses,0,2
-31,Bubbis,0,3
-32,OLAF,0,3
-33,Der Geraet,0,3
-34,Chasch Geo?,0,3
-35,Eintopf,0,3
-36,DaveBuser,0,3
-41,Dream Team,0,4
-42,Di Spontante,0,4
-43,Chicas,0,4
-1001,HF Kat. 1 (1.),0,100
-1002,HF Kat. 2 (1.),0,100
-1003,HF Kat. 3 (1.),0,100
-1004,Final Kat. 1 (Sieger HF 1.-4.),0,100
-1005,Final Kat. 2 (Sieger HF 1.-4.),0,100
-1006,Final Kat. 3 (Sieger HF 1.-4.),0,100
-1007,Final Kat. 4 (1.),0,100
-1008,HF Kat. 1 (4.),0,100
-1009,HF Kat. 2 (4.),0,100
-1010,HF Kat. 3 (4.),0,100
-1011,Final Kat. 1  (Sieger HF 2.-3.),0,100
-1012,Final Kat. 2  (Sieger HF 2.-3.),0,100
-1013,Final Kat. 3  (Sieger HF 2.-3.),0,100
-1014,Final Kat. 4  (2.),0,100
-1015,HF Kat. 1 (2.),0,100
-1016,HF Kat. 2 (2.),0,100
-1017,HF Kat. 3 (2.),0,100
-1018,KF Kat. 1 (Verlierer HF 1.-4.),0,100
-1019,KF Kat. 2 (Verlierer HF 1.-4.),0,100
-1020,KF Kat. 3 (Verlierer HF 1.-4.),0,100
-1021,HF Kat. 1 (3.),0,100
-1022,HF Kat. 2 (3.),0,100
-1023,HF Kat. 3 (3.),0,100
-1024,KF Kat. 1 (Verlierer HF 2.-3.),0,100
-1025,KF Kat. 2 (Verlierer HF 2.-3.),0,100
-1026,KF Kat. 3 (Verlierer HF 2.-3.),0,100
+id,name,flag_placeholder,fk_category,rank
+11,Popcorn-Schiesser,f,1,0
+12,Gurkenplatzer,f,1,0
+13,Jugi Schoetz 1,f,1,0
+14,Jugi Schoetz 2,f,1,0
+15,Jugi Schoetz 3,f,1,0
+16,Orange,f,1,0
+21,D`Eidgenosse,f,2,0
+22,#Cheesburgers,f,2,0
+23,#Hoeudisheimer,f,2,0
+24,Poly Gang,f,2,0
+25,Nutellakiller,f,2,0
+26,Hoeudi-Dogs,f,2,0
+27,Eicher,f,2,0
+28,Lila horses,f,2,0
+31,Bubbis,f,3,0
+32,OLAF,f,3,0
+33,Der Geraet,f,3,0
+34,Chasch Geo?,f,3,0
+35,Eintopf,f,3,0
+36,DaveBuser,f,3,0
+41,Dream Team,f,4,0
+42,Di Spontante,f,4,0
+43,Chicas,f,4,0
+1001,HF Kat. 1 (1.),t,100,0
+1002,HF Kat. 2 (1.),t,100,0
+1003,HF Kat. 3 (1.),t,100,0
+1004,Final Kat. 1 (Sieger HF 1.-4.),t,100,0
+1005,Final Kat. 2 (Sieger HF 1.-4.),t,100,0
+1006,Final Kat. 3 (Sieger HF 1.-4.),t,100,0
+1007,Final Kat. 4 (1.),t,100,0
+1008,HF Kat. 1 (4.),t,100,0
+1009,HF Kat. 2 (4.),t,100,0
+1010,HF Kat. 3 (4.),t,100,0
+1011,Final Kat. 1  (Sieger HF 2.-3.),t,100,0
+1012,Final Kat. 2  (Sieger HF 2.-3.),t,100,0
+1013,Final Kat. 3  (Sieger HF 2.-3.),t,100,0
+1014,Final Kat. 4  (2.),t,100,0
+1015,HF Kat. 1 (2.),t,100,0
+1016,HF Kat. 2 (2.),t,100,0
+1017,HF Kat. 3 (2.),t,100,0
+1018,KF Kat. 1 (Verlierer HF 1.-4.),t,100,0
+1019,KF Kat. 2 (Verlierer HF 1.-4.),t,100,0
+1020,KF Kat. 3 (Verlierer HF 1.-4.),t,100,0
+1021,HF Kat. 1 (3.),t,100,0
+1022,HF Kat. 2 (3.),t,100,0
+1023,HF Kat. 3 (3.),t,100,0
+1024,KF Kat. 1 (Verlierer HF 2.-3.),t,100,0
+1025,KF Kat. 2 (Verlierer HF 2.-3.),t,100,0
+1026,KF Kat. 3 (Verlierer HF 2.-3.),t,100,0
