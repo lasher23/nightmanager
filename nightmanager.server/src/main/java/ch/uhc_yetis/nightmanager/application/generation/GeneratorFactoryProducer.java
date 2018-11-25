@@ -10,17 +10,21 @@ import org.springframework.stereotype.Service;
 public class GeneratorFactoryProducer {
 
     private StandardGeneratorFactory standardGeneratorFactory;
+    private SplitCategoriesGeneratorFactory splitCategoriesGeneratorFactory;
+    private YetisCupGeneratorFactory yetisCupGeneratorFactory;
 
-    public GeneratorFactoryProducer(StandardGeneratorFactory standardGeneratorFactory) {
+    public GeneratorFactoryProducer(StandardGeneratorFactory standardGeneratorFactory, SplitCategoriesGeneratorFactory splitCategoriesGeneratorFactory, YetisCupGeneratorFactory yetisCupGeneratorFactory) {
         this.standardGeneratorFactory = standardGeneratorFactory;
+        this.splitCategoriesGeneratorFactory = splitCategoriesGeneratorFactory;
+        this.yetisCupGeneratorFactory = yetisCupGeneratorFactory;
     }
 
     public GeneratorFactory getFactory(Category category) {
         switch (category.getType()) {
             case SPLIT_CATEGORIES:
-                return new SplitCategoriesGeneratorFactory();
+                return this.splitCategoriesGeneratorFactory;
             case YETIS_CUP:
-                return new YetisCupGeneratorFactory();
+                return this.yetisCupGeneratorFactory;
             case STANDARD:
                 return this.standardGeneratorFactory;
             default:

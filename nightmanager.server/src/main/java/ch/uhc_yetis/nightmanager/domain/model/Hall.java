@@ -1,6 +1,7 @@
 package ch.uhc_yetis.nightmanager.domain.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity(name = "halls")
 @Table
@@ -21,6 +22,23 @@ public class Hall {
 
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        Hall hall = (Hall) o;
+        return this.id == hall.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id);
     }
 
     public void setName(String name) {
