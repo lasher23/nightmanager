@@ -5,7 +5,9 @@ import ch.uhc_yetis.nightmanager.application.generation.GeneratorFactory;
 import ch.uhc_yetis.nightmanager.application.generation.standard.StandardFinalGenerator;
 import ch.uhc_yetis.nightmanager.application.generation.standard.StandardFinishTableGenerator;
 import ch.uhc_yetis.nightmanager.domain.model.Category;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SplitCategoriesGeneratorFactory implements GeneratorFactory {
 
     private SplitCategoriesSemiFinalGenerator splitCategoriesSemiFinalGenerator;
