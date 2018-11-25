@@ -35,7 +35,6 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
 
 
   private setDisplayData() {
-    console.log('setDisplayData');
     const categoryPromise = this.categoryService.getAll().then(x => this.displayables.push(...x.filter(y => !y.name.includes('DUMMY'))
       .sort((a: Category, b: Category) => {
         if (a.id < b.id) {
@@ -62,7 +61,6 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
   }
 
   private changeComponent() {
-    console.log('changeComponent');
     let current = this.count % this.displayables.length;
     if (Number.isNaN(current)) {
       current = 0;
