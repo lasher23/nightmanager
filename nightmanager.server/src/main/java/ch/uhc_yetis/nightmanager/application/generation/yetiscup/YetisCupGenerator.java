@@ -50,7 +50,7 @@ public class YetisCupGenerator implements Generator {
             } catch (GenerationException ex) {
             }
         }
-       /* for (int i = 0; ; i++) {
+        for (int i = 0; ; i++) {
             if (i == 1000) {
                 throw new GenerationException(null, "Please try again, maybe you get more luck,");
             }
@@ -60,7 +60,12 @@ public class YetisCupGenerator implements Generator {
             } catch (GenerationException ex) {
                 LOGGER.info("Try: " + i);
             }
-        }*/
+        }
+        subCategories.forEach(category1 -> {
+            category1.setState(CategoryState.GROUP_PHASE);
+            this.categoryService.save(category1);
+        });
+        category.setState(CategoryState.DISABLED);
     }
 
     private void generate(Category category, List<TeamDto> teamSplitted) {
