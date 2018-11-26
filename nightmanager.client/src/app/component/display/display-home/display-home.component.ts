@@ -24,6 +24,7 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
   private displayables: Array<Displayable> = [];
   private count = 0;
   currentDisplayble: Displayable;
+  displayMode = false;
 
   constructor(private categoryService: CategoryService, private gameService: GameService) {
   }
@@ -75,5 +76,9 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
 
   isGames(): boolean {
     return this.currentDisplayble && this.currentDisplayble.type === DisplayType.GAMES;
+  }
+
+  enterDisplayMode() {
+    this.displayMode = true;
   }
 }

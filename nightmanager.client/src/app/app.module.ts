@@ -44,6 +44,8 @@ import {AdminGameOverviewComponent} from './component/admin/admin-game-overview/
 import {AdminHomeComponent} from './component/admin/admin-home/admin-home.component';
 import {AdminGenerationComponent} from './component/admin/admin-generation/admin-generation.component';
 import {CdkTableModule} from '@angular/cdk/table';
+import { DisplayCategoryOverviewComponent } from './component/display/display-category-overview/display-category-overview.component';
+import { DisplayCategoryDetailsComponent } from './component/display/display-category-details/display-category-details.component';
 
 @NgModule({
   entryComponents: [
@@ -66,7 +68,9 @@ import {CdkTableModule} from '@angular/cdk/table';
     DisplayGamesComponent,
     AdminGameOverviewComponent,
     AdminHomeComponent,
-    AdminGenerationComponent
+    AdminGenerationComponent,
+    DisplayCategoryOverviewComponent,
+    DisplayCategoryDetailsComponent
   ],
   imports: [
     BrowserModule,

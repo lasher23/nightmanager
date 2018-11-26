@@ -12,6 +12,7 @@ import {DisplayHomeComponent} from './component/display/display-home/display-hom
 import {DisplayGamesComponent} from './component/display/display-games/display-games.component';
 import {DisplayCategoryComponent} from './component/display/display-category/display-category.component';
 import {AdminHomeComponent} from './component/admin/admin-home/admin-home.component';
+import {DisplayCategoryDetailsComponent} from './component/display/display-category-details/display-category-details.component';
 
 const routes: Routes = [
   {
@@ -51,17 +52,18 @@ const routes: Routes = [
   {
     path: 'display',
     component: DisplayHomeComponent,
-    canActivate: [AuthenticationGuard]
   },
   {
     path: 'display/games',
     component: DisplayGamesComponent,
-    canActivate: [AuthenticationGuard]
   },
   {
     path: 'display/categories/:id',
     component: DisplayCategoryComponent,
-    canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'display/details/categories/:id',
+    component: DisplayCategoryDetailsComponent,
   },
   {
     path: 'admin',

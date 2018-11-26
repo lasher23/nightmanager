@@ -1,5 +1,5 @@
 export enum CategoryState {
-  GROUP_PHASE, SEMI_FINAL, FINAL, FINISHED, CROKI_FIRST
+  GROUP_PHASE, SEMI_FINAL, FINAL, FINISHED, CROKI_FIRST, DISABLED
 }
 
 export interface Category {

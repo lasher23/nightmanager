@@ -1,6 +1,14 @@
-<div *ngIf="isCategory()">
-  <app-display-category [category]="currentDisplayble.data"></app-display-category>
+<div *ngIf="displayMode">
+  <div *ngIf="isCategory()">
+    <app-display-category [category]="currentDisplayble.data"></app-display-category>
+  </div>
+  <div *ngIf="isGames()">
+    <app-display-games [games]="currentDisplayble.data"></app-display-games>
+  </div>
 </div>
-<div *ngIf="isGames()">
-  <app-display-games [games]="currentDisplayble.data"></app-display-games>
+<div *ngIf="!displayMode">
+  <app-display-category-overview></app-display-category-overview>
 </div>
+<footer *ngIf="!displayMode">
+  <button mat-button (click)="enterDisplayMode()">Anzeige Modus</button>
+</footer>

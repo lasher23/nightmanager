@@ -31,6 +31,10 @@ export class GameService {
     return this.http.get<Array<Game>>('games', {categoryId: categoryId, beforeNow: beforeNow, afterNow: afterNow});
   }
 
+  getAllGamesByCategory(categoryId: number): Promise<Array<Game>> {
+    return this.http.get<Array<Game>>('games', {categoryId: categoryId});
+  }
+
   updateGame(game: Game): Promise<Game> {
     return this.http.post<Game>('games/complete', game);
   }
