@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {CategoryService} from '../../../service/category.service';
 import {Category, CategoryState} from '../../../model/Category';
 import {GenerationService} from '../../../service/generation.service';
+import {MatDialog} from '@angular/material';
+import {RefereeGameConfirmDialogComponent} from '../../referee/referee-games/referee-game/referee-game-confirm-dialog/referee-game-confirm-dialog.component';
+import {AdminConfirmDialogComponent} from './admin-confirm-dialog/admin-confirm-dialog.component';
 
 @Component({
   selector: 'app-admin-generation',
@@ -13,7 +16,7 @@ export class AdminGenerationComponent implements OnInit {
   displayedColumns = ['name', 'state'];
   state = CategoryState;
 
-  constructor(private categoryService: CategoryService, private generationService: GenerationService) {
+  constructor(private categoryService: CategoryService, private generationService: GenerationService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -21,6 +24,10 @@ export class AdminGenerationComponent implements OnInit {
   }
 
   generate(element: Category) {
-    this.generationService.generate((element));
+    this.dialog.open(AdminConfirmDialogComponent).afterClosed().subscribe(result => {
+      if (result) {
+        this.generationService.generate((element);
+      }
+    });
   }
 }

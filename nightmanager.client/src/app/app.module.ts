@@ -46,11 +46,13 @@ import {AdminGenerationComponent} from './component/admin/admin-generation/admin
 import {CdkTableModule} from '@angular/cdk/table';
 import { DisplayCategoryOverviewComponent } from './component/display/display-category-overview/display-category-overview.component';
 import { DisplayCategoryDetailsComponent } from './component/display/display-category-details/display-category-details.component';
+import { AdminConfirmDialogComponent } from './component/admin/admin-generation/admin-confirm-dialog/admin-confirm-dialog.component';
 
 @NgModule({
   entryComponents: [
     RefereeGameDialogComponent,
     RefereeGameConfirmDialogComponent,
+    AdminConfirmDialogComponent
   ],
   declarations: [
     AppComponent,
@@ -70,7 +72,8 @@ import { DisplayCategoryDetailsComponent } from './component/display/display-cat
     AdminHomeComponent,
     AdminGenerationComponent,
     DisplayCategoryOverviewComponent,
-    DisplayCategoryDetailsComponent
+    DisplayCategoryDetailsComponent,
+    AdminConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
