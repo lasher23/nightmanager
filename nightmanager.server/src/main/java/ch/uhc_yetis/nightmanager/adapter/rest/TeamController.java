@@ -40,11 +40,8 @@ public class TeamController {
         return this.teamService.createNewTeam(team);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Team> saveItem(@PathVariable long id, @RequestBody Team team) {
-        if (team.getId() != id && team.getId() != 0) {
-            return ResponseEntity.notFound().build();
-        }
+    @PutMapping
+    public ResponseEntity<Team> saveItem(@RequestBody Team team) {
         return ResponseEntity.ok(this.teamService.save(team));
     }
 

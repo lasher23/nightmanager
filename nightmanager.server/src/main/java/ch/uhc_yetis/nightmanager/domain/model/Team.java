@@ -18,7 +18,16 @@ public class Team {
     private boolean placeholder;
     @Column
     private int rank;
+    @Column(name = "flag_paid")
+    private Boolean paid;
 
+    public boolean isPaid() {
+        return this.paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
 
     public int getRank() {
         return this.rank;

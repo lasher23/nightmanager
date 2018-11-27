@@ -9,4 +9,5 @@ export interface Team {
   category: Category;
   rank: number;
   points: number;
+  paid: boolean;
 }

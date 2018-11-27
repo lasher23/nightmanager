@@ -8,12 +8,12 @@
       <h2>{{game?.goalsTeamHome}}</h2>
     </div>
     <div>
-      <button mat-flat-button (click)="addGoalHome()" class="add">
+      <button mat-flat-button (click)="addGoalHome()" class="add" [disabled]="game.placeholder">
         <mat-icon>add</mat-icon>
       </button>
     </div>
     <div>
-      <button mat-flat-button (click)="minusGoalHome()">
+      <button mat-flat-button (click)="minusGoalHome()" [disabled]="game.placeholder">
         <mat-icon>remove</mat-icon>
       </button>
     </div>
@@ -26,16 +26,18 @@
       <h2>{{game?.goalsTeamGuest}}</h2>
     </div>
     <div>
-      <button mat-flat-button (click)="addGoalGuest()" class="add">
+      <button mat-flat-button (click)="addGoalGuest()" class="add" [disabled]="game.placeholder">
         <mat-icon>add</mat-icon>
       </button>
     </div>
     <div>
-      <button mat-flat-button (click)="minusGoalGuest()">
+      <button mat-flat-button (click)="minusGoalGuest()" [disabled]="game.placeholder">
         <mat-icon>remove</mat-icon>
       </button>
     </div>
   </div>
-  <button mat-stroked-button (click)="completeGame()" class="complete" *ngIf="game">Abschliessen</button>
+  <button mat-stroked-button (click)="completeGame()" class="complete" *ngIf="game" [disabled]="game.placeholder">
+    Abschliessen
+  </button>
 </div>
 

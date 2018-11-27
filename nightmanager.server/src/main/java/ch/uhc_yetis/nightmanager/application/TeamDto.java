@@ -10,9 +10,18 @@ public class TeamDto {
     private int goalsShot;
     private int goalsGotten;
     private int points;
-
+    private boolean paid;
+    private int rank;
 
     private TeamDto() {
+    }
+
+    public boolean isPaid() {
+        return this.paid;
+    }
+
+    public int getRank() {
+        return this.rank;
     }
 
     public int getGoalsShot() {
@@ -47,7 +56,7 @@ public class TeamDto {
         return new TeamDtoBuilder().withId(id);
     }
 
-    public static class TeamDtoBuilder implements IDBuilder, NameBuilder, PlaceholderBuilder, GoalsGottenBuilder, GoalsShotBuilder, OptionalFieldsBuilder, CategoryBuilder, PointBuilder {
+    public static class TeamDtoBuilder implements IDBuilder, NameBuilder, PlaceholderBuilder, GoalsGottenBuilder, GoalsShotBuilder, OptionalFieldsBuilder, CategoryBuilder, PointBuilder, PaidBuilder, RankBuilder {
 
 
         private TeamDto teamDto;
@@ -98,8 +107,20 @@ public class TeamDto {
         }
 
         @Override
-        public OptionalFieldsBuilder withPoints(int points) {
+        public RankBuilder withPoints(int points) {
             this.teamDto.points = points;
+            return this;
+        }
+
+        @Override
+        public OptionalFieldsBuilder withPaid(boolean paid) {
+            this.teamDto.paid = paid;
+            return this;
+        }
+
+        @Override
+        public PaidBuilder withRank(int rank) {
+            this.teamDto.rank = rank;
             return this;
         }
     }
@@ -129,11 +150,15 @@ public class TeamDto {
     }
 
     public interface PointBuilder {
-        OptionalFieldsBuilder withPoints(int points);
+        RankBuilder withPoints(int points);
     }
 
     public interface RankBuilder {
-        OptionalFieldsBuilder withRank(int rank);
+        PaidBuilder withRank(int rank);
+    }
+
+    public interface PaidBuilder {
+        OptionalFieldsBuilder withPaid(boolean paid);
     }
 
     public interface OptionalFieldsBuilder {

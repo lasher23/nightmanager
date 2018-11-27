@@ -12,9 +12,10 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
+  MatButtonToggleModule,
   MatDialogModule,
   MatIconModule,
-  MatProgressSpinnerModule,
+  MatProgressSpinnerModule, MatSliderModule, MatSlideToggleModule,
   MatSnackBarModule,
   MatTableModule,
   MatTabsModule
@@ -44,9 +45,10 @@ import {AdminGameOverviewComponent} from './component/admin/admin-game-overview/
 import {AdminHomeComponent} from './component/admin/admin-home/admin-home.component';
 import {AdminGenerationComponent} from './component/admin/admin-generation/admin-generation.component';
 import {CdkTableModule} from '@angular/cdk/table';
-import { DisplayCategoryOverviewComponent } from './component/display/display-category-overview/display-category-overview.component';
-import { DisplayCategoryDetailsComponent } from './component/display/display-category-details/display-category-details.component';
-import { AdminConfirmDialogComponent } from './component/admin/admin-generation/admin-confirm-dialog/admin-confirm-dialog.component';
+import {DisplayCategoryOverviewComponent} from './component/display/display-category-overview/display-category-overview.component';
+import {DisplayCategoryDetailsComponent} from './component/display/display-category-details/display-category-details.component';
+import {AdminConfirmDialogComponent} from './component/admin/admin-generation/admin-confirm-dialog/admin-confirm-dialog.component';
+import {AdminTeamsComponent} from './component/admin/admin-teams/admin-teams.component';
 
 @NgModule({
   entryComponents: [
@@ -73,7 +75,8 @@ import { AdminConfirmDialogComponent } from './component/admin/admin-generation/
     AdminGenerationComponent,
     DisplayCategoryOverviewComponent,
     DisplayCategoryDetailsComponent,
-    AdminConfirmDialogComponent
+    AdminConfirmDialogComponent,
+    AdminTeamsComponent
   ],
   imports: [
     BrowserModule,
@@ -93,6 +96,7 @@ import { AdminConfirmDialogComponent } from './component/admin/admin-generation/
     MatProgressSpinnerModule,
     MatTabsModule,
     CdkTableModule,
+    MatSlideToggleModule,
   ],
   providers: [
     LoginService,

@@ -21,4 +21,8 @@ export class TeamService {
   getAllByCategory(categoryId: number) {
     return this.http.get<Array<Team>>('teams', {categoryId: categoryId});
   }
+
+  save(team: Team) {
+    return this.http.put<Team>('teams', team);
+  }
 }

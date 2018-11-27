@@ -50,6 +50,8 @@ public class TeamService {
                 .withGoalsShot(this.getGoalsShot(team))
                 .withGoalsGotten(this.getGoalsGotten(team))
                 .withPoints(this.getPoints(team))
+                .withRank(team.getRank())
+                .withPaid(team.isPaid())
                 .build();
     }
 
