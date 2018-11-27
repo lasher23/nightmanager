@@ -8,4 +8,5 @@ export interface Category {
   parentCategory: number;
   croki: boolean;
   state: CategoryState;
+  remark: string;
 }

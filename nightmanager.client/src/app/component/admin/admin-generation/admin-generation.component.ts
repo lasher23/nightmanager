@@ -26,7 +26,7 @@ export class AdminGenerationComponent implements OnInit {
   generate(element: Category) {
     this.dialog.open(AdminConfirmDialogComponent).afterClosed().subscribe(result => {
       if (result) {
-        this.generationService.generate((element);
+        this.generationService.generate((element));
       }
     });
   }

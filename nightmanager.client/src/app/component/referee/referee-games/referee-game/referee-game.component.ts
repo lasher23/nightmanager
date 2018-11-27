@@ -18,14 +18,13 @@ export class RefereeGameComponent implements OnInit {
 
   constructor(public dialog: MatDialog, route: ActivatedRoute, private gameService: GameService, private snackbarService: SnackbarService,
               private router: Router, private roleService: RoleService) {
-    route.params.subscribe(x => this.gameService.getGameById(Number(x['id'])).then(y => this.game = y));
+    route.params.subscribe(x => this.gameService.getGameById(Number(x['id'])).then(y => {
+      this.game = y;
+      this.showPopup(y);
+    }));
   }
 
   ngOnInit() {
-    /*Promise.resolve().then(() => this.dialog.open(RefereeGameDialogComponent, {
-      width: '250px',
-      data: {text: 'some fancy text'}
-    }));*/
   }
 
   addGoalHome() {
@@ -59,5 +58,14 @@ export class RefereeGameComponent implements OnInit {
     this.snackbarService.showMessage('Speichert Team', 10000);
     this.gameService.updateGame(this.game).then(x => this.snackbarService.dismiss());
     this.router.navigateByUrl(this.roleService.getDefaultRoute());
+  }
+
+  private showPopup(x: Game) {
+    if (x.category.remark && x.category.remark !== '') {
+      Promise.resolve().then(() => this.dialog.open(RefereeGameDialogComponent, {
+        width: '250px',
+        data: {text: 'some fancy text'}
+      }));
+    }
   }
 }

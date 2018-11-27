@@ -1,5 +1,6 @@
 import {Team} from './Team';
 import {Hall} from './Hall';
+import {Category} from './Category';
 
 export interface Game {
   id: number;
@@ -11,4 +12,5 @@ export interface Game {
   placeholder: boolean;
   hall: Hall;
   startDate: string;
+  category: Category;
 }
