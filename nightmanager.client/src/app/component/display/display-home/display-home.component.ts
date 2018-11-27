@@ -4,6 +4,7 @@ import {Category} from '../../../model/Category';
 import {GameService} from '../../../service/game.service';
 import {assertNumber} from '@angular/core/src/render3/assert';
 import {createAotUrlResolver} from '@angular/compiler';
+import {Game} from '../../../model/Game';
 
 export enum DisplayType {
   CATEGORY, GAMES
@@ -25,12 +26,24 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
   private count = 0;
   currentDisplayble: Displayable;
   displayMode = false;
+  displayedColumns: Array<String> = [
+    'time',
+    'teamHome',
+    'goalsTeamHome',
+    'placeholder',
+    'goalsTeamGuest',
+    'teamGuest',
+    'hall',
+  ];
+
+  games: Array<Game>;
 
   constructor(private categoryService: CategoryService, private gameService: GameService) {
   }
 
   ngOnInit(): void {
     this.changeComponent();
+    this.gameService.getGames().then(games => this.games = games);
     this.id = setInterval(() => this.changeComponent(), 10000);
   }
 
