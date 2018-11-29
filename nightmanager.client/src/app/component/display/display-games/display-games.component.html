@@ -8,7 +8,7 @@
       </ng-container>
       <ng-container cdkColumnDef="teamHome">
         <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Heim</span></mat-header-cell>
-        <mat-cell *cdkCellDef="let element" class="flex-4"><span>{{element.teamHome.name}}</span></mat-cell>
+        <mat-cell *cdkCellDef="let element" class="flex-4" [class.red]="!element.teamHome.paid"><span>{{element.teamHome.name}}</span></mat-cell>
       </ng-container>
       <ng-container cdkColumnDef="goalsTeamHome">
         <mat-header-cell *cdkHeaderCellDef>Tore</mat-header-cell>
@@ -24,7 +24,7 @@
       </ng-container>
       <ng-container cdkColumnDef="teamGuest">
         <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Gast</span></mat-header-cell>
-        <mat-cell *cdkCellDef="let element" class="flex-4"><span>{{element.teamGuest.name}}</span></mat-cell>
+        <mat-cell *cdkCellDef="let element" class="flex-4" [class.red]="!element.teamGuest.paid"><span>{{element.teamGuest.name}}</span></mat-cell>
       </ng-container>
 
       <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>

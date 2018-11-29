@@ -27,12 +27,12 @@ export class GameService {
     return this.http.get<Array<Game>>('games');
   }
 
-  getAllGamesByCategory(categoryId: number, beforeNow: number, afterNow: number): Promise<Array<Game>> {
-    return this.http.get<Array<Game>>('games', {categoryId: categoryId, beforeNow: beforeNow, afterNow: afterNow});
-  }
-
-  getAllGamesByCategory(categoryId: number): Promise<Array<Game>> {
-    return this.http.get<Array<Game>>('games', {categoryId: categoryId});
+  getAllGamesByCategory(categoryId: number, beforeNow?: number, afterNow?: number): Promise<Array<Game>> {
+    if (beforeNow && afterNow) {
+      return this.http.get<Array<Game>>('games', {categoryId: categoryId, beforeNow: beforeNow, afterNow: afterNow});
+    } else {
+      return this.http.get<Array<Game>>('games', {categoryId: categoryId});
+    }
   }
 
   updateGame(game: Game): Promise<Game> {
