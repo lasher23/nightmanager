@@ -56,12 +56,12 @@ public class TeamDto {
         return new TeamDtoBuilder().withId(id);
     }
 
-    public static class TeamDtoBuilder implements IDBuilder, NameBuilder, PlaceholderBuilder, GoalsGottenBuilder, GoalsShotBuilder, OptionalFieldsBuilder, CategoryBuilder, PointBuilder, PaidBuilder, RankBuilder {
+    private static class TeamDtoBuilder implements IDBuilder, NameBuilder, PlaceholderBuilder, GoalsGottenBuilder, GoalsShotBuilder, OptionalFieldsBuilder, CategoryBuilder, PointBuilder, PaidBuilder, RankBuilder {
 
 
         private TeamDto teamDto;
 
-        public TeamDtoBuilder() {
+        private TeamDtoBuilder() {
             this.teamDto = new TeamDto();
         }
 
