@@ -19,20 +19,12 @@ export class GameService {
     return this.http.get<Game>('games/' + id);
   }
 
-  getAllGames(beforeNow: number, afterNow: number): Promise<Array<Game>> {
-    return this.http.get<Array<Game>>('games', {beforeNow: beforeNow, afterNow: afterNow});
-  }
-
-  getGames(): Promise<Array<Game>> {
+  getAllGames(): Promise<Array<Game>> {
     return this.http.get<Array<Game>>('games');
   }
 
-  getAllGamesByCategory(categoryId: number, beforeNow?: number, afterNow?: number): Promise<Array<Game>> {
-    if (beforeNow && afterNow) {
-      return this.http.get<Array<Game>>('games', {categoryId: categoryId, beforeNow: beforeNow, afterNow: afterNow});
-    } else {
-      return this.http.get<Array<Game>>('games', {categoryId: categoryId});
-    }
+  getAllGamesByCategory(categoryId: number): Promise<Array<Game>> {
+    return this.http.get<Array<Game>>('games', {categoryId: categoryId});
   }
 
   updateGame(game: Game): Promise<Game> {
@@ -41,5 +33,20 @@ export class GameService {
 
   resetGame(game: Game): Promise<Game> {
     return this.http.post<Game>('games/reset', game);
+  }
+
+  getClosestGamesToNow(games: Array<Game>, beforeNow: number, afterNow: number) {
+    const gamessorted = games.map(game => {
+      const dates = game.startDate.split(':');
+      return {
+        startDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), +dates[0], +dates[1], +dates[2]),
+        game: game,
+      };
+    }).sort((game1, game2) => game1.startDate.getTime() - game2.startDate.getTime());
+    const now = new Date().getTime();
+    const gamesbefore = gamessorted.filter(game => game.startDate.getTime() - now < 0);
+    const gamesafter = gamessorted.filter(game => game.startDate.getTime() - now >= 0);
+    return gamesbefore.splice(gamesbefore.length - beforeNow).map(game => game.game)
+      .concat(gamesafter.splice(0, afterNow).map(game => game.game));
   }
 }

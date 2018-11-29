@@ -1,9 +1,7 @@
-import {Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CategoryService} from '../../../service/category.service';
 import {Category} from '../../../model/Category';
 import {GameService} from '../../../service/game.service';
-import {assertNumber} from '@angular/core/src/render3/assert';
-import {createAotUrlResolver} from '@angular/compiler';
 import {Game} from '../../../model/Game';
 
 export enum DisplayType {
@@ -21,7 +19,7 @@ export interface Displayable {
   styleUrls: ['./display-home.component.scss']
 })
 export class DisplayHomeComponent implements OnInit, OnDestroy {
-  private id: number;
+  private id: any;
   private displayables: Array<Displayable> = [];
   private count = 0;
   currentDisplayble: Displayable;
@@ -43,7 +41,7 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.changeComponent();
-    this.gameService.getGames().then(games => this.games = games);
+    this.gameService.getAllGames().then(games => this.games = games);
     this.id = setInterval(() => this.changeComponent(), 10000);
   }
 
@@ -59,10 +57,10 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
           return 0;
         }
       }).map(y => <Displayable>{type: DisplayType.CATEGORY, data: y})));
-    const gamePromise = this.gameService.getAllGames(10, 20).then(x => {
+    const gamePromise = this.gameService.getAllGames().then(x => {
       this.displayables.push(<Displayable>{
         type: DisplayType.GAMES,
-        data: x
+        data: this.gameService.getClosestGamesToNow(x, 10, 20)
       });
     });
     return Promise.all([

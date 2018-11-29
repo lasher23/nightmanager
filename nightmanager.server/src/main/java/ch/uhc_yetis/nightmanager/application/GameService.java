@@ -64,14 +64,6 @@ public class GameService {
         Specification<Game> gameSpecs = this.getGameSpecs(requestParams);
         List<Game> games = this.gameRepository.findAll(gameSpecs);
         List<Game> gamesSorted = games.stream().sorted(Comparator.comparing(Game::getStartDate)).collect(Collectors.toList());
-        if (requestParams.getAfterNow() != null && requestParams.getBeforeNow() != null && games.size() >= requestParams.getAfterNow() + requestParams.getBeforeNow()) {
-            LocalDateTime now = LocalDateTime.now();
-            Game closestToNow = this.getDateClosestToDate(gamesSorted, now);
-            int index = IntStream.range(0, gamesSorted.size()).filter(x -> gamesSorted.get(x).getId() == closestToNow.getId()).findFirst().getAsInt();
-            int fromIndex = index - requestParams.getBeforeNow() > 0 ? index - requestParams.getBeforeNow() : 0;
-            int toIndex = index - requestParams.getAfterNow() > gamesSorted.size() - 1 ? index - requestParams.getAfterNow() : gamesSorted.size();
-            return gamesSorted.subList(fromIndex, toIndex);
-        }
         return gamesSorted;
     }
 

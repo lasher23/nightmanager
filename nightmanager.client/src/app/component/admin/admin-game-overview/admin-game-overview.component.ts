@@ -36,7 +36,7 @@ export class AdminGameOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.gamesHallAssingments = [];
-    this.gameService.getGames().then(games => this.games = games).then(() => this.initHalls());
+    this.gameService.getAllGames().then(games => this.games = games).then(() => this.initHalls());
   }
 
   private initHalls() {

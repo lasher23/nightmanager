@@ -32,7 +32,7 @@ export class DisplayGamesComponent implements OnInit {
 
   ngOnInit() {
     if (!this.games) {
-      this.gameService.getAllGames(10, 20).then(x => this.games = x).then(() => this.initHalls());
+      this.gameService.getAllGames().then(x => this.games = x).then(() => this.initHalls());
     } else {
       this.initHalls();
     }

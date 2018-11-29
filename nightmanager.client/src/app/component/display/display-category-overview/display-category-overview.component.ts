@@ -16,7 +16,7 @@ export class DisplayCategoryOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.categoryService.getAll().then(categories => this.categories = categories.filter(x => x.state != 'DISABLED'));
+    this.categoryService.getAll().then(categories => this.categories = categories.filter(x => x.state !== CategoryState.DISABLED));
   }
 
   openCategory(category: Category) {
