@@ -37,10 +37,14 @@ public class StandardSemiFinalGenerator implements Generator {
             Game firstSemi = sortedSemifinals.get(0);
             firstSemi.setTeamHome(this.teamService.findById(sortedTeams.get(0).getId()).get());
             firstSemi.setTeamGuest(this.teamService.findById(sortedTeams.get(3).getId()).get());
+            firstSemi.setPlaceholder(false);
+            firstSemi.setState(GameState.OPEN);
             this.gameService.save(firstSemi);
             Game secondSemi = sortedSemifinals.get(1);
             secondSemi.setTeamHome(this.teamService.findById(sortedTeams.get(1).getId()).get());
             secondSemi.setTeamGuest(this.teamService.findById(sortedTeams.get(2).getId()).get());
+            secondSemi.setPlaceholder(false);
+            secondSemi.setState(GameState.OPEN);
             this.gameService.save(secondSemi);
             this.setRankingOfNotForPlayoffQualifiedTeams(sortedTeams);
             category.setState(CategoryState.SEMI_FINAL);

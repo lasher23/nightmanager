@@ -21,7 +21,8 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumnsTeams"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumnsTeams;" [class.red]="!row.paid"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsTeams;" [class.red]="!row.paid"
+          [class.hidden]="row.placeholder"></tr>
     </table>
   </div>
   <div class="games">

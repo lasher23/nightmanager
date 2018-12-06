@@ -1,5 +1,9 @@
 <div class="refree-games">
   <table mat-table [dataSource]="games">
+    <ng-container matColumnDef="startDate">
+      <th mat-header-cell *matHeaderCellDef>Zeit</th>
+      <td mat-cell *matCellDef="let element"> {{element.startDate}}</td>
+    </ng-container>
     <ng-container matColumnDef="teamHome">
       <th mat-header-cell *matHeaderCellDef>Heim</th>
       <td mat-cell *matCellDef="let element"> {{element.teamHome.name}}</td>

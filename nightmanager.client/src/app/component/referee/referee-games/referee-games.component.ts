@@ -11,7 +11,7 @@ import {Game} from '../../../model/Game';
 })
 export class RefereeGamesComponent implements OnInit {
   games: Array<Game>;
-  displayedColumns = ['teamHome', 'teamGuest'];
+  displayedColumns = ['startDate', 'teamHome', 'teamGuest'];
 
   constructor(private router: Router, private hallService: HallService, private gameService: GameService) {
   }

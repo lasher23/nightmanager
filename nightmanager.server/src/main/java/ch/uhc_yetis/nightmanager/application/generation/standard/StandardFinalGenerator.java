@@ -31,6 +31,8 @@ public class StandardFinalGenerator implements Generator {
             Team winner2 = this.getWinner(semi2, category);
             bigFinal.setTeamHome(winner1);
             bigFinal.setTeamGuest(winner2);
+            bigFinal.setPlaceholder(false);
+            bigFinal.setState(GameState.OPEN);
             this.gameService.save(bigFinal);
 
             Game littleFinal = finals.get(1);
@@ -38,6 +40,8 @@ public class StandardFinalGenerator implements Generator {
             Team looser2 = this.getLooser(semi2, category);
             littleFinal.setTeamHome(looser1);
             littleFinal.setTeamGuest(looser2);
+            littleFinal.setPlaceholder(false);
+            littleFinal.setState(GameState.OPEN);
             this.gameService.save(littleFinal);
         } else {
             throw new GenerationException(category, "Es sind noch nicht alle Halbfinal Spiele abgeschlossen");
