@@ -1,5 +1,6 @@
 package ch.uhc_yetis.nightmanager.application.generation.standard;
 
+import ch.uhc_yetis.nightmanager.application.CategoryService;
 import ch.uhc_yetis.nightmanager.application.GameService;
 import ch.uhc_yetis.nightmanager.application.generation.GenerationException;
 import ch.uhc_yetis.nightmanager.application.generation.Generator;
@@ -13,9 +14,11 @@ import java.util.stream.Collectors;
 @Service
 public class StandardFinalGenerator implements Generator {
     private GameService gameService;
+    private CategoryService categoryService;
 
-    public StandardFinalGenerator(GameService gameService) {
+    public StandardFinalGenerator(GameService gameService, CategoryService categoryService) {
         this.gameService = gameService;
+        this.categoryService = categoryService;
     }
 
     @Override
@@ -43,6 +46,9 @@ public class StandardFinalGenerator implements Generator {
             littleFinal.setPlaceholder(false);
             littleFinal.setState(GameState.OPEN);
             this.gameService.save(littleFinal);
+
+            category.setState(CategoryState.FINAL);
+            this.categoryService.save(category);
         } else {
             throw new GenerationException(category, "Es sind noch nicht alle Halbfinal Spiele abgeschlossen");
         }
