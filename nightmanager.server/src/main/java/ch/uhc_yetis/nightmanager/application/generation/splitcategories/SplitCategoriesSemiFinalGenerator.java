@@ -7,10 +7,7 @@ import ch.uhc_yetis.nightmanager.application.TeamService;
 import ch.uhc_yetis.nightmanager.application.generation.GenerationException;
 import ch.uhc_yetis.nightmanager.application.generation.Generator;
 import ch.uhc_yetis.nightmanager.application.generation.TeamComperator;
-import ch.uhc_yetis.nightmanager.domain.model.Category;
-import ch.uhc_yetis.nightmanager.domain.model.Game;
-import ch.uhc_yetis.nightmanager.domain.model.GameType;
-import ch.uhc_yetis.nightmanager.domain.model.Team;
+import ch.uhc_yetis.nightmanager.domain.model.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -40,9 +37,9 @@ public class SplitCategoriesSemiFinalGenerator implements Generator {
         List<Category> categories = this.categoryService.findByParentCategory(category);
         Category subCategory1 = categories.get(0);
         Category subCategory2 = categories.get(1);
-        List<TeamDto> teamsSubCategory1 = this.teamService.findByCategory(subCategory1).stream().sorted(teamComperator).collect(Collectors.toList());
-        List<TeamDto> teamsSubCategory2 = this.teamService.findByCategory(subCategory2).stream().sorted(teamComperator).collect(Collectors.toList());
-        List<Game> games = gameService.getAllGamesByCategoryAndType(category, GameType.SEMI_FINAL);
+        List<TeamDto> teamsSubCategory1 = this.teamService.findByCategory(subCategory1).stream().sorted(this.teamComperator).collect(Collectors.toList());
+        List<TeamDto> teamsSubCategory2 = this.teamService.findByCategory(subCategory2).stream().sorted(this.teamComperator).collect(Collectors.toList());
+        List<Game> games = this.gameService.getAllGamesByCategoryAndType(category, GameType.SEMI_FINAL);
         Game semiFinal1 = games.get(0);
         Game semiFinal2 = games.get(1);
         semiFinal1.setTeamHome(this.teamService.findById(teamsSubCategory1.get(0).getId()).orElseThrow(() -> new GenerationException(category, "")));
@@ -54,12 +51,14 @@ public class SplitCategoriesSemiFinalGenerator implements Generator {
 
         categories.stream().map(category1 -> this.teamService.findByCategory(category1))
                 .flatMap(Collection::stream)
-                .map(team -> teamService.findById(team.getId()).get())
-                .forEach(team -> updateTeam(category, team));
+                .map(team -> this.teamService.findById(team.getId()).get())
+                .forEach(team -> this.updateTeam(category, team));
+        category.setState(CategoryState.SEMI_FINAL);
+        this.categoryService.save(category);
     }
 
     private void updateTeam(Category category, Team team) {
         team.setCategory(category);
-        teamService.save(team);
+        this.teamService.save(team);
     }
 }
