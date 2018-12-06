@@ -1,13 +1,11 @@
 package ch.uhc_yetis.nightmanager.application.generation.standard;
 
+import ch.uhc_yetis.nightmanager.application.CategoryService;
 import ch.uhc_yetis.nightmanager.application.GameService;
 import ch.uhc_yetis.nightmanager.application.TeamService;
 import ch.uhc_yetis.nightmanager.application.generation.GenerationException;
 import ch.uhc_yetis.nightmanager.application.generation.Generator;
-import ch.uhc_yetis.nightmanager.domain.model.Category;
-import ch.uhc_yetis.nightmanager.domain.model.Game;
-import ch.uhc_yetis.nightmanager.domain.model.GameType;
-import ch.uhc_yetis.nightmanager.domain.model.Team;
+import ch.uhc_yetis.nightmanager.domain.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +19,12 @@ public class StandardFinishTableGenerator implements Generator {
     private GameService gameService;
     @Autowired
     private TeamService teamService;
+    private CategoryService categoryService;
 
-    public StandardFinishTableGenerator(GameService gameService, TeamService teamService) {
+    public StandardFinishTableGenerator(GameService gameService, TeamService teamService, CategoryService categoryService) {
         this.gameService = gameService;
         this.teamService = teamService;
+        this.categoryService = categoryService;
     }
 
     @Override
@@ -32,6 +32,8 @@ public class StandardFinishTableGenerator implements Generator {
         List<Game> finals = this.gameService.getAllGamesByCategoryAndType(category, GameType.FINAL).stream().sorted(Comparator.comparingLong(x -> x.getHall().getId())).collect(Collectors.toList());
         this.setFromBigFinal(category, finals);
         this.setFromLittleFinal(category, finals);
+        category.setState(CategoryState.FINISHED);
+        this.categoryService.save(category);
     }
 
     private void setFromBigFinal(Category category, List<Game> finals) {
