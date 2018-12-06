@@ -18,7 +18,7 @@ public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificat
 
     List<Game> findAllByTeamGuestOrTeamHome(Team teamGuest, Team teamHome);
 
-    List<Game> findAllByTeamGuestOrTeamHomeAndType(Team teamGuest, Team teamHome, GameType type);
+    List<Game> findAllByTeamGuestOrTeamHomeAndTypeAndState(Team teamGuest, Team teamHome, GameType type, GameState done);
 
     List<Game> findAllByCategoryAndType(Category category, GameType type);
 

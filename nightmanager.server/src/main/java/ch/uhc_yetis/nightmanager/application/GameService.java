@@ -12,7 +12,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class GameService {
@@ -96,7 +95,7 @@ public class GameService {
     }
 
     public List<Game> getAllGroupstageGamesFromTeam(Team team) {
-        return this.gameRepository.findAllByTeamGuestOrTeamHomeAndType(team, team, GameType.GROUP_STAGE);
+        return this.gameRepository.findAllByTeamGuestOrTeamHomeAndTypeAndState(team, team, GameType.GROUP_STAGE, GameState.DONE);
     }
 
     public List<Game> getAllGamesByCategoryAndType(Category category, GameType gameType) {
