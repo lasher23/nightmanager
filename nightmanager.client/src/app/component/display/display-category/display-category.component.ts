@@ -31,7 +31,7 @@ export class DisplayCategoryComponent implements OnInit {
     'teamGuest',
     'hall',
   ];
-  private gamesForSorting: Array<Game>;
+  private gamesForSorting: Array<Game> = [];
 
   constructor(private route: ActivatedRoute,
               private categoryService: CategoryService,
@@ -60,8 +60,9 @@ export class DisplayCategoryComponent implements OnInit {
   }
 
   private initTeams(): Promise<any> {
-    return this.gameService.getAllGames().then(games => this.gamesForSorting = games).then(() =>
-      this.teamService.getAllByCategory(this._category.id).then(teams => this.teams = this.sortTeams(teams)));
+    return this.teamService.getAllByCategory(this._category.id).then(teams => this.teams = this.sortTeams(teams)).then(() => {
+      return this.gameService.getAllGames().then(games => this.gamesForSorting = games).then(() => this.teams = this.sortTeams(this.teams));
+    });
   }
 
   private sortTeams(teams: Array<Team>): Array<Team> {

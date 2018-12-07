@@ -29,6 +29,7 @@ export class DisplayCategoryDetailsComponent implements OnInit {
     'teamGuest',
     'hall',
   ];
+  private gamesForSorting: Array<Game> = [];
 
   constructor(route: ActivatedRoute, private teamService: TeamService, private gameService: GameService) {
     route.params.subscribe(x => this.initData(x['id']));
@@ -38,7 +39,8 @@ export class DisplayCategoryDetailsComponent implements OnInit {
   }
 
   private initData(categoryId: number) {
-    this.teamService.getAllByCategory(categoryId).then(teams => this.teams = this.sortTeams(teams));
+    this.gameService.getAllGames().then(games => this.gamesForSorting = games)
+      .then(() => this.teamService.getAllByCategory(categoryId).then(teams => this.teams = this.sortTeams(teams)));
     this.gameService.getAllGamesByCategory(categoryId).then(games => this.games = games);
   }
 
@@ -82,7 +84,21 @@ export class DisplayCategoryDetailsComponent implements OnInit {
     } else if (a.goalsShot < b.goalsShot) {
       return 1;
     }
-    return 0;
+    return this.compareDirectOpponent(a, b);
   }
 
+  private compareDirectOpponent(a: Team, b: Team) {
+    const games = this.gamesForSorting.filter(game =>
+      (game.teamHome.id === a.id || game.teamGuest.id === a.id || game.teamHome.id === b.id || game.teamGuest.id === b.id)
+      && game.type === 'GROUP_STAGE');
+    if (games.length > 0) {
+      const game1 = games[0];
+      if (game1.teamHome.id === a.id) {
+        return game1.goalsTeamHome - game1.goalsTeamGuest;
+      } else {
+        return game1.goalsTeamGuest - game1.goalsTeamHome;
+      }
+    }
+    return 0;
+  }
 }
