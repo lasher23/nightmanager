@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AngularRoutesController {
 
-    @RequestMapping(value = {"/", "/referee/**", "/display/**", "/login"})
+    @RequestMapping(value = {"/", "/referee/**", "/display/**", "/login", "/admin/**"})
     public String redirectToHtml() {
         return "forward:/index.html";
     }

@@ -13,4 +13,5 @@ export interface Game {
   hall: Hall;
   startDate: Date;
   category: Category;
+  type: string;
 }
