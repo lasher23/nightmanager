@@ -45,8 +45,10 @@ public class SplitCategoriesSemiFinalGenerator implements Generator {
         Game semiFinal2 = games.get(1);
         semiFinal1.setTeamHome(this.teamService.findById(teamsSubCategory1.get(0).getId()).orElseThrow(() -> new GenerationException(category, "")));
         semiFinal1.setTeamGuest(this.teamService.findById(teamsSubCategory2.get(1).getId()).orElseThrow(() -> new GenerationException(category, "")));
-        semiFinal2.setTeamHome(this.teamService.findById(teamsSubCategory1.get(1).getId()).orElseThrow(() -> new GenerationException(category, "")));
-        semiFinal2.setTeamGuest(this.teamService.findById(teamsSubCategory2.get(0).getId()).orElseThrow(() -> new GenerationException(category, "")));
+        semiFinal2.setTeamGuest(this.teamService.findById(teamsSubCategory1.get(1).getId()).orElseThrow(() -> new GenerationException(category, "")));
+        semiFinal2.setTeamHome(this.teamService.findById(teamsSubCategory2.get(0).getId()).orElseThrow(() -> new GenerationException(category, "")));
+        semiFinal1.setPlaceholder(false);
+        semiFinal2.setPlaceholder(false);
         this.gameService.save(semiFinal1);
         this.gameService.save(semiFinal2);
 
