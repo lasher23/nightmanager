@@ -11,6 +11,7 @@ import ch.uhc_yetis.nightmanager.domain.model.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,7 @@ public class SplitCategoriesSemiFinalGenerator implements Generator {
         Category subCategory2 = categories.get(1);
         List<TeamDto> teamsSubCategory1 = this.teamService.findByCategory(subCategory1).stream().sorted(this.teamComperator).collect(Collectors.toList());
         List<TeamDto> teamsSubCategory2 = this.teamService.findByCategory(subCategory2).stream().sorted(this.teamComperator).collect(Collectors.toList());
-        List<Game> games = this.gameService.getAllGamesByCategoryAndType(category, GameType.SEMI_FINAL);
+        List<Game> games = this.gameService.getAllGamesByCategoryAndType(category, GameType.SEMI_FINAL).stream().sorted(Comparator.comparingLong(game -> game.getHall().getId())).collect(Collectors.toList());
         Game semiFinal1 = games.get(0);
         Game semiFinal2 = games.get(1);
         semiFinal1.setTeamHome(this.teamService.findById(teamsSubCategory1.get(0).getId()).orElseThrow(() -> new GenerationException(category, "")));
