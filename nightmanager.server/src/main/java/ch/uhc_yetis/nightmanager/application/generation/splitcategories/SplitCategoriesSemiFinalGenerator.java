@@ -40,6 +40,8 @@ public class SplitCategoriesSemiFinalGenerator implements Generator {
         Category subCategory2 = categories.get(1);
         List<TeamDto> teamsSubCategory1 = this.teamService.findByCategory(subCategory1).stream().sorted(this.teamComperator).collect(Collectors.toList());
         List<TeamDto> teamsSubCategory2 = this.teamService.findByCategory(subCategory2).stream().sorted(this.teamComperator).collect(Collectors.toList());
+        this.setRankingOfNotForPlayoffQualifiedTeams(teamsSubCategory1);
+        this.setRankingOfNotForPlayoffQualifiedTeams(teamsSubCategory2);
         List<Game> games = this.gameService.getAllGamesByCategoryAndType(category, GameType.SEMI_FINAL).stream().sorted(Comparator.comparingLong(game -> game.getHall().getId())).collect(Collectors.toList());
         Game semiFinal1 = games.get(0);
         Game semiFinal2 = games.get(1);
@@ -58,6 +60,16 @@ public class SplitCategoriesSemiFinalGenerator implements Generator {
                 .forEach(team -> this.updateTeam(category, team));
         category.setState(CategoryState.SEMI_FINAL);
         this.categoryService.save(category);
+    }
+
+    private void setRankingOfNotForPlayoffQualifiedTeams(List<TeamDto> sortedTeams) {
+        List<TeamDto> notQualifiedTeams = sortedTeams.subList(4, sortedTeams.size() - 1);
+        for (int i = 0; i < notQualifiedTeams.size(); i++) {
+            TeamDto team = notQualifiedTeams.get(i);
+            Team teamToSave = this.teamService.findById(team.getId()).orElseThrow(() -> new RuntimeException());
+            teamToSave.setRank(i + 5);
+            this.teamService.save(teamToSave);
+        }
     }
 
     private void updateTeam(Category category, Team team) {
