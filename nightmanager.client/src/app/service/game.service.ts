@@ -37,16 +37,13 @@ export class GameService {
 
   getClosestGamesToNow(games: Array<Game>, beforeNow: number, afterNow: number) {
     const gamessorted = games.map(game => {
-      const dates = game.startDate.split(':');
-      return {
-        startDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), +dates[0], +dates[1], +dates[2]),
-        game: game,
-      };
+      game.startDate = new Date(game.startDate);
+      return game;
     }).sort((game1, game2) => game1.startDate.getTime() - game2.startDate.getTime());
     const now = new Date().getTime();
     const gamesbefore = gamessorted.filter(game => game.startDate.getTime() - now < 0);
     const gamesafter = gamessorted.filter(game => game.startDate.getTime() - now >= 0);
-    return gamesbefore.splice(gamesbefore.length - beforeNow).map(game => game.game)
-      .concat(gamesafter.splice(0, afterNow).map(game => game.game));
+    return gamesbefore.splice(gamesbefore.length - beforeNow)
+      .concat(gamesafter.splice(0, afterNow));
   }
 }

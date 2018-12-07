@@ -11,6 +11,6 @@ export interface Game {
   state: string;
   placeholder: boolean;
   hall: Hall;
-  startDate: string;
+  startDate: Date;
   category: Category;
 }
