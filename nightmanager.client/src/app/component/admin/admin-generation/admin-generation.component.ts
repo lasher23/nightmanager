@@ -3,7 +3,6 @@ import {CategoryService} from '../../../service/category.service';
 import {Category, CategoryState} from '../../../model/Category';
 import {GenerationService} from '../../../service/generation.service';
 import {MatDialog} from '@angular/material';
-import {RefereeGameConfirmDialogComponent} from '../../referee/referee-games/referee-game/referee-game-confirm-dialog/referee-game-confirm-dialog.component';
 import {AdminConfirmDialogComponent} from './admin-confirm-dialog/admin-confirm-dialog.component';
 
 @Component({
@@ -29,5 +28,12 @@ export class AdminGenerationComponent implements OnInit {
         this.generationService.generate((element));
       }
     });
+  }
+
+  isGenerateSemis(category: Category): boolean {
+    if (category.type === 'SPLIT_CATEGORIES') {
+      return category.parentCategory == null && category.state === CategoryState.DISABLED;
+    }
+    return category.state === CategoryState.GROUP_PHASE;
   }
 }

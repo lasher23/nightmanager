@@ -1,5 +1,9 @@
 export enum CategoryState {
-  GROUP_PHASE, SEMI_FINAL, FINAL, FINISHED, CROKI_FIRST, DISABLED
+  GROUP_PHASE = 'GROUP_PHASE',
+  SEMI_FINAL = 'SEMI_FINAL',
+  FINAL = 'FINAL', FINISHED = 'FINISHED',
+  CROKI_FIRST = 'CROKI_FIRST',
+  DISABLED = 'DISABLED'
 }
 
 export interface Category {
@@ -9,4 +13,5 @@ export interface Category {
   croki: boolean;
   state: CategoryState;
   remark: string;
+  type: string;
 }

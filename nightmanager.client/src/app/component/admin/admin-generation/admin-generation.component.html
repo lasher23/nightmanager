@@ -9,7 +9,7 @@
       <div *ngIf="element.state === 'CROKI_FIRST'">
         <button mat-button (click)="generate(element)">Croki generierung</button>
       </div>
-      <div *ngIf="element.state === 'GROUP_PHASE'">
+      <div *ngIf="isGenerateSemis(element)">
         <button mat-button (click)="generate(element)">Halbfinale generieren</button>
       </div>
       <div *ngIf="element.state === 'SEMI_FINAL'">

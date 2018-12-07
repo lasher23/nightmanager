@@ -2,6 +2,7 @@ package ch.uhc_yetis.nightmanager.application.generation.splitcategories;
 
 import ch.uhc_yetis.nightmanager.application.generation.Generator;
 import ch.uhc_yetis.nightmanager.application.generation.GeneratorFactory;
+import ch.uhc_yetis.nightmanager.application.generation.NullGenerator;
 import ch.uhc_yetis.nightmanager.application.generation.standard.StandardFinalGenerator;
 import ch.uhc_yetis.nightmanager.application.generation.standard.StandardFinishTableGenerator;
 import ch.uhc_yetis.nightmanager.domain.model.Category;
@@ -25,14 +26,14 @@ public class SplitCategoriesGeneratorFactory implements GeneratorFactory {
     @Override
     public Generator createGenerator(Category category) {
         switch (category.getState()) {
-            case SEMI_FINAL:
+            case DISABLED:
                 return this.splitCategoriesSemiFinalGenerator;
-            case FINAL:
+            case SEMI_FINAL:
                 return this.standardFinalGenerator;
-            case FINISHED:
+            case FINAL:
                 return this.standardFinishTableGenerator;
             default:
-                return null;
+                return new NullGenerator();
         }
     }
 }
