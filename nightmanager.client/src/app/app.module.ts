@@ -18,7 +18,7 @@ import {
   MatProgressSpinnerModule, MatSliderModule, MatSlideToggleModule,
   MatSnackBarModule,
   MatTableModule,
-  MatTabsModule
+  MatTabsModule, MatToolbarModule
 } from '@angular/material';
 import {HttpProxyService} from './service/http-proxy.service';
 import {GlobalErrorHandler} from './global-error-handler';
@@ -97,6 +97,7 @@ import {AdminTeamsComponent} from './component/admin/admin-teams/admin-teams.com
     MatTabsModule,
     CdkTableModule,
     MatSlideToggleModule,
+    MatToolbarModule,
   ],
   providers: [
     LoginService,

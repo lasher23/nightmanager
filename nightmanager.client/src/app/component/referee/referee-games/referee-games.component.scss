@@ -1,4 +1,6 @@
 .refree-games {
+  width: 100%;
+  max-width: 100%;
   table {
     width: 100%;
   }
@@ -7,8 +9,19 @@
   }
   td {
     text-align: center;
+    white-space: nowrap;
+    overflow: scroll;
   }
   th {
     text-align: center;
   }
+  .mat-cell {
+    max-width: 100px;
+  }
+}
+
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
 }
