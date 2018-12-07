@@ -63,7 +63,7 @@ public class SplitCategoriesSemiFinalGenerator implements Generator {
     }
 
     private void setRankingOfNotForPlayoffQualifiedTeams(List<TeamDto> sortedTeams) {
-        List<TeamDto> notQualifiedTeams = sortedTeams.subList(4, sortedTeams.size() - 1);
+        List<TeamDto> notQualifiedTeams = sortedTeams.subList(2, sortedTeams.size() - 1);
         for (int i = 0; i < notQualifiedTeams.size(); i++) {
             TeamDto team = notQualifiedTeams.get(i);
             Team teamToSave = this.teamService.findById(team.getId()).orElseThrow(() -> new RuntimeException());
