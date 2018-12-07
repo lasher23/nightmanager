@@ -60,7 +60,7 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
     const gamePromise = this.gameService.getAllGames().then(x => {
       this.displayables.push(<Displayable>{
         type: DisplayType.GAMES,
-        data: this.gameService.getClosestGamesToNow(x, 5, 5)
+        data: this.gameService.getClosestGamesToNow(x, 6, 6)
       });
     });
     return Promise.all([

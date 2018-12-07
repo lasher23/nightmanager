@@ -110,7 +110,7 @@ export class DisplayCategoryComponent implements OnInit {
 
   private initGames() {
     return this.gameService.getAllGamesByCategory(this._category.id).then(games => {
-      this.games = this.gameService.getClosestGamesToNow(games, 5, 5);
+      this.games = this.gameService.getClosestGamesToNow(games, 6, 6);
     });
   }
 
