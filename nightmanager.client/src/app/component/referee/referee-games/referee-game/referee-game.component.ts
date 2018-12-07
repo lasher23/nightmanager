@@ -64,7 +64,7 @@ export class RefereeGameComponent implements OnInit {
     if (x.category.remark && x.category.remark !== '') {
       Promise.resolve().then(() => this.dialog.open(RefereeGameDialogComponent, {
         width: '250px',
-        data: {text: 'some fancy text'}
+        data: {text: x.category.remark}
       }));
     }
   }
