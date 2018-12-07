@@ -1,4 +1,5 @@
 <div class="display-games">
+  <h1 style="width:100%; text-align:center;">Aktuelle Spiele</h1>
   <div *ngFor="let gameHallAssingment of gamesHallAssingments" [style.width]="widthPerHallTable">
     <h1>{{gameHallAssingment.hall.name}}</h1>
     <mat-table [dataSource]="gameHallAssingment.games">
@@ -30,5 +31,10 @@
       <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+    <div style="width: 100%;">
+      <div class="red" style="width:10px;height: 10px; display: inline-block;">
+      </div>
+      <span>Noch nicht bezahlt</span>
+    </div>
   </div>
 </div>

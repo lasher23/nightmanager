@@ -2,6 +2,12 @@ import {Injectable} from '@angular/core';
 import {Hall} from '../model/Hall';
 import {HttpProxyService} from './http-proxy.service';
 import {Game} from '../model/Game';
+import {Team} from '../model/Team';
+import {HttpClient} from '@angular/common/http';
+
+export interface CompareResult{
+  result: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +51,9 @@ export class GameService {
     const gamesafter = gamessorted.filter(game => game.startDate.getTime() - now >= 0);
     return gamesbefore.splice(gamesbefore.length - beforeNow)
       .concat(gamesafter.splice(0, afterNow));
+  }
+
+  compareByDirectGames(team1: Team, team2: Team) {
+    return this.http2.post<CompareResult>('teams/compare', {team1: team1, team2: team2}).;
   }
 }

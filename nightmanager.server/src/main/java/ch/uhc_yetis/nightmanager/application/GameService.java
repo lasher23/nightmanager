@@ -18,11 +18,13 @@ public class GameService {
     private final GameRepository gameRepository;
     private final HallService hallService;
     private final CategoryService categoryService;
+    private TeamService teamService;
 
-    public GameService(GameRepository gameRepository, HallService hallService, CategoryService categoryService) {
+    public GameService(GameRepository gameRepository, HallService hallService, CategoryService categoryService, TeamService teamService) {
         this.gameRepository = gameRepository;
         this.hallService = hallService;
         this.categoryService = categoryService;
+        this.teamService = teamService;
     }
 
     public List<Game> getAll() {
@@ -135,6 +137,17 @@ public class GameService {
             return Optional.of(game.getTeamGuest());
         } else {
             return Optional.empty();
+        }
+    }
+
+    public CompareResultModel compare(CompareModel compareModel) {
+        Optional<Game> game = this.findGameByTwoTeamsAndType(compareModel.getTeam1(), compareModel.getTeam2(), GameType.GROUP_STAGE);
+        if (game.isPresent() && game.get().getTeamHome().getId() == compareModel.getTeam1().getId()) {
+            return new CompareResultModel(Integer.compare(game.get().getGoalsTeamHome(), game.get().getGoalsTeamGuest()));
+        } else if (game.isPresent() && game.get().getTeamGuest().getId() == compareModel.getTeam1().getId()) {
+            return new CompareResultModel(Integer.compare(game.get().getGoalsTeamGuest(), game.get().getGoalsTeamHome()));
+        } else {
+            return  new CompareResultModel(0);
         }
     }
 }

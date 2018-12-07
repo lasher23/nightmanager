@@ -101,8 +101,9 @@ export class DisplayCategoryComponent implements OnInit {
       return -1;
     } else if (a.goalsShot < b.goalsShot) {
       return 1;
+    } else {
+      return 0;
     }
-    return 0;
   }
 
   private initGames() {
@@ -110,4 +111,5 @@ export class DisplayCategoryComponent implements OnInit {
       this.games = this.gameService.getClosestGamesToNow(games, 5, 8);
     });
   }
+
 }

@@ -1,5 +1,7 @@
 package ch.uhc_yetis.nightmanager.adapter.rest;
 
+import ch.uhc_yetis.nightmanager.application.CompareModel;
+import ch.uhc_yetis.nightmanager.application.CompareResultModel;
 import ch.uhc_yetis.nightmanager.application.GameRequestParams;
 import ch.uhc_yetis.nightmanager.application.GameService;
 import ch.uhc_yetis.nightmanager.domain.model.Game;
@@ -38,5 +40,10 @@ public class GameController {
     @PostMapping("/reset")
     public Game resetGame(@RequestBody Game game) {
         return this.gameService.reset(game);
+    }
+
+    @PostMapping("/compare")
+    public CompareResultModel compare(@RequestBody CompareModel compareModel){
+        return this.gameService.compare(compareModel);
     }
 }

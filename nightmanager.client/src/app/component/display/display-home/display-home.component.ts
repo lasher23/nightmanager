@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CategoryService} from '../../../service/category.service';
-import {Category} from '../../../model/Category';
+import {Category, CategoryState} from '../../../model/Category';
 import {GameService} from '../../../service/game.service';
 import {Game} from '../../../model/Game';
 
@@ -78,7 +78,15 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
       current = 0;
     }
     this.count++;
-    this.setDisplayData().then(() => this.currentDisplayble = this.displayables[current]);
+    this.setDisplayData().then(() => {
+      let currentDisplayable = this.displayables[current];
+      while (currentDisplayable.type === DisplayType.CATEGORY && currentDisplayable.data.state === CategoryState.DISABLED) {
+        this.count++;
+        current = this.count % this.displayables.length;
+        currentDisplayable = this.displayables[current];
+      }
+      this.currentDisplayble = this.displayables[current];
+    });
   }
 
   isCategory(): boolean {

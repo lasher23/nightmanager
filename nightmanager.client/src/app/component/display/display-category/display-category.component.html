@@ -27,6 +27,11 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumnsTeams;" [class.red]="!row.paid"
           [class.hidden]="row.placeholder"></tr>
     </table>
+    <div style="width: 100%;">
+      <div class="red" style="width:10px;height: 10px; display: inline-block;">
+      </div>
+      <span>Noch nicht bezahlt</span>
+    </div>
   </div>
   <div class="games">
     <h1>Spiele</h1>
