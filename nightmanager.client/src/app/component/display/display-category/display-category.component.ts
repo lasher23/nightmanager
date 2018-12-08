@@ -31,6 +31,7 @@ export class DisplayCategoryComponent implements OnInit {
     'teamGuest',
     'hall',
   ];
+  private gamesForSorting: Array<Game> = [];
 
   constructor(private route: ActivatedRoute,
               private categoryService: CategoryService,
@@ -60,7 +61,11 @@ export class DisplayCategoryComponent implements OnInit {
 
   private initTeams(): Promise<any> {
     return this.teamService.getAllByCategory(this._category.id)
-      .then(teams => this.teams = this.sortTeams(teams.filter(x => !x.placeholder)));
+      .then(teams => this.teams = this.sortTeams(teams.filter(x => !x.placeholder))).then(() => {
+        return this.gameService.getAllGames()
+          .then(games => this.gamesForSorting = games)
+          .then(() => this.teams = this.sortTeams(this.teams.filter(x => !x.placeholder)));
+      });
   }
 
   private sortTeams(teams: Array<Team>): Array<Team> {
@@ -103,14 +108,28 @@ export class DisplayCategoryComponent implements OnInit {
     } else if (a.goalsShot < b.goalsShot) {
       return 1;
     } else {
-      return 0;
+      return this.compareDirectOpponent(a, b);
     }
   }
 
   private initGames() {
     return this.gameService.getAllGamesByCategory(this._category.id).then(games => {
-      this.games = this.gameService.getClosestGamesToNow(games, 5, 8);
+      this.games = this.gameService.getClosestGamesToNow(games, 6, 6);
     });
   }
 
+  private compareDirectOpponent(a: Team, b: Team) {
+    const games = this.gamesForSorting.filter(game =>
+      (game.teamHome.id === a.id || game.teamGuest.id === a.id || game.teamHome.id === b.id || game.teamGuest.id === b.id)
+      && game.type === 'GROUP_STAGE');
+    if (games.length > 0) {
+      const game1 = games[0];
+      if (game1.teamHome.id === a.id) {
+        return game1.goalsTeamHome - game1.goalsTeamGuest;
+      } else {
+        return game1.goalsTeamGuest - game1.goalsTeamHome;
+      }
+    }
+    return 0;
+  }
 }

@@ -18,13 +18,11 @@ public class GameService {
     private final GameRepository gameRepository;
     private final HallService hallService;
     private final CategoryService categoryService;
-    private TeamService teamService;
 
-    public GameService(GameRepository gameRepository, HallService hallService, CategoryService categoryService, TeamService teamService) {
+    public GameService(GameRepository gameRepository, HallService hallService, CategoryService categoryService) {
         this.gameRepository = gameRepository;
         this.hallService = hallService;
         this.categoryService = categoryService;
-        this.teamService = teamService;
     }
 
     public List<Game> getAll() {
@@ -147,7 +145,7 @@ public class GameService {
         } else if (game.isPresent() && game.get().getTeamGuest().getId() == compareModel.getTeam1().getId()) {
             return new CompareResultModel(Integer.compare(game.get().getGoalsTeamGuest(), game.get().getGoalsTeamHome()));
         } else {
-            return  new CompareResultModel(0);
+            return new CompareResultModel(0);
         }
     }
 }
