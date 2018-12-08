@@ -15,7 +15,7 @@ export interface HallGamesAssignement {
   styleUrls: ['./display-games.component.scss']
 })
 export class DisplayGamesComponent implements OnInit {
-  @Input() games: Array<Game>;
+  _games: Array<Game>;
   gamesHallAssingments: Array<HallGamesAssignement> = [];
   displayedColumns: Array<String> = [
     'time',
@@ -27,20 +27,22 @@ export class DisplayGamesComponent implements OnInit {
   ];
   widthPerHallTable = '100%';
 
+  @Input()
+  set games(games: Array<Game>) {
+    this._games = games;
+    this.initHalls();
+  }
+
   constructor(private gameService: GameService, private hallService: HallService) {
   }
 
   ngOnInit() {
-    if (!this.games) {
-      this.gameService.getAllGames().then(x => this.games = x).then(() => this.initHalls());
-    } else {
-      this.initHalls();
-    }
   }
 
   private initHalls() {
+    this.gamesHallAssingments = [];
     this.hallService.getAllHalls().then(halls => halls.forEach(hall => {
-      const gamesPerHall = this.games.filter(game => game.hall.id === hall.id);
+      const gamesPerHall = this._games.filter(game => game.hall.id === hall.id);
       this.gamesHallAssingments.push({hall: hall, games: gamesPerHall});
     })).then(() => this.widthPerHallTable = (100 / this.gamesHallAssingments.length - 2) + '%');
   }

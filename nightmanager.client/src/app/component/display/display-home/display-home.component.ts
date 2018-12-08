@@ -81,9 +81,9 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
     this.setDisplayData().then(() => {
       let currentDisplayable = this.displayables[current];
       while (currentDisplayable.type === DisplayType.CATEGORY && currentDisplayable.data.state === CategoryState.DISABLED) {
-        this.count++;
         current = this.count % this.displayables.length;
         currentDisplayable = this.displayables[current];
+        this.count++;
       }
       this.currentDisplayble = this.displayables[current];
     });
