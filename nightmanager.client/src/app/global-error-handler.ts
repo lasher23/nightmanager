@@ -19,5 +19,6 @@ export class GlobalErrorHandler implements ErrorHandler {
     } catch (ex) {
       this.snackBarService.showMessage('Unerwarter Fehler');
     }
+    console.error(error);
   }
 }
