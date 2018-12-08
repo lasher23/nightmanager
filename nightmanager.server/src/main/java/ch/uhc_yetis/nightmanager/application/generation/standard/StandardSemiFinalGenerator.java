@@ -55,7 +55,7 @@ public class StandardSemiFinalGenerator implements Generator {
     }
 
     private void setRankingOfNotForPlayoffQualifiedTeams(List<TeamDto> sortedTeams) {
-        List<TeamDto> notQualifiedTeams = sortedTeams.subList(4, sortedTeams.size() - 1);
+        List<TeamDto> notQualifiedTeams = sortedTeams.subList(4, sortedTeams.size());
         for (int i = 0; i < notQualifiedTeams.size(); i++) {
             TeamDto team = notQualifiedTeams.get(i);
             Team teamToSave = this.teamService.findById(team.getId()).orElseThrow(() -> new RuntimeException());
@@ -65,7 +65,10 @@ public class StandardSemiFinalGenerator implements Generator {
     }
 
     private List<TeamDto> getSortedTeams(Category category) {
-        return this.teamService.findByCategory(category).stream().sorted(this.teamComperator).collect(Collectors.toList());
+        return this.teamService.findByCategory(category).stream()
+                .filter(team -> !team.isPlaceholder())
+                .sorted(this.teamComperator)
+                .collect(Collectors.toList());
     }
 
     private List<Game> getSortedSemiFinals(Category category) {
