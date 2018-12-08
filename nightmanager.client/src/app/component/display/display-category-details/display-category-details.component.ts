@@ -38,7 +38,8 @@ export class DisplayCategoryDetailsComponent implements OnInit {
   }
 
   private initData(categoryId: number) {
-    this.teamService.getAllByCategory(categoryId).then(teams => this.teams = this.sortTeams(teams));
+    this.teamService.getAllByCategory(categoryId)
+      .then(teams => this.teams = this.sortTeams(teams.filter(x => !x.placeholder)));
     this.gameService.getAllGamesByCategory(categoryId).then(games => this.games = games);
   }
 

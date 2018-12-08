@@ -59,7 +59,8 @@ export class DisplayCategoryComponent implements OnInit {
   }
 
   private initTeams(): Promise<any> {
-    return this.teamService.getAllByCategory(this._category.id).then(teams => this.teams = this.sortTeams(teams));
+    return this.teamService.getAllByCategory(this._category.id)
+      .then(teams => this.teams = this.sortTeams(teams.filter(x => !x.placeholder)));
   }
 
   private sortTeams(teams: Array<Team>): Array<Team> {
