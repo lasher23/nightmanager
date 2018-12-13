@@ -85,16 +85,12 @@ public class GameService {
         return this.gameRepository.save(game);
     }
 
-    public List<Game> getAllGroupstageGamesFromTeam(Team team) {
-        return this.gameRepository.findAllByTeamGuestOrTeamHomeAndTypeAndState(team, team, GameType.GROUP_STAGE, GameState.DONE);
+    public List<Game> getAllGamesByTypeAndTeamAndState(Team team, GameType type, GameState state) {
+        return this.gameRepository.findAllByTeamGuestOrTeamHomeAndTypeAndState(team, team, type, state);
     }
 
     public List<Game> getAllGamesByCategoryAndType(Category category, GameType gameType) {
         return this.gameRepository.findAllByCategoryAndType(category, gameType);
-    }
-
-    public List<Game> getAllByCategory(Category category) {
-        return this.gameRepository.findByCategory(category);
     }
 
     public Optional<Game> findGameByTwoTeamsAndType(Team team1, Team team2, GameType gameType) {
@@ -120,12 +116,12 @@ public class GameService {
     }
 
     public Optional<Team> getLooser(Game game) {
-        if (game.getGoalsTeamHome() < game.getGoalsTeamGuest()) {
-            return Optional.of(game.getTeamHome());
-        } else if (game.getGoalsTeamHome() > game.getGoalsTeamGuest()) {
+        Optional<Team> winner = getWinner(game);
+        if (winner.isPresent() && game.getTeamHome() == winner.get()) {
             return Optional.of(game.getTeamGuest());
-        } else {
-            return Optional.empty();
+        } else if (winner.isPresent() && game.getTeamGuest() == winner.get()) {
+            return Optional.of(game.getTeamHome());
         }
+        return Optional.empty(); // TIED GAME
     }
 }

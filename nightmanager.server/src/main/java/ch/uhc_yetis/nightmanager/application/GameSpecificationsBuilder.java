@@ -10,25 +10,26 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public final class GameSpecificationsBuilder {
+    public static final String EQUALS = "=";
     private final List<SearchCriteria> params = new ArrayList<>();
 
     public GameSpecificationsBuilder withCategory(Long categoryId) {
         if (Objects.nonNull(categoryId) && categoryId.longValue() > 0) {
-            this.params.add(new SearchCriteria("category", "=", categoryId));
+            this.params.add(new SearchCriteria("category", EQUALS, categoryId));
         }
         return this;
     }
 
     public GameSpecificationsBuilder withState(GameState gameState) {
         if (Objects.nonNull(gameState)) {
-            this.params.add(new SearchCriteria("state", "=", gameState));
+            this.params.add(new SearchCriteria("state", EQUALS, gameState));
         }
         return this;
     }
 
     public GameSpecificationsBuilder withHall(Long hallId) {
         if (Objects.nonNull(hallId) && hallId.longValue() > 0) {
-            this.params.add(new SearchCriteria("hall", "=", hallId));
+            this.params.add(new SearchCriteria("hall", EQUALS, hallId));
         }
         return this;
     }

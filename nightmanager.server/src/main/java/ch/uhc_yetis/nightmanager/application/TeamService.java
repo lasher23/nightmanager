@@ -1,8 +1,6 @@
 package ch.uhc_yetis.nightmanager.application;
 
-import ch.uhc_yetis.nightmanager.domain.model.Category;
-import ch.uhc_yetis.nightmanager.domain.model.Game;
-import ch.uhc_yetis.nightmanager.domain.model.Team;
+import ch.uhc_yetis.nightmanager.domain.model.*;
 import ch.uhc_yetis.nightmanager.domain.repository.TeamRepository;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +56,7 @@ public class TeamService {
     }
 
     private int getPoints(Team team) {
-        return this.gameService.getAllGroupstageGamesFromTeam(team).stream().map(game -> this.getPointsForTeam(team, game)).mapToInt(value -> value).sum();
+        return this.gameService.getAllGamesByTypeAndTeamAndState(team, GameType.GROUP_STAGE, GameState.DONE).stream().map(game -> this.getPointsForTeam(team, game)).mapToInt(value -> value).sum();
     }
 
     private int getPointsForTeam(Team team, Game game) {

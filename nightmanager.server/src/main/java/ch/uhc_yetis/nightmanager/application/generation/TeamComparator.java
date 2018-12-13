@@ -11,11 +11,11 @@ import java.util.Comparator;
 import java.util.Optional;
 
 @Component
-public class TeamComperator implements Comparator<TeamDto> {
+public class TeamComparator implements Comparator<TeamDto> {
     private GameService gameService;
     private TeamService teamService;
 
-    public TeamComperator(GameService gameService, TeamService teamService) {
+    public TeamComparator(GameService gameService, TeamService teamService) {
         this.gameService = gameService;
         this.teamService = teamService;
     }

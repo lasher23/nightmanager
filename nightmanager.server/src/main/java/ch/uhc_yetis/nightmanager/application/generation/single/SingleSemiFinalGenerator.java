@@ -6,7 +6,7 @@ import ch.uhc_yetis.nightmanager.application.TeamDto;
 import ch.uhc_yetis.nightmanager.application.TeamService;
 import ch.uhc_yetis.nightmanager.application.generation.GenerationException;
 import ch.uhc_yetis.nightmanager.application.generation.Generator;
-import ch.uhc_yetis.nightmanager.application.generation.TeamComperator;
+import ch.uhc_yetis.nightmanager.application.generation.TeamComparator;
 import ch.uhc_yetis.nightmanager.domain.model.*;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 public class SingleSemiFinalGenerator implements Generator {
     private GameService gameService;
     private TeamService teamService;
-    private TeamComperator teamComperator;
+    private TeamComparator teamComparator;
     private CategoryService categoryService;
 
-    public SingleSemiFinalGenerator(GameService gameService, TeamService teamService, TeamComperator teamComperator, CategoryService categoryService) {
+    public SingleSemiFinalGenerator(GameService gameService, TeamService teamService, TeamComparator teamComparator, CategoryService categoryService) {
         this.gameService = gameService;
         this.teamService = teamService;
-        this.teamComperator = teamComperator;
+        this.teamComparator = teamComparator;
         this.categoryService = categoryService;
     }
 
@@ -67,7 +67,7 @@ public class SingleSemiFinalGenerator implements Generator {
     private List<TeamDto> getSortedTeams(Category category) {
         return this.teamService.findByCategory(category).stream()
                 .filter(team -> !team.isPlaceholder())
-                .sorted(this.teamComperator)
+                .sorted(this.teamComparator)
                 .collect(Collectors.toList());
     }
 

@@ -6,7 +6,7 @@ import ch.uhc_yetis.nightmanager.application.TeamDto;
 import ch.uhc_yetis.nightmanager.application.TeamService;
 import ch.uhc_yetis.nightmanager.application.generation.GenerationException;
 import ch.uhc_yetis.nightmanager.application.generation.Generator;
-import ch.uhc_yetis.nightmanager.application.generation.TeamComperator;
+import ch.uhc_yetis.nightmanager.application.generation.TeamComparator;
 import ch.uhc_yetis.nightmanager.domain.model.*;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
@@ -24,20 +24,20 @@ public class YetisCupGenerator implements Generator {
     private CategoryService categoryService;
     private TeamService teamService;
     private GameService gameService;
-    private TeamComperator teamComperator;
+    private TeamComparator teamComparator;
 
-    public YetisCupGenerator(CategoryService categoryService, TeamService teamService, GameService gameService, TeamComperator teamComperator) {
+    public YetisCupGenerator(CategoryService categoryService, TeamService teamService, GameService gameService, TeamComparator teamComparator) {
         this.categoryService = categoryService;
         this.teamService = teamService;
         this.gameService = gameService;
-        this.teamComperator = teamComperator;
+        this.teamComparator = teamComparator;
     }
 
     @Override
     @Transactional(rollbackFor = {GenerationException.class, IndexOutOfBoundsException.class})
     public void generate(Category category) {
         List<Category> subCategories = this.categoryService.findByParentCategory(category);
-        List<TeamDto> teams = this.teamService.findByCategory(category).stream().sorted(this.teamComperator).collect(Collectors.toList());
+        List<TeamDto> teams = this.teamService.findByCategory(category).stream().sorted(this.teamComparator).collect(Collectors.toList());
         List<List<TeamDto>> teamSplitted = Lists.partition(teams, 10);
         for (int i = 0; ; i++) {
             if (i == 1000) {
