@@ -14,7 +14,7 @@ public final class GameSpecificationsBuilder {
     private final List<SearchCriteria> params = new ArrayList<>();
 
     public GameSpecificationsBuilder withCategory(Long categoryId) {
-        if (Objects.nonNull(categoryId) && categoryId.longValue() > 0) {
+        if (Objects.nonNull(categoryId) && categoryId > 0) {
             this.params.add(new SearchCriteria("category", EQUALS, categoryId));
         }
         return this;
@@ -28,7 +28,7 @@ public final class GameSpecificationsBuilder {
     }
 
     public GameSpecificationsBuilder withHall(Long hallId) {
-        if (Objects.nonNull(hallId) && hallId.longValue() > 0) {
+        if (Objects.nonNull(hallId) && hallId > 0) {
             this.params.add(new SearchCriteria("hall", EQUALS, hallId));
         }
         return this;
