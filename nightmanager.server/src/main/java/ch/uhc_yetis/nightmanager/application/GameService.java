@@ -74,15 +74,6 @@ public class GameService {
                 .build();
     }
 
-    private Game getDateClosestToDate(List<Game> games, LocalDateTime now) {
-        Game game = Collections.min(games, (d1, d2) -> {
-            long diff1 = Duration.between(d1.getStartDate(), now).getSeconds();
-            long diff2 = Duration.between(d2.getStartDate(), now).getSeconds();
-            return Long.compare(diff1, diff2);
-        });
-        return game;
-    }
-
     public List<Game> getAllFromTeam(Team team) {
         return this.gameRepository.findAllByTeamGuestOrTeamHome(team, team);
     }
@@ -135,17 +126,6 @@ public class GameService {
             return Optional.of(game.getTeamGuest());
         } else {
             return Optional.empty();
-        }
-    }
-
-    public CompareResultModel compare(CompareModel compareModel) {
-        Optional<Game> game = this.findGameByTwoTeamsAndType(compareModel.getTeam1(), compareModel.getTeam2(), GameType.GROUP_STAGE);
-        if (game.isPresent() && game.get().getTeamHome().getId() == compareModel.getTeam1().getId()) {
-            return new CompareResultModel(Integer.compare(game.get().getGoalsTeamHome(), game.get().getGoalsTeamGuest()));
-        } else if (game.isPresent() && game.get().getTeamGuest().getId() == compareModel.getTeam1().getId()) {
-            return new CompareResultModel(Integer.compare(game.get().getGoalsTeamGuest(), game.get().getGoalsTeamHome()));
-        } else {
-            return new CompareResultModel(0);
         }
     }
 }
