@@ -76,7 +76,7 @@ public class YetisCupGenerator implements Generator {
             ArrayList<TeamGenerationData> teamGenerationData = new ArrayList<>();
             List<Game> games = this.gameService.getAllFromTeam(team);
             List<Team> teamsPlayedAgainst = games.stream().map(game -> this.getTeamAgains(game, team)).collect(Collectors.toList());
-            teamGenerationData.add(new TeamGenerationData(new ArrayList<>(), false, teamsPlayedAgainst));
+            teamGenerationData.add(new TeamGenerationData(new ArrayList<>(), teamsPlayedAgainst));
             return Pair.of(team, (List<TeamGenerationData>) teamGenerationData);
         }).collect(Collectors.toList());
         List<Team> alreadyGeneratedTeams = new ArrayList<>();
@@ -107,8 +107,8 @@ public class YetisCupGenerator implements Generator {
             game.setTeamGuest(teamAgainst.getFirst());
             game.setPlaceholder(false);
             List<TeamGenerationData> generationData = teamsGeneration.get(i).getSecond();
-            generationData.add(new TeamGenerationData(Arrays.asList(game.getHall()), true, Arrays.asList(teamAgainst.getFirst())));
-            teamAgainst.getSecond().add(new TeamGenerationData(Arrays.asList(game.getHall()), false, Arrays.asList(currentTeam)));
+            generationData.add(new TeamGenerationData(Arrays.asList(game.getHall()), Arrays.asList(teamAgainst.getFirst())));
+            teamAgainst.getSecond().add(new TeamGenerationData(Arrays.asList(game.getHall()), Arrays.asList(currentTeam)));
             this.gameService.save(game);
             alreadygeneratedTeams.add(currentTeam);
             alreadygeneratedTeams.add(teamAgainst.getFirst());

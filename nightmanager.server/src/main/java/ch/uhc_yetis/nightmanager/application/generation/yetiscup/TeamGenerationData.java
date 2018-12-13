@@ -8,17 +8,11 @@ import java.util.List;
 
 public class TeamGenerationData {
     private List<Hall> hallsAlreadyPlayed;
-    private boolean alreadyPlayedHome;
-    private List<Team> playedAgainst = new ArrayList<>();
+    private List<Team> playedAgainst;
 
-    public TeamGenerationData(List<Hall> hallsAlreadyPlayed, boolean alreadyPlayedHome, List<Team> playedAgainst) {
+    public TeamGenerationData(List<Hall> hallsAlreadyPlayed, List<Team> playedAgainst) {
         this.hallsAlreadyPlayed = hallsAlreadyPlayed;
-        this.alreadyPlayedHome = alreadyPlayedHome;
         this.playedAgainst = playedAgainst;
-    }
-
-    public boolean isAlreadyPlayedHome() {
-        return this.alreadyPlayedHome;
     }
 
     public List<Hall> getHallsAlreadyPlayed() {
