@@ -1,9 +1,6 @@
 import {Injectable} from '@angular/core';
-import {st} from '@angular/core/src/render3';
 import {HttpHeaders} from '@angular/common/http';
 import {JwtHelperService} from '@auth0/angular-jwt';
-import {getToken} from 'codelyzer/angular/styles/cssLexer';
-import {debug} from 'util';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
