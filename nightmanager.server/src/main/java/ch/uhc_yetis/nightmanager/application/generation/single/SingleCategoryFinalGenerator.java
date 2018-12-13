@@ -1,4 +1,4 @@
-package ch.uhc_yetis.nightmanager.application.generation.standard;
+package ch.uhc_yetis.nightmanager.application.generation.single;
 
 import ch.uhc_yetis.nightmanager.application.CategoryService;
 import ch.uhc_yetis.nightmanager.application.GameService;
@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StandardFinalGenerator implements Generator {
+public class SingleCategoryFinalGenerator implements Generator {
     private GameService gameService;
     private CategoryService categoryService;
 
-    public StandardFinalGenerator(GameService gameService, CategoryService categoryService) {
+    public SingleCategoryFinalGenerator(GameService gameService, CategoryService categoryService) {
         this.gameService = gameService;
         this.categoryService = categoryService;
     }

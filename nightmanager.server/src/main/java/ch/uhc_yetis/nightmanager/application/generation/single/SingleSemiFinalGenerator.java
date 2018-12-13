@@ -1,4 +1,4 @@
-package ch.uhc_yetis.nightmanager.application.generation.standard;
+package ch.uhc_yetis.nightmanager.application.generation.single;
 
 import ch.uhc_yetis.nightmanager.application.CategoryService;
 import ch.uhc_yetis.nightmanager.application.GameService;
@@ -15,13 +15,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StandardSemiFinalGenerator implements Generator {
+public class SingleSemiFinalGenerator implements Generator {
     private GameService gameService;
     private TeamService teamService;
     private TeamComperator teamComperator;
     private CategoryService categoryService;
 
-    public StandardSemiFinalGenerator(GameService gameService, TeamService teamService, TeamComperator teamComperator, CategoryService categoryService) {
+    public SingleSemiFinalGenerator(GameService gameService, TeamService teamService, TeamComperator teamComperator, CategoryService categoryService) {
         this.gameService = gameService;
         this.teamService = teamService;
         this.teamComperator = teamComperator;

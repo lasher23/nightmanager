@@ -1,4 +1,4 @@
-package ch.uhc_yetis.nightmanager.application.generation.splitcategories;
+package ch.uhc_yetis.nightmanager.application.generation.doublecategories;
 
 import ch.uhc_yetis.nightmanager.application.CategoryService;
 import ch.uhc_yetis.nightmanager.application.GameService;
@@ -16,17 +16,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class SplitCategoriesSemiFinalGenerator implements Generator {
+public class DoubleCategoriesSemiFinalGenerator implements Generator {
 
     private CategoryService categoryService;
     private TeamService teamService;
     private TeamComperator teamComperator;
     private GameService gameService;
 
-    public SplitCategoriesSemiFinalGenerator(CategoryService categoryService,
-                                             TeamService teamService,
-                                             TeamComperator teamComperator,
-                                             GameService gameService) {
+    public DoubleCategoriesSemiFinalGenerator(CategoryService categoryService,
+                                              TeamService teamService,
+                                              TeamComperator teamComperator,
+                                              GameService gameService) {
         this.categoryService = categoryService;
         this.teamService = teamService;
         this.teamComperator = teamComperator;

@@ -1,4 +1,4 @@
-package ch.uhc_yetis.nightmanager.application.generation.standard;
+package ch.uhc_yetis.nightmanager.application.generation.single;
 
 import ch.uhc_yetis.nightmanager.application.CategoryService;
 import ch.uhc_yetis.nightmanager.application.GameService;
@@ -14,14 +14,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StandardFinishTableGenerator implements Generator {
+public class SingleCategoryFinishTableGenerator implements Generator {
     @Autowired
     private GameService gameService;
     @Autowired
     private TeamService teamService;
     private CategoryService categoryService;
 
-    public StandardFinishTableGenerator(GameService gameService, TeamService teamService, CategoryService categoryService) {
+    public SingleCategoryFinishTableGenerator(GameService gameService, TeamService teamService, CategoryService categoryService) {
         this.gameService = gameService;
         this.teamService = teamService;
         this.categoryService = categoryService;

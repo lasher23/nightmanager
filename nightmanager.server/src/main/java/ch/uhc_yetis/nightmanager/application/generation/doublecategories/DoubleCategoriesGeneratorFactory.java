@@ -1,26 +1,26 @@
-package ch.uhc_yetis.nightmanager.application.generation.splitcategories;
+package ch.uhc_yetis.nightmanager.application.generation.doublecategories;
 
 import ch.uhc_yetis.nightmanager.application.generation.Generator;
 import ch.uhc_yetis.nightmanager.application.generation.GeneratorFactory;
 import ch.uhc_yetis.nightmanager.application.generation.NullGenerator;
-import ch.uhc_yetis.nightmanager.application.generation.standard.StandardFinalGenerator;
-import ch.uhc_yetis.nightmanager.application.generation.standard.StandardFinishTableGenerator;
+import ch.uhc_yetis.nightmanager.application.generation.single.SingleCategoryFinalGenerator;
+import ch.uhc_yetis.nightmanager.application.generation.single.SingleCategoryFinishTableGenerator;
 import ch.uhc_yetis.nightmanager.domain.model.Category;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SplitCategoriesGeneratorFactory implements GeneratorFactory {
+public class DoubleCategoriesGeneratorFactory implements GeneratorFactory {
 
-    private SplitCategoriesSemiFinalGenerator splitCategoriesSemiFinalGenerator;
+    private DoubleCategoriesSemiFinalGenerator splitCategoriesSemiFinalGenerator;
     private Generator standardFinalGenerator;
     private Generator standardFinishTableGenerator;
 
-    public SplitCategoriesGeneratorFactory(SplitCategoriesSemiFinalGenerator splitCategoriesSemiFinalGenerator,
-                                           StandardFinalGenerator standardFinalGenerator,
-                                           StandardFinishTableGenerator standardFinishTableGenerator) {
+    public DoubleCategoriesGeneratorFactory(DoubleCategoriesSemiFinalGenerator splitCategoriesSemiFinalGenerator,
+                                            SingleCategoryFinalGenerator singleCategoryFinalGenerator,
+                                            SingleCategoryFinishTableGenerator singleCategoryFinishTableGenerator) {
         this.splitCategoriesSemiFinalGenerator = splitCategoriesSemiFinalGenerator;
-        this.standardFinalGenerator = standardFinalGenerator;
-        this.standardFinishTableGenerator = standardFinishTableGenerator;
+        this.standardFinalGenerator = singleCategoryFinalGenerator;
+        this.standardFinishTableGenerator = singleCategoryFinishTableGenerator;
     }
 
     @Override
