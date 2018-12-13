@@ -4,7 +4,6 @@ import ch.uhc_yetis.nightmanager.domain.model.Category;
 import ch.uhc_yetis.nightmanager.domain.model.Game;
 import ch.uhc_yetis.nightmanager.domain.model.Team;
 import ch.uhc_yetis.nightmanager.domain.repository.TeamRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,12 +12,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class TeamService {
-    @Autowired
     private TeamRepository teamRepository;
-    @Autowired
     private CategoryService categoryService;
-    @Autowired
     private GameService gameService;
+
+    public TeamService(TeamRepository teamRepository, CategoryService categoryService, GameService gameService) {
+        this.teamRepository = teamRepository;
+        this.categoryService = categoryService;
+        this.gameService = gameService;
+    }
 
     public Team createNewTeam(Team team) {
         team.setId(0);

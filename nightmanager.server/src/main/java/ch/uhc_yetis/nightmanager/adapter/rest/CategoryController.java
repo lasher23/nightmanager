@@ -2,7 +2,6 @@ package ch.uhc_yetis.nightmanager.adapter.rest;
 
 import ch.uhc_yetis.nightmanager.application.CategoryService;
 import ch.uhc_yetis.nightmanager.domain.model.Category;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @RestController
 @RequestMapping("api/categories")
 public class CategoryController {
-    @Autowired
     private CategoryService categoryService;
+
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     @GetMapping
     public List<Category> getAll() {

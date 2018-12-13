@@ -3,7 +3,6 @@ package ch.uhc_yetis.nightmanager.adapter.rest;
 import ch.uhc_yetis.nightmanager.application.TeamDto;
 import ch.uhc_yetis.nightmanager.application.TeamService;
 import ch.uhc_yetis.nightmanager.domain.model.Team;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +12,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/teams")
 public class TeamController {
-    @Autowired
     private TeamService teamService;
+
+    public TeamController(TeamService teamService) {
+        this.teamService = teamService;
+    }
 
     @GetMapping
     public List<TeamDto> getAll(@RequestParam(required = false) Long categoryId) {

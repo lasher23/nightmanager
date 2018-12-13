@@ -3,7 +3,6 @@ package ch.uhc_yetis.nightmanager.adapter.rest;
 import ch.uhc_yetis.nightmanager.application.GameRequestParams;
 import ch.uhc_yetis.nightmanager.application.GameService;
 import ch.uhc_yetis.nightmanager.domain.model.Game;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +12,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/games")
 public class GameController {
-    @Autowired
     private GameService gameService;
+
+    public GameController(GameService gameService) {
+        this.gameService = gameService;
+    }
 
     @GetMapping
     public List<Game> getAll(GameRequestParams requestPrams) {
