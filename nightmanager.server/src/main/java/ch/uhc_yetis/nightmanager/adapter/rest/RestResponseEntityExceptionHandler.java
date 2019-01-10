@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -31,5 +32,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<HttpErrorObject> handleAccessDeniedException(RuntimeException ex, WebRequest request) {
         LoggerFactory.getLogger(this.getClass()).trace(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(HttpErrorObject.withTimestamp(LocalDateTime.now()).withPath(request.getContextPath()).withMessage(ex.getMessage()).withError("").build());
+    }
+
+    @ExceptionHandler(value = {UsernameNotFoundException.class})
+    protected ResponseEntity<HttpErrorObject> handleUsernameNotFoundException(RuntimeException ex, WebRequest request) {
+        LoggerFactory.getLogger(this.getClass()).trace(ex.getMessage(), ex);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(HttpErrorObject.withTimestamp(LocalDateTime.now()).withPath(request.getContextPath()).withMessage("Invalide Login Daten").withError("").build());
     }
 }
