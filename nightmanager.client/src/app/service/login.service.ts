@@ -14,7 +14,7 @@ export class LoginService {
   }
 
   public login(user: User): Promise<boolean> {
-    return this.http.post('sign-in', user, {observe: 'response'}).toPromise().then(x => {
+    return this.http.post(this.authService.url + 'login', user, {observe: 'response'}).toPromise().then(x => {
       if (x.headers.has('Authorization')) {
         this.authService.saveAuthorizationHeader(x.headers.get('Authorization'));
         return true;

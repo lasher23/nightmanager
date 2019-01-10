@@ -17,7 +17,7 @@ import java.util.Date;
 import static ch.uhc_yetis.nightmanager.infrastructure.SecurityConstants.*;
 
 @RestController
-@RequestMapping("/sign-in")
+@RequestMapping("/api/login")
 public class LoginController {
 
     private UserDetailsServiceImpl userDetailsService;
