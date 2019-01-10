@@ -3,7 +3,10 @@ package ch.uhc_yetis.nightmanager.adapter.rest;
 import ch.uhc_yetis.nightmanager.application.TeamDto;
 import ch.uhc_yetis.nightmanager.application.TeamService;
 import ch.uhc_yetis.nightmanager.domain.model.Team;
+import ch.uhc_yetis.nightmanager.infrastructure.RoleConstants;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,16 +41,19 @@ public class TeamController {
     }
 
     @PostMapping
+    @Secured(RoleConstants.ADMIN)
     public Team saveNewTeam(@RequestBody Team team) {
         return this.teamService.createNewTeam(team);
     }
 
     @PutMapping
+    @Secured(RoleConstants.ADMIN)
     public ResponseEntity<Team> saveItem(@RequestBody Team team) {
         return ResponseEntity.ok(this.teamService.save(team));
     }
 
     @DeleteMapping("/{id}")
+    @Secured(RoleConstants.ADMIN)
     public ResponseEntity delete(@PathVariable long id, @RequestBody Team team) {
         if (team.getId() != id && team.getId() != 0) {
             return ResponseEntity.notFound().build();

@@ -1,7 +1,9 @@
 package ch.uhc_yetis.nightmanager.infrastructure;
 
+import ch.uhc_yetis.nightmanager.domain.repository.ApplicationUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,21 +18,24 @@ import java.util.Arrays;
 import java.util.List;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private List<String> securityRoutes = Arrays.asList("^/categories.+", "^/halls.+", "^/games.+");
+    private ApplicationUserRepository applicationUserRepository;
 
-    public WebSecurity(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurity(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder, ApplicationUserRepository applicationUserRepository) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.applicationUserRepository = applicationUserRepository;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().antMatcher("api/login").authorizeRequests().anyRequest().authenticated().and()
-                .antMatcher("/api/**").authorizeRequests().anyRequest().authenticated().and()
-                .addFilter(new JWTAuthorizationFilter(this.authenticationManager()))
+        http.csrf().disable().addFilter(new JWTAuthorizationFilter(this.authenticationManager(), applicationUserRepository))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
