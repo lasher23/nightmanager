@@ -12,8 +12,8 @@ export class GlobalErrorHandler implements ErrorHandler {
 
   public handleError(error: any): void {
     try {
-      const httpError = (error as HttpErrorResponse);
-      const errorResponse = <Error>httpError.error;
+      const httpError = error;
+      const errorResponse = <Error>httpError.rejection.error;
       const responseText = <string>errorResponse.error;
       this.snackBarService.showMessage(responseText);
     } catch (ex) {
