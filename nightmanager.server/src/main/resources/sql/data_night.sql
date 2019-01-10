@@ -1,4 +1,6 @@
-insert into application_user(password, username) values ('$2a$10$uom/HJvZ3hqs9LdSA4QPoeRgx1sWijQGEK7OkzwEMLmP1r4Tb3TFC','night');
+-- User: night
+-- Password: password
+insert into application_user(password, username) values ('$2a$10$lWMGhesQi8rACnnS1x9XpOZymhALQdKg1eMzDxy0mKhRGsinKNFZm','night');
 
 INSERT INTO categories (id, name, remark, state, type, fk_parent_category) VALUES (1000, 'Kategorie A', NULL, 0, 2, NULL);
 INSERT INTO categories (id, name, remark, state, type, fk_parent_category) VALUES (2000, 'Kategorie A Winner', NULL, 5, 0, 1000);
