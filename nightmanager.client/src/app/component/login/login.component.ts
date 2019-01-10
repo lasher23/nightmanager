@@ -35,17 +35,9 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    this.loginService.login(this.user).then((x) => {
-      if (x) {
-        this.roleChoosing = true;
-      } else {
-        this.snackbarService.showMessage('Falsches Login');
-      }
+    this.loginService.login(this.user).then(user => {
+      this.roleService.setRole(user.roles[0]);
+      this.router.navigateByUrl(this.roleService.getDefaultRoute());
     });
-  }
-
-  chooseRole(role: Role) {
-    this.roleService.setRole(role);
-    this.router.navigateByUrl(this.roleService.getDefaultRoute());
   }
 }

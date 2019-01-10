@@ -10,9 +10,4 @@
     <br>
     <button mat-button (click)="onLogin()">Log in</button>
   </div>
-  <div *ngIf="roleChoosing">
-    <div *ngFor="let  role of roles">
-      <button mat-button (click)="chooseRole(role)">{{role.name}}</button>
-    </div>
-  </div>
 </div>

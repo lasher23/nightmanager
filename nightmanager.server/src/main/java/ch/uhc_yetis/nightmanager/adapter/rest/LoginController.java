@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import static ch.uhc_yetis.nightmanager.infrastructure.SecurityConstants.*;
 
@@ -33,7 +34,10 @@ public class LoginController {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(user.getUsername());
         if (this.bCryptPasswordEncoder.matches(user.getPassword(), userDetails.getPassword())) {
             String jwt = this.createJWT(userDetails);
-            return ResponseEntity.ok().header(HEADER_STRING, jwt).build();
+            UserDto userDto = new UserDto();
+            userDto.setUsername(userDetails.getUsername());
+            userDto.setRoles(userDetails.getAuthorities().stream().map(authority -> authority.getAuthority()).collect(Collectors.toList()));
+            return ResponseEntity.ok().header(HEADER_STRING, jwt).body(userDto);
         }
         return ResponseEntity.status(401).build();
     }

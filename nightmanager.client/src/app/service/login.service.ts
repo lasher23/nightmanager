@@ -13,13 +13,13 @@ export class LoginService {
   constructor(private http: HttpClient, private router: Router, private authService: AuthenticationService) {
   }
 
-  public login(user: User): Promise<boolean> {
-    return this.http.post(this.authService.url + 'login', user, {observe: 'response'}).toPromise().then(x => {
-      if (x.headers.has('Authorization')) {
-        this.authService.saveAuthorizationHeader(x.headers.get('Authorization'));
-        return true;
+  public login(user: User): Promise<User> {
+    return this.http.post<User>(this.authService.url + 'login', user, {observe: 'response'}).toPromise().then(response => {
+      if (response.headers.has('Authorization')) {
+        this.authService.saveAuthorizationHeader(response.headers.get('Authorization'));
+        return response.body;
       }
-      return false;
+      return response.body;
     });
   }
 }

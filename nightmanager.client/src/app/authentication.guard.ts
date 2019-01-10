@@ -10,7 +10,7 @@ export class AuthenticationGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.rootService.isLoggedIn() && !this.rootService.isTokenExpired() && this.roleService.getRole()) {
+    if (this.rootService.isLoggedIn() && !this.rootService.isTokenExpired()) {
       return true;
     }
 

@@ -6,9 +6,8 @@ import {Role} from '../model/Role';
 })
 export class RoleService {
   roles: Array<Role> = [
-    {name: 'Schiedsrichter', defaultRoute: '/referee'},
-    {name: 'Admin', defaultRoute: '/admin'},
-    {name: 'Anzeige', defaultRoute: '/display'}
+    {name: 'REFEREE', defaultRoute: '/referee'},
+    {name: 'ADMIN', defaultRoute: '/admin'},
   ];
 
   constructor() {
@@ -18,8 +17,8 @@ export class RoleService {
     return this.roles;
   }
 
-  setRole(role: Role) {
-    localStorage.setItem('role', role.name);
+  setRole(role: string) {
+    localStorage.setItem('role', role);
   }
 
   getRole(): Role {
