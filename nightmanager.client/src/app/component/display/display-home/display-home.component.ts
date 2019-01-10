@@ -100,16 +100,4 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
   enterDisplayMode() {
     this.displayMode = true;
   }
-
-  private sortGames(games: Array<Game>) {
-    games.sort((game1, game2) => {
-      const diff = new Date(game1.startDate).getTime() - new Date(game2.startDate).getTime();
-      if (diff === 0) {
-        return game1.hall.id - game2.hall.id;
-      } else {
-        return diff;
-      }
-    });
-    return undefined;
-  }
 }
