@@ -36,5 +36,5 @@ processResources {
 
 task buildAngular(type: Exec) {
     workingDir "../nightmanager.client/"
-    commandLine "ng.cmd", "build"
+    commandLine "ng.cmd", "build", "--prod"
 }
