@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -38,7 +39,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             return;
         }
 
-        UsernamePasswordAuthenticationToken authentication = this.getAuthentication(req);
+        Authentication authentication = this.getAuthentication(req);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);
@@ -57,7 +58,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             if (user != null) {
                 ApplicationUser applicationUser = applicationUserRepository.findByUsername(user);
                 if (applicationUser != null) {
-                    return new UsernamePasswordAuthenticationToken(user, null, applicationUser.getRoles().stream().map(role -> (GrantedAuthority) role::getName).collect(Collectors.toList()));
+                    return new UsernamePasswordAuthenticationToken(user, applicationUser.getPassword(), applicationUser.getRoles().stream().map(role -> (GrantedAuthority) role::getName).collect(Collectors.toList()));
                 }
                 return null;
             }

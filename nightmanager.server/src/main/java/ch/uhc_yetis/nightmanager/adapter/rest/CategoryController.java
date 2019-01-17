@@ -4,6 +4,7 @@ import ch.uhc_yetis.nightmanager.application.CategoryService;
 import ch.uhc_yetis.nightmanager.domain.model.Category;
 import ch.uhc_yetis.nightmanager.infrastructure.RoleConstants;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    @Secured(RoleConstants.ADMIN)
+    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
     public Category saveNewCategory(@RequestBody Category category) {
         return this.categoryService.createNewCategory(category);
     }

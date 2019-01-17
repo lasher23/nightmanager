@@ -3,9 +3,11 @@ package ch.uhc_yetis.nightmanager.adapter.rest;
 import ch.uhc_yetis.nightmanager.application.GameRequestParams;
 import ch.uhc_yetis.nightmanager.application.GameService;
 import ch.uhc_yetis.nightmanager.domain.model.Game;
+import ch.uhc_yetis.nightmanager.domain.model.Role;
 import ch.uhc_yetis.nightmanager.infrastructure.RoleConstants;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,13 +37,13 @@ public class GameController {
     }
 
     @PostMapping("/complete")
-    @Secured({RoleConstants.ADMIN, RoleConstants.REFEREE})
+    @PreAuthorize("hasAuthority('" + RoleConstants.REFEREE + "') or hasAuthority('" + RoleConstants.ADMIN + "')")
     public Game completeGame(@RequestBody Game game) {
         return this.gameService.complete(game);
     }
 
     @PostMapping("/reset")
-    @Secured(RoleConstants.ADMIN)
+    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
     public Game resetGame(@RequestBody Game game) {
         return this.gameService.reset(game);
     }

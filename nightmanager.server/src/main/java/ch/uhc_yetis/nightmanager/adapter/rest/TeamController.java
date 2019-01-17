@@ -41,23 +41,14 @@ public class TeamController {
     }
 
     @PostMapping
-    @Secured(RoleConstants.ADMIN)
+    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
     public Team saveNewTeam(@RequestBody Team team) {
         return this.teamService.createNewTeam(team);
     }
 
     @PutMapping
-    @Secured(RoleConstants.ADMIN)
+    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
     public ResponseEntity<Team> saveItem(@RequestBody Team team) {
         return ResponseEntity.ok(this.teamService.save(team));
-    }
-
-    @DeleteMapping("/{id}")
-    @Secured(RoleConstants.ADMIN)
-    public ResponseEntity delete(@PathVariable long id, @RequestBody Team team) {
-        if (team.getId() != id && team.getId() != 0) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().build();
     }
 }
