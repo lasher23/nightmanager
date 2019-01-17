@@ -31,12 +31,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler(value = {AccessDeniedException.class})
     protected ResponseEntity<HttpErrorObject> handleAccessDeniedException(RuntimeException ex, WebRequest request) {
         LoggerFactory.getLogger(this.getClass()).trace(ex.getMessage(), ex);
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(HttpErrorObject.withTimestamp(LocalDateTime.now()).withPath(request.getContextPath()).withMessage(ex.getMessage()).withError("").build());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(HttpErrorObject.withTimestamp(LocalDateTime.now()).withPath(request.getContextPath()).withMessage(ex.getMessage()).withError("Zugriff verweigert").build());
     }
 
     @ExceptionHandler(value = {UsernameNotFoundException.class})
     protected ResponseEntity<HttpErrorObject> handleUsernameNotFoundException(RuntimeException ex, WebRequest request) {
         LoggerFactory.getLogger(this.getClass()).trace(ex.getMessage(), ex);
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(HttpErrorObject.withTimestamp(LocalDateTime.now()).withPath(request.getContextPath()).withMessage("Invalide Login Daten").withError("").build());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(HttpErrorObject.withTimestamp(LocalDateTime.now()).withPath(request.getContextPath()).withMessage(ex.getMessage()).withError("Invalide Login Daten").build());
     }
 }

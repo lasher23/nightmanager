@@ -9,6 +9,9 @@ export class HttpProxyService {
   }
 
   createAuthorizationHeader(): HttpHeaders {
+    if (!this.rootService.getJwt()) {
+      return null;
+    }
     return new HttpHeaders({'Authorization': 'Bearer ' + this.rootService.getJwt()});
   }
 

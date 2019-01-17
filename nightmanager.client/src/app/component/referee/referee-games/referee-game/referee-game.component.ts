@@ -55,7 +55,6 @@ export class RefereeGameComponent implements OnInit {
   }
 
   completeGameFinally() {
-    this.snackbarService.showMessage('Speichert Team', 10000);
     this.gameService.updateGame(this.game).then(x => this.snackbarService.dismiss());
     this.router.navigateByUrl(this.roleService.getDefaultRoute());
   }
