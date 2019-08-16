@@ -1,86 +1,147 @@
+######################
+# Project Specific
+######################
+/src/main/webapp/content/css/main.css
+/build/resources/main/static/**
+/src/test/javascript/coverage/
 
-# Created by https://www.gitignore.io/api/gradle,intellij
+######################
+# Node
+######################
+/node/
+node_tmp/
+node_modules/
+npm-debug.log.*
+/.awcache/*
+/.cache-loader/*
 
-### Intellij ###
-# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
-# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+######################
+# SASS
+######################
+.sass-cache/
 
-# User-specific stuff:
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/dictionaries
+######################
+# Eclipse
+######################
+*.pydevproject
+.project
+.metadata
+tmp/
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+.factorypath
+/src/main/resources/rebel.xml
 
-# Sensitive or high-churn files:
-.idea/**/dataSources/
-.idea/**/dataSources.ids
-.idea/**/dataSources.xml
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
+# External tool builders
+.externalToolBuilders/**
 
-# Gradle:
-.idea/**/gradle.xml
-.idea/**/libraries
+# Locally stored "Eclipse launch configurations"
+*.launch
 
-# CMake
-cmake-build-debug/
+# CDT-specific
+.cproject
 
-# Mongo Explorer plugin:
-.idea/**/mongoSettings.xml
+# PDT-specific
+.buildpath
 
-## File-based project format:
+# STS-specific
+/.sts4-cache/*
+######################
+# Intellij
+######################
+.idea/
+*.iml
 *.iws
+*.ipr
+*.ids
+*.orig
+classes/
+out/
 
-## Plugin-specific files:
+######################
+# Visual Studio Code
+######################
+.vscode/
 
-# IntelliJ
-**/out/
+######################
+# Maven
+######################
+/log/
+/target/
 
-# mpeltonen/sbt-idea plugin
-.idea_modules/
+######################
+# Gradle
+######################
+.gradle/
+/build/
 
-# JIRA plugin
-atlassian-ide-plugin.xml
+######################
+# Package Files
+######################
+*.jar
+*.war
+*.ear
+*.db
 
-# Cursive Clojure plugin
-.idea/replstate.xml
+######################
+# Windows
+######################
+# Windows image file caches
+Thumbs.db
 
-# Ruby plugin and RubyMine
-/.rakeTasks
+# Folder config file
+Desktop.ini
 
-# Crashlytics plugin (for Android Studio and IntelliJ)
-com_crashlytics_export_strings.xml
-crashlytics.properties
-crashlytics-build.properties
-fabric.properties
+######################
+# Mac OSX
+######################
+.DS_Store
+.svn
 
-### Intellij Patch ###
-# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
+# Thumbnails
+._*
 
-# *.iml
-# modules.xml
-# .idea/misc.xml
-# *.ipr
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
 
-# Sonarlint plugin
-.idea/sonarlint
+######################
+# Directories
+######################
+/bin/
+/deploy/
 
-### Gradle ###
-.gradle
-**/build/
+######################
+# Logs
+######################
+*.log*
 
-# Ignore Gradle GUI config
-gradle-app.setting
+######################
+# Others
+######################
+*.class
+*.*~
+*~
+.merge_file*
 
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
+######################
+# Gradle Wrapper
+######################
+!gradle/wrapper/gradle-wrapper.jar
 
-# Cache of project
-.gradletasknamecache
+######################
+# Maven Wrapper
+######################
+!.mvn/wrapper/maven-wrapper.jar
 
-# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
-# gradle/wrapper/gradle-wrapper.properties
-
-
-# End of https://www.gitignore.io/api/gradle,intellij
+######################
+# ESLint
+######################
+.eslintcache

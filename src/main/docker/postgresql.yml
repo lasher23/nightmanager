@@ -1,0 +1,11 @@
+version: '2'
+services:
+  nightmanager-postgresql:
+    image: postgres:11.4
+    # volumes:
+    #     - ~/volumes/jhipster/nightmanager/postgresql/:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=nightmanager
+      - POSTGRES_PASSWORD=
+    ports:
+      - 5432:5432

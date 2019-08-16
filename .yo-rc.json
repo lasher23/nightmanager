@@ -1,0 +1,41 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "ch.uhc_yetis.nightmanager",
+      "nativeLanguage": "de"
+    },
+    "jhipsterVersion": "6.2.0",
+    "applicationType": "monolith",
+    "baseName": "nightmanager",
+    "packageName": "ch.uhc_yetis.nightmanager",
+    "packageFolder": "ch/uhc_yetis/nightmanager",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "gradle",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "ZjM2ZDQ4MjA0NTU3ZWFhMzMyYTI5MDMwNWQ3MWM0ODkzMjBiMTQwYzMzMTFjMTljNjFhZWIxNDcyNGU1YTRhOGFkODQ5ZDk1NWY2MDMzMTJhN2Y5ZjM3ODA5ZmJmZTdkNzYyYThhMGQ1NTFlOTA4ZWU1MzQ3Mjk3ZTI0MGNkMjc=",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "darkly",
+    "clientThemeVariant": "dark",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "nativeLanguage": "de",
+    "languages": ["de"],
+    "blueprints": []
+  }
+}

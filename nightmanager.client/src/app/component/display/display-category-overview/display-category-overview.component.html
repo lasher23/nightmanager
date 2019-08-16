@@ -1,9 +1,0 @@
-<mat-table [dataSource]="categories" style="width: 100%;">
-  <ng-container cdkColumnDef="name">
-    <mat-header-cell *cdkHeaderCellDef><span>Kategorie</span></mat-header-cell>
-    <mat-cell *cdkCellDef="let element" (click)="openCategory(element)"><span>{{element.name}}</span></mat-cell>
-  </ng-container>
-
-  <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
