@@ -1,0 +1,92 @@
+{
+    "name": "Game",
+    "fields": [
+        {
+            "fieldName": "goalsHome",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "goalsGuest",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "state",
+            "fieldType": "GameState",
+            "fieldValues": "OPEN,DONE",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "placeholder",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "start",
+            "fieldType": "ZonedDateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "duration",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "GameType",
+            "fieldValues": "GROUP_STAGE,SEMI_FINAL,FINAL",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "team",
+            "otherEntityRelationshipName": "game",
+            "relationshipName": "home",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "team",
+            "otherEntityRelationshipName": "game",
+            "relationshipName": "guest",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "category",
+            "otherEntityRelationshipName": "game",
+            "relationshipName": "category",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "hall",
+            "otherEntityRelationshipName": "game",
+            "relationshipName": "hall",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190821185057",
+    "entityTableName": "game",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

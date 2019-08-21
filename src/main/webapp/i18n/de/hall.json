@@ -1,0 +1,23 @@
+{
+  "nightmanagerApp": {
+    "hall": {
+      "home": {
+        "title": "Halls",
+        "createLabel": "Hall erstellen",
+        "createOrEditLabel": "Hall erstellen oder bearbeiten",
+        "notFound": "No Halls found"
+      },
+      "created": "Hall erstellt mit ID {{ param }}",
+      "updated": "Hall aktualisiert mit ID {{ param }}",
+      "deleted": "Hall gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Hall {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Hall"
+      },
+      "name": "Name",
+      "game": "Game"
+    }
+  }
+}

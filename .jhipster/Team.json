@@ -1,0 +1,50 @@
+{
+    "name": "Team",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 255
+        },
+        {
+            "fieldName": "placeholder",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "rank",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "paid",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "category",
+            "otherEntityRelationshipName": "team",
+            "relationshipName": "category",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190821185056",
+    "entityTableName": "team",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

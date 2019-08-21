@@ -1,0 +1,31 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="tournament">
+            <h2><span jhiTranslate="nightmanagerApp.tournament.detail.title">Tournament</span> {{tournament.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="nightmanagerApp.tournament.name">Name</span></dt>
+                <dd>
+                    <span>{{tournament.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.tournament.active">Active</span></dt>
+                <dd>
+                    <span>{{tournament.active}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/tournament', tournament.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

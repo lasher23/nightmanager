@@ -1,0 +1,10 @@
+{
+  "nightmanagerApp": {
+    "CategoryType": {
+      "null": "",
+      "YETIS_CUP": "YETIS_CUP",
+      "DOUBLE": "DOUBLE",
+      "SINGLE": "SINGLE"
+    }
+  }
+}

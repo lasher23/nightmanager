@@ -1,0 +1,9 @@
+{
+  "nightmanagerApp": {
+    "GameState": {
+      "null": "",
+      "OPEN": "OPEN",
+      "DONE": "DONE"
+    }
+  }
+}

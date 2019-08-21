@@ -1,0 +1,75 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="game">
+            <h2><span jhiTranslate="nightmanagerApp.game.detail.title">Game</span> {{game.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="nightmanagerApp.game.goalsHome">Goals Home</span></dt>
+                <dd>
+                    <span>{{game.goalsHome}}</span>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.game.goalsGuest">Goals Guest</span></dt>
+                <dd>
+                    <span>{{game.goalsGuest}}</span>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.game.state">State</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'nightmanagerApp.GameState.' + game.state}}">{{game.state}}</span>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.game.placeholder">Placeholder</span></dt>
+                <dd>
+                    <span>{{game.placeholder}}</span>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.game.start">Start</span></dt>
+                <dd>
+                    <span>{{game.start}}</span>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.game.duration">Duration</span></dt>
+                <dd>
+                    <span>{{game.duration}}</span>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.game.type">Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'nightmanagerApp.GameType.' + game.type}}">{{game.type}}</span>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.game.home">Home</span></dt>
+                <dd>
+                    <div *ngIf="game.homeId">
+                        <a [routerLink]="['/team', game.homeId, 'view']">{{game.homeId}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.game.guest">Guest</span></dt>
+                <dd>
+                    <div *ngIf="game.guestId">
+                        <a [routerLink]="['/team', game.guestId, 'view']">{{game.guestId}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.game.category">Category</span></dt>
+                <dd>
+                    <div *ngIf="game.categoryId">
+                        <a [routerLink]="['/category', game.categoryId, 'view']">{{game.categoryId}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.game.hall">Hall</span></dt>
+                <dd>
+                    <div *ngIf="game.hallId">
+                        <a [routerLink]="['/hall', game.hallId, 'view']">{{game.hallId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/game', game.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

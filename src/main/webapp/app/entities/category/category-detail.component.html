@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="category">
+            <h2><span jhiTranslate="nightmanagerApp.category.detail.title">Category</span> {{category.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="nightmanagerApp.category.name">Name</span></dt>
+                <dd>
+                    <span>{{category.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.category.type">Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'nightmanagerApp.CategoryType.' + category.type}}">{{category.type}}</span>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.category.state">State</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'nightmanagerApp.CategoryState.' + category.state}}">{{category.state}}</span>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.category.remark">Remark</span></dt>
+                <dd>
+                    <span>{{category.remark}}</span>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.category.tournament">Tournament</span></dt>
+                <dd>
+                    <div *ngIf="category.tournamentId">
+                        <a [routerLink]="['/tournament', category.tournamentId, 'view']">{{category.tournamentId}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="nightmanagerApp.category.parentCategory">Parent Category</span></dt>
+                <dd>
+                    <div *ngIf="category.parentCategoryId">
+                        <a [routerLink]="['/category', category.parentCategoryId, 'view']">{{category.parentCategoryId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/category', category.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

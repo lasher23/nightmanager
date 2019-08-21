@@ -1,0 +1,24 @@
+{
+  "nightmanagerApp": {
+    "tournament": {
+      "home": {
+        "title": "Tournaments",
+        "createLabel": "Tournament erstellen",
+        "createOrEditLabel": "Tournament erstellen oder bearbeiten",
+        "notFound": "No Tournaments found"
+      },
+      "created": "Tournament erstellt mit ID {{ param }}",
+      "updated": "Tournament aktualisiert mit ID {{ param }}",
+      "deleted": "Tournament gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Tournament {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Tournament"
+      },
+      "name": "Name",
+      "active": "Active",
+      "category": "Category"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "nightmanagerApp": {
+    "game": {
+      "home": {
+        "title": "Games",
+        "createLabel": "Game erstellen",
+        "createOrEditLabel": "Game erstellen oder bearbeiten",
+        "notFound": "No Games found"
+      },
+      "created": "Game erstellt mit ID {{ param }}",
+      "updated": "Game aktualisiert mit ID {{ param }}",
+      "deleted": "Game gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Game {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Game"
+      },
+      "goalsHome": "Goals Home",
+      "goalsGuest": "Goals Guest",
+      "state": "State",
+      "placeholder": "Placeholder",
+      "start": "Start",
+      "duration": "Duration",
+      "type": "Type",
+      "home": "Home",
+      "guest": "Guest",
+      "category": "Category",
+      "hall": "Hall"
+    }
+  }
+}
