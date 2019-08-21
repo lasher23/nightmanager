@@ -43,6 +43,15 @@ public class CacheConfiguration {
             createCache(cm, ch.uhc_yetis.nightmanager.domain.User.class.getName());
             createCache(cm, ch.uhc_yetis.nightmanager.domain.Authority.class.getName());
             createCache(cm, ch.uhc_yetis.nightmanager.domain.User.class.getName() + ".authorities");
+            createCache(cm, ch.uhc_yetis.nightmanager.domain.Tournament.class.getName());
+            createCache(cm, ch.uhc_yetis.nightmanager.domain.Tournament.class.getName() + ".categories");
+            createCache(cm, ch.uhc_yetis.nightmanager.domain.Hall.class.getName());
+            createCache(cm, ch.uhc_yetis.nightmanager.domain.Hall.class.getName() + ".games");
+            createCache(cm, ch.uhc_yetis.nightmanager.domain.Category.class.getName());
+            createCache(cm, ch.uhc_yetis.nightmanager.domain.Category.class.getName() + ".games");
+            createCache(cm, ch.uhc_yetis.nightmanager.domain.Category.class.getName() + ".teams");
+            createCache(cm, ch.uhc_yetis.nightmanager.domain.Team.class.getName());
+            createCache(cm, ch.uhc_yetis.nightmanager.domain.Game.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

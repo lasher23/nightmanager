@@ -1,0 +1,10 @@
+{
+  "nightmanagerApp": {
+    "GameType": {
+      "null": "",
+      "GROUP_STAGE": "GROUP_STAGE",
+      "SEMI_FINAL": "SEMI_FINAL",
+      "FINAL": "FINAL"
+    }
+  }
+}

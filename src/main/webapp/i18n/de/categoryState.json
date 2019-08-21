@@ -1,0 +1,10 @@
+{
+  "nightmanagerApp": {
+    "CategoryState": {
+      "null": "",
+      "GROUP_STAGE": "GROUP_STAGE",
+      "SEMI_FINAL": "SEMI_FINAL",
+      "FINAL": "FINAL"
+    }
+  }
+}
