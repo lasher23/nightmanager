@@ -43,7 +43,6 @@ apply plugin: "org.springframework.boot"
 apply plugin: "propdeps"
 
 apply from: "gradle/docker.gradle"
-apply from: "gradle/sonar.gradle"
 //jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
 
 if (project.hasProperty("prod")) {
