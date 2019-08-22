@@ -36,6 +36,8 @@
     "enableTranslation": true,
     "nativeLanguage": "de",
     "languages": ["de"],
-    "blueprints": []
+    "blueprints": [],
+    "herokuAppName": "nighmanagerapp",
+    "herokuDeployType": "jar"
   }
 }
