@@ -1,0 +1,13 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+      as: DATABASE
+build:
+  docker:
+    web: ./nightmanager.server/Dockerfile
+release:
+  command:
+    - ./nightmanager.server/gradlew build -x test
+  image: worker
+run:
+  web: java -jar nightmanager.server
