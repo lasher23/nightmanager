@@ -56,7 +56,9 @@ public class TeamService {
     }
 
     private int getPoints(Team team) {
-        return this.gameService.getAllGamesByTypeAndTeamAndState(team, GameType.GROUP_STAGE, GameState.DONE).stream().map(game -> this.getPointsForTeam(team, game)).mapToInt(value -> value).sum();
+        return this.gameService.getAllGamesByTypeAndTeamAndState(team, GameType.GROUP_STAGE, GameState.DONE).stream()
+                .map(game -> this.getPointsForTeam(team, game))
+                .mapToInt(value -> value).sum();
     }
 
     private int getPointsForTeam(Team team, Game game) {
