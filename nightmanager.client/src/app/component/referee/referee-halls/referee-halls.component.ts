@@ -20,6 +20,6 @@ export class RefereeHallsComponent implements OnInit {
 
   onHallChoose(hall: Hall) {
     this.hallService.setHall(hall);
-    this.router.navigateByUrl('referee/games');
+    this.router.navigate(['referee/games']);
   }
 }

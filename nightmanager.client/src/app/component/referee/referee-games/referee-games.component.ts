@@ -27,11 +27,8 @@ export class RefereeGamesComponent implements OnInit {
   }
 
   onGameClick(game: Game) {
-    this.router.navigateByUrl('referee/games/' + game.id);
+    this.router.navigate(['referee/games', game.id]);
   }
 
-  logout() {
-    localStorage.clear();
-    this.router.navigateByUrl('');
-  }
+
 }

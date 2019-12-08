@@ -1,8 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {Game} from '../../../../../model/Game';
 
 export interface DialogData {
   text: string;
+  game: Game;
   onConfirmation: Function;
 }
 
@@ -14,9 +16,14 @@ export interface DialogData {
 export class RefereeGameConfirmDialogComponent implements OnInit {
   text: string;
   onConfirmation: Function;
+  team1Confirms = false;
+  team2Confirms = false;
+
+  game: Game;
 
   constructor(public dialogRef: MatDialogRef<RefereeGameConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) data: DialogData) {
     this.text = data.text;
+    this.game = data.game;
     this.onConfirmation = data.onConfirmation;
   }
 

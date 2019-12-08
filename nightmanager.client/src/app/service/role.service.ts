@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Role} from '../model/Role';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,10 @@ export class RoleService {
     {name: 'REFEREE', defaultRoute: '/referee'},
     {name: 'ADMIN', defaultRoute: '/admin'},
   ];
+  public role$ = new Subject<Role>();
 
   constructor() {
+    setTimeout(() => this.role$.next(this.getRole()));
   }
 
   getAllRoles(): Array<Role> {
@@ -19,6 +22,7 @@ export class RoleService {
 
   setRole(role: string) {
     localStorage.setItem('role', role);
+    this.role$.next(this.getRole());
   }
 
   getRole(): Role {

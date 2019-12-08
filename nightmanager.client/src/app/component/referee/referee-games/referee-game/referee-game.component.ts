@@ -15,6 +15,7 @@ import {RefereeGameConfirmDialogComponent} from './referee-game-confirm-dialog/r
 })
 export class RefereeGameComponent implements OnInit {
   game: Game;
+  swapped = false;
 
   constructor(public dialog: MatDialog, route: ActivatedRoute, private gameService: GameService, private snackbarService: SnackbarService,
               private router: Router, private roleService: RoleService) {
@@ -50,7 +51,7 @@ export class RefereeGameComponent implements OnInit {
   completeGame() {
     Promise.resolve().then(() => this.dialog.open(RefereeGameConfirmDialogComponent, {
       width: '250px',
-      data: {text: 'Spiel abschliessen?', onConfirmation: () => this.completeGameFinally()}
+      data: {text: 'Spiel abschliessen?', game: this.game, onConfirmation: () => this.completeGameFinally()}
     }));
   }
 
@@ -66,5 +67,9 @@ export class RefereeGameComponent implements OnInit {
         data: {text: x.category.remark}
       }));
     }
+  }
+
+  swap() {
+    this.swapped = !this.swapped;
   }
 }

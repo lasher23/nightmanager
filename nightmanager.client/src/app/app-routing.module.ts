@@ -74,11 +74,16 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     canActivate: [AuthenticationGuard]
+  },
+  {
+    path: '**',
+    component: HomeComponent,
+    canActivate: [AuthenticationGuard]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {enableTracing: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

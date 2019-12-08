@@ -1,3 +1,8 @@
+h3 {
+  width: 100%;
+  text-align: center;
+}
+
 .referee-game {
   .home {
     width: 48%;
@@ -22,7 +27,6 @@
   }
   .center {
     width: 100%;
-    height: 100%;
     text-align: center;
     white-space: nowrap;
     overflow: auto;
@@ -49,4 +53,20 @@
   button {
     margin-bottom: 5px;
   }
+}
+
+.reverse {
+  flex-direction: row-reverse;
+}
+
+.minus {
+  width: 100%;
+  text-align: center;
+}
+.plus {
+  text-align: center;
+}
+
+.green {
+  background-color: #60ad5e;
 }

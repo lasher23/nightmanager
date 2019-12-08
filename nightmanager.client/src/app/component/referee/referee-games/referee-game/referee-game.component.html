@@ -1,43 +1,49 @@
 <div class="referee-game">
+  <h3>{{game?.category.name}}</h3>
   <mat-spinner *ngIf="game==undefined"></mat-spinner>
-  <div class="home" *ngIf="game">
-    <h1 class="center">
-      {{game?.teamHome.name}}
-    </h1>
-    <div class="center">
-      <h2>{{game?.goalsTeamHome}}</h2>
+  <div style="display: flex;" [ngClass]="{reverse: swapped}">
+    <div style="max-width: 50%" *ngIf="game">
+      <h1 class="center green">
+        {{game?.teamHome.name}}
+      </h1>
+      <div class="center">
+        <h2>{{game?.goalsTeamHome}}</h2>
+      </div>
+      <div class="plus">
+        <button mat-flat-button (click)="addGoalHome()" class="add" [disabled]="game.placeholder">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <div class="minus">
+        <button mat-flat-button (click)="minusGoalHome()" [disabled]="game.placeholder">
+          <mat-icon>remove</mat-icon>
+        </button>
+      </div>
     </div>
-    <div>
-      <button mat-flat-button (click)="addGoalHome()" class="add" [disabled]="game.placeholder">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-    <div>
-      <button mat-flat-button (click)="minusGoalHome()" [disabled]="game.placeholder">
-        <mat-icon>remove</mat-icon>
-      </button>
-    </div>
-  </div>
-  <div class="guest" *ngIf="game">
-    <h1 class="center">
-      {{game?.teamGuest.name}}
-    </h1>
-    <div class="center">
-      <h2>{{game?.goalsTeamGuest}}</h2>
-    </div>
-    <div>
-      <button mat-flat-button (click)="addGoalGuest()" class="add" [disabled]="game.placeholder">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-    <div>
-      <button mat-flat-button (click)="minusGoalGuest()" [disabled]="game.placeholder">
-        <mat-icon>remove</mat-icon>
-      </button>
+    <div style="max-width: 50%" *ngIf="game">
+      <h1 class="center">
+        {{game?.teamGuest.name}}
+      </h1>
+      <div class="center">
+        <h2>{{game?.goalsTeamGuest}}</h2>
+      </div>
+      <div class="plus">
+        <button mat-flat-button (click)="addGoalGuest()" class="add" [disabled]="game.placeholder">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <div class="minus">
+        <button mat-flat-button (click)="minusGoalGuest()" [disabled]="game.placeholder">
+          <mat-icon>remove</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
   <button mat-stroked-button (click)="completeGame()" class="complete" *ngIf="game" [disabled]="game.placeholder">
     Abschliessen
+  </button>
+  <button mat-stroked-button (click)="swap()" class="complete" *ngIf="game" [disabled]="game.placeholder">
+    Teams wechseln
   </button>
 </div>
 

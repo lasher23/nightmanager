@@ -1,6 +1,13 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {ErrorHandler, NgModule} from '@angular/core';
-
+import {A11yModule} from '@angular/cdk/a11y';
+import {BidiModule} from '@angular/cdk/bidi';
+import {ObserversModule} from '@angular/cdk/observers';
+import {OverlayModule} from '@angular/cdk/overlay';
+import {PlatformModule} from '@angular/cdk/platform';
+import {PortalModule} from '@angular/cdk/portal';
+import {CdkStepperModule} from '@angular/cdk/stepper';
+import {CdkTableModule} from '@angular/cdk/table';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
@@ -8,17 +15,37 @@ import {AuthenticationService} from './service/authentication.service';
 import {AuthenticationGuard} from './authentication.guard';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatButtonModule} from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
+  MatAutocompleteModule,
+  MatButtonModule,
   MatButtonToggleModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDatepickerModule,
   MatDialogModule,
+  MatExpansionModule,
+  MatGridListModule,
   MatIconModule,
-  MatProgressSpinnerModule, MatSliderModule, MatSlideToggleModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatRadioModule,
+  MatRippleModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSlideToggleModule,
+  MatSliderModule,
   MatSnackBarModule,
+  MatStepperModule,
   MatTableModule,
-  MatTabsModule, MatToolbarModule
+  MatTabsModule,
+  MatToolbarModule,
+  MatTooltipModule,
+  MatNativeDateModule,
 } from '@angular/material';
 import {HttpProxyService} from './service/http-proxy.service';
 import {GlobalErrorHandler} from './global-error-handler';
@@ -36,19 +63,18 @@ import {RefereeHallsComponent} from './component/referee/referee-halls/referee-h
 import {GameService} from './service/game.service';
 import {RefereeGameComponent} from './component/referee/referee-games/referee-game/referee-game.component';
 import {RefereeGameDialogComponent} from './component/referee/referee-games/referee-game/referee-game-dialog/referee-game-dialog.component';
-import {RefereeGameConfirmDialogComponent}
-  from './component/referee/referee-games/referee-game/referee-game-confirm-dialog/referee-game-confirm-dialog.component';
+import {RefereeGameConfirmDialogComponent} from './component/referee/referee-games/referee-game/referee-game-confirm-dialog/referee-game-confirm-dialog.component';
 import {DisplayHomeComponent} from './component/display/display-home/display-home.component';
 import {DisplayCategoryComponent} from './component/display/display-category/display-category.component';
 import {DisplayGamesComponent} from './component/display/display-games/display-games.component';
 import {AdminGameOverviewComponent} from './component/admin/admin-game-overview/admin-game-overview.component';
 import {AdminHomeComponent} from './component/admin/admin-home/admin-home.component';
 import {AdminGenerationComponent} from './component/admin/admin-generation/admin-generation.component';
-import {CdkTableModule} from '@angular/cdk/table';
 import {DisplayCategoryOverviewComponent} from './component/display/display-category-overview/display-category-overview.component';
 import {DisplayCategoryDetailsComponent} from './component/display/display-category-details/display-category-details.component';
 import {AdminConfirmDialogComponent} from './component/admin/admin-generation/admin-confirm-dialog/admin-confirm-dialog.component';
 import {AdminTeamsComponent} from './component/admin/admin-teams/admin-teams.component';
+import {SidenavComponent} from './component/sidenav/sidenav.component';
 
 @NgModule({
   entryComponents: [
@@ -76,7 +102,8 @@ import {AdminTeamsComponent} from './component/admin/admin-teams/admin-teams.com
     DisplayCategoryOverviewComponent,
     DisplayCategoryDetailsComponent,
     AdminConfirmDialogComponent,
-    AdminTeamsComponent
+    AdminTeamsComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
@@ -98,6 +125,40 @@ import {AdminTeamsComponent} from './component/admin/admin-teams/admin-teams.com
     CdkTableModule,
     MatSlideToggleModule,
     MatToolbarModule,
+    MatAutocompleteModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatIconModule,
+    MatListModule,
+    MatMenuModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatSlideToggleModule,
+    MatSliderModule,
+    MatSnackBarModule,
+    MatStepperModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatNativeDateModule,
+    A11yModule,
+    BidiModule,
+    ObserversModule,
+    OverlayModule,
+    PlatformModule,
+    PortalModule,
+    CdkStepperModule,
   ],
   providers: [
     LoginService,

@@ -19,6 +19,7 @@ export class DisplayGamesComponent implements OnInit {
   gamesHallAssingments: Array<HallGamesAssignement> = [];
   displayedColumns: Array<String> = [
     'time',
+    'category',
     'teamHome',
     'goalsTeamHome',
     'placeholder',

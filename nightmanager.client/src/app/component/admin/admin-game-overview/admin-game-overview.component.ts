@@ -4,6 +4,10 @@ import {Game} from '../../../model/Game';
 import {HallService} from '../../../service/hall.service';
 import {Hall} from '../../../model/Hall';
 import {SnackbarService} from '../../../service/snackbar.service';
+import {AdminConfirmDialogComponent} from '../admin-generation/admin-confirm-dialog/admin-confirm-dialog.component';
+import {MatDialog} from '@angular/material';
+import {timeInterval} from 'rxjs/operators';
+import {interval} from 'rxjs';
 
 export interface HallGamesAssignement {
   hall: Hall;
@@ -28,13 +32,41 @@ export class AdminGameOverviewComponent implements OnInit {
     'resetButton',
   ];
   widthPerHallTable = '100%';
+  interval;
+  miliseconds = 0;
 
 
-  constructor(private gameService: GameService, private  hallService: HallService, private snackbarService: SnackbarService) {
+  constructor(private gameService: GameService, private  hallService: HallService, private snackbarService: SnackbarService, public dialog: MatDialog) {
   }
 
+  start() {
+    console.log(this.interval);
+    if (!this.interval) {
+      this.interval = setInterval(() => this.miliseconds += 1000, 1000);
+    }
+  }
+
+  stop() {
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
+  }
+
+  reset() {
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
+    this.miliseconds = 0;
+  }
 
   ngOnInit() {
+    this.setup();
+    interval(10000).subscribe(() => this.setup());
+  }
+
+  setup() {
     this.gamesHallAssingments = [];
     this.gameService.getAllGames().then(games => this.games = games).then(() => this.initHalls());
   }
@@ -47,9 +79,13 @@ export class AdminGameOverviewComponent implements OnInit {
   }
 
   resetGame(game: Game) {
-    this.gameService.resetGame(game).then(resettedGame => {
-      this.ngOnInit();
-      this.snackbarService.showMessage('Spiel Zurückgesetzt');
+    this.dialog.open(AdminConfirmDialogComponent).afterClosed().subscribe(result => {
+      if (result) {
+        this.gameService.resetGame(game).then(resettedGame => {
+          this.setup();
+          this.snackbarService.showMessage('Spiel Zurückgesetzt');
+        });
+      }
     });
   }
 }
