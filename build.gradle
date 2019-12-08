@@ -31,7 +31,7 @@ dependencies {
 
 processResources {
     dependsOn 'buildAngular'
-    from("$projectDir/../nightmanager.client/dist/nightmanager") {
+    from("$projectDir/src/main/angular/dist/nightmanager") {
         into "static"
     }
 }
@@ -39,23 +39,23 @@ processResources {
 task buildAngular() {
     if (OperatingSystem.current().isLinux()) {
         doLast {
-            exec {
-                workingDir "../nightmanager.client/"
+			exec {
+                workingDir "./src/main/angular/"
                 commandLine "npm", "install"
             }
             exec {
-                workingDir "../nightmanager.client/"
+                workingDir "./src/main/angular/"
                 commandLine "ng", "build", "--prod"
             }
         }
     } else {
         doLast {
             exec {
-                workingDir "../nightmanager.client/"
+                workingDir "src/main/angular/"
                 commandLine "npm.cmd", "install"
             }
             exec {
-                workingDir "../nightmanager.client/"
+                workingDir "src/main/angular/"
                 commandLine "ng.cmd", "build", "--prod"
             }
         }

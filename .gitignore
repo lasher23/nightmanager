@@ -9,7 +9,7 @@
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
-.idea
+
 # Sensitive or high-churn files:
 .idea/**/dataSources/
 .idea/**/dataSources.ids
@@ -84,3 +84,4 @@ gradle-app.setting
 
 
 # End of https://www.gitignore.io/api/gradle,intellij
+/.idea
