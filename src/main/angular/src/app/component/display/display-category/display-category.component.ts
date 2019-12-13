@@ -14,6 +14,7 @@ import {Game} from '../../../model/Game';
 })
 export class DisplayCategoryComponent implements OnInit {
   _category: Category;
+  categoryName = '';
   teams: Array<Team> = [];
   displayedColumnsTeams = [
     'index',
@@ -41,6 +42,20 @@ export class DisplayCategoryComponent implements OnInit {
 
   @Input() set category(category: Category) {
     this._category = category;
+    this.categoryName = category.name
+      .replace("Kat. A", "Plausch")
+      .replace("Kat. A Winner", "Plausch Winner")
+      .replace("Kat. A Loser", "Plausch Loser")
+      .replace("Kat. B", "Guggen und Firmen")
+      .replace("Kat. B 1", "Guggen und Firmen 1")
+      .replace("Kat. B 2", "Guggen und Firmen 2")
+      .replace("Kat. C", "Mixed")
+      .replace("Kat. C 1", "Mixed 1")
+      .replace("Kat. C 2", "Mixed 2")
+      .replace("Kat. 1", "Jungs und Mädels 1. - 3. Kl.")
+      .replace("Kat. 2", "Jungs und Mädels 4. - 6. Kl.")
+      .replace("Kat. 3", "Jungs und Mädels 7. Kl. - 16 J.")
+    ;
     this.initTeams();
     this.initGames();
   }

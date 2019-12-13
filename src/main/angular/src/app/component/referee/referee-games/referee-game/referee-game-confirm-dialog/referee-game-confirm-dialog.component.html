@@ -1,8 +1,10 @@
 <div *ngIf="!team1Confirms || !team2Confirms" class="referee-game-confirm-dialog">
-  <div *ngIf="!team1Confirms" style="max-width: 100%"><p>{{game.teamHome.name}}: {{game.goalsTeamHome}} Tore </p>
+  <div *ngIf="!team1Confirms" style="max-width: 100%"><p>{{game.teamHome.name}}: </p>
+    <p>{{game.goalsTeamHome}} Tore </p>
     <button mat-button style="max-width: 100%" style="display: inline-block" (click)="team1Confirms=true">OK!</button>
   </div>
-  <div *ngIf="!team2Confirms" style="max-width: 100%"><p>{{game.teamGuest.name}}: {{game.goalsTeamGuest}} Tore </p>
+  <div *ngIf="!team2Confirms" style="max-width: 100%"><p>{{game.teamGuest.name}}: </p>
+    <p>{{game.goalsTeamGuest}} Tore </p>
     <button mat-button style="display: inline-block" (click)="team2Confirms=true">OK!</button>
   </div>
 </div>

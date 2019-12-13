@@ -31,7 +31,7 @@ export class AdminGenerationComponent implements OnInit {
   }
 
   isGenerateSemis(category: Category): boolean {
-    if (category.type === 'SPLIT_CATEGORIES') {
+    if (category.type === 'DOUBLE_CATEGORIES') {
       return category.parentCategory == null && category.state === CategoryState.DISABLED;
     }
     return category.state === CategoryState.GROUP_PHASE;

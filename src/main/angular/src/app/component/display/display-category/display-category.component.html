@@ -24,16 +24,16 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumnsTeams"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumnsTeams;" [class.red]="!row.paid"
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsTeams;" [class.yellow]="!row.paid"
           [class.hidden]="row.placeholder"></tr>
     </table>
     <div style="width: 100%;">
-      <div class="red" style="width:10px;height: 10px; display: inline-block;">
+      <div class="yellow" style="width:10px;height: 10px; display: inline-block;">
       </div>
       <span>Noch nicht bezahlt</span>
     </div>
   </div>
-  <div class="games">
+  <div class="games" *ngIf="games.length > 0">
     <h1>Spiele</h1>
     <table mat-table [dataSource]="games">
       <ng-container matColumnDef="time">

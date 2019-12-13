@@ -13,7 +13,7 @@
       </ng-container>
       <ng-container cdkColumnDef="teamHome">
         <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Heim</span></mat-header-cell>
-        <mat-cell *cdkCellDef="let element" class="flex-4" [class.red]="!element.teamHome.paid"
+        <mat-cell *cdkCellDef="let element" class="flex-4" [class.yellow]="!element.teamHome.paid"
                   [class.semi-final]="element.type === 'SEMI_FINAL'"
                   [class.final]="element.type === 'FINAL'">
           <span>{{element.teamHome.name}}</span></mat-cell>
@@ -33,8 +33,8 @@
           [class.font-white]="element.state === 'OPEN'">{{element.goalsTeamGuest}}</span></mat-cell>
       </ng-container>
       <ng-container cdkColumnDef="teamGuest">
-        <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Gast</span></mat-header-cell>
-        <mat-cell *cdkCellDef="let element" class="flex-4" [class.red]="!element.teamGuest.paid"
+        <mat-header-cell *cdkHeaderCellDef class="classflex-4"><span>Gast</span></mat-header-cell>
+        <mat-cell *cdkCellDef="let element" class="flex-4" [class.yellow]="!element.teamGuest.paid"
                   [class.semi-final]="element.type === 'SEMI_FINAL'"
                   [class.final]="element.type === 'FINAL'">
           <span>{{element.teamGuest.name}}</span></mat-cell>
@@ -44,7 +44,7 @@
       <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
     <div style="width: 100%;">
-      <div class="red" style="width:10px;height: 10px; display: inline-block;">
+      <div class="yellow" style="width:10px;height: 10px; display: inline-block;">
       </div>
       <span>Noch nicht bezahlt</span>
     </div>

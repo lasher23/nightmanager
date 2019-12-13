@@ -32,33 +32,8 @@ export class AdminGameOverviewComponent implements OnInit {
     'resetButton',
   ];
   widthPerHallTable = '100%';
-  interval;
-  miliseconds = 0;
-
 
   constructor(private gameService: GameService, private  hallService: HallService, private snackbarService: SnackbarService, public dialog: MatDialog) {
-  }
-
-  start() {
-    console.log(this.interval);
-    if (!this.interval) {
-      this.interval = setInterval(() => this.miliseconds += 1000, 1000);
-    }
-  }
-
-  stop() {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
-    }
-  }
-
-  reset() {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
-    }
-    this.miliseconds = 0;
   }
 
   ngOnInit() {
@@ -67,15 +42,21 @@ export class AdminGameOverviewComponent implements OnInit {
   }
 
   setup() {
-    this.gamesHallAssingments = [];
     this.gameService.getAllGames().then(games => this.games = games).then(() => this.initHalls());
   }
 
   private initHalls() {
-    this.hallService.getAllHalls().then(halls => halls.forEach(hall => {
-      const gamesPerHall = this.games.filter(game => game.hall.id === hall.id);
-      this.gamesHallAssingments.push({hall: hall, games: gamesPerHall});
-    })).then(() => this.widthPerHallTable = (100 / this.gamesHallAssingments.length - 2) + '%');
+    this.hallService.getAllHalls().then(halls => {
+        halls.forEach(hall => {
+            const gamesPerHall = this.games.filter(game => game.hall.id === hall.id);
+            this.gamesHallAssingments = [...this.gamesHallAssingments.filter(x => x.hall.id != hall.id), {
+              hall: hall,
+              games: gamesPerHall
+            }]
+          }
+        );
+      }
+    ).then(() => this.widthPerHallTable = (100 / this.gamesHallAssingments.length - 2) + '%');
   }
 
   resetGame(game: Game) {

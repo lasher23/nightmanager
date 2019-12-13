@@ -1,11 +1,3 @@
-<div style="width: 100%;">
-  <div style="text-align: center;">
-    <p>{{miliseconds | date: 'mm:ss' }}</p>
-    <button mat-raised-button (click)="start()">Start</button>
-    <button mat-raised-button (click)="stop()">Stop</button>
-    <button mat-raised-button (click)="reset()">Reset</button>
-  </div>
-</div>
 <div class="admin-games">
   <div *ngFor="let gameHallAssingment of gamesHallAssingments" [style.width]="widthPerHallTable">
     <h1>{{gameHallAssingment.hall.name}}</h1>

@@ -7,7 +7,7 @@ import java.util.Objects;
 @Table(name = "teams")
 public class Team {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
     @JoinColumn(name = "fk_category")

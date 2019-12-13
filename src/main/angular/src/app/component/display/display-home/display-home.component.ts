@@ -3,6 +3,9 @@ import {CategoryService} from '../../../service/category.service';
 import {Category, CategoryState} from '../../../model/Category';
 import {GameService} from '../../../service/game.service';
 import {Game} from '../../../model/Game';
+import * as _ from 'lodash'
+import {interval} from "rxjs";
+import {map} from "rxjs/operators";
 
 export enum DisplayType {
   CATEGORY, GAMES
@@ -20,7 +23,6 @@ export interface Displayable {
 })
 export class DisplayHomeComponent implements OnInit, OnDestroy {
   private id: any;
-  private displayables: Array<Displayable> = [];
   private count = 0;
   currentDisplayble: Displayable;
   displayMode = false;
@@ -35,57 +37,80 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
   ];
 
   games: Array<Game>;
+  interval;
+  miliseconds = 0;
 
   constructor(private categoryService: CategoryService, private gameService: GameService) {
   }
-
   ngOnInit(): void {
     this.changeComponent();
     this.gameService.getAllGames().then(games => this.games = games);
     this.id = setInterval(() => this.changeComponent(), 10000);
+    interval(10000).subscribe(() => this.gameService.getAllGames().then(games => this.games = games));
   }
 
+  start() {
+    console.log(this.interval);
+    if (!this.interval) {
+      this.interval = setInterval(() => this.miliseconds += 1000, 1000);
+    }
+  }
 
-  private setDisplayData() {
-    const categoryPromise = this.categoryService.getAll().then(x => this.displayables.push(...x.filter(y => !y.name.includes('DUMMY'))
-      .sort((a: Category, b: Category) => {
-        if (a.id < b.id) {
-          return -1;
-        } else if (a.id > b.id) {
-          return 1;
-        } else {
-          return 0;
-        }
-      }).map(y => <Displayable>{type: DisplayType.CATEGORY, data: y})));
-    const gamePromise = this.gameService.getAllGames().then(x => {
-      this.displayables.push(<Displayable>{
-        type: DisplayType.GAMES,
-        data: this.gameService.getClosestGamesToNow(x, 6, 6)
-      });
-    });
-    return Promise.all([
-      gamePromise,
-      categoryPromise]);
+  stop() {
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
+  }
+
+  reset() {
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
+    this.miliseconds = 0;
   }
 
   ngOnDestroy(): void {
     clearInterval(this.id);
   }
 
-  private changeComponent() {
-    let current = this.count % this.displayables.length;
-    if (Number.isNaN(current)) {
-      current = 0;
+  private getDisplayables(): Promise<Array<Displayable> | never> {
+    const categoryDisplayables = <Promise<Array<Displayable> | never>>this.categoryService.getAll().then(categories => categories
+      .filter(category => category.state != CategoryState.DISABLED)
+      .sort(this.sortCategory)
+      .map(category => <Displayable>{
+        type: DisplayType.CATEGORY,
+        data: category
+      }));
+    const gamesDisplayable = <Promise<Array<Displayable> | never>>this.gameService.getAllGames().then(games => [<Displayable>{
+      type: DisplayType.GAMES,
+      data: this.gameService.getClosestGamesToNow(games, 10, 10)
+    }]);
+    const displayables = [gamesDisplayable, categoryDisplayables];
+    return Promise.all(displayables).then(x => _.flatten(x));
+  }
+
+  private sortCategory(a: Category, b: Category) {
+    if (a.id < b.id) {
+      return -1;
+    } else if (a.id > b.id) {
+      return 1;
+    } else {
+      return 0;
     }
-    this.count++;
-    this.setDisplayData().then(() => {
-      let currentDisplayable = this.displayables[current];
-      while (currentDisplayable.type === DisplayType.CATEGORY && currentDisplayable.data.state === CategoryState.DISABLED) {
-        current = this.count % this.displayables.length;
-        currentDisplayable = this.displayables[current];
-        this.count++;
+  }
+
+  private changeComponent() {
+    this.getDisplayables().then(displayables => {
+      console.warn(displayables);
+      console.log(displayables.length);
+      let current = this.count % displayables.length;
+      if (Number.isNaN(current)) {
+        current = 0;
       }
-      this.currentDisplayble = this.displayables[current];
+      this.count++;
+      this.currentDisplayble = displayables[current];
     });
   }
 

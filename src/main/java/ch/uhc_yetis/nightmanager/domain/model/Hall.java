@@ -7,7 +7,7 @@ import java.util.Objects;
 @Table
 public class Hall {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column
     private String name;

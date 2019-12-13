@@ -10,12 +10,14 @@
         <h2>{{game?.goalsTeamHome}}</h2>
       </div>
       <div class="plus">
-        <button mat-flat-button (click)="addGoalHome()" class="add" [disabled]="game.placeholder">
+        <button mat-flat-button (click)="addGoalHome()" class="add"
+                [disabled]="game.placeholder|| game.state.toUpperCase() == 'DONE'">
           <mat-icon>add</mat-icon>
         </button>
       </div>
       <div class="minus">
-        <button mat-flat-button (click)="minusGoalHome()" [disabled]="game.placeholder">
+        <button mat-flat-button (click)="minusGoalHome()"
+                [disabled]="game.placeholder || game.state.toUpperCase() == 'DONE'">
           <mat-icon>remove</mat-icon>
         </button>
       </div>
@@ -28,21 +30,25 @@
         <h2>{{game?.goalsTeamGuest}}</h2>
       </div>
       <div class="plus">
-        <button mat-flat-button (click)="addGoalGuest()" class="add" [disabled]="game.placeholder">
+        <button mat-flat-button (click)="addGoalGuest()" class="add"
+                [disabled]="game.placeholder|| game.state.toUpperCase() == 'DONE'">
           <mat-icon>add</mat-icon>
         </button>
       </div>
       <div class="minus">
-        <button mat-flat-button (click)="minusGoalGuest()" [disabled]="game.placeholder">
+        <button mat-flat-button (click)="minusGoalGuest()"
+                [disabled]="game.placeholder|| game.state.toUpperCase() == 'DONE'">
           <mat-icon>remove</mat-icon>
         </button>
       </div>
     </div>
   </div>
-  <button mat-stroked-button (click)="completeGame()" class="complete" *ngIf="game" [disabled]="game.placeholder">
+  <button mat-stroked-button (click)="completeGame()" class="complete" *ngIf="game"
+          [disabled]="game.placeholder|| game.state.toUpperCase() == 'DONE'">
     Abschliessen
   </button>
-  <button mat-stroked-button (click)="swap()" class="complete" *ngIf="game" [disabled]="game.placeholder">
+  <button mat-stroked-button (click)="swap()" class="complete" *ngIf="game"
+          [disabled]="game.placeholder|| game.state.toUpperCase() == 'DONE'">
     Teams wechseln
   </button>
 </div>

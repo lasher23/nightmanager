@@ -13,6 +13,8 @@ export class SnackbarService {
   }
 
   public dismiss(): void {
-    this.openSnackbarRef.dismiss();
+    if (this.openSnackbarRef) {
+      this.openSnackbarRef.dismiss();
+    }
   }
 }

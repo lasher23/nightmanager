@@ -7,13 +7,21 @@
   </div>
 </div>
 <div *ngIf="!displayMode">
-  <mat-tab-group>
+  <header style="width: 100%; position: sticky; top: 0px; z-index: 10;">
+    <div style="text-align: center;">
+      <p>{{miliseconds | date: 'mm:ss' }}</p>
+      <button mat-raised-button (click)="start()">Start</button>
+      <button mat-raised-button (click)="stop()">Stop</button>
+      <button mat-raised-button (click)="reset()">Reset</button>
+    </div>
+  </header>
+  <mat-tab-group style="position: relative;z-index: 1;">
     <mat-tab label="Kategorien">
       <app-display-category-overview></app-display-category-overview>
     </mat-tab>
     <mat-tab label="Spiele">
       <mat-table [dataSource]="games" class="display-games" style="min-width: 700px;">
-        <ng-container cdkColumnDef="time">
+        <ng-container cdkColumnDef="time"> 
           <mat-header-cell *cdkHeaderCellDef class="flex-2"><span>Zeit</span></mat-header-cell>
           <mat-cell *cdkCellDef="let element" class="flex-2"><span>{{element.startDate | date: 'HH:mm'}}</span>
           </mat-cell>
