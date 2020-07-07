@@ -1,5 +1,4 @@
 import {AfterViewChecked, Component, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material';
 import {RefereeGameDialogComponent} from './referee-game-dialog/referee-game-dialog.component';
 import {ActivatedRoute, Route, Router} from '@angular/router';
 import {GameService} from '../../../../service/game.service';
@@ -7,6 +6,7 @@ import {Game} from '../../../../model/Game';
 import {SnackbarService} from '../../../../service/snackbar.service';
 import {RoleService} from '../../../../service/role.service';
 import {RefereeGameConfirmDialogComponent} from './referee-game-confirm-dialog/referee-game-confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-referee-game',

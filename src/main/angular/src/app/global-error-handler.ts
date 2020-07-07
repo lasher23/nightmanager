@@ -1,6 +1,4 @@
 import {ErrorHandler, Injectable, Injector} from '@angular/core';
-import {HttpErrorResponse} from '@angular/common/http';
-import {MatSnackBar} from '@angular/material';
 import {SnackbarService} from './service/snackbar.service';
 import {Error} from '../app/model/Error';
 

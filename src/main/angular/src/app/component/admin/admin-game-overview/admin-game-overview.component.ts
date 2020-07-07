@@ -5,9 +5,9 @@ import {HallService} from '../../../service/hall.service';
 import {Hall} from '../../../model/Hall';
 import {SnackbarService} from '../../../service/snackbar.service';
 import {AdminConfirmDialogComponent} from '../admin-generation/admin-confirm-dialog/admin-confirm-dialog.component';
-import {MatDialog} from '@angular/material';
 import {timeInterval} from 'rxjs/operators';
 import {interval} from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface HallGamesAssignement {
   hall: Hall;

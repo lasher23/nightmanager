@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {CategoryService} from '../../../service/category.service';
 import {Category, CategoryState} from '../../../model/Category';
 import {GenerationService} from '../../../service/generation.service';
-import {MatDialog} from '@angular/material';
 import {AdminConfirmDialogComponent} from './admin-confirm-dialog/admin-confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-admin-generation',
