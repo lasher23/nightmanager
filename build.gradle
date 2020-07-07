@@ -9,11 +9,13 @@ buildscript {
     }
     dependencies {
         classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE'
+        classpath "com.github.node-gradle:gradle-node-plugin:2.2.4"
     }
 }
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'idea'
+apply plugin: 'com.github.node-gradle.node'
 
 repositories {
     mavenCentral()
@@ -29,6 +31,10 @@ dependencies {
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
 }
 
+node {
+    nodeModulesDir = new File("src/main/angular")
+}
+
 processResources {
     dependsOn 'buildAngular'
     from("$projectDir/src/main/angular/dist/nightmanager") {
@@ -36,28 +42,7 @@ processResources {
     }
 }
 
-task buildAngular() {
-    if (OperatingSystem.current().isLinux()) {
-        doLast {
-			exec {
-                workingDir "./src/main/angular/"
-                commandLine "npm", "install"
-            }
-            exec {
-                workingDir "./src/main/angular/"
-                commandLine "ng", "build", "--prod"
-            }
-        }
-    } else {
-        doLast {
-            exec {
-                workingDir "src/main/angular/"
-                commandLine "npm.cmd", "install"
-            }
-            exec {
-                workingDir "src/main/angular/"
-                commandLine "ng.cmd", "build", "--prod"
-            }
-        }
-    }
+task buildAngular(type: NpmTask) {
+    dependsOn 'npmInstall'
+    args = ['run', 'build', '--prod']
 }
