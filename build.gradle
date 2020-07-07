@@ -35,6 +35,7 @@ dependencies {
 
 node {
     nodeModulesDir = new File("src/main/angular")
+    download = true
 }
 
 processResources {
