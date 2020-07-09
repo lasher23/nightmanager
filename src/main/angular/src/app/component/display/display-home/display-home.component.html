@@ -21,7 +21,7 @@
     </mat-tab>
     <mat-tab label="Spiele">
       <mat-table [dataSource]="games" class="display-games" style="min-width: 700px;">
-        <ng-container cdkColumnDef="time"> 
+        <ng-container cdkColumnDef="time">
           <mat-header-cell *cdkHeaderCellDef class="flex-2"><span>Zeit</span></mat-header-cell>
           <mat-cell *cdkCellDef="let element" class="flex-2"><span>{{element.startDate | date: 'HH:mm'}}</span>
           </mat-cell>
@@ -63,5 +63,6 @@
   </mat-tab-group>
 </div>
 <footer *ngIf="!displayMode">
-  <button mat-button (click)="enterDisplayMode()">Anzeige Modus</button>
+    <button mat-button (click)="enterDisplayMode()">Anzeige Modus</button>
+    <button mat-button (click)="displayLiveGame()">Live Game</button>
 </footer>

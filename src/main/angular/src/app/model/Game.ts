@@ -14,4 +14,5 @@ export interface Game {
   startDate: Date;
   category: Category;
   type: string;
+  live: boolean;
 }

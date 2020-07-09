@@ -1,0 +1,33 @@
+<div *ngIf="hasNoLiveGames; else scoreboard" class="no-live-game">
+  <div>Momentan kein Live Spiel</div>
+</div>
+<ng-template #scoreboard>
+  <div class="grid">
+    <div class="score-home score">
+      <h1>
+        {{liveGame?.goalsTeamHome}}
+      </h1>
+    </div>
+    <div class="seperator">
+      <h1><span>:</span></h1>
+    </div>
+    <div class="score-guest score">
+      <h1>
+        {{liveGame?.goalsTeamGuest}}
+      </h1>
+    </div>
+    <div class="name-home name">
+      <h2>
+        {{liveGame?.teamHome.name}}
+      </h2>
+    </div>
+    <div>
+      <!-- placeholder -->
+    </div>
+    <div class="name-guest name">
+      <h2>
+        {{liveGame?.teamGuest.name}}
+      </h2>
+    </div>
+  </div>
+</ng-template>

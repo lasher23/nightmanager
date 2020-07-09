@@ -35,4 +35,9 @@ export class HttpProxyService {
     const headers = this.createAuthorizationHeader();
     return this.http.put<T>(this.rootService.url + url, data, {headers: headers}).toPromise();
   }
+
+  patch<T>(url: string, data: any): Promise<T> {
+    const headers = this.createAuthorizationHeader();
+    return this.http.patch<T>(this.rootService.url + url, data, {headers: headers}).toPromise();
+  }
 }

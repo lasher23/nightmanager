@@ -22,6 +22,7 @@ export class RefereeGameComponent implements OnInit {
     route.params.subscribe(x => this.gameService.getGameById(Number(x['id'])).then(y => {
       this.game = y;
       this.showPopup(y);
+      this.setGameAsLiveGame(y)
     }));
   }
 
@@ -30,22 +31,31 @@ export class RefereeGameComponent implements OnInit {
 
   addGoalHome() {
     this.game.goalsTeamHome = this.game.goalsTeamHome + 1;
+    this.updateGame();
   }
 
   minusGoalHome() {
     if (this.game.goalsTeamHome > 0) {
       this.game.goalsTeamHome = this.game.goalsTeamHome - 1;
+      this.updateGame();
     }
   }
 
   addGoalGuest() {
     this.game.goalsTeamGuest = this.game.goalsTeamGuest + 1;
+    this.updateGame();
   }
 
   minusGoalGuest() {
     if (this.game.goalsTeamGuest > 0) {
       this.game.goalsTeamGuest = this.game.goalsTeamGuest - 1;
+      this.updateGame();
     }
+  }
+
+  updateGame() {
+    this.gameService.updateGame(this.game)
+      .then(game => this.game = game);
   }
 
   completeGame() {
@@ -56,7 +66,7 @@ export class RefereeGameComponent implements OnInit {
   }
 
   completeGameFinally() {
-    this.gameService.updateGame(this.game).then(x => this.snackbarService.dismiss());
+    this.gameService.completeGame(this.game).then(x => this.snackbarService.dismiss());
     this.router.navigateByUrl(this.roleService.getDefaultRoute());
   }
 
@@ -71,5 +81,9 @@ export class RefereeGameComponent implements OnInit {
 
   swap() {
     this.swapped = !this.swapped;
+  }
+
+  private setGameAsLiveGame(game: Game) {
+    this.gameService.updateGameAsLive(game)
   }
 }

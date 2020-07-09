@@ -26,6 +26,7 @@ repositories {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web:2.3.1.RELEASE')
     compile 'org.springframework.boot:spring-boot-starter-data-jpa:2.3.1.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-websocket:2.3.1.RELEASE'
     implementation 'org.postgresql:postgresql:42.2.8'
     compile 'org.springframework.boot:spring-boot-starter-security:2.3.1.RELEASE'
     compile 'com.google.guava:guava:29.0-jre'
@@ -46,6 +47,7 @@ processResources {
 }
 
 task buildAngular(type: NpmTask) {
+    onlyIf { !new File("src/main/angular/dist/nightmanager").exists() }
     dependsOn 'npmInstall'
     args = ['run', 'build', '--prod']
 }

@@ -16,35 +16,53 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/games")
 public class GameController {
-    private GameService gameService;
 
-    public GameController(GameService gameService) {
-        this.gameService = gameService;
-    }
+  private GameService gameService;
 
-    @GetMapping
-    public List<Game> getAll(GameRequestParams requestPrams) {
-        return this.gameService.getAll(requestPrams);
-    }
+  public GameController(GameService gameService) {
+    this.gameService = gameService;
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Game> getById(@PathVariable long id) {
-        Optional<Game> game = this.gameService.getById(id);
-        if (game.isPresent()) {
-            return ResponseEntity.ok(game.get());
-        }
-        return ResponseEntity.notFound().build();
-    }
+  @GetMapping
+  public List<Game> getAll(GameRequestParams requestPrams) {
+    return this.gameService.getAll(requestPrams);
+  }
 
-    @PostMapping("/complete")
-    @PreAuthorize("hasAuthority('" + RoleConstants.REFEREE + "') or hasAuthority('" + RoleConstants.ADMIN + "')")
-    public Game completeGame(@RequestBody Game game) {
-        return this.gameService.complete(game);
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<Game> getById(@PathVariable long id) {
+    return this.gameService.getById(id)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
 
-    @PostMapping("/reset")
-    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
-    public Game resetGame(@RequestBody Game game) {
-        return this.gameService.reset(game);
-    }
+  @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('" + RoleConstants.REFEREE + "') or hasAuthority('" + RoleConstants.ADMIN + "')")
+  public ResponseEntity<Game> updateGame(@RequestBody Game game) {
+    return this.gameService.getById(game.getId())
+        .map(x -> this.gameService.save(game))
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
+
+
+  @PatchMapping("/{id}/live")
+  @PreAuthorize("hasAuthority('" + RoleConstants.REFEREE + "') or hasAuthority('" + RoleConstants.ADMIN + "')")
+  public ResponseEntity<Game> updateGamePartial(@PathVariable("id") long id, @RequestBody Game game) {
+    return this.gameService.getById(id)
+        .map(x -> this.gameService.updateLive(x, game.isLive()))
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
+
+  @PostMapping("/complete")
+  @PreAuthorize("hasAuthority('" + RoleConstants.REFEREE + "') or hasAuthority('" + RoleConstants.ADMIN + "')")
+  public Game completeGame(@RequestBody Game game) {
+    return this.gameService.complete(game);
+  }
+
+  @PostMapping("/reset")
+  @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
+  public Game resetGame(@RequestBody Game game) {
+    return this.gameService.reset(game);
+  }
 }

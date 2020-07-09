@@ -13,6 +13,7 @@ import {DisplayGamesComponent} from './component/display/display-games/display-g
 import {DisplayCategoryComponent} from './component/display/display-category/display-category.component';
 import {AdminHomeComponent} from './component/admin/admin-home/admin-home.component';
 import {DisplayCategoryDetailsComponent} from './component/display/display-category-details/display-category-details.component';
+import { DisplayLiveGameComponent } from './component/display/display-live-game/display-live-game.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,10 @@ const routes: Routes = [
   {
     path: 'display/details/categories/:id',
     component: DisplayCategoryDetailsComponent,
+  },
+  {
+    path: 'display/livegame',
+    component: DisplayLiveGameComponent,
   },
   {
     path: 'admin',

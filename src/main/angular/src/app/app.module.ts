@@ -72,6 +72,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { DisplayLiveGameComponent } from './component/display/display-live-game/display-live-game.component';
+import { DisplayChooseHallComponent } from './component/display/display-choose-hall/display-choose-hall.component';
 
 @NgModule({
   entryComponents: [
@@ -100,7 +102,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     DisplayCategoryDetailsComponent,
     AdminConfirmDialogComponent,
     AdminTeamsComponent,
-    SidenavComponent
+    SidenavComponent,
+    DisplayLiveGameComponent,
+    DisplayChooseHallComponent
   ],
   imports: [
     BrowserModule,

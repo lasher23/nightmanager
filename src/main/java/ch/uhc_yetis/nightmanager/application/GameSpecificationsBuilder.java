@@ -20,6 +20,13 @@ public final class GameSpecificationsBuilder {
         return this;
     }
 
+    public GameSpecificationsBuilder withLive(Boolean live) {
+        if (Objects.nonNull(live)) {
+            this.params.add(new SearchCriteria("live", EQUALS, live));
+        }
+        return this;
+    }
+
     public GameSpecificationsBuilder withState(GameState gameState) {
         if (Objects.nonNull(gameState)) {
             this.params.add(new SearchCriteria("state", EQUALS, gameState));
