@@ -24,7 +24,7 @@ export class DisplayLiveGameComponent implements OnInit, OnDestroy {
       this.hallId = params.hallId;
       this.loadLiveGame(this.hallId);
     });
-    this.client = Stomp.client(`ws://localhost:8080/nightmanager-websockets`);
+    this.client = Stomp.client(`ws://${window.location.host}/nightmanager-websockets`);
     this.client.onConnect = () => this.setupWebsocketsListener();
     this.client.activate();
   }
