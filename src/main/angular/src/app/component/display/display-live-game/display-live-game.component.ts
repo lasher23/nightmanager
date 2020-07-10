@@ -12,10 +12,10 @@ import { CompatClient, Stomp } from '@stomp/stompjs';
   styleUrls: ['./display-live-game.component.scss']
 })
 export class DisplayLiveGameComponent implements OnInit, OnDestroy {
-  private liveGame: Game;
+  liveGame: Game;
   private client: CompatClient;
   private hallId: any;
-  private hasNoLiveGames: boolean;
+  hasNoLiveGames: boolean;
 
   constructor(private route: ActivatedRoute, private gameService: GameService) { }
 
