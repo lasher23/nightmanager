@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../../../service/game.service';
 import { Game } from '../../../model/Game';
 import { CompatClient, Stomp } from '@stomp/stompjs';
+import { GameChangeNotifierService } from '../../../service/game-change-notifier.service';
 
 @UntilDestroy()
 @Component({
@@ -17,16 +18,15 @@ export class DisplayLiveGameComponent implements OnInit, OnDestroy {
   private hallId: any;
   hasNoLiveGames: boolean;
 
-  constructor(private route: ActivatedRoute, private gameService: GameService) { }
+  constructor(private route: ActivatedRoute, private gameService: GameService,
+              private gameChangeNotifierService: GameChangeNotifierService) { }
 
   ngOnInit(): void {
     this.route.queryParams.pipe(untilDestroyed(this)).subscribe(params => {
       this.hallId = params.hallId;
       this.loadLiveGame(this.hallId);
     });
-    this.client = Stomp.client(`ws://${window.location.host}/nightmanager-websockets`);
-    this.client.onConnect = () => this.setupWebsocketsListener();
-    this.client.activate();
+    this.gameChangeNotifierService.subscribe(() => this.loadLiveGame(this.hallId));
   }
 
   ngOnDestroy() {
@@ -41,9 +41,5 @@ export class DisplayLiveGameComponent implements OnInit, OnDestroy {
       }
       this.liveGame = liveGames[0];
     });
-  }
-
-  private setupWebsocketsListener() {
-    this.client.subscribe('/topic/nightmanager-game-change', msg => this.loadLiveGame(this.hallId));
   }
 }

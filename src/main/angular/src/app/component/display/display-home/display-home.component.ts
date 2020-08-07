@@ -11,6 +11,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Hall } from '../../../model/Hall';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { GameChangeNotifierService } from '../../../service/game-change-notifier.service';
 
 export enum DisplayType {
   CATEGORY, GAMES
@@ -47,14 +48,18 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
   miliseconds = 0;
 
   constructor(private categoryService: CategoryService, private gameService: GameService, private matDialog: MatDialog,
-              private router: Router) {
+              private router: Router, private gameChangeNotifierService: GameChangeNotifierService) {
   }
 
   ngOnInit(): void {
     this.changeComponent();
     this.gameService.getAllGames().then(games => this.games = games);
     this.id = setInterval(() => this.changeComponent(), 10000);
-    interval(10000).subscribe(() => this.gameService.getAllGames().then(games => this.games = games));
+    this.gameChangeNotifierService.subscribe((msg) => this.updateGames());
+  }
+
+  updateGames() {
+    this.gameService.getAllGames().then(games => this.games = games);
   }
 
   start() {
@@ -92,11 +97,10 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
           type: DisplayType.CATEGORY,
           data: category
         }));
-    const gamesDisplayable = <Promise<Array<Displayable> | never>>this.gameService.getAllGames().then(
-      games => [<Displayable>{
-        type: DisplayType.GAMES,
-        data: this.gameService.getClosestGamesToNow(games, 10, 10)
-      }]);
+    const gamesDisplayable = [<Displayable>{
+      type: DisplayType.GAMES,
+      data: this.gameService.getClosestGamesToNow(this.games, 10, 10)
+    }];
     const displayables = [gamesDisplayable, categoryDisplayables];
     return Promise.all(displayables).then(x => _.flatten(x));
   }
