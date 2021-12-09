@@ -10,9 +10,13 @@
                  [opened]="opened"
                  [fixedInViewport]="true"
                  [fixedTopGap]="layoutGap">
-      <button mat-button (click)="logout()">
-        Ausloggen
-      </button>
+      <div class="nav-buttons">
+        <button mat-stroked-button (click)="openChat()">Chat</button>
+        <button mat-stroked-button (click)="openGames()">Spiele</button>
+        <button mat-stroked-button (click)="logout()">
+          Ausloggen
+        </button>
+      </div>
     </mat-sidenav>
     <div>
       <router-outlet class="container"></router-outlet>

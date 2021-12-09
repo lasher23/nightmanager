@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CompatClient, IFrame, Stomp, StompSubscription } from '@stomp/stompjs';
 import { IMessage } from '@stomp/stompjs/esm5/i-message';
+import { NotifierService } from './notifier.service';
 
 interface Subscription {
   unsubscribe: () => void;
@@ -10,24 +11,17 @@ interface Subscription {
   providedIn: 'root'
 })
 export class GameChangeNotifierService {
-  private client: CompatClient;
-  private isSetup = false;
 
-  constructor() { }
+  constructor(private notifierService: NotifierService,) { }
 
-  subscribe(callback: (message: IMessage) => void) {
-    if (!this.isSetup) {
-      this.setup(callback);
-      this.isSetup = true;
-    } else {
-      this.client.subscribe('/topic/nightmanager-game-change', callback);
+  async subscribe(callback: (message: IMessage) => void) {
+    const client = await this.notifierService.getClient();
+    if (client.connected) {
+      client.subscribe('/topic/nightmanager-game-change', callback);
+      return;
     }
-  }
-
-  private setup(callback: (message: IMessage) => void) {
-    this.client = Stomp.client(`ws://${window.location.host}/nightmanager-websockets`);
-    this.client.onConnect = () => this.client.subscribe('/topic/nightmanager-game-change',
-      (message) => callback(message));
-    this.client.activate();
+    client.onConnect = param => {
+      client.subscribe('/topic/nightmanager-game-change', callback);
+    };
   }
 }

@@ -1,0 +1,9 @@
+.chats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 20px;
+}
+
+app-referee-chat {
+  height: calc(100vh - 150px);
+}

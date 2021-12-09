@@ -1,0 +1,6 @@
+<div class="chats">
+  <div *ngFor="let hall of halls">
+    <h1>{{hall.name}}</h1>
+    <app-referee-chat [hallId]="hall.id" creator="ADMIN"></app-referee-chat>
+  </div>
+</div>

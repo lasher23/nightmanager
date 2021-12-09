@@ -74,6 +74,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DisplayLiveGameComponent } from './component/display/display-live-game/display-live-game.component';
 import { DisplayChooseHallComponent } from './component/display/display-choose-hall/display-choose-hall.component';
+import { RefereeChatComponent } from './component/referee/referee-chat/referee-chat.component';
+import { AdminChatComponent } from './component/admin/admin-chat/admin-chat.component';
 
 @NgModule({
   entryComponents: [
@@ -104,7 +106,9 @@ import { DisplayChooseHallComponent } from './component/display/display-choose-h
     AdminTeamsComponent,
     SidenavComponent,
     DisplayLiveGameComponent,
-    DisplayChooseHallComponent
+    DisplayChooseHallComponent,
+    RefereeChatComponent,
+    AdminChatComponent
   ],
   imports: [
     BrowserModule,

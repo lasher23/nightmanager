@@ -1,0 +1,18 @@
+<div class="container">
+  <div #messages class="messages">
+    <ng-container *ngFor="let chat of chats">
+      <div class="message" [class.referee-message]="chat.creator === 'REFEREE'">
+        {{chat.message}}
+      </div>
+    </ng-container>
+  </div>
+  <div class="message-input">
+    <mat-form-field>
+      <mat-label>Nachricht</mat-label>
+      <input matInput [(ngModel)]="message" type="text">
+    </mat-form-field>
+    <button mat-fab (click)="createChat()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>

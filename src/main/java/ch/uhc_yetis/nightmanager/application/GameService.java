@@ -21,7 +21,7 @@ public class GameService {
   private final GameRepository gameRepository;
   private final HallService hallService;
   private final CategoryService categoryService;
-  private SimpMessagingTemplate template;
+  private final SimpMessagingTemplate template;
 
   public GameService(GameRepository gameRepository, HallService hallService, CategoryService categoryService,
       SimpMessagingTemplate template) {

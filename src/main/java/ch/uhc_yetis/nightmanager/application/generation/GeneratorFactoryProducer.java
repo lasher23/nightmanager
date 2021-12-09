@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class GeneratorFactoryProducer {
 
-    private SingleGeneratorFactory singleGeneratorFactory;
-    private DoubleCategoriesGeneratorFactory doubleCategoriesGeneratorFactory;
-    private YetisCupGeneratorFactory yetisCupGeneratorFactory;
+    private final SingleGeneratorFactory singleGeneratorFactory;
+    private final DoubleCategoriesGeneratorFactory doubleCategoriesGeneratorFactory;
+    private final YetisCupGeneratorFactory yetisCupGeneratorFactory;
 
     public GeneratorFactoryProducer(SingleGeneratorFactory singleGeneratorFactory, DoubleCategoriesGeneratorFactory doubleCategoriesGeneratorFactory, YetisCupGeneratorFactory yetisCupGeneratorFactory) {
         this.singleGeneratorFactory = singleGeneratorFactory;

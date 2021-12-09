@@ -1,0 +1,47 @@
+:host {
+  height: calc(100vh - 72px);
+  display: block;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.messages {
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: scroll;
+}
+
+.message-input {
+  padding: 5px;
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  *:nth-child(1) {
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+
+  *:nth-child(2) {
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
+}
+
+.message {
+  margin: 10px;
+  padding: 10px;
+  width: 50%;
+  border: grey 1px solid;
+  border-radius: 3px;
+
+  &.referee-message {
+    margin-left: calc(50% - 42px);
+  }
+}
