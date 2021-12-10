@@ -32,6 +32,7 @@ export class RefereeChatComponent implements OnInit, AfterViewInit {
   }
 
   private scroll() {
+    setInterval(() => this.loadChat(), 10000);
     setTimeout(() => {
       if (this.messagesRef?.nativeElement?.scrollHeight) {
         this.messagesRef.nativeElement.scrollTop = this.messagesRef.nativeElement.scrollHeight;

@@ -40,6 +40,9 @@ export class GameService {
   }
 
   getClosestGamesToNow(games: Array<Game>, beforeNow: number, afterNow: number) {
+    if (!games) {
+      return [];
+    }
     const gamessorted = games.map(game => {
       game.startDate = new Date(game.startDate);
       return game;
