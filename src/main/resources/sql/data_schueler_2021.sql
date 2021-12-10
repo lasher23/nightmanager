@@ -135,7 +135,7 @@ INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeho
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_guest, fk_team_home) VALUES (30, 72000, 0, 0, true , '2021-12-11 14:00:00', 0, 1, 3000, 1, 3100, 3101);
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_guest, fk_team_home) VALUES (31, 72000, 0, 0, true , '2021-12-11 14:24:00', 0, 2, 1000, 1, 1200, 1201);
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_guest, fk_team_home) VALUES (32, 72000, 0, 0, true , '2021-12-11 14:36:00', 0, 2, 2000, 1, 2200, 2201);
-INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_guest, fk_team_home) VALUES (33, 72000, 0, 0, true , '2021-12-11 14:48:00', 0, 2, 3000, 1, 3200, 3201);
+INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_guest, fk_team_home) VALUES (33, 72000, 0, 0, true , '2021-12-11 14:48:00', 0, 2, 3000, 1, 3300, 3301);
 
 
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_guest, fk_team_home) VALUES (34, 72000, 0, 0, false, '2021-12-11 08:00:00', 0, 0, 2000, 2, 227,	224);
