@@ -144,6 +144,8 @@ public class GameService {
           .forEach(this.gameRepository::save);
     }
     game.setLive(live);
-    return save(game);
+    var savedGame = save(game);
+    this.template.convertAndSend("/topic/nightmanager-game-change", "{\"status\":\"GameChanged\"}");
+    return savedGame;
   }
 }
