@@ -67,7 +67,10 @@ export class DisplayLiveGameComponent implements OnInit, OnDestroy {
       this.loadLiveGame(this.hallId);
     });
     this.gameChangeNotifierService.subscribe(() => this.loadLiveGame(this.hallId));
-    interval(5000).subscribe(() => this.handleDisplayChange());
+    interval(5000).subscribe(() => {
+      this.loadLiveGame(this.hallId);
+      this.handleDisplayChange();
+    });
   }
 
   ngOnDestroy() {
