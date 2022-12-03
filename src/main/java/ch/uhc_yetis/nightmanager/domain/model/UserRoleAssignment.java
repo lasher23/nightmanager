@@ -1,6 +1,6 @@
 package ch.uhc_yetis.nightmanager.domain.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user_role_assignment")
