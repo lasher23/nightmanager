@@ -5,7 +5,7 @@ import ch.uhc_yetis.nightmanager.domain.model.ApplicationUser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,13 +31,13 @@ public class LoginController {
     }
 
     @PostMapping
-    public ResponseEntity login(@RequestBody ApplicationUser user) {
+    public ResponseEntity<UserDto> login(@RequestBody ApplicationUser user) {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(user.getUsername());
         if (this.bCryptPasswordEncoder.matches(user.getPassword(), userDetails.getPassword())) {
             String jwt = this.createJWT(userDetails);
             UserDto userDto = new UserDto();
             userDto.setUsername(userDetails.getUsername());
-            userDto.setRoles(userDetails.getAuthorities().stream().map(authority -> authority.getAuthority()).collect(Collectors.toList()));
+            userDto.setRoles(userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
             return ResponseEntity.ok().header(HEADER_STRING, jwt).body(userDto);
         }
         return ResponseEntity.status(401).build();

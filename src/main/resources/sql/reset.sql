@@ -1,0 +1,9 @@
+delete from games;
+delete from teams;
+delete from user_role_assignment;
+delete from application_user;
+delete from categories;
+delete from chats;
+delete from halls;
+delete from role;
+delete from tournaments;
