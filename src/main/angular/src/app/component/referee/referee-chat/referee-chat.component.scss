@@ -1,18 +1,22 @@
 :host {
-  height: calc(100vh - 72px);
-  display: block;
-}
-
-.container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+}
+
+// you dirty dirty
+.messages-referee {
+  height: calc(100vh - 64px - 70px - 40px);
+}
+
+// you dirty dirty
+.messages-admin {
+  height: calc(100vh - 16px - 87px - 80px - 48px - 2em - 1.34em - 100px);
 }
 
 .messages {
-  flex-grow: 1;
+  flex-grow: 0;
   flex-shrink: 1;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .message-input {

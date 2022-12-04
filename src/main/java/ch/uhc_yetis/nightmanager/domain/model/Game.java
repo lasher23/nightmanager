@@ -25,9 +25,14 @@ public class Game {
   private GameState state;
   @Column(name = "flagPlaceholder")
   private boolean placeholder;
+
+  @Column(name = "fk_hall", insertable=false, updatable=false)
+  private Long hallId;
   @ManyToOne
   @JoinColumn(name = "fk_hall")
   private Hall hall;
+  @Column(name = "fk_category", insertable=false, updatable=false)
+  private Long categoryId;
   @ManyToOne
   @JoinColumn(name = "fk_category")
   private Category category;

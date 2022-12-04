@@ -1,28 +1,52 @@
 .display-details-category {
   width: 100%;
+
   .title {
     width: 100%;
     text-align: center;
   }
+
   .teams {
     width: 28%;
   }
+
   .games {
     width: 68%;
   }
+
   float: left;
   margin: 1%;
+
   h1 {
     width: 100%;
     text-align: center;
   }
+
   table {
     width: 100%;
   }
+
   .mat-cell {
     text-align: center;
   }
+
   .mat-header-cell {
     text-align: center;
   }
+}
+
+.visible-print {
+  display: none;
+}
+
+@media print {
+
+  .hide-print, .hide-print * {
+    display: none !important;
+  }
+
+  .visible-print {
+    display: block;
+  }
+
 }

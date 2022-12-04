@@ -1,5 +1,5 @@
 <div class="admin-games">
-  <div *ngFor="let gameHallAssingment of gamesHallAssingments" [style.width]="widthPerHallTable">
+  <div *ngFor="let gameHallAssingment of gamesHallAssingments" [style.width]="widthPerHallTable" class="hall-games-container">
     <h1>{{gameHallAssingment.hall.name}}</h1>
     <table mat-table [dataSource]="gameHallAssingment.games">
       <ng-container matColumnDef="time">
@@ -38,7 +38,8 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{gray: row.state == 'DONE'}"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          [ngClass]="{gray: row.state == 'DONE', live: row.live}"></tr>
     </table>
   </div>
 </div>

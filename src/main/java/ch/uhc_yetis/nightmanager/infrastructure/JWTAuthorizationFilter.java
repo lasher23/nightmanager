@@ -16,16 +16,18 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private final ApplicationUserRepository applicationUserRepository;
 
-    public JWTAuthorizationFilter(AuthenticationManager authenticationManager, ApplicationUserRepository applicationUserRepository) {
-        super(authenticationManager);
+    public JWTAuthorizationFilter(ApplicationUserRepository applicationUserRepository) {
+        super();
         this.applicationUserRepository = applicationUserRepository;
     }
 
@@ -49,8 +51,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(SecurityConstants.HEADER_STRING);
         if (token != null) {
             // parse the token.
-            String user = Jwts.parser()
+            String user = Jwts.parserBuilder()
                     .setSigningKey(SecurityConstants.SECRET.getBytes())
+                    .build()
                     .parseClaimsJws(token.replace(SecurityConstants.TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();

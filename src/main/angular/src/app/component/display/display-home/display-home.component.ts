@@ -1,17 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CategoryService } from '../../../service/category.service';
-import { Category, CategoryState } from '../../../model/Category';
-import { GameService } from '../../../service/game.service';
-import { Game } from '../../../model/Game';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {CategoryService} from '../../../service/category.service';
+import {Category, CategoryState} from '../../../model/Category';
+import {GameService} from '../../../service/game.service';
+import {Game} from '../../../model/Game';
 import * as _ from 'lodash';
-import { interval } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { DisplayChooseHallComponent } from '../display-choose-hall/display-choose-hall.component';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Hall } from '../../../model/Hall';
-import { Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { GameChangeNotifierService } from '../../../service/game-change-notifier.service';
+import {interval, takeUntil} from 'rxjs';
+import {MatDialog} from '@angular/material/dialog';
+import {DisplayChooseHallComponent} from '../display-choose-hall/display-choose-hall.component';
+import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
+import {Hall} from '../../../model/Hall';
+import {Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
+import {GameChangeNotifierService} from '../../../service/game-change-notifier.service';
 
 export enum DisplayType {
   CATEGORY, GAMES
@@ -44,8 +44,7 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
   ];
 
   games: Array<Game>;
-  interval;
-  miliseconds = 0;
+
 
   constructor(private categoryService: CategoryService, private gameService: GameService, private matDialog: MatDialog,
               private router: Router, private gameChangeNotifierService: GameChangeNotifierService) {
@@ -53,53 +52,30 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.changeComponent();
-    this.gameService.getAllGames().then(games => this.games = games);
+    this.updateGames()
     this.id = setInterval(() => this.changeComponent(), 10000);
-    this.gameChangeNotifierService.subscribe((msg) => this.updateGames());
+    this.gameChangeNotifierService.gameChanges$.pipe(untilDestroyed(this)).subscribe(() => this.updateGames())
   }
 
   updateGames() {
     this.gameService.getAllGames().then(games => this.games = games);
   }
 
-  start() {
-    console.log(this.interval);
-    if (!this.interval) {
-      this.interval = setInterval(() => this.miliseconds += 1000, 1000);
-    }
-  }
-
-  stop() {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
-    }
-  }
-
-  reset() {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
-    }
-    this.miliseconds = 0;
-  }
-
   ngOnDestroy(): void {
     clearInterval(this.id);
   }
 
-  private getDisplayables(): Promise<Array<Displayable> | never> {
-    const categoryDisplayables = <Promise<Array<Displayable> | never>>this.categoryService.getAll().then(
-      categories => categories
-        .filter(category => category.state != CategoryState.DISABLED)
-        .sort(this.sortCategory)
-        .map(category => <Displayable>{
-          type: DisplayType.CATEGORY,
-          data: category
-        }));
+  private async getDisplayables(): Promise<Array<Displayable> | never> {
+    const categoryDisplayables = (await this.categoryService.getAll())
+      .filter(category => category.state != CategoryState.DISABLED)
+      .sort(this.sortCategory)
+      .map(category => <Displayable>{
+        type: DisplayType.CATEGORY,
+        data: category
+      });
     const gamesDisplayable = [<Displayable>{
       type: DisplayType.GAMES,
-      data: this.gameService.getClosestGamesToNow(this.games, 10, 10)
+      data: this.gameService.getClosestGamesToNow(this.games, 20, 20)
     }];
     const displayables = [gamesDisplayable, categoryDisplayables];
     return Promise.all(displayables).then(x => _.flatten(x));
@@ -147,6 +123,6 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
   }
 
   private openDisplayLiveGame(hall: Hall) {
-    this.router.navigate(['display/livegame'], { queryParams: { hallId: hall.id } });
+    this.router.navigate(['display/livegame'], {queryParams: {hallId: hall.id}});
   }
 }

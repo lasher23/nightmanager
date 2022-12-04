@@ -31,51 +31,64 @@ import {RefereeTeamComponent} from './component/referee/referee-teams/referee-te
 import {RefereeHallsComponent} from './component/referee/referee-halls/referee-halls.component';
 import {GameService} from './service/game.service';
 import {RefereeGameComponent} from './component/referee/referee-games/referee-game/referee-game.component';
-import {RefereeGameDialogComponent} from './component/referee/referee-games/referee-game/referee-game-dialog/referee-game-dialog.component';
-import {RefereeGameConfirmDialogComponent} from './component/referee/referee-games/referee-game/referee-game-confirm-dialog/referee-game-confirm-dialog.component';
+import {
+  RefereeGameDialogComponent
+} from './component/referee/referee-games/referee-game/referee-game-dialog/referee-game-dialog.component';
+import {
+  RefereeGameConfirmDialogComponent
+} from './component/referee/referee-games/referee-game/referee-game-confirm-dialog/referee-game-confirm-dialog.component';
 import {DisplayHomeComponent} from './component/display/display-home/display-home.component';
 import {DisplayCategoryComponent} from './component/display/display-category/display-category.component';
 import {DisplayGamesComponent} from './component/display/display-games/display-games.component';
 import {AdminGameOverviewComponent} from './component/admin/admin-game-overview/admin-game-overview.component';
 import {AdminHomeComponent} from './component/admin/admin-home/admin-home.component';
 import {AdminGenerationComponent} from './component/admin/admin-generation/admin-generation.component';
-import {DisplayCategoryOverviewComponent} from './component/display/display-category-overview/display-category-overview.component';
-import {DisplayCategoryDetailsComponent} from './component/display/display-category-details/display-category-details.component';
-import {AdminConfirmDialogComponent} from './component/admin/admin-generation/admin-confirm-dialog/admin-confirm-dialog.component';
+import {
+  DisplayCategoryOverviewComponent
+} from './component/display/display-category-overview/display-category-overview.component';
+import {
+  DisplayCategoryDetailsComponent
+} from './component/display/display-category-details/display-category-details.component';
+import {
+  AdminConfirmDialogComponent
+} from './component/admin/admin-generation/admin-confirm-dialog/admin-confirm-dialog.component';
 import {AdminTeamsComponent} from './component/admin/admin-teams/admin-teams.component';
 import {SidenavComponent} from './component/sidenav/sidenav.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatTableModule } from '@angular/material/table';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { DisplayLiveGameComponent } from './component/display/display-live-game/display-live-game.component';
-import { DisplayChooseHallComponent } from './component/display/display-choose-hall/display-choose-hall.component';
-import { RefereeChatComponent } from './component/referee/referee-chat/referee-chat.component';
-import { AdminChatComponent } from './component/admin/admin-chat/admin-chat.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
+import {MatTableModule} from '@angular/material/table';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatIconModule} from '@angular/material/icon';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatCardModule} from '@angular/material/card';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatListModule} from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatSliderModule} from '@angular/material/slider';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {DisplayLiveGameComponent} from './component/display/display-live-game/display-live-game.component';
+import {DisplayChooseHallComponent} from './component/display/display-choose-hall/display-choose-hall.component';
+import {RefereeChatComponent} from './component/referee/referee-chat/referee-chat.component';
+import {AdminChatComponent} from './component/admin/admin-chat/admin-chat.component';
+import {StompService} from "./stomp.service";
+import {stompConf} from "./stomp.conf";
+import { TimerComponent } from './component/timer/timer.component';
 
 @NgModule({
   entryComponents: [
@@ -108,7 +121,8 @@ import { AdminChatComponent } from './component/admin/admin-chat/admin-chat.comp
     DisplayLiveGameComponent,
     DisplayChooseHallComponent,
     RefereeChatComponent,
-    AdminChatComponent
+    AdminChatComponent,
+    TimerComponent
   ],
   imports: [
     BrowserModule,
@@ -178,6 +192,14 @@ import { AdminChatComponent } from './component/admin/admin-chat/admin-chat.comp
     SnackbarService,
     RoleService,
     GameService,
+    // {
+    //   provide: StompService, useFactory: () => {
+    //     const stompService = new StompService();
+    //     stompService.configure(stompConf)
+    //     stompService.activate()
+    //     return stompService
+    //   }
+    // }
   ],
   bootstrap: [AppComponent]
 })

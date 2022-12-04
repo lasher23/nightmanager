@@ -1,9 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { HallService } from '../../../service/hall.service';
-import { ChatService } from '../../../service/chat.service';
-import { Chat } from '../../../model/Chat';
-import { Hall } from '../../../model/Hall';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {HallService} from '../../../service/hall.service';
+import {ChatService} from '../../../service/chat.service';
+import {Chat} from '../../../model/Chat';
+import {Hall} from '../../../model/Hall';
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
+@UntilDestroy()
 @Component({
   selector: 'app-referee-chat',
   templateUrl: './referee-chat.component.html',
@@ -20,11 +22,12 @@ export class RefereeChatComponent implements OnInit, AfterViewInit {
   @Input()
   creator: string = 'REFEREE';
 
-  constructor(private hallService: HallService, private chatService: ChatService,) { }
+  constructor(private hallService: HallService, private chatService: ChatService,) {
+  }
 
   async ngOnInit(): Promise<void> {
+    this.chatService.chatChanges$.pipe(untilDestroyed(this)).subscribe(() => this.loadChat())
     await this.loadChat();
-    (await this.chatService.getChatEvents()).subscribe(() => this.loadChat());
   }
 
   ngAfterViewInit(): void {
@@ -32,7 +35,6 @@ export class RefereeChatComponent implements OnInit, AfterViewInit {
   }
 
   private scroll() {
-    setInterval(() => this.loadChat(), 10000);
     setTimeout(() => {
       if (this.messagesRef?.nativeElement?.scrollHeight) {
         this.messagesRef.nativeElement.scrollTop = this.messagesRef.nativeElement.scrollHeight;
@@ -55,6 +57,6 @@ export class RefereeChatComponent implements OnInit, AfterViewInit {
   }
 
   async createChat() {
-    this.chatService.save({ message: this.message, hall: this.hall, creator: this.creator });
+    this.chatService.save({message: this.message, hall: this.hall, creator: this.creator});
   }
 }

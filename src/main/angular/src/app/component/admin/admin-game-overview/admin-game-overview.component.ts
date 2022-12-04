@@ -7,13 +7,16 @@ import {SnackbarService} from '../../../service/snackbar.service';
 import {AdminConfirmDialogComponent} from '../admin-generation/admin-confirm-dialog/admin-confirm-dialog.component';
 import {timeInterval} from 'rxjs/operators';
 import {interval} from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
+import {GameChangeNotifierService} from "../../../service/game-change-notifier.service";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
 export interface HallGamesAssignement {
   hall: Hall;
   games: Array<Game>;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-admin-game-overview',
   templateUrl: './admin-game-overview.component.html',
@@ -33,12 +36,18 @@ export class AdminGameOverviewComponent implements OnInit {
   ];
   widthPerHallTable = '100%';
 
-  constructor(private gameService: GameService, private  hallService: HallService, private snackbarService: SnackbarService, public dialog: MatDialog) {
+  constructor(
+    private gameService: GameService,
+    private hallService: HallService,
+    private snackbarService: SnackbarService,
+    public dialog: MatDialog,
+    private gameChangeNotifierService: GameChangeNotifierService,
+  ) {
   }
 
   ngOnInit() {
     this.setup();
-    interval(10000).subscribe(() => this.setup());
+    this.gameChangeNotifierService.gameChanges$.pipe(untilDestroyed(this)).subscribe(() => this.setup())
   }
 
   setup() {

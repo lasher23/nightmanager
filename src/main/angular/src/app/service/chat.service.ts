@@ -1,20 +1,23 @@
-import { Injectable } from '@angular/core';
-import { HttpProxyService } from './http-proxy.service';
-import { Hall } from '../model/Hall';
-import { Chat } from '../model/Chat';
-import { IMessage } from '@stomp/stompjs/esm5/i-message';
-import { NotifierService } from './notifier.service';
-import { Observable, Subject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpProxyService} from './http-proxy.service';
+import {Hall} from '../model/Hall';
+import {Chat} from '../model/Chat';
+import {interval, merge, Observable, Subject, timer} from 'rxjs';
+import {StompService} from "../stomp.service";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
 
-  chat$ = new Subject();
-  initialized = false;
+  readonly chatChanges$: Observable<any>;
 
-  constructor(private http: HttpProxyService, private notifierService: NotifierService,) {
+  constructor(
+    private http: HttpProxyService,
+    private stompService: StompService,
+  ) {
+    this.chatChanges$ = merge(this.stompService.watch('/topic/nightmanager-chat-change').pipe(map(() => undefined)), interval(60000))
   }
 
   getChatsByHall(hallId: Hall['id']): Promise<Array<Chat>> {
@@ -23,20 +26,5 @@ export class ChatService {
 
   save(chat: Chat): Promise<any> {
     return this.http.post('chats', chat);
-  }
-
-  async getChatEvents(): Promise<Observable<any>> {
-    if (!this.initialized) {
-      this.initialized = true;
-      const client = await this.notifierService.getClient();
-      if (client.connected) {
-        client.subscribe('/topic/nightmanager-chat-change', () => this.chat$.next());
-        return;
-      }
-      client.onConnect = param => {
-        client.subscribe('/topic/nightmanager-chat-change', () => this.chat$.next());
-      };
-    }
-    return this.chat$;
   }
 }

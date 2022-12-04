@@ -40,11 +40,12 @@ export class DisplayGamesComponent implements OnInit {
   ngOnInit() {
   }
 
-  private initHalls() {
+  private async initHalls() {
     this.gamesHallAssingments = [];
-    this.hallService.getAllHalls().then(halls => halls.forEach(hall => {
+    (await this.hallService.getAllHalls()).forEach(hall => {
       const gamesPerHall = this._games.filter(game => game.hall.id === hall.id);
       this.gamesHallAssingments.push({hall: hall, games: gamesPerHall});
-    })).then(() => this.widthPerHallTable = (100 / this.gamesHallAssingments.length - 2) + '%');
+    });
+    this.widthPerHallTable = (100 / this.gamesHallAssingments.length - 2) + '%';
   }
 }

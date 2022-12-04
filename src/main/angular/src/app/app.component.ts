@@ -1,9 +1,10 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
-import { RoleService } from './service/role.service';
-import { Router } from '@angular/router';
-import { ChatService } from './service/chat.service';
-import { HallService } from './service/hall.service';
-import { SnackbarService } from './service/snackbar.service';
+import {Component, OnChanges, OnInit} from '@angular/core';
+import {RoleService} from './service/role.service';
+import {Router} from '@angular/router';
+import {ChatService} from './service/chat.service';
+import {HallService} from './service/hall.service';
+import {SnackbarService} from './service/snackbar.service';
+import {Subscription, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -14,9 +15,15 @@ export class AppComponent implements OnChanges, OnInit {
 
   isReferee = false;
   lastChatCheckedDate: Date = new Date(Date.now());
+  private subscription: Subscription;
 
-  constructor(private roleService: RoleService, private router: Router, private chatService: ChatService,
-              private hallService: HallService, private snackbarService: SnackbarService,) {
+  constructor(
+    private roleService: RoleService,
+    private router: Router,
+    private chatService: ChatService,
+    private hallService: HallService,
+    private snackbarService: SnackbarService,
+  ) {
     this.isReferee = this.roleService.getRole() && this.roleService.getRole().name === 'REFEREE';
   }
 
@@ -27,28 +34,24 @@ export class AppComponent implements OnChanges, OnInit {
 
   ngOnInit() {
     this.roleService.role$.subscribe(role => {
+      this.subscription?.unsubscribe()
       this.isReferee = role && role.name === 'REFEREE';
       if (this.isReferee || role?.name === 'ADMIN') {
-        this.chatService.getChatEvents().then(events => events.subscribe(() => {
-          let hallPromise;
-          if (this.hallService.isHallSet()) {
-            hallPromise = this.hallService.getCurrentHall().then(hall => [hall.id]);
-          } else {
-            hallPromise = Promise.resolve([1, 2]);
+        this.subscription = this.chatService.chatChanges$.subscribe(async () => {
+          const hallIds: number[] = this.hallService.isHallSet()
+            ? [(await this.hallService.getCurrentHall()).id]
+            : [1, 2];
+          for (const hallId of hallIds) {
+            const chats = await this.chatService.getChatsByHall(hallId)
+            if (chats.some(chat =>
+              role.name !== chat.creator
+              && chat.createdDate
+              && new Date(chat.createdDate).getTime() > this.lastChatCheckedDate.getTime())) {
+              this.snackbarService.showMessage('Neue Nachricht');
+            }
+            this.lastChatCheckedDate = new Date(Date.now());
           }
-          hallPromise.then(hallIds => {
-            hallIds.forEach(hallId => {
-              this.chatService.getChatsByHall(hallId)
-                .then(chats => {
-                  if (chats.some(chat => chat.createdDate && new Date(chat.createdDate).getTime()
-                    > this.lastChatCheckedDate.getTime())) {
-                    this.snackbarService.showMessage('Neue Nachricht');
-                  }
-                  this.lastChatCheckedDate = new Date(Date.now());
-                });
-            });
-          });
-        }));
+        });
       }
     });
   }

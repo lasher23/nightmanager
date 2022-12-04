@@ -15,7 +15,7 @@ public final class GameSpecificationsBuilder {
 
     public GameSpecificationsBuilder withCategory(Long categoryId) {
         if (Objects.nonNull(categoryId) && categoryId > 0) {
-            this.params.add(new SearchCriteria("category", EQUALS, categoryId));
+            this.params.add(new SearchCriteria("categoryId", EQUALS, categoryId));
         }
         return this;
     }
@@ -36,7 +36,7 @@ public final class GameSpecificationsBuilder {
 
     public GameSpecificationsBuilder withHall(Long hallId) {
         if (Objects.nonNull(hallId) && hallId > 0) {
-            this.params.add(new SearchCriteria("hall", EQUALS, hallId));
+            this.params.add(new SearchCriteria("hallId", EQUALS, hallId));
         }
         return this;
     }

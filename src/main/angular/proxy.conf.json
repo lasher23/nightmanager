@@ -1,21 +1,15 @@
 {
   "/api": {
-    "secure": false,
     "target": "http://localhost:8080",
-    "logLevel": "debug",
-    "changeOrigin": true
+    "logLevel": "debug"
   },
   "/sign-in": {
     "secure": false,
-    "target": "http://localhost:8080",
-    "logLevel": "debug",
-    "changeOrigin": true
+    "target": "http://localhost:8080"
   },
   "/nightmanager-websockets": {
     "secure": false,
     "target": "http://localhost:8080",
-    "logLevel": "debug",
-    "changeOrigin": true,
     "ws": true
   }
 }

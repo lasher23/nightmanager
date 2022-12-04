@@ -1,0 +1,8 @@
+<div style="width: 100%; position: sticky; top: 10px; z-index: 10;">
+  <div style="text-align: center;">
+    <p>{{miliseconds | date: 'mm:ss' }}</p>
+    <button mat-raised-button (click)="start()">Start</button>
+    <button mat-raised-button (click)="stop()">Stop</button>
+    <button mat-raised-button (click)="reset()">Reset</button>
+  </div>
+</div>

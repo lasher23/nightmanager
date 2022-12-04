@@ -30,6 +30,7 @@ export class DisplayCategoryDetailsComponent implements OnInit {
     'hall',
   ];
   private gamesForSorting: Array<Game> = [];
+  selectedIndex = 0;
 
   constructor(route: ActivatedRoute, private teamService: TeamService, private gameService: GameService) {
     route.params.subscribe(x => this.initData(x['id']));

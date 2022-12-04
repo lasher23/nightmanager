@@ -15,24 +15,6 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(value = {RuntimeException.class})
-    protected ResponseEntity<HttpErrorObject> handleConflict(RuntimeException ex, WebRequest request) {
-        LoggerFactory.getLogger(this.getClass()).trace(ex.getMessage(), ex);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(HttpErrorObject.withTimestamp(LocalDateTime.now()).withPath(request.getContextPath()).withMessage(ex.getMessage()).withError("unexpected error").build());
-    }
-
-    @ExceptionHandler(value = {GenerationException.class})
-    protected ResponseEntity<HttpErrorObject> handleGenerationException(RuntimeException ex, WebRequest request) {
-        LoggerFactory.getLogger(this.getClass()).trace(ex.getMessage(), ex);
-        GenerationException generationException = (GenerationException) ex;
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(HttpErrorObject.withTimestamp(LocalDateTime.now()).withPath(request.getContextPath()).withMessage(generationException.getMessage()).withError("Generierungs Fehler").build());
-    }
-
-    @ExceptionHandler(value = {AccessDeniedException.class})
-    protected ResponseEntity<HttpErrorObject> handleAccessDeniedException(RuntimeException ex, WebRequest request) {
-        LoggerFactory.getLogger(this.getClass()).trace(ex.getMessage(), ex);
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(HttpErrorObject.withTimestamp(LocalDateTime.now()).withPath(request.getContextPath()).withMessage(ex.getMessage()).withError("Zugriff verweigert").build());
-    }
 
     @ExceptionHandler(value = {UsernameNotFoundException.class})
     protected ResponseEntity<HttpErrorObject> handleUsernameNotFoundException(RuntimeException ex, WebRequest request) {

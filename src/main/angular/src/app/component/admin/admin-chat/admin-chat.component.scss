@@ -1,9 +1,14 @@
-.chats {
+:host {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 20px;
 }
 
+.chat {
+  display: flex;
+  flex-direction: column;
+}
+
 app-referee-chat {
-  height: calc(100vh - 150px);
+  flex-grow: 1;
 }

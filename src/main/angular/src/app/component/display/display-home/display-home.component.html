@@ -7,14 +7,7 @@
   </div>
 </div>
 <div *ngIf="!displayMode">
-  <header style="width: 100%; position: sticky; top: 0px; z-index: 10;">
-    <div style="text-align: center;">
-      <p>{{miliseconds | date: 'mm:ss' }}</p>
-      <button mat-raised-button (click)="start()">Start</button>
-      <button mat-raised-button (click)="stop()">Stop</button>
-      <button mat-raised-button (click)="reset()">Reset</button>
-    </div>
-  </header>
+  <app-timer></app-timer>
   <mat-tab-group style="position: relative;z-index: 1;">
     <mat-tab label="Kategorien">
       <app-display-category-overview></app-display-category-overview>
@@ -63,6 +56,6 @@
   </mat-tab-group>
 </div>
 <footer *ngIf="!displayMode">
-    <button mat-button (click)="enterDisplayMode()">Anzeige Modus</button>
-    <button mat-button (click)="displayLiveGame()">Live Game</button>
+  <button mat-button (click)="enterDisplayMode()">Anzeige Modus</button>
+  <button mat-button (click)="displayLiveGame()">Live Game</button>
 </footer>
