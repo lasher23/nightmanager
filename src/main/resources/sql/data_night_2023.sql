@@ -10,15 +10,15 @@ insert into application_user(id,password,username) values (2,'$2a$10$lWMGhesQi8r
 insert into role(id,name) values (2,'REFEREE');
 insert into user_role_assignment(fk_role,fk_user) values (2,2);
 
-INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (1000,'Kategorie A',NULL,0,2,NULL);
-INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (2000,'Kategorie A Winner',NULL,5,0,1000);
-INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (3000,'Kategorie A Loser',NULL,5,0,1000);
-INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (4000,'Kategorie B',NULL,5,1,NULL);
-INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (5000,'Kategorie B 1',NULL,1,1,4000);
-INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (6000,'Kategorie B 2',NULL,1,1,4000);
-INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (7000,'Kategorie C',NULL,5,1,NULL);
-INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (8000,'Kategorie C 1',NULL,1,1,7000);
-INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (9000,'Kategorie C 2',NULL,1,1,7000);
+INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (1000,'Plausch',NULL,0,2,NULL);
+INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (2000,'Plausch Winner',NULL,5,0,1000);
+INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (3000,'Plausch Loser',NULL,5,0,1000);
+INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (4000,'Guuggenmusigen und Firmen',NULL,5,1,NULL);
+INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (5000,'Guuggenmusigen und Firmen 1',NULL,1,1,4000);
+INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (6000,'Guuggenmusigen und Firmen 2',NULL,1,1,4000);
+INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (7000,'Mixed',NULL,5,1,NULL);
+INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (8000,'Mixed 1',NULL,1,1,7000);
+INSERT INTO categories (id,name,remark,state,type,fk_parent_category) VALUES (9000,'Mixed 2',NULL,1,1,7000);
 
 INSERT INTO halls (id,name) VALUES (1,'Inpuls');
 INSERT INTO halls (id,name) VALUES (2,'Matte');
