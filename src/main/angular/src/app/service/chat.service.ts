@@ -17,7 +17,7 @@ export class ChatService {
     private http: HttpProxyService,
     private stompService: StompService,
   ) {
-    this.chatChanges$ = merge(this.stompService.watch('/topic/nightmanager-chat-change').pipe(map(() => undefined)), interval(60000))
+    this.chatChanges$ = merge(this.stompService.watch('/topic/nightmanager-chat-change').pipe(map(() => undefined)), interval(10000))
   }
 
   getChatsByHall(hallId: Hall['id']): Promise<Array<Chat>> {
