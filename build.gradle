@@ -50,5 +50,5 @@ processResources {
 task buildAngular(type: NpmTask) {
     onlyIf { !new File("src/main/angular/dist/nightmanager").exists() }
     dependsOn 'npmInstall'
-    args = ['run', 'build', '--prod']
+    args = ['run', 'build']
 }
