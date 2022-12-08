@@ -135,7 +135,7 @@ INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder
 
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_guest,fk_team_home) VALUES (22,720000,0,0,FALSE,'2022-12-10 21:00:00',0,0,5000,1,5002,5005);
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_guest,fk_team_home) VALUES (28,720000,0,0,FALSE,'2022-12-10 21:12:00',0,0,6000,1,6002,6005);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_guest,fk_team_home) VALUES (29,720000,0,0,FALSE,'2022-12-10 21:24:00',0,0,8000,1,8002,8002);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_guest,fk_team_home) VALUES (29,720000,0,0,FALSE,'2022-12-10 21:24:00',0,0,8000,1,8002,8005);
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_guest,fk_team_home) VALUES (30,720000,0,0,FALSE,'2022-12-10 21:36:00',0,0,9000,1,9002,9005);
 
 -- Croki second loser
