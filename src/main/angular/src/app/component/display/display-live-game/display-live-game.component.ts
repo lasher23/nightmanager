@@ -1,12 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
 import {ActivatedRoute} from '@angular/router';
 import {GameService} from '../../../service/game.service';
 import {Game} from '../../../model/Game';
-import {CompatClient, Stomp} from '@stomp/stompjs';
 import {GameChangeNotifierService} from '../../../service/game-change-notifier.service';
 import {interval} from 'rxjs';
-import {tap} from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -64,6 +62,7 @@ export class DisplayLiveGameComponent implements OnInit {
     '/assets/adds/Zwick Storen.jpeg',
     '/assets/adds/Zwyssig Bäckerei.jpeg',
   ];
+  private nextGame: Game;
 
   constructor(private route: ActivatedRoute, private gameService: GameService,
               private gameChangeNotifierService: GameChangeNotifierService) {
@@ -88,6 +87,7 @@ export class DisplayLiveGameComponent implements OnInit {
         return;
       }
       this.liveGame = liveGames[0];
+      this.gameService.getNextGame(this.liveGame).then(game => this.nextGame = game);
     });
   }
 
@@ -96,7 +96,7 @@ export class DisplayLiveGameComponent implements OnInit {
     if (this.changeCount % 6) {
       this.showAdd = false;
     } else {
-      this.showAdd = true;
+      // this.showAdd = true;
       this.addCount++;
     }
   }

@@ -1,6 +1,8 @@
 package ch.uhc_yetis.nightmanager.domain.repository;
 
 import ch.uhc_yetis.nightmanager.domain.model.*;
+
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -31,4 +33,6 @@ public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificat
       @Param("type") GameType type);
 
   List<Game> findByHallAndLive(Hall hall, boolean live);
+
+    Game findFirstByStartDateGreaterThanAndHallOrderByStartDate(LocalDateTime startDate, Hall hall);
 }

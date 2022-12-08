@@ -67,4 +67,8 @@ export class GameService {
   getLiveGameByHall(hallId: number) {
     return this.http.get<Array<Game>>('games', {hallId: hallId, live: true});
   }
+
+  getNextGame(game: Game): Promise<Game> {
+    return this.http.get<Game>(`games/${game.id}/next`)
+  }
 }

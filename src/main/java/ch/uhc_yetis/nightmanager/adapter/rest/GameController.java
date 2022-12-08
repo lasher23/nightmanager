@@ -17,52 +17,61 @@ import java.util.Optional;
 @RequestMapping("/api/games")
 public class GameController {
 
-  private GameService gameService;
+    private final GameService gameService;
 
-  public GameController(GameService gameService) {
-    this.gameService = gameService;
-  }
+    public GameController(GameService gameService) {
+        this.gameService = gameService;
+    }
 
-  @GetMapping
-  public List<Game> getAll(GameRequestParams requestPrams) {
-    return this.gameService.getAll(requestPrams);
-  }
+    @GetMapping
+    public List<Game> getAll(GameRequestParams requestPrams) {
+        return this.gameService.getAll(requestPrams);
+    }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<Game> getById(@PathVariable long id) {
-    return this.gameService.getById(id)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
-  }
+    @GetMapping("/{id}")
+    public ResponseEntity<Game> getById(@PathVariable long id) {
+        return this.gameService.getById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-  @PutMapping("/{id}")
-  @PreAuthorize("hasAuthority('" + RoleConstants.REFEREE + "') or hasAuthority('" + RoleConstants.ADMIN + "')")
-  public ResponseEntity<Game> updateGame(@RequestBody Game game) {
-    return this.gameService.getById(game.getId())
-        .map(x -> this.gameService.save(game))
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
-  }
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + RoleConstants.REFEREE + "') or hasAuthority('" + RoleConstants.ADMIN + "')")
+    public ResponseEntity<Game> updateGame(@RequestBody Game game) {
+        return this.gameService.getById(game.getId())
+                .map(x -> this.gameService.save(game))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
 
-  @PatchMapping("/{id}/live")
-  @PreAuthorize("hasAuthority('" + RoleConstants.REFEREE + "') or hasAuthority('" + RoleConstants.ADMIN + "')")
-  public ResponseEntity<Game> updateGamePartial(@PathVariable("id") long id, @RequestBody Game game) {
-    return this.gameService.getById(id)
-        .map(x -> this.gameService.updateLive(x, game.isLive()))
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
-  }
+    @PatchMapping("/{id}/live")
+    @PreAuthorize("hasAuthority('" + RoleConstants.REFEREE + "') or hasAuthority('" + RoleConstants.ADMIN + "')")
+    public ResponseEntity<Game> updateGamePartial(@PathVariable("id") long id, @RequestBody Game game) {
+        return this.gameService.getById(id)
+                .map(x -> this.gameService.updateLive(x, game.isLive()))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-  @PostMapping("/complete")
-  @PreAuthorize("hasAuthority('" + RoleConstants.REFEREE + "') or hasAuthority('" + RoleConstants.ADMIN + "')")
-  public Game completeGame(@RequestBody Game game) {
-    return this.gameService.complete(game);
-  }
+    @GetMapping("/{id}/next")
+    public ResponseEntity<Game> getNextGame(@PathVariable("id") long id) {
+        return this.gameService.getById(id)
+                .map(this.gameService::getNextGame)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-  @PostMapping("/reset")
-  @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
-  public Game resetGame(@RequestBody Game game) {
-    return this.gameService.reset(game);
-  }
+
+    @PostMapping("/complete")
+    @PreAuthorize("hasAuthority('" + RoleConstants.REFEREE + "') or hasAuthority('" + RoleConstants.ADMIN + "')")
+    public Game completeGame(@RequestBody Game game) {
+        return this.gameService.complete(game);
+    }
+
+    @PostMapping("/reset")
+    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
+    public Game resetGame(@RequestBody Game game) {
+        return this.gameService.reset(game);
+    }
 }
