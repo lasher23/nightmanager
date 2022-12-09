@@ -2,14 +2,10 @@ package ch.uhc_yetis.nightmanager.application;
 
 import ch.uhc_yetis.nightmanager.domain.model.*;
 import ch.uhc_yetis.nightmanager.domain.repository.GameRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -87,11 +83,14 @@ public class GameService {
         return this.gameRepository.findAllByTeamGuestOrTeamHome(team, team);
     }
 
-    public Game reset(Game game) {
-        game.setGoalsTeamGuest(0);
-        game.setGoalsTeamHome(0);
-        game.setState(GameState.OPEN);
-        return this.save(game);
+    public Optional<Game> reset(Game game) {
+        return this.gameRepository.findById(game.getId())
+                .map(foundGame -> {
+                    foundGame.setGoalsTeamGuest(0);
+                    foundGame.setGoalsTeamHome(0);
+                    foundGame.setState(GameState.OPEN);
+                    return foundGame;
+                }).map(this::save);
     }
 
     public List<Game> getAllGamesByTypeAndTeamAndState(Team team, GameType type, GameState state) {

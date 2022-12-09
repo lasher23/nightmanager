@@ -71,7 +71,7 @@ public class GameController {
 
     @PostMapping("/reset")
     @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
-    public Game resetGame(@RequestBody Game game) {
-        return this.gameService.reset(game);
+    public ResponseEntity<Game> resetGame(@RequestBody Game game) {
+        return this.gameService.reset(game).map(ResponseEntity::ok).orElseGet(ResponseEntity.notFound()::build);
     }
 }
