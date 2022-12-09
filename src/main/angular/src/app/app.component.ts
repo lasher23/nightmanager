@@ -5,6 +5,7 @@ import {ChatService} from './service/chat.service';
 import {HallService} from './service/hall.service';
 import {SnackbarService} from './service/snackbar.service';
 import {Subscription, takeUntil} from "rxjs";
+import {untilDestroyed} from "@ngneat/until-destroy";
 
 @Component({
   selector: 'app-root',
@@ -47,7 +48,7 @@ export class AppComponent implements OnChanges, OnInit {
               role.name !== chat.creator
               && chat.createdDate
               && new Date(chat.createdDate).getTime() > this.lastChatCheckedDate.getTime())) {
-              this.snackbarService.showMessage('Neue Nachricht');
+              this.snackbarService.showMessage('Neue Nachricht', 60000);
             }
             this.lastChatCheckedDate = new Date(Date.now());
           }
