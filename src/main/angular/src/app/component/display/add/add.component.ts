@@ -49,7 +49,7 @@ export class AddComponent implements OnInit {
     '/assets/adds/Sportunion Hildisrieden.png',
     '/assets/adds/Therapie & Trainingscenter Hildisrieden.PNG',
     '/assets/adds/Tschopp Holzbau.png',
-    '/assets/adds/Werbeblache_Barbara Hair_neu.svg',
+    '/assets/adds/Werbeblache_Barbara-Hair_neu.svg',
     '/assets/adds/x-ride.PNG',
     '/assets/adds/Zwick Storen.jpeg',
     '/assets/adds/Zwyssig Bäckerei.jpeg',

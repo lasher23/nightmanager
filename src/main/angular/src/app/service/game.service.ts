@@ -48,7 +48,7 @@ export class GameService {
     const gamesBefore = gamesSorted.filter(game => game.startDate.getTime() - now < 0);
     const gamesAfter = gamesSorted.filter(game => game.startDate.getTime() - now >= 0);
     const countFromBefore = afterNow > gamesAfter.length ? beforeNow + afterNow - gamesAfter.length : beforeNow
-    const countFromAfter = beforeNow > gamesAfter.length ? afterNow + beforeNow - gamesBefore.length : afterNow
+    const countFromAfter = beforeNow > gamesBefore.length ? afterNow + beforeNow - gamesBefore.length : afterNow
     return gamesBefore.splice(Math.max(gamesBefore.length - countFromBefore, 0))
       .concat(gamesAfter.splice(0, Math.min(countFromAfter, gamesAfter.length)));
   }
