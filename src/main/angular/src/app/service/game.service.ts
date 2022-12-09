@@ -50,7 +50,7 @@ export class GameService {
     const countFromBefore = afterNow > gamesAfter.length ? beforeNow + afterNow - gamesAfter.length : beforeNow
     const countFromAfter = beforeNow > gamesAfter.length ? afterNow + beforeNow - gamesBefore.length : afterNow
     return gamesBefore.splice(Math.max(gamesBefore.length - countFromBefore, 0))
-      .concat(gamesAfter.splice(0, Math.min(afterNow, gamesAfter.length)));
+      .concat(gamesAfter.splice(0, Math.min(countFromAfter, gamesAfter.length)));
   }
 
   private sortGames(games: Array<Game>) {

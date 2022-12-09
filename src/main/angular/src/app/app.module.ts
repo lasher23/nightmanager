@@ -89,6 +89,7 @@ import {AdminChatComponent} from './component/admin/admin-chat/admin-chat.compon
 import {StompService} from "./stomp.service";
 import {stompConf} from "./stomp.conf";
 import { TimerComponent } from './component/timer/timer.component';
+import { AddComponent } from './component/display/add/add.component';
 
 @NgModule({
   entryComponents: [
@@ -122,7 +123,8 @@ import { TimerComponent } from './component/timer/timer.component';
     DisplayChooseHallComponent,
     RefereeChatComponent,
     AdminChatComponent,
-    TimerComponent
+    TimerComponent,
+    AddComponent
   ],
   imports: [
     BrowserModule,

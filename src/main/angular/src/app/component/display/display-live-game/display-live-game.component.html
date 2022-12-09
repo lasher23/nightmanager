@@ -52,7 +52,5 @@
   </ng-template>
 </div>
 <ng-template #add>
-  <div class="add">
-    <img [src]="adds[addCount % adds.length]">
-  </div>
+  <app-add [addCount]="addCount"></app-add>
 </ng-template>

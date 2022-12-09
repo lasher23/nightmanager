@@ -5,6 +5,9 @@
   <div *ngIf="isGames()">
     <app-display-games [games]="currentDisplayble.data"></app-display-games>
   </div>
+  <div *ngIf="isAdd()">
+    <app-add [addCount]="addCount" (initialized)="incrementCount()"></app-add>
+  </div>
 </div>
 <div *ngIf="!displayMode">
   <app-timer></app-timer>
