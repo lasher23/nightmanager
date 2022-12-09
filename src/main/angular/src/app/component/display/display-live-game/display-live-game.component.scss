@@ -5,8 +5,8 @@
 }
 
 .grids {
-  min-height: calc(100vh - 16px);
-  max-height: calc(100vw - 16px);
+  min-height: calc(100vh - 64px);
+  max-height: calc(100vw - 64px);
   display: grid;
   grid-template-rows: 3fr 1fr;
 }
@@ -42,9 +42,15 @@ h2 {
 }
 
 h3 {
-  font-size: 32px;
+  font-size: 64px;
   margin: 0;
 }
+
+h4 {
+  font-size: 48px;
+  margin: 0;
+}
+
 
 .no-live-game {
   font-size: 64px;
