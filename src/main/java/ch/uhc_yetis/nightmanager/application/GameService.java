@@ -6,6 +6,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -18,13 +21,15 @@ public class GameService {
     private final HallService hallService;
     private final CategoryService categoryService;
     private final SimpMessagingTemplate template;
+    private final NotificationService notificationService;
 
     public GameService(GameRepository gameRepository, HallService hallService, CategoryService categoryService,
-                       SimpMessagingTemplate template) {
+                       SimpMessagingTemplate template, NotificationService notificationService) {
         this.gameRepository = gameRepository;
         this.hallService = hallService;
         this.categoryService = categoryService;
         this.template = template;
+        this.notificationService = notificationService;
     }
 
     public List<Game> getAll() {
@@ -151,4 +156,26 @@ public class GameService {
     public Game getNextGame(Game game) {
         return this.gameRepository.findFirstByStartDateGreaterThanAndHallOrderByStartDate(game.getStartDate(), game.getHall());
     }
+
+    public Optional<Game> notify(Game game) {
+        if (getById(game.getId()).isEmpty()) {
+            return Optional.empty();
+        }
+        NotificationLog notification = new NotificationLog();
+        notification.setText("Nächstes Spiel beginnt um " + game.getStartDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " in der Halle " + game.getHall().getName());
+        notification.setSentTime(OffsetDateTime.now());
+        game.setNotifications(addToList(game.getNotifications(), notification));
+        notificationService.sendNotification(notification.getText());
+        return Optional.of(gameRepository.save(game));
+    }
+
+    private static List<NotificationLog> addToList(List<NotificationLog> list, NotificationLog notificationLog) {
+        if (list == null) {
+            return List.of(notificationLog);
+        }
+        List<NotificationLog> newList = new ArrayList<>(list);
+        newList.add(notificationLog);
+        return newList;
+    }
+
 }

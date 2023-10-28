@@ -71,4 +71,8 @@ export class GameService {
   getNextGame(game: Game): Promise<Game> {
     return this.http.get<Game>(`games/${game.id}/next`)
   }
+
+  notifyGame(game: Game): Promise<any> {
+    return this.http.post(`games/notify`, game);
+  }
 }

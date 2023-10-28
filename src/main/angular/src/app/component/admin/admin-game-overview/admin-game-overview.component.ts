@@ -33,6 +33,7 @@ export class AdminGameOverviewComponent implements OnInit {
     'goalsTeamGuest',
     'teamGuest',
     'resetButton',
+    'notifyButton',
   ];
   widthPerHallTable = '100%';
 
@@ -77,5 +78,15 @@ export class AdminGameOverviewComponent implements OnInit {
         });
       }
     });
+  }
+
+  notifyGame(game: Game) {
+    this.dialog.open(AdminConfirmDialogComponent).afterClosed().subscribe(result => {
+      if (result) {
+        this.gameService.notifyGame(game).then(() => {
+          this.snackbarService.showMessage("Successfully notified");
+        })
+      }
+    })
   }
 }

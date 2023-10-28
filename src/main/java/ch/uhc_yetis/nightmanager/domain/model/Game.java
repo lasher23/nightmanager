@@ -2,6 +2,7 @@ package ch.uhc_yetis.nightmanager.domain.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "games")
@@ -46,6 +47,10 @@ public class Game {
   @Column(nullable = false, columnDefinition = "boolean default false")
   private boolean live;
 
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "game_notification_log_assignment",
+          joinColumns = @JoinColumn(name = "fk_game"), inverseJoinColumns = @JoinColumn(name = "fk_notification"))
+  private List<NotificationLog> notifications;
 
   public GameType getType() {
     return this.type;
@@ -150,4 +155,12 @@ public class Game {
   public void setLive(boolean live) {
     this.live = live;
   }
+
+    public List<NotificationLog> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<NotificationLog> notifications) {
+        this.notifications = notifications;
+    }
 }

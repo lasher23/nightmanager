@@ -74,4 +74,10 @@ public class GameController {
     public ResponseEntity<Game> resetGame(@RequestBody Game game) {
         return this.gameService.reset(game).map(ResponseEntity::ok).orElseGet(ResponseEntity.notFound()::build);
     }
+
+    @PostMapping("/notify")
+    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
+    public ResponseEntity<Game> notifyGame(@RequestBody Game game) {
+        return this.gameService.notify(game).map(ResponseEntity::ok).orElseGet(ResponseEntity.notFound()::build);
+    }
 }
