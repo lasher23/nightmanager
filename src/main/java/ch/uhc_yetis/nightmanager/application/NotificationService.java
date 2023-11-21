@@ -8,16 +8,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class NotificationService {
-    private static final String ACCOUNT_SID = System.getProperty("ACCOUNT_SID");
-    private static final String AUTH_TOKEN = System.getProperty("AUTH_TOKEN");
+    private static final String ACCOUNT_SID = System.getenv("ACCOUNT_SID");
+    private static final String AUTH_TOKEN = System.getenv("AUTH_TOKEN");
 
     @PostConstruct
     void init() {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
     }
 
-    public void sendNotification(String notification) {
-        Message.creator(new PhoneNumber("+41796841026"), new PhoneNumber("+41799271947"), notification)
+    public void sendNotification(String notification, String to) {
+        Message.creator(new PhoneNumber("+41796841026"), new PhoneNumber(to), notification)
                 .create();
     }
 }

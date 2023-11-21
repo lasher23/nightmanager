@@ -86,17 +86,10 @@ import {DisplayLiveGameComponent} from './component/display/display-live-game/di
 import {DisplayChooseHallComponent} from './component/display/display-choose-hall/display-choose-hall.component';
 import {RefereeChatComponent} from './component/referee/referee-chat/referee-chat.component';
 import {AdminChatComponent} from './component/admin/admin-chat/admin-chat.component';
-import {StompService} from "./stomp.service";
-import {stompConf} from "./stomp.conf";
-import { TimerComponent } from './component/timer/timer.component';
-import { AddComponent } from './component/display/add/add.component';
+import {TimerComponent} from './component/timer/timer.component';
+import {AddComponent} from './component/display/add/add.component';
 
 @NgModule({
-  entryComponents: [
-    RefereeGameDialogComponent,
-    RefereeGameConfirmDialogComponent,
-    AdminConfirmDialogComponent
-  ],
   declarations: [
     AppComponent,
     LoginComponent,
@@ -124,7 +117,7 @@ import { AddComponent } from './component/display/add/add.component';
     RefereeChatComponent,
     AdminChatComponent,
     TimerComponent,
-    AddComponent
+    AddComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,8 @@
 package ch.uhc_yetis.nightmanager.domain.model;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +22,8 @@ public class Team {
     private int rank;
     @Column(name = "flag_paid")
     private Boolean paid;
+    @Column
+    private String phoneNumber;
 
     public boolean isPaid() {
         return this.paid;
@@ -85,5 +89,13 @@ public class Team {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

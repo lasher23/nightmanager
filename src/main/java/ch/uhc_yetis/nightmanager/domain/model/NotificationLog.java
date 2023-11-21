@@ -12,7 +12,10 @@ public class NotificationLog {
     private long id;
 
     private String text;
+    private String toNumber;
     private OffsetDateTime sentTime;
+    private boolean success;
+    private String reference;
 
     public long getId() {
         return id;
@@ -36,5 +39,29 @@ public class NotificationLog {
 
     public void setSentTime(OffsetDateTime sentTime) {
         this.sentTime = sentTime;
+    }
+
+    public String getToNumber() {
+        return toNumber;
+    }
+
+    public void setToNumber(String to) {
+        this.toNumber = to;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 }

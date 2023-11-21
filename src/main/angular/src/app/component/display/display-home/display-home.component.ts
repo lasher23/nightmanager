@@ -8,9 +8,10 @@ import {MatDialog} from '@angular/material/dialog';
 import {DisplayChooseHallComponent} from '../display-choose-hall/display-choose-hall.component';
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
 import {Hall} from '../../../model/Hall';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {filter} from 'rxjs/operators';
 import {GameChangeNotifierService} from '../../../service/game-change-notifier.service';
+import {DisplayConfig, DisplayConfigService} from "../../../service/display-config.service";
 
 export enum DisplayType {
   CATEGORY, GAMES,
@@ -45,6 +46,7 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
   ];
 
   games: Array<Game>;
+  displayConfig: DisplayConfig;
 
 
   constructor(
@@ -54,14 +56,23 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private gameChangeNotifierService: GameChangeNotifierService,
     private ngZone: NgZone,
+    private activatedRoute: ActivatedRoute,
+    private displayConfigService: DisplayConfigService,
   ) {
   }
+
 
   ngOnInit(): void {
     this.changeComponent();
     this.updateGames()
     this.id = setInterval(() => this.changeComponent(), 10000);
     this.gameChangeNotifierService.gameChanges$.pipe(untilDestroyed(this)).subscribe(() => this.updateGames())
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(params => {
+      if (params.displayMode) {
+        this.displayMode = true
+      }
+    })
+    this.displayConfig = this.displayConfigService.getConfig()
   }
 
   updateGames() {
@@ -123,7 +134,7 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
   }
 
   enterDisplayMode() {
-    this.displayMode = true;
+    this.router.navigate(["/v2/display"])
   }
 
   displayLiveGame() {

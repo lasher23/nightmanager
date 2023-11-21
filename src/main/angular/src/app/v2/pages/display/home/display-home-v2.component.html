@@ -1,0 +1,41 @@
+<div class="flex items-center flex-col gap-2">
+  <div class="form-control">
+    <label class="label" for="margin-left">
+      <span class="label-text">Margin (left, top, right, bot)</span>
+    </label>
+    <div class="join">
+      <input
+        type="number"
+        class="w-20 input input-bordered join-item"
+        id="margin-left"
+        [(ngModel)]="config.margin.left"
+      />
+      <input
+        type="number"
+        class="w-20 input input-bordered join-item"
+        id="margin-top"
+        [(ngModel)]="config.margin.top"
+      />
+      <input
+        type="number"
+        class="w-20 input input-bordered join-item"
+        id="margin-right"
+        [(ngModel)]="config.margin.right"
+      />
+      <input
+        type="number"
+        class="w-20 input input-bordered join-item"
+        id="margin-bottom"
+        [(ngModel)]="config.margin.bottom"
+      />
+      <span class="join-item kbd">
+        PX
+      </span>
+    </div>
+  </div>
+  <div>
+    <a class="btn btn-primary" (click)="startDisplayMode()" [routerLink]="'carousel'">
+      <span>Start Display Mode</span>
+    </a>
+  </div>
+</div>

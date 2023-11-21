@@ -2,9 +2,12 @@ package ch.uhc_yetis.nightmanager.application;
 
 import ch.uhc_yetis.nightmanager.domain.model.*;
 import ch.uhc_yetis.nightmanager.domain.repository.GameRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class GameService {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameService.class);
     private final GameRepository gameRepository;
     private final HallService hallService;
     private final CategoryService categoryService;
@@ -158,15 +161,39 @@ public class GameService {
     }
 
     public Optional<Game> notify(Game game) {
-        if (getById(game.getId()).isEmpty()) {
-            return Optional.empty();
-        }
+        return getById(game.getId()).map(persitedGame -> {
+            List<NotificationLog> newNotifications = new ArrayList<>();
+            if (StringUtils.hasText(game.getTeamGuest().getPhoneNumber())
+                    && persitedGame.getNotifications().stream().noneMatch(existingNotification -> existingNotification.getReference().equals(createNotificationReference(game, game.getTeamGuest())))) {
+                newNotifications.add(createNotification(game, game.getTeamGuest()));
+            }
+            if (StringUtils.hasText(game.getTeamHome().getPhoneNumber())
+                    && persitedGame.getNotifications().stream().noneMatch(existingNotification -> existingNotification.getReference().equals(createNotificationReference(game, game.getTeamHome())))) {
+                newNotifications.add(createNotification(game, game.getTeamHome()));
+            }
+            game.getNotifications().addAll(newNotifications);
+            newNotifications.forEach(notification -> {
+                try {
+                    notificationService.sendNotification(notification.getText(), notification.getToNumber());
+                } catch (Exception e) {
+                    LOGGER.warn("Error sending the notification: " + notification);
+                    notification.setSuccess(false);
+                }
+            });
+            return gameRepository.save(game);
+        });
+    }
+
+    private static NotificationLog createNotification(Game game, Team team) {
         NotificationLog notification = new NotificationLog();
-        notification.setText("Nächstes Spiel beginnt um " + game.getStartDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " in der Halle " + game.getHall().getName());
+        notification.setText("Nächstes Spiel beginnt um " + game.getStartDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " in der Halle " + game.getHall().getName() + " gegen " + team.getName());
         notification.setSentTime(OffsetDateTime.now());
-        game.setNotifications(addToList(game.getNotifications(), notification));
-        notificationService.sendNotification(notification.getText());
-        return Optional.of(gameRepository.save(game));
+        notification.setReference(createNotificationReference(game, team));
+        return notification;
+    }
+
+    private static String createNotificationReference(Game game, Team team) {
+        return "Game-" + game.getId() + "-Team-" + team.getId();
     }
 
     private static List<NotificationLog> addToList(List<NotificationLog> list, NotificationLog notificationLog) {

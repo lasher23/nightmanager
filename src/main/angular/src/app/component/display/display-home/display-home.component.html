@@ -1,4 +1,8 @@
-<div *ngIf="displayMode">
+<div *ngIf="displayMode"
+     [style.margin-left]="(displayConfig?.margin.left ?? 0) + 'px'"
+     [style.margin-top]="(displayConfig?.margin.top ?? 0) + 'px'"
+     [style.margin-right]="(displayConfig?.margin.right ?? 0) + 'px'"
+     [style.margin-bottom]="(displayConfig?.margin.bottom ?? 0) + 'px'" class="display-container">
   <div *ngIf="isCategory()">
     <app-display-category [category]="currentDisplayble.data"></app-display-category>
   </div>
