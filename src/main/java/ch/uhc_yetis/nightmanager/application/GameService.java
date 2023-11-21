@@ -6,9 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -160,6 +162,11 @@ public class GameService {
         return this.gameRepository.findFirstByStartDateGreaterThanAndHallOrderByStartDate(game.getStartDate(), game.getHall());
     }
 
+    @Scheduled
+    public void notifyUpcomingGames() {
+        this.gameRepository.findAllByStartDateBetween(LocalDateTime.now(), LocalDateTime.now().plusMinutes(15)).forEach(this::notify);
+    }
+
     public Optional<Game> notify(Game game) {
         return getById(game.getId()).map(persitedGame -> {
             List<NotificationLog> newNotifications = new ArrayList<>();
@@ -205,4 +212,7 @@ public class GameService {
         return newList;
     }
 
+    public List<Game> findGamesOfTeam(Team team) {
+        return this.gameRepository.findAllByTeamHomeOrTeamGuest(team, team);
+    }
 }

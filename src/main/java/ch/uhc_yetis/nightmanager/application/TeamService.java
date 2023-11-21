@@ -2,8 +2,11 @@ package ch.uhc_yetis.nightmanager.application;
 
 import ch.uhc_yetis.nightmanager.domain.model.*;
 import ch.uhc_yetis.nightmanager.domain.repository.TeamRepository;
+import org.springframework.data.util.StreamUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,11 +16,13 @@ public class TeamService {
     private TeamRepository teamRepository;
     private CategoryService categoryService;
     private GameService gameService;
+    private final NotificationService notificationService;
 
-    public TeamService(TeamRepository teamRepository, CategoryService categoryService, GameService gameService) {
+    public TeamService(TeamRepository teamRepository, CategoryService categoryService, GameService gameService, NotificationService notificationService) {
         this.teamRepository = teamRepository;
         this.categoryService = categoryService;
         this.gameService = gameService;
+        this.notificationService = notificationService;
     }
 
     public Team createNewTeam(Team team) {
@@ -39,6 +44,29 @@ public class TeamService {
 
     public List<TeamDto> findByCategory(Long categoryId) {
         return this.teamRepository.findByCategory(this.categoryService.findById(categoryId)).stream().map(this::mapToDto).collect(Collectors.toList());
+    }
+
+    public void notifyCategory(Category category) {
+        List<Team> persistedTeam = this.teamRepository.findByCategory(category);
+        persistedTeam.stream().filter(team -> team.getNotifications().isEmpty())
+                .filter(team -> team.getPhoneNumber() != null)
+                .forEach(team -> {
+                    String gamesMessage = this.gameService.findGamesOfTeam(team).stream().map(game -> {
+                        Team enemy = team.getId() == game.getTeamHome().getId() ? game.getTeamGuest() : game.getTeamHome();
+                        return game.getStartDate().format(DateTimeFormatter.ofPattern("HH:mm")) +
+                                " gegen " + enemy.getName() + ", in der Halle " + game.getHall().getName();
+                    }).collect(Collectors.joining("\n"));
+                    String message = "Dein Team hat folgende Spiele Heute:\n" + gamesMessage + "\nVerfolge deine Spiele unter: https://night.nicischmid.ch/display";
+                    NotificationLog notification = new NotificationLog();
+                    notification.setReference("team-start-message-" + team.getId());
+                    notification.setSentTime(OffsetDateTime.now());
+                    notification.setSuccess(true);
+                    notification.setToNumber(team.getPhoneNumber());
+                    notification.setText(message);
+                    notificationService.sendNotification(notification.getText(), notification.getToNumber());
+                    team.setNotifications(List.of(notification));
+                    this.save(team);
+                });
     }
 
     private TeamDto mapToDto(Team team) {

@@ -25,6 +25,11 @@ public class Team {
     @Column
     private String phoneNumber;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "team_notification_log_assignment",
+            joinColumns = @JoinColumn(name = "fk_team"), inverseJoinColumns = @JoinColumn(name = "fk_notification"))
+    private List<NotificationLog> notifications;
+
     public boolean isPaid() {
         return this.paid;
     }
@@ -97,5 +102,13 @@ public class Team {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public List<NotificationLog> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<NotificationLog> notifications) {
+        this.notifications = notifications;
     }
 }
