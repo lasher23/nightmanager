@@ -14,7 +14,7 @@
   </div>
 </div>
 <div *ngIf="!displayMode">
-  <app-timer></app-timer>
+  <app-timer *ngIf="appTimerActivated"></app-timer>
   <mat-tab-group style="position: relative;z-index: 1;">
     <mat-tab label="Kategorien">
       <app-display-category-overview></app-display-category-overview>
@@ -62,7 +62,7 @@
     </mat-tab>
   </mat-tab-group>
 </div>
-<footer *ngIf="!displayMode">
+<footer *ngIf="!displayMode && appTimerActivated">
   <button mat-button (click)="enterDisplayMode()">Anzeige Modus</button>
   <button mat-button (click)="displayLiveGame()">Live Game</button>
 </footer>

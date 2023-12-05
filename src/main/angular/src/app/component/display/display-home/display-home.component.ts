@@ -47,6 +47,7 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
 
   games: Array<Game>;
   displayConfig: DisplayConfig;
+  appTimerActivated = false;
 
 
   constructor(
@@ -71,6 +72,7 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
       if (params.displayMode) {
         this.displayMode = true
       }
+      this.appTimerActivated = params.timer
     })
     this.displayConfig = this.displayConfigService.getConfig()
   }

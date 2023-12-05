@@ -165,7 +165,9 @@ public class GameService {
     @Scheduled(fixedRate = 20000)
     public void notifyUpcomingGames() {
         LOGGER.info("notifying games");
-        this.gameRepository.findAllByStartDateBetween(LocalDateTime.now(), LocalDateTime.now().plusMinutes(15)).forEach(this::notify);
+        this.gameRepository.findAllByStartDateBetween(LocalDateTime.now(), LocalDateTime.now().plusMinutes(15))
+                .stream().filter(game -> game.getCategory().getState() == CategoryState.GROUP_PHASE || game.getCategory().getState() == CategoryState.CROKI_FIRST)
+                .forEach(this::notify);
     }
 
     public Optional<Game> notify(Game game) {
