@@ -22,6 +22,9 @@ public class Category {
     @Column
     private String remark;
 
+    @Column
+    private String additionalSmsText;
+
     public String getRemark() {
         return this.remark;
     }
@@ -68,5 +71,13 @@ public class Category {
 
     public void setState(CategoryState state) {
         this.state = state;
+    }
+
+    public String getAdditionalSmsText() {
+        return additionalSmsText;
+    }
+
+    public void setAdditionalSmsText(String additionalSmsText) {
+        this.additionalSmsText = additionalSmsText;
     }
 }

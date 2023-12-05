@@ -41,8 +41,8 @@ public class SingleCategoryFinalGenerator implements Generator {
             Game littleFinal = finals.get(1);
             Team looser1 = this.getLooser(semi1, category);
             Team looser2 = this.getLooser(semi2, category);
-            littleFinal.setTeamHome(looser1);
-            littleFinal.setTeamGuest(looser2);
+            littleFinal.setTeamHome(looser2);
+            littleFinal.setTeamGuest(looser1);
             littleFinal.setPlaceholder(false);
             littleFinal.setState(GameState.OPEN);
             this.gameService.save(littleFinal);

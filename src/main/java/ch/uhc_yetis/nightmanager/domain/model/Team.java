@@ -22,7 +22,7 @@ public class Team {
     private int rank;
     @Column(name = "flag_paid")
     private Boolean paid;
-    @Column
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @ManyToMany(fetch = FetchType.EAGER)

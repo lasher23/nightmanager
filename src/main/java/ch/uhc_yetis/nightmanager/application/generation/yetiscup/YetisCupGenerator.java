@@ -83,6 +83,8 @@ public class YetisCupGenerator implements Generator {
         this.generate(teams, remainingGroupStageGames, teamsGeneration, alreadyGeneratedTeams);
         alreadyGeneratedTeams.clear();
         this.generate(teams, remainingGroupStageGames, teamsGeneration, alreadyGeneratedTeams);
+        alreadyGeneratedTeams.clear();
+        this.generate(teams, remainingGroupStageGames, teamsGeneration, alreadyGeneratedTeams);
     }
 
     private Team getTeamAgainst(Game game, Team team) {

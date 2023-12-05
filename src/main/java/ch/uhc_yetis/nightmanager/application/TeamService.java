@@ -4,6 +4,7 @@ import ch.uhc_yetis.nightmanager.domain.model.*;
 import ch.uhc_yetis.nightmanager.domain.repository.TeamRepository;
 import org.springframework.data.util.StreamUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -57,6 +58,9 @@ public class TeamService {
                                 " gegen " + enemy.getName() + ", in der Halle " + game.getHall().getName();
                     }).collect(Collectors.joining("\n"));
                     String message = "Dein Team hat folgende Spiele Heute:\n" + gamesMessage + "\nVerfolge deine Spiele unter: https://night.nicischmid.ch/display";
+                    if (StringUtils.hasText(category.getAdditionalSmsText())) {
+                        message += "\n" + category.getAdditionalSmsText();
+                    }
                     NotificationLog notification = new NotificationLog();
                     notification.setReference("team-start-message-" + team.getId());
                     notification.setSentTime(OffsetDateTime.now());
