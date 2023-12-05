@@ -162,12 +162,14 @@ public class GameService {
         return this.gameRepository.findFirstByStartDateGreaterThanAndHallOrderByStartDate(game.getStartDate(), game.getHall());
     }
 
-    @Scheduled
+    @Scheduled(fixedRate = 20000)
     public void notifyUpcomingGames() {
+        LOGGER.info("notifying games");
         this.gameRepository.findAllByStartDateBetween(LocalDateTime.now(), LocalDateTime.now().plusMinutes(15)).forEach(this::notify);
     }
 
     public Optional<Game> notify(Game game) {
+        LOGGER.info("Nofifying Game '{}'", game.getId());
         return getById(game.getId()).map(persitedGame -> {
             List<NotificationLog> newNotifications = new ArrayList<>();
             if (StringUtils.hasText(game.getTeamGuest().getPhoneNumber())
@@ -193,9 +195,19 @@ public class GameService {
 
     private static NotificationLog createNotification(Game game, Team team) {
         NotificationLog notification = new NotificationLog();
-        notification.setText("Nächstes Spiel beginnt um " + game.getStartDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " in der Halle " + game.getHall().getName() + " gegen " + team.getName());
+        String time = game.getStartDate().format(DateTimeFormatter.ofPattern("HH:mm"));
+        String hall = game.getHall().getName();
+        String home = game.getTeamHome().getName();
+        String guest = game.getTeamGuest().getName();
+        String text = "Hey Team " + team.getName() + ", euer nächstes Spiel steht an:\n" +
+                time + " Uhr, " + home + " vs. " + guest + " in der Halle " + hall + "\n" +
+                "Macht euch bereit und viel Spass\n" +
+                "Eure Yetis";
+        notification.setText(text);
+        notification.setToNumber(team.getPhoneNumber());
         notification.setSentTime(OffsetDateTime.now());
         notification.setReference(createNotificationReference(game, team));
+        notification.setSuccess(true);
         return notification;
     }
 
@@ -214,5 +226,13 @@ public class GameService {
 
     public List<Game> findGamesOfTeam(Team team) {
         return this.gameRepository.findAllByTeamHomeOrTeamGuest(team, team);
+    }
+
+    public List<Game> findGamesOfTeamAndType(Team team, GameType gameType) {
+        return this.gameRepository.findAllByTeamAndType(team, gameType);
+    }
+
+    public List<Game> findGamesOfTeamAndCategory(Team team, Category category) {
+        return this.gameRepository.findAllByTeamAndCategory(team, category);
     }
 }

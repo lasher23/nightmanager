@@ -11,6 +11,7 @@ public class NotificationLog {
     @Id
     private long id;
 
+    @Column(length = 10000)
     private String text;
     private String toNumber;
     private OffsetDateTime sentTime;

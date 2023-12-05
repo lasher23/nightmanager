@@ -2,18 +2,23 @@ package ch.uhc_yetis.nightmanager.application;
 
 import ch.uhc_yetis.nightmanager.domain.model.*;
 import ch.uhc_yetis.nightmanager.domain.repository.TeamRepository;
-import org.springframework.data.util.StreamUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 public class TeamService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeamService.class);
+
     private TeamRepository teamRepository;
     private CategoryService categoryService;
     private GameService gameService;
@@ -48,29 +53,124 @@ public class TeamService {
     }
 
     public void notifyCategory(Category category) {
-        List<Team> persistedTeam = this.teamRepository.findByCategory(category);
+        Boolean yetisCupChild = Optional.ofNullable(category.getParentCategory()).map(Category::getType).map(type -> !type.equals(CategoryType.YETIS_CUP)).orElse(false);
+        LOGGER.info("Sending notification for category '{}', yetisCupChild '{}', state '{}'", category.getName(), yetisCupChild, category.getState());
+        if ((category.getState() == CategoryState.GROUP_PHASE && !yetisCupChild) || category.getState() == CategoryState.CROKI_FIRST) {
+            Function<Team, String> notificationProvider = (team) -> {
+                List<Game> gamesOfTeam = this.gameService.findGamesOfTeam(team);
+                String gamesMessage = createGamesMessage(gamesOfTeam);
+                return "Liebes Team " + team.getName() + "\n" +
+                        "Herzlich Willkommen am Yetis Turnier 2023. " +
+                        "Ihr spielt heute in der Kategorie " + team.getCategory().getName() + " und habt folgende Gruppenspiele vor euch:\n" +
+                        gamesMessage + "\n" +
+                        "Ihr werdet jeweils auf diesem Kanal 15min vor Spielbeginn über euer nächstes Spiel informiert. " +
+                        "In der Zwischenzeit findet ihr alle Spiele und Resultate unter https://night.nicischmid.ch/display \n" +
+                        "Cool seid ihr heute mit dabei. Auf ein unvergesslich, faires Turnier.\n" +
+                        "Eure Yetis Hildisrieden";
+            };
+            notifyCategory(category, "team-start-message", notificationProvider);
+        } else if (category.getState() == CategoryState.GROUP_PHASE && yetisCupChild) {
+            Function<Team, String> notificationProvider = (team) -> {
+                List<Game> gamesOfTeam = this.gameService.findGamesOfTeamAndCategory(team, category);
+                String gamesMessage = createGamesMessage(gamesOfTeam);
+                return "Team " + team.getName() + "\n" +
+                        "Die neuen Partien für den Yetis Cup in der Kategorie Plausch sind ausgelost. Euer Team wurde in die Kategorie " + category.getName() + " eingeteilt.\n" +
+                        "Eure nächsten Spiele sind:\n" +
+                        gamesMessage + "\n" +
+                        "Auf weitere spannende Spiele...\n" +
+                        "Eure Yetis";
+            };
+            notifyCategory(category, "team-yetis-message", notificationProvider);
+        } else if (category.getState() == CategoryState.SEMI_FINAL) {
+            Function<Team, String> notificationProvider = (team) -> {
+                List<Game> gamesOfTeam = this.gameService.findGamesOfTeamAndType(team, GameType.SEMI_FINAL);
+                if (gamesOfTeam.isEmpty()) {
+                    return null;
+                }
+                String gamesMessage = createGamesMessage(gamesOfTeam);
+                return "Team " + team.getName() + "\n" +
+                        "Gratulation! Ihr habt euch für das Halbfinale qualifiziert. Euer nächstes Spiele ist:" +
+                        gamesMessage + "\n" +
+                        "Viel Erfolg\n" +
+                        "Eure Yetis";
+            };
+            notifyCategory(category, "team-semi-final-message", notificationProvider);
+
+        } else if (category.getState() == CategoryState.FINAL) {
+            Function<Team, String> notificationProvider = (team) -> {
+                List<Game> gamesOfTeam = this.gameService.findGamesOfTeamAndType(team, GameType.FINAL);
+                if (gamesOfTeam.isEmpty()) {
+                    return null;
+                }
+                String gamesMessage = createGamesMessage(gamesOfTeam);
+                boolean isFinal = gamesOfTeam.get(0).getHall().getId() == 1;
+                String text = isFinal ? "Gratulation! Ihr habt euch für das Final qualifiziert." : "Ihr seit im kleinen Final.";
+                return "Team " + team.getName() + "\n" +
+                        text + " Euer nächstes Spiele ist:" +
+                        gamesMessage + "\n" +
+                        "Viel Erfolg\n" +
+                        "Eure Yetis";
+            };
+            notifyCategory(category, "team-final-message", notificationProvider);
+        } else if (category.getState() == CategoryState.FINISHED) {
+            Function<Team, String> notificationProvider = (team) -> {
+                String ranking = findByCategory(category).stream().sorted(Comparator.comparing(TeamDto::getRank)).map(t -> t.getRank() + ". " + team.getName()).collect(Collectors.joining("\n"));
+                return "Team " + team.getName() + "\n" +
+                        "Das Turnier ist nun zu ende. Hier  die Endrangliste deiner Kategorie.\n" +
+                        ranking + "\n" +
+                        "Herzlichen Dank für die Teilnahme und bis zum nächsten Jahr.\n" +
+                        "Eure Yetis";
+            };
+            notifyCategory(category, "team-finish-message", notificationProvider);
+        }
+    }
+
+    private void notifyCategory(Category category, String notificationType, Function<Team, String> notificationProvider) {
+        LOGGER.info("Start notification '{}' for category '{}'", notificationType, category.getName());
+        List<Team> persistedTeam = this.teamRepository.findByCategoryAndPlaceholderIsFalse(category);
         persistedTeam.stream().filter(team -> team.getNotifications().isEmpty())
                 .filter(team -> team.getPhoneNumber() != null)
+                .filter(team -> team.getNotifications().stream().noneMatch(not -> not.getReference().equals(getNotReference(notificationType, team))))
                 .forEach(team -> {
-                    String gamesMessage = this.gameService.findGamesOfTeam(team).stream().map(game -> {
-                        Team enemy = team.getId() == game.getTeamHome().getId() ? game.getTeamGuest() : game.getTeamHome();
-                        return game.getStartDate().format(DateTimeFormatter.ofPattern("HH:mm")) +
-                                " gegen " + enemy.getName() + ", in der Halle " + game.getHall().getName();
-                    }).collect(Collectors.joining("\n"));
-                    String message = "Dein Team hat folgende Spiele Heute:\n" + gamesMessage + "\nVerfolge deine Spiele unter: https://night.nicischmid.ch/display";
-                    if (StringUtils.hasText(category.getAdditionalSmsText())) {
-                        message += "\n" + category.getAdditionalSmsText();
+                    String message = notificationProvider.apply(team);
+                    if (message == null) {
+                        return;
                     }
                     NotificationLog notification = new NotificationLog();
-                    notification.setReference("team-start-message-" + team.getId());
+                    notification.setReference(getNotReference(notificationType, team));
                     notification.setSentTime(OffsetDateTime.now());
                     notification.setSuccess(true);
                     notification.setToNumber(team.getPhoneNumber());
                     notification.setText(message);
-                    notificationService.sendNotification(notification.getText(), notification.getToNumber());
-                    team.setNotifications(List.of(notification));
+                    try {
+                        notificationService.sendNotification(notification.getText(), notification.getToNumber());
+                    } catch (Exception e) {
+                        LOGGER.warn("Received error setting notification success to false", e);
+                        notification.setSuccess(false);
+                    }
+                    List<NotificationLog> list = new ArrayList<>();
+                    if (team.getNotifications() != null) {
+                        list.addAll(team.getNotifications());
+                    }
+                    list.add(notification);
+                    team.setNotifications(list);
                     this.save(team);
                 });
+    }
+
+    private static String createGamesMessage(List<Game> gamesOfTeam) {
+        return gamesOfTeam.stream().map(game ->
+        {
+            String time = game.getStartDate().format(DateTimeFormatter.ofPattern("HH:mm"));
+            String home = game.getTeamHome().getName();
+            String guest = game.getTeamGuest().getName();
+            String hall = game.getHall().getName();
+            return " - " + time + " Uhr, " + home + " vs. " + guest + "(Halle " + hall + ")";
+        }).collect(Collectors.joining("\n"));
+    }
+
+    private static String getNotReference(String prefix, Team team) {
+        return prefix + "-" + team.getId();
     }
 
     private TeamDto mapToDto(Team team) {

@@ -40,4 +40,10 @@ public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificat
     List<Game> findAllByStartDateBetween(LocalDateTime from, LocalDateTime to);
 
     List<Game> findAllByTeamHomeOrTeamGuest(Team teamHome, Team teamGuest);
+
+    @Query("select g from Game g where (teamHome=:team or teamGuest=:team) and type = :type")
+    List<Game> findAllByTeamAndType(@Param("team") Team team, @Param("type") GameType type);
+
+    @Query("select g from Game g where (teamHome=:team or teamGuest=:team) and category = :category")
+    List<Game> findAllByTeamAndCategory(@Param("team") Team team, @Param("category") Category category);
 }

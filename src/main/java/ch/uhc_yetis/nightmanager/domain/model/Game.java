@@ -47,7 +47,7 @@ public class Game {
   @Column(nullable = false, columnDefinition = "boolean default false")
   private boolean live;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(name = "game_notification_log_assignment",
           joinColumns = @JoinColumn(name = "fk_game"), inverseJoinColumns = @JoinColumn(name = "fk_notification"))
   private List<NotificationLog> notifications;

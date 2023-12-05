@@ -88,6 +88,8 @@ import {RefereeChatComponent} from './component/referee/referee-chat/referee-cha
 import {AdminChatComponent} from './component/admin/admin-chat/admin-chat.component';
 import {TimerComponent} from './component/timer/timer.component';
 import {AddComponent} from './component/display/add/add.component';
+import { AdminNotificationsOverviewComponent } from './component/admin/admin-notifications-overview/admin-notifications-overview.component';
+import { AdminSendNotificationsComponent } from './component/admin/admin-send-notifications/admin-send-notifications.component';
 
 @NgModule({
   declarations: [
@@ -118,6 +120,8 @@ import {AddComponent} from './component/display/add/add.component';
     AdminChatComponent,
     TimerComponent,
     AddComponent,
+    AdminNotificationsOverviewComponent,
+    AdminSendNotificationsComponent,
   ],
   imports: [
     BrowserModule,
