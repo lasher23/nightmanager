@@ -10,6 +10,7 @@ import {interval} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {GameChangeNotifierService} from "../../../service/game-change-notifier.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {ActivatedRoute} from "@angular/router";
 
 export interface HallGamesAssignement {
   hall: Hall;
@@ -43,12 +44,18 @@ export class AdminGameOverviewComponent implements OnInit {
     private snackbarService: SnackbarService,
     public dialog: MatDialog,
     private gameChangeNotifierService: GameChangeNotifierService,
+    private activatedRoute: ActivatedRoute,
   ) {
   }
 
   ngOnInit() {
     this.setup();
-    this.gameChangeNotifierService.gameChanges$.pipe(untilDestroyed(this)).subscribe(() => this.setup())
+    this.gameChangeNotifierService.gameChanges$.pipe(untilDestroyed(this)).subscribe(() => this.setup());
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(params => {
+      if (!params.fullMode) {
+        this.displayedColumns = [...this.displayedColumns].filter(col => !col.includes("notifyButton"))
+      }
+    })
   }
 
   setup() {

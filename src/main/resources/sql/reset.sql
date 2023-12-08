@@ -1,3 +1,6 @@
+delete from game_notification_log_assignment;
+delete from team_notification_log_assignment;
+delete from notification_log;
 delete from games;
 delete from teams;
 delete from user_role_assignment;

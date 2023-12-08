@@ -174,10 +174,10 @@ INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder
 -- pause
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_guest,fk_team_home) VALUES (55,60000,0,0,TRUE ,'2023-12-10 00:40:00',1,0,null,1,9999,9999);
 -- finals inpuls
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (56,60000,0,0,TRUE ,'2023-12-10 00:50:00',0,1,2000,1,2905,2906);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (57,60000,0,0,TRUE ,'2023-12-10 01:00:00',0,1,3000,1,3905,3906);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (58,60000,0,0,TRUE ,'2023-12-10 01:10:00',0,1,5000,1,5905,5906);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (59,60000,0,0,TRUE ,'2023-12-10 01:20:00',0,1,8000,1,8905,8906);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (56,60000,0,0,TRUE ,'2023-12-10 00:50:00',0,2,2000,1,2905,2906);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (57,60000,0,0,TRUE ,'2023-12-10 01:00:00',0,2,3000,1,3905,3906);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (58,60000,0,0,TRUE ,'2023-12-10 01:10:00',0,2,5000,1,5905,5906);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (59,60000,0,0,TRUE ,'2023-12-10 01:20:00',0,2,8000,1,8905,8906);
 -- Yetis Cup Together Stage 1 Matte
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (60,60000,0,0,FALSE,'2023-12-09 15:40:00',0,0,1000,2,1013,1011);
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (61,60000,0,0,FALSE,'2023-12-09 15:50:00',0,0,1000,2,1012,1014);
@@ -240,10 +240,10 @@ INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (108,60000,0,0,FALSE,'2023-12-09 23:40:00',0,0,8000,2,8010,8007);
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (109,60000,0,0,FALSE,'2023-12-09 23:50:00',0,0,8000,2,8002,8009);
 -- semis matte
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (110,60000,0,0,TRUE ,'2023-12-10 00:00:00',0,2,2000,2,2903,2904);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (111,60000,0,0,TRUE ,'2023-12-10 00:10:00',0,2,3000,2,3903,3904);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (112,60000,0,0,TRUE ,'2023-12-10 00:20:00',0,2,5000,2,5902,5903);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (113,60000,0,0,TRUE ,'2023-12-10 00:30:00',0,2,8000,2,8902,8903);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (110,60000,0,0,TRUE ,'2023-12-10 00:00:00',0,1,2000,2,2903,2904);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (111,60000,0,0,TRUE ,'2023-12-10 00:10:00',0,1,3000,2,3903,3904);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (112,60000,0,0,TRUE ,'2023-12-10 00:20:00',0,1,5000,2,5902,5903);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (113,60000,0,0,TRUE ,'2023-12-10 00:30:00',0,1,8000,2,8902,8903);
 -- pause
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (114,60000,0,0,TRUE ,'2023-12-10 00:40:00',1,0,null,2,9999,9999);
 -- finals matte

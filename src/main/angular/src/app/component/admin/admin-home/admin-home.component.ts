@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {untilDestroyed} from "@ngneat/until-destroy";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-admin-home',
@@ -9,9 +11,17 @@ export class AdminHomeComponent implements OnInit {
   interval;
   miliseconds = 0;
 
-  constructor() { }
+  fullMode = false;
+
+  constructor(private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit() {
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(params => {
+      if (params.fullMode) {
+        this.fullMode = true
+      }
+    })
   }
 
 

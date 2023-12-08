@@ -40,22 +40,24 @@ public class YetisCupGenerator implements Generator {
         List<TeamDto> teams = this.teamService.findByCategory(category).stream().sorted(this.teamComparator).collect(Collectors.toList());
         List<List<TeamDto>> teamSplitted = Lists.partition(teams, 10);
         for (int i = 0; ; i++) {
-            if (i == 1000) {
+            if (i == 50_000) {
                 throw new GenerationException(null, "Please try again, maybe you get more luck,");
             }
             try {
                 LOGGER.info("Try: " + (i + 1));
-                this.generate(subCategories.get(1), teamSplitted.get(1));
+                // Looser
+                this.generate(subCategories.get(1), teamSplitted.get(1), List.of(2, 1, 2));
                 break;
             } catch (GenerationException ex) {
             }
         }
         for (int i = 0; ; i++) {
-            if (i == 1000) {
+            if (i == 50_000) {
                 throw new GenerationException(null, "Please try again, maybe you get more luck,");
             }
             try {
-                this.generate(subCategories.get(0), teamSplitted.get(0));
+                // Winner
+                this.generate(subCategories.get(0), teamSplitted.get(0), List.of(2, 1, 2));
                 break;
             } catch (GenerationException ex) {
                 LOGGER.info("Try: " + i);
@@ -68,7 +70,7 @@ public class YetisCupGenerator implements Generator {
         category.setState(CategoryState.DISABLED);
     }
 
-    private void generate(Category category, List<TeamDto> teamSplitted) {
+    private void generate(Category category, List<TeamDto> teamSplitted, List<Integer> hallsToGenerate) {
         List<Team> teams = teamSplitted.stream().map(team -> this.teamService.findById(team.getId())).map(Optional::get).collect(Collectors.toList());
         teams.forEach(team -> this.updateTeam(category, team));
         List<Game> remainingGroupStageGames = this.gameService.getAllGamesByCategoryAndType(category, GameType.GROUP_STAGE).stream().sorted(Comparator.comparing(Game::getStartDate)).collect(Collectors.toList());
@@ -80,11 +82,11 @@ public class YetisCupGenerator implements Generator {
             return Pair.of(team, (List<TeamGenerationData>) teamGenerationData);
         }).collect(Collectors.toList());
         List<Team> alreadyGeneratedTeams = new ArrayList<>();
-        this.generate(teams, remainingGroupStageGames, teamsGeneration, alreadyGeneratedTeams);
+        this.generate(teams, remainingGroupStageGames, teamsGeneration, alreadyGeneratedTeams, hallsToGenerate.get(0));
         alreadyGeneratedTeams.clear();
-        this.generate(teams, remainingGroupStageGames, teamsGeneration, alreadyGeneratedTeams);
+        this.generate(teams, remainingGroupStageGames, teamsGeneration, alreadyGeneratedTeams, hallsToGenerate.get(1));
         alreadyGeneratedTeams.clear();
-        this.generate(teams, remainingGroupStageGames, teamsGeneration, alreadyGeneratedTeams);
+        this.generate(teams, remainingGroupStageGames, teamsGeneration, alreadyGeneratedTeams, hallsToGenerate.get(2));
     }
 
     private Team getTeamAgainst(Game game, Team team) {
@@ -95,14 +97,13 @@ public class YetisCupGenerator implements Generator {
         }
     }
 
-    private void generate(List<Team> teams, List<Game> reamainingGroupstageGames, List<Pair<Team, List<TeamGenerationData>>> teamsGeneration, List<Team> alreadygeneratedTeams) {
+    private void generate(List<Team> teams, List<Game> reamainingGroupstageGames, List<Pair<Team, List<TeamGenerationData>>> teamsGeneration, List<Team> alreadygeneratedTeams, Integer hallId) {
         for (int i = 0; i < teams.size(); i++) {
             Team currentTeam = teams.get(i);
             if (alreadygeneratedTeams.contains(currentTeam)) {
                 continue;
             }
-            List<Hall> hallsAlreadyPlayed = teamsGeneration.get(i).getSecond().size() > 0 ? teamsGeneration.get(i).getSecond().get(0).getHallsAlreadyPlayed() : Arrays.asList();
-            Game game = this.getGameNotPlayedInHall(reamainingGroupstageGames, hallsAlreadyPlayed);
+            Game game = this.getGamePlayedInHall(reamainingGroupstageGames, hallId);
             reamainingGroupstageGames.remove(game);
             Pair<Team, List<TeamGenerationData>> teamAgainst = this.getRandomTeam(currentTeam, i, teamsGeneration, game, alreadygeneratedTeams);
             game.setTeamHome(currentTeam);
@@ -117,10 +118,10 @@ public class YetisCupGenerator implements Generator {
         }
     }
 
-    private Game getGameNotPlayedInHall(List<Game> reamainingGroupstageGames, List<Hall> hallsAlreadyPlayed) {
+    private Game getGamePlayedInHall(List<Game> reamainingGroupstageGames, Integer hall) {
         for (int i = 0; i < reamainingGroupstageGames.size(); i++) {
             Game game = reamainingGroupstageGames.get(i);
-            if (!hallsAlreadyPlayed.contains(game.getHall())) {
+            if (game.getHall().getId() == hall.longValue()) {
                 return game;
             }
         }
@@ -163,10 +164,7 @@ public class YetisCupGenerator implements Generator {
         List<TeamGenerationData> data = teams.get(teamIndex).getSecond();
         return teams.get(teamIndex).getFirst() != teamToMatchAgainst
                 && Math.abs(teamToMatchAgainstIndex - teamIndex) > 1
-                && data.stream().allMatch(x -> {
-            boolean didntPlayInThisHall = !x.getHallsAlreadyPlayed().contains(game.getHall());
-            return !x.getPlayedAgainst().contains(teamToMatchAgainst) && didntPlayInThisHall;
-        })
+                && data.stream().noneMatch(x -> x.getPlayedAgainst().contains(teamToMatchAgainst))
                 && !alreadyGeneratedTeams.contains(teams.get(teamIndex).getFirst());
     }
 

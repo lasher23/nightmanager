@@ -3,7 +3,7 @@
   <mat-tab label="Spiele">
     <app-admin-game-overview></app-admin-game-overview>
   </mat-tab>
-  <mat-tab label="Generierung">
+  <mat-tab label="Generierung" *ngIf="fullMode">
     <app-admin-generation></app-admin-generation>
   </mat-tab>
   <mat-tab label="Teams">
@@ -12,10 +12,10 @@
   <mat-tab label="Chat">
     <app-admin-chat></app-admin-chat>
   </mat-tab>
-  <mat-tab label="Notifications">
+  <mat-tab label="Notifications" *ngIf="fullMode">
     <app-admin-notifications-overview></app-admin-notifications-overview>
   </mat-tab>
-  <mat-tab label="Send Notifications">
+  <mat-tab label="Send Notifications" *ngIf="fullMode">
     <app-admin-send-notifications></app-admin-send-notifications>
   </mat-tab>
 </mat-tab-group>

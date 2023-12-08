@@ -53,7 +53,7 @@ public class TeamService {
     }
 
     public void notifyCategory(Category category) {
-        Boolean yetisCupChild = Optional.ofNullable(category.getParentCategory()).map(Category::getType).map(type -> !type.equals(CategoryType.YETIS_CUP)).orElse(false);
+        Boolean yetisCupChild = Optional.ofNullable(category.getParentCategory()).map(Category::getType).map(type -> type.equals(CategoryType.YETIS_CUP)).orElse(false);
         LOGGER.info("Sending notification for category '{}', yetisCupChild '{}', state '{}'", category.getName(), yetisCupChild, category.getState());
         if ((category.getState() == CategoryState.GROUP_PHASE && !yetisCupChild) || category.getState() == CategoryState.CROKI_FIRST) {
             Function<Team, String> notificationProvider = (team) -> {
@@ -61,7 +61,7 @@ public class TeamService {
                 String gamesMessage = createGamesMessage(gamesOfTeam);
                 return "Liebes Team " + team.getName() + "\n" +
                         "Herzlich Willkommen am Yetis Turnier 2023. " +
-                        "Ihr spielt heute in der Kategorie " + team.getCategory().getName() + " und habt folgende Gruppenspiele vor euch:\n" +
+                        "Ihr spielt heute in der Kategorie " + team.getCategory().getName().replace("Kategorie", "") + " und habt folgende Gruppenspiele vor euch:\n" +
                         gamesMessage + "\n" +
                         "Ihr werdet jeweils auf diesem Kanal 15min vor Spielbeginn über euer nächstes Spiel informiert. " +
                         "In der Zwischenzeit findet ihr alle Spiele und Resultate unter https://night.nicischmid.ch/display \n" +
@@ -82,14 +82,16 @@ public class TeamService {
             };
             notifyCategory(category, "team-yetis-message", notificationProvider);
         } else if (category.getState() == CategoryState.SEMI_FINAL) {
+            LOGGER.info("Sending notification for category state semi final");
             Function<Team, String> notificationProvider = (team) -> {
                 List<Game> gamesOfTeam = this.gameService.findGamesOfTeamAndType(team, GameType.SEMI_FINAL);
                 if (gamesOfTeam.isEmpty()) {
+                    LOGGER.info("Not sending semi final notification for team " + team.getName() + " because no games were found");
                     return null;
                 }
                 String gamesMessage = createGamesMessage(gamesOfTeam);
                 return "Team " + team.getName() + "\n" +
-                        "Gratulation! Ihr habt euch für das Halbfinale qualifiziert. Euer nächstes Spiele ist:" +
+                        "Gratulation! Ihr habt euch für das Halbfinale qualifiziert. Euer nächstes Spiel ist:\n" +
                         gamesMessage + "\n" +
                         "Viel Erfolg\n" +
                         "Eure Yetis";
@@ -106,7 +108,7 @@ public class TeamService {
                 boolean isFinal = gamesOfTeam.get(0).getHall().getId() == 1;
                 String text = isFinal ? "Gratulation! Ihr habt euch für das Final qualifiziert." : "Ihr seit im kleinen Final.";
                 return "Team " + team.getName() + "\n" +
-                        text + " Euer nächstes Spiele ist:" +
+                        text + " Euer nächstes Spiel ist:\n" +
                         gamesMessage + "\n" +
                         "Viel Erfolg\n" +
                         "Eure Yetis";
@@ -114,12 +116,12 @@ public class TeamService {
             notifyCategory(category, "team-final-message", notificationProvider);
         } else if (category.getState() == CategoryState.FINISHED) {
             Function<Team, String> notificationProvider = (team) -> {
-                String ranking = findByCategory(category).stream().sorted(Comparator.comparing(TeamDto::getRank)).map(t -> t.getRank() + ". " + team.getName()).collect(Collectors.joining("\n"));
-                return "Team " + team.getName() + "\n" +
-                        "Das Turnier ist nun zu ende. Hier  die Endrangliste deiner Kategorie.\n" +
+                String ranking = findByCategoryExcludingPlaceholders(category).stream().sorted(Comparator.comparing(TeamDto::getRank)).map(t -> t.getRank() + ". " + t.getName()).collect(Collectors.joining("\n"));
+                return "Liebes Team " + team.getName() + "\n" +
+                        "Ein grossartiges Turnier ist nun zu Ende. Hier ist die Endrangliste deiner Kategorie.\n" +
                         ranking + "\n" +
-                        "Herzlichen Dank für die Teilnahme und bis zum nächsten Jahr.\n" +
-                        "Eure Yetis";
+                        "Herzlichen Dank für eure Teilnahme und bis zum nächsten Jahr am Yetis Turnier 14.12.2024.\n" +
+                        "Eure Yetis Hildisrieden";
             };
             notifyCategory(category, "team-finish-message", notificationProvider);
         }
@@ -128,7 +130,7 @@ public class TeamService {
     private void notifyCategory(Category category, String notificationType, Function<Team, String> notificationProvider) {
         LOGGER.info("Start notification '{}' for category '{}'", notificationType, category.getName());
         List<Team> persistedTeam = this.teamRepository.findByCategoryAndPlaceholderIsFalse(category);
-        persistedTeam.stream().filter(team -> team.getNotifications().isEmpty())
+        persistedTeam.stream()
                 .filter(team -> team.getPhoneNumber() != null)
                 .filter(team -> team.getNotifications().stream().noneMatch(not -> not.getReference().equals(getNotReference(notificationType, team))))
                 .forEach(team -> {
@@ -165,7 +167,7 @@ public class TeamService {
             String home = game.getTeamHome().getName();
             String guest = game.getTeamGuest().getName();
             String hall = game.getHall().getName();
-            return " - " + time + " Uhr, " + home + " vs. " + guest + "(Halle " + hall + ")";
+            return " - " + time + " Uhr, " + home + " vs. " + guest + " (Halle " + hall + ")";
         }).collect(Collectors.joining("\n"));
     }
 
@@ -237,5 +239,9 @@ public class TeamService {
 
     public List<TeamDto> findByCategory(Category category) {
         return this.teamRepository.findByCategory(category).stream().map(this::mapToDto).collect(Collectors.toList());
+    }
+
+    public List<TeamDto> findByCategoryExcludingPlaceholders(Category category) {
+        return this.teamRepository.findByCategoryAndPlaceholderIsFalse(category).stream().map(this::mapToDto).collect(Collectors.toList());
     }
 }

@@ -172,27 +172,28 @@ public class GameService {
 
     public Optional<Game> notify(Game game) {
         LOGGER.info("Nofifying Game '{}'", game.getId());
-        return getById(game.getId()).map(persitedGame -> {
-            List<NotificationLog> newNotifications = new ArrayList<>();
-            if (StringUtils.hasText(game.getTeamGuest().getPhoneNumber())
-                    && persitedGame.getNotifications().stream().noneMatch(existingNotification -> existingNotification.getReference().equals(createNotificationReference(game, game.getTeamGuest())))) {
-                newNotifications.add(createNotification(game, game.getTeamGuest()));
-            }
-            if (StringUtils.hasText(game.getTeamHome().getPhoneNumber())
-                    && persitedGame.getNotifications().stream().noneMatch(existingNotification -> existingNotification.getReference().equals(createNotificationReference(game, game.getTeamHome())))) {
-                newNotifications.add(createNotification(game, game.getTeamHome()));
-            }
-            game.getNotifications().addAll(newNotifications);
-            newNotifications.forEach(notification -> {
-                try {
-                    notificationService.sendNotification(notification.getText(), notification.getToNumber());
-                } catch (Exception e) {
-                    LOGGER.warn("Error sending the notification: " + notification);
-                    notification.setSuccess(false);
-                }
-            });
-            return gameRepository.save(game);
-        });
+        return getById(game.getId())
+                .map(persitedGame -> {
+                    List<NotificationLog> newNotifications = new ArrayList<>();
+                    if (StringUtils.hasText(persitedGame.getTeamGuest().getPhoneNumber())
+                            && notificationService.getAllNotifications().stream().noneMatch(existingNotification -> existingNotification.getReference().equals(createNotificationReference(game, game.getTeamGuest())))) {
+                        newNotifications.add(createNotification(persitedGame, persitedGame.getTeamGuest()));
+                    }
+                    if (StringUtils.hasText(persitedGame.getTeamHome().getPhoneNumber())
+                            && notificationService.getAllNotifications().stream().noneMatch(existingNotification -> existingNotification.getReference().equals(createNotificationReference(game, game.getTeamHome())))) {
+                        newNotifications.add(createNotification(persitedGame, persitedGame.getTeamHome()));
+                    }
+                    persitedGame.getNotifications().addAll(newNotifications);
+                    newNotifications.forEach(notification -> {
+                        try {
+                            notificationService.sendNotification(notification.getText(), notification.getToNumber());
+                        } catch (Exception e) {
+                            LOGGER.warn("Error sending the notification: " + notification);
+                            notification.setSuccess(false);
+                        }
+                    });
+                    return gameRepository.save(persitedGame);
+                });
     }
 
     private static NotificationLog createNotification(Game game, Team team) {
@@ -202,7 +203,7 @@ public class GameService {
         String home = game.getTeamHome().getName();
         String guest = game.getTeamGuest().getName();
         String text = "Hey Team " + team.getName() + ", euer nächstes Spiel steht an:\n" +
-                time + " Uhr, " + home + " vs. " + guest + " in der Halle " + hall + "\n" +
+                " - " + time + " Uhr, " + home + " vs. " + guest + " (Halle " + hall + ")\n" +
                 "Macht euch bereit und viel Spass\n" +
                 "Eure Yetis";
         notification.setText(text);
@@ -227,7 +228,7 @@ public class GameService {
     }
 
     public List<Game> findGamesOfTeam(Team team) {
-        return this.gameRepository.findAllByTeamHomeOrTeamGuest(team, team);
+        return this.gameRepository.findAllByTeamHomeOrTeamGuestOrderByStartDate(team, team);
     }
 
     public List<Game> findGamesOfTeamAndType(Team team, GameType gameType) {
@@ -235,6 +236,6 @@ public class GameService {
     }
 
     public List<Game> findGamesOfTeamAndCategory(Team team, Category category) {
-        return this.gameRepository.findAllByTeamAndCategory(team, category);
+        return this.gameRepository.findAllByTeamAndCategoryOrderByStartDate(team, category);
     }
 }

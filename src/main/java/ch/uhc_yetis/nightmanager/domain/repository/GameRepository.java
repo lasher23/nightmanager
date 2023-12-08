@@ -3,7 +3,6 @@ package ch.uhc_yetis.nightmanager.domain.repository;
 import ch.uhc_yetis.nightmanager.domain.model.*;
 
 import java.time.LocalDateTime;
-import java.util.stream.Stream;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -39,11 +38,11 @@ public interface GameRepository extends JpaRepository<Game, Long>, JpaSpecificat
 
     List<Game> findAllByStartDateBetween(LocalDateTime from, LocalDateTime to);
 
-    List<Game> findAllByTeamHomeOrTeamGuest(Team teamHome, Team teamGuest);
+    List<Game> findAllByTeamHomeOrTeamGuestOrderByStartDate(Team teamHome, Team teamGuest);
 
     @Query("select g from Game g where (teamHome=:team or teamGuest=:team) and type = :type")
     List<Game> findAllByTeamAndType(@Param("team") Team team, @Param("type") GameType type);
 
-    @Query("select g from Game g where (teamHome=:team or teamGuest=:team) and category = :category")
-    List<Game> findAllByTeamAndCategory(@Param("team") Team team, @Param("category") Category category);
+    @Query("select g from Game g where (teamHome=:team or teamGuest=:team) and category = :category order by startDate")
+    List<Game> findAllByTeamAndCategoryOrderByStartDate(@Param("team") Team team, @Param("category") Category category);
 }

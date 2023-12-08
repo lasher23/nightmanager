@@ -1,12 +1,12 @@
 -- User: admin
 -- Password: password
-insert into application_user(id, password,username) values (1,'$2a$10$lWMGhesQi8rACnn1000x9XpOZymhALQdKg1eMzDxy0mKhRGsinKNFZm','admin');
+insert into application_user(id, password,username) values (1,'$2a$10$lWMGhesQi8rACnnS1x9XpOZymhALQdKg1eMzDxy0mKhRGsinKNFZm','admin');
 insert into role(id,name) values (1,'ADMIN');
 insert into user_role_assignment( fk_role,fk_user) values (1,1);
 
 -- User: referee
 -- Password: password
-insert into application_user(id,password,username) values (2,'$2a$10$lWMGhesQi8rACnn1000x9XpOZymhALQdKg1eMzDxy0mKhRGsinKNFZm','referee' );
+insert into application_user(id,password,username) values (2,'$2a$10$lWMGhesQi8rACnnS1x9XpOZymhALQdKg1eMzDxy0mKhRGsinKNFZm','referee' );
 insert into role(id,name) values (2,'REFEREE');
 insert into user_role_assignment(fk_role,fk_user) values (2,2);
 
@@ -48,8 +48,8 @@ INSERT INTO teams (id, name, flag_paid, flag_placeholder, rank, fk_category, pho
 INSERT INTO teams (id, name, flag_paid, flag_placeholder, rank, fk_category, phone_number) VALUES (215,	'Baubu chäpsler', false, false, 0, 2000, '+41793145848');
 INSERT INTO teams (id, name, flag_paid, flag_placeholder, rank, fk_category, phone_number) VALUES (216,	'Die 5 Gaming Kings ', false, false, 0, 2000, '+41796518785');
 INSERT INTO teams (id, name, flag_paid, flag_placeholder, rank, fk_category, phone_number) VALUES (217,	'Rainer Wiiber', false, false, 0, 2000, '+41797673882');
-INSERT INTO teams (id, name, flag_paid, flag_placeholder, rank, fk_category, phone_number) VALUES (218,	'Power-Girls'   ,         false, false, 0, 3000, '+41763303279');
-INSERT INTO teams (id, name, flag_paid, flag_placeholder, rank, fk_category, phone_number) VALUES (219,	'UHC Tacos'   ,         false, false, 0, 3000, '+41788420704');
+INSERT INTO teams (id, name, flag_paid, flag_placeholder, rank, fk_category, phone_number) VALUES (218,	'Power-Girls'   ,         false, false, 0, 2000, '+41763303279');
+INSERT INTO teams (id, name, flag_paid, flag_placeholder, rank, fk_category, phone_number) VALUES (219,	'UHC Tacos'   ,         false, false, 0, 2000, '+41788420704');
 
 INSERT INTO teams (id, name, flag_paid, flag_placeholder, rank, fk_category, phone_number) VALUES (  310,	'UHC Baubu'     ,         false, false, 0, 3000,'+41793145848');
 INSERT INTO teams (id, name, flag_paid, flag_placeholder, rank, fk_category, phone_number) VALUES (  311,	'Junioren Ballwil'       ,         false, false, 0, 3000,'+41793145848');
@@ -134,7 +134,7 @@ INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeho
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (38, 60000, 0, 0, true , '2023-12-09 14:10:00', 0, 1, 3000, 1, 3100, 3101);
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (39, 60000, 0, 0, true , '2023-12-09 14:20:00', 0, 1, 1000, 1, 1100, 1101);
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (40, 60000, 0, 0, true , '2023-12-09 14:30:00', 0, 1, 2000, 1, 2100, 2101);
-INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (41, 60000, 0, 0, false, '2023-12-09 14:40:00', 0, 0, null, 1, 9999, 9999);
+INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (41, 60000, 0, 0, false, '2023-12-09 14:40:00', 1, 0, null, 1, 9999, 9999);
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (42, 60000, 0, 0, true , '2023-12-09 14:50:00', 0, 2, 3000, 1, 3300, 3301);
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (43, 60000, 0, 0, true , '2023-12-09 15:00:00', 0, 2, 1000, 1, 1200, 1201);
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (44, 60000, 0, 0, true , '2023-12-09 15:10:00', 0, 2, 2000, 1, 2200, 2201);
@@ -180,7 +180,7 @@ INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeho
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (82, 60000, 0, 0, true , '2023-12-09 14:10:00', 0, 1, 3000, 2, 3102, 3103);
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (83, 60000, 0, 0, true , '2023-12-09 14:20:00', 0, 1, 1000, 2, 1102, 1103);
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (84, 60000, 0, 0, true , '2023-12-09 14:30:00', 0, 1, 2000, 2, 2102, 2103);
-INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (85, 60000, 0, 0, false, '2023-12-09 14:40:00', 0, 0, null, 2, 9999, 9999);
+INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (85, 60000, 0, 0, false, '2023-12-09 14:40:00', 1, 0, null, 2, 9999, 9999);
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (86, 60000, 0, 0, true , '2023-12-09 14:50:00', 0, 2, 3000, 2, 3302, 3303);
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (87, 60000, 0, 0, true , '2023-12-09 15:00:00', 0, 2, 1000, 2, 1202, 1203);
 INSERT INTO games (id, duration, goals_team_guest, goals_team_home, flag_placeholder, start_date, state, type, fk_category, fk_hall, fk_team_home, fk_team_guest) VALUES (88, 60000, 0, 0, true , '2023-12-09 15:10:00', 0, 2, 2000, 2, 2202, 2203);
