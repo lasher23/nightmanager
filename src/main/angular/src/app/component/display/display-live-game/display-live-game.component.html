@@ -7,7 +7,7 @@
       <div class="grid">
         <div class="score-home score">
           <h1>
-            {{liveGame?.goalsTeamHome}}
+            {{liveGame?.swappedLiveDisplay ? liveGame?.goalsTeamGuest : liveGame?.goalsTeamHome}}
           </h1>
         </div>
         <div class="seperator">
@@ -15,12 +15,12 @@
         </div>
         <div class="score-guest score">
           <h1>
-            {{liveGame?.goalsTeamGuest}}
+            {{liveGame?.swappedLiveDisplay ? liveGame.goalsTeamHome : liveGame?.goalsTeamGuest}}
           </h1>
         </div>
         <div class="name-home name">
           <h2>
-            {{liveGame?.teamHome.name}}
+            {{liveGame?.swappedLiveDisplay ? liveGame?.teamGuest.name : liveGame?.teamHome.name}}
           </h2>
         </div>
         <div>
@@ -28,7 +28,7 @@
         </div>
         <div class="name-guest name">
           <h2>
-            {{liveGame?.teamGuest.name}}
+            {{liveGame?.swappedLiveDisplay ? liveGame?.teamHome.name :                                                                        liveGame?.teamGuest.name}}
           </h2>
         </div>
       </div>

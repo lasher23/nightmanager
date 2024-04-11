@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class TeamService {
@@ -129,13 +130,26 @@ public class TeamService {
 
     private void notifyCategory(Category category, String notificationType, Function<Team, String> notificationProvider) {
         LOGGER.info("Start notification '{}' for category '{}'", notificationType, category.getName());
-        List<Team> persistedTeam = this.teamRepository.findByCategoryAndPlaceholderIsFalse(category);
-        persistedTeam.stream()
-                .filter(team -> team.getPhoneNumber() != null)
-                .filter(team -> team.getNotifications().stream().noneMatch(not -> not.getReference().equals(getNotReference(notificationType, team))))
+        List<Team> persistedTeam = this.teamRepository.findByCategory(category);
+        LOGGER.info("Following Teams: " + persistedTeam.toString());
+        Stream<Team> filteredTeams = persistedTeam.stream()
+                .filter(team -> {
+                    boolean hasNumber = team.getPhoneNumber() != null;
+                    LOGGER.info("Filtering Team '" + team.getName() + "' hasNumber: '" + hasNumber + "'");
+                    return hasNumber;
+                })
+                .filter(team -> {
+                    String notReference = getNotReference(notificationType, team);
+                    boolean alreadyExists = notificationService.getAllNotifications().stream().map(NotificationLog::getReference).collect(Collectors.toList()).contains(notReference);
+                    LOGGER.info("Filtering Team '" + team.getName() + "' notificationReference: '" + notReference + "' alreadyExists: '" + alreadyExists + "'");
+//                    return alreadyExists;
+                    return true;
+                });
+        filteredTeams
                 .forEach(team -> {
                     String message = notificationProvider.apply(team);
                     if (message == null) {
+                        LOGGER.info("Not sending message because its null");
                         return;
                     }
                     NotificationLog notification = new NotificationLog();

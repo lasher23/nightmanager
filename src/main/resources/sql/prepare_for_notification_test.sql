@@ -19,3 +19,5 @@ with team_update_nici_cat_8000 as (
 update teams set phone_number = '+41799271947' from team_update_nici_cat_8000 where teams.id = team_update_nici_cat_8000.id;
 
 UPDATE games SET start_date = start_date - interval '3 days';
+
+

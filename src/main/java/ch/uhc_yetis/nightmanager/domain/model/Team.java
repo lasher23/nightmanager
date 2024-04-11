@@ -111,4 +111,18 @@ public class Team {
     public void setNotifications(List<NotificationLog> notifications) {
         this.notifications = notifications;
     }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "id=" + id +
+                ", category=" + category +
+                ", name='" + name + '\'' +
+                ", placeholder=" + placeholder +
+                ", rank=" + rank +
+                ", paid=" + paid +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", notifications=" + notifications +
+                '}';
+    }
 }

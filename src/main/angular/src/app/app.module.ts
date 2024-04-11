@@ -90,6 +90,7 @@ import {TimerComponent} from './component/timer/timer.component';
 import {AddComponent} from './component/display/add/add.component';
 import { AdminNotificationsOverviewComponent } from './component/admin/admin-notifications-overview/admin-notifications-overview.component';
 import { AdminSendNotificationsComponent } from './component/admin/admin-send-notifications/admin-send-notifications.component';
+import { RefereeGameDetailComponent } from './v2/pages/referee/referee-game-detail/referee-game-detail.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { AdminSendNotificationsComponent } from './component/admin/admin-send-no
     AddComponent,
     AdminNotificationsOverviewComponent,
     AdminSendNotificationsComponent,
+    RefereeGameDetailComponent,
   ],
   imports: [
     BrowserModule,

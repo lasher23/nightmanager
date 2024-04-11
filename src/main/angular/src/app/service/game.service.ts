@@ -64,6 +64,10 @@ export class GameService {
     return this.http.patch<Game>(`games/${game.id}/live`, {live: true});
   }
 
+  swapTeams(game: Game) {
+    return this.http.patch<Game>(`games/swap`, game);
+  }
+
   getLiveGameByHall(hallId: number) {
     return this.http.get<Array<Game>>('games', {hallId: hallId, live: true});
   }

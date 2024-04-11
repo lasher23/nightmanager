@@ -1,6 +1,7 @@
 package ch.uhc_yetis.nightmanager.domain.model;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -8,153 +9,174 @@ import java.util.List;
 @Table(name = "games")
 public class Game {
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Id
-  private long id;
-  @ManyToOne
-  @JoinColumn(name = "fk_team_home")
-  private Team teamHome;
-  @ManyToOne
-  @JoinColumn(name = "fk_team_guest")
-  private Team teamGuest;
-  @Column(name = "goals_team_guest")
-  private int goalsTeamGuest;
-  @Column(name = "goals_team_home")
-  private int goalsTeamHome;
-  @Column(nullable = false)
-  @Enumerated(EnumType.ORDINAL)
-  private GameState state;
-  @Column(name = "flagPlaceholder")
-  private boolean placeholder;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    private long id;
+    @ManyToOne
+    @JoinColumn(name = "fk_team_home")
+    private Team teamHome;
+    @ManyToOne
+    @JoinColumn(name = "fk_team_guest")
+    private Team teamGuest;
+    @Column(name = "goals_team_guest")
+    private int goalsTeamGuest;
+    @Column(name = "goals_team_home")
+    private int goalsTeamHome;
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private GameState state;
+    @Column(name = "flagPlaceholder")
+    private boolean placeholder;
 
-  @Column(name = "fk_hall", insertable=false, updatable=false)
-  private Long hallId;
-  @ManyToOne
-  @JoinColumn(name = "fk_hall")
-  private Hall hall;
-  @Column(name = "fk_category", insertable=false, updatable=false)
-  private Long categoryId;
-  @ManyToOne
-  @JoinColumn(name = "fk_category")
-  private Category category;
-  @Column
-  private LocalDateTime startDate;
-  @Column(nullable = false)
-  private long duration;
-  @Column(nullable = false)
-  @Enumerated(EnumType.ORDINAL)
-  private GameType type;
-  @Column(nullable = false, columnDefinition = "boolean default false")
-  private boolean live;
+    @Column(name = "fk_hall", insertable = false, updatable = false)
+    private Long hallId;
+    @ManyToOne
+    @JoinColumn(name = "fk_hall")
+    private Hall hall;
+    @Column(name = "fk_category", insertable = false, updatable = false)
+    private Long categoryId;
+    @ManyToOne
+    @JoinColumn(name = "fk_category")
+    private Category category;
+    @Column
+    private LocalDateTime startDate;
+    @Column(nullable = false)
+    private long duration;
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private GameType type;
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean live;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  @JoinTable(name = "game_notification_log_assignment",
-          joinColumns = @JoinColumn(name = "fk_game"), inverseJoinColumns = @JoinColumn(name = "fk_notification"))
-  private List<NotificationLog> notifications;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "game_notification_log_assignment",
+            joinColumns = @JoinColumn(name = "fk_game"), inverseJoinColumns = @JoinColumn(name = "fk_notification"))
+    private List<NotificationLog> notifications;
 
-  public GameType getType() {
-    return this.type;
-  }
+    @Column(columnDefinition = "boolean default false")
+    private boolean swappedLiveDisplay = false;
+    @Column(columnDefinition = "boolean default false")
+    private boolean swappedReferee = false;
 
-  public void setType(GameType type) {
-    this.type = type;
-  }
+    public boolean isSwappedLiveDisplay() {
+        return swappedLiveDisplay;
+    }
 
-  public Category getCategory() {
-    return this.category;
-  }
+    public void setSwappedLiveDisplay(boolean swappedLiveDisplay) {
+        this.swappedLiveDisplay = swappedLiveDisplay;
+    }
 
-  public void setCategory(Category category) {
-    this.category = category;
-  }
+    public boolean isSwappedReferee() {
+        return swappedReferee;
+    }
 
-  public LocalDateTime getStartDate() {
-    return this.startDate;
-  }
+    public void setSwappedReferee(boolean swappedReferee) {
+        this.swappedReferee = swappedReferee;
+    }
 
-  public void setStartDate(LocalDateTime startDate) {
-    this.startDate = startDate;
-  }
+    public GameType getType() {
+        return this.type;
+    }
 
-  public long getDuration() {
-    return this.duration;
-  }
+    public void setType(GameType type) {
+        this.type = type;
+    }
 
-  public void setDuration(long duration) {
-    this.duration = duration;
-  }
+    public Category getCategory() {
+        return this.category;
+    }
 
-  public Hall getHall() {
-    return this.hall;
-  }
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
-  public void setHall(Hall hall) {
-    this.hall = hall;
-  }
+    public LocalDateTime getStartDate() {
+        return this.startDate;
+    }
 
-  public void setId(long id) {
-    this.id = id;
-  }
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
 
-  public boolean isPlaceholder() {
-    return this.placeholder;
-  }
+    public long getDuration() {
+        return this.duration;
+    }
 
-  public void setPlaceholder(boolean placeholder) {
-    this.placeholder = placeholder;
-  }
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
 
-  public long getId() {
-    return this.id;
-  }
+    public Hall getHall() {
+        return this.hall;
+    }
 
-  public Team getTeamHome() {
-    return this.teamHome;
-  }
+    public void setHall(Hall hall) {
+        this.hall = hall;
+    }
 
-  public void setTeamHome(Team teamHome) {
-    this.teamHome = teamHome;
-  }
+    public void setId(long id) {
+        this.id = id;
+    }
 
-  public Team getTeamGuest() {
-    return this.teamGuest;
-  }
+    public boolean isPlaceholder() {
+        return this.placeholder;
+    }
 
-  public void setTeamGuest(Team teamGuest) {
-    this.teamGuest = teamGuest;
-  }
+    public void setPlaceholder(boolean placeholder) {
+        this.placeholder = placeholder;
+    }
 
-  public int getGoalsTeamGuest() {
-    return this.goalsTeamGuest;
-  }
+    public long getId() {
+        return this.id;
+    }
 
-  public void setGoalsTeamGuest(int goalsTeamGuest) {
-    this.goalsTeamGuest = goalsTeamGuest;
-  }
+    public Team getTeamHome() {
+        return this.teamHome;
+    }
 
-  public int getGoalsTeamHome() {
-    return this.goalsTeamHome;
-  }
+    public void setTeamHome(Team teamHome) {
+        this.teamHome = teamHome;
+    }
 
-  public void setGoalsTeamHome(int goalsTeamHome) {
-    this.goalsTeamHome = goalsTeamHome;
-  }
+    public Team getTeamGuest() {
+        return this.teamGuest;
+    }
 
-  public GameState getState() {
-    return this.state;
-  }
+    public void setTeamGuest(Team teamGuest) {
+        this.teamGuest = teamGuest;
+    }
 
-  public void setState(GameState state) {
-    this.state = state;
-  }
+    public int getGoalsTeamGuest() {
+        return this.goalsTeamGuest;
+    }
 
-  public boolean isLive() {
-    return live;
-  }
+    public void setGoalsTeamGuest(int goalsTeamGuest) {
+        this.goalsTeamGuest = goalsTeamGuest;
+    }
 
-  public void setLive(boolean live) {
-    this.live = live;
-  }
+    public int getGoalsTeamHome() {
+        return this.goalsTeamHome;
+    }
+
+    public void setGoalsTeamHome(int goalsTeamHome) {
+        this.goalsTeamHome = goalsTeamHome;
+    }
+
+    public GameState getState() {
+        return this.state;
+    }
+
+    public void setState(GameState state) {
+        this.state = state;
+    }
+
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
+    }
 
     public List<NotificationLog> getNotifications() {
         return notifications;

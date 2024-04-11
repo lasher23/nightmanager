@@ -1,7 +1,7 @@
 <div class="referee-game">
   <h3>{{game?.category.name}}</h3>
   <mat-spinner *ngIf="game==undefined"></mat-spinner>
-  <div style="display: flex;" [ngClass]="{reverse: swapped}">
+  <div style="display: flex;" [ngClass]="{reverse: game?.swappedReferee}">
     <div style="max-width: 50%" *ngIf="game">
       <h1 class="center green">
         {{game?.teamHome.name}}
@@ -49,7 +49,11 @@
   </button>
   <button mat-stroked-button (click)="swap()" class="complete" *ngIf="game"
           [disabled]="game.placeholder|| game.state.toUpperCase() == 'DONE'">
-    Teams wechseln
+    Handy Teams wechseln
+  </button>
+  <button mat-stroked-button (click)="swapBeamer()" class="complete" *ngIf="game"
+          [disabled]="game.placeholder|| game.state.toUpperCase() == 'DONE'">
+    Screen Teams wechseln
   </button>
 </div>
 

@@ -75,6 +75,12 @@ public class GameController {
         return this.gameService.reset(game).map(ResponseEntity::ok).orElseGet(ResponseEntity.notFound()::build);
     }
 
+    @PatchMapping("/swap")
+    @PreAuthorize("hasAuthority('" + RoleConstants.REFEREE + "') or hasAuthority('" + RoleConstants.ADMIN + "')")
+    public ResponseEntity<Game> swapTeams(@RequestBody Game game) {
+        return this.gameService.swapTeams(game).map(ResponseEntity::ok).orElseGet(ResponseEntity.notFound()::build);
+    }
+
     @PostMapping("/notify")
     @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
     public ResponseEntity<Game> notifyGame(@RequestBody Game game) {

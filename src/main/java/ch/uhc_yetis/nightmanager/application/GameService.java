@@ -166,7 +166,9 @@ public class GameService {
     public void notifyUpcomingGames() {
         LOGGER.info("notifying games");
         this.gameRepository.findAllByStartDateBetween(LocalDateTime.now(), LocalDateTime.now().plusMinutes(15))
-                .stream().filter(game -> game.getCategory().getState() == CategoryState.GROUP_PHASE || game.getCategory().getState() == CategoryState.CROKI_FIRST)
+                .stream()
+                .filter(game -> game.getCategory() != null)
+                .filter(game -> game.getCategory().getState() == CategoryState.GROUP_PHASE || game.getCategory().getState() == CategoryState.CROKI_FIRST)
                 .forEach(this::notify);
     }
 
@@ -237,5 +239,13 @@ public class GameService {
 
     public List<Game> findGamesOfTeamAndCategory(Team team, Category category) {
         return this.gameRepository.findAllByTeamAndCategoryOrderByStartDate(team, category);
+    }
+
+    public Optional<Game> swapTeams(Game game) {
+        return this.gameRepository.findById(game.getId()).map(persistedGame -> {
+            persistedGame.setSwappedReferee(game.isSwappedReferee());
+            persistedGame.setSwappedLiveDisplay(game.isSwappedLiveDisplay());
+            return this.save(persistedGame);
+        });
     }
 }

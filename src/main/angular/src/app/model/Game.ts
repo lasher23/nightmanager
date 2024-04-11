@@ -15,4 +15,6 @@ export interface Game {
   category: Category;
   type: string;
   live: boolean;
+  swappedLiveDisplay: boolean;
+  swappedReferee: boolean;
 }
