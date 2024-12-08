@@ -14,4 +14,5 @@ export interface Category {
   state: CategoryState;
   remark: string;
   type: string;
+  showOnDisplay: boolean;
 }

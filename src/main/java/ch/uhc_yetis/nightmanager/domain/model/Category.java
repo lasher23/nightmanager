@@ -24,6 +24,9 @@ public class Category {
 
     @Column
     private String additionalSmsText;
+    @Column
+    private boolean showOnDisplay;
+
 
     public String getRemark() {
         return this.remark;
@@ -79,5 +82,13 @@ public class Category {
 
     public void setAdditionalSmsText(String additionalSmsText) {
         this.additionalSmsText = additionalSmsText;
+    }
+
+    public boolean isShowOnDisplay() {
+        return showOnDisplay;
+    }
+
+    public void setShowOnDisplay(boolean showOnDisplay) {
+        this.showOnDisplay = showOnDisplay;
     }
 }

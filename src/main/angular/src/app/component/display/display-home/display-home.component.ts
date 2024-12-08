@@ -87,7 +87,7 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
 
   private async getDisplayables(): Promise<Array<Displayable> | never> {
     const categoryDisplayables = (await this.categoryService.getAll())
-      .filter(category => category.state != CategoryState.DISABLED)
+      .filter(category => category.state != CategoryState.DISABLED && !!category.showOnDisplay)
       .sort(this.sortCategory)
       .map(category => <Displayable>{
         type: DisplayType.CATEGORY,
@@ -95,7 +95,7 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
       });
     const gamesDisplayable = [<Displayable>{
       type: DisplayType.GAMES,
-      data: this.gameService.getClosestGamesToNow(this.games, 20, 20)
+      data: this.gameService.getClosestGamesToNow(this.games, this.displayConfig.totalGamesView.before, this.displayConfig.totalGamesView.after)
     }];
     const addDisplayable = <Displayable>{
       type: DisplayType.ADD,

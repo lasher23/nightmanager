@@ -89,8 +89,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: HomeComponent,
-    canActivate: [AuthenticationGuard]
+    redirectTo: "v2/public",
+    pathMatch: "full"
   },
   {
     path: '**',

@@ -4,8 +4,9 @@ import {Router} from '@angular/router';
 import {ChatService} from './service/chat.service';
 import {HallService} from './service/hall.service';
 import {SnackbarService} from './service/snackbar.service';
-import {Subscription, takeUntil} from "rxjs";
-import {untilDestroyed} from "@ngneat/until-destroy";
+import {Subscription} from "rxjs";
+import {SwUpdate} from "@angular/service-worker";
+import {OneSignal} from "onesignal-ngx";
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,13 @@ export class AppComponent implements OnChanges, OnInit {
     private chatService: ChatService,
     private hallService: HallService,
     private snackbarService: SnackbarService,
+    private oneSignal: OneSignal,
+    private sw: SwUpdate,
   ) {
+    sw.checkForUpdate().catch(console.error)
+    this.oneSignal.init({
+      appId: location.href.includes('localhost') ? 'acd8ce34-dd03-467d-8745-153dbf05a0d3' : 'a4c31416-21df-4dec-ad3b-202580f32eca',
+    }).catch(console.error)
     this.isReferee = this.roleService.getRole() && this.roleService.getRole().name === 'REFEREE';
   }
 
@@ -69,4 +76,6 @@ export class AppComponent implements OnChanges, OnInit {
   openGames() {
     this.router.navigateByUrl('referee/games');
   }
+
+  protected readonly location = location;
 }

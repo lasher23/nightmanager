@@ -8,8 +8,18 @@ export interface DisplayConfig {
     right?: number
     bottom?: number
     left?: number
+  },
+  totalGamesView: {
+    before?: number
+    after?: number
+  },
+  categoryGamesView: {
+    before?: number
+    after?: number
   }
 }
+
+const defaultConfig = {margin: {}, totalGamesView: {before: 20, after: 20}, categoryGamesView: {before: 6, after: 6}};
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +37,6 @@ export class DisplayConfigService {
   getConfig(): DisplayConfig {
     const config = window.localStorage.getItem(CONFIG_KEY);
 
-    return config ? JSON.parse(config) : {margin: {}}
+    return {...defaultConfig, ...(JSON.parse(config) || {})};
   }
 }

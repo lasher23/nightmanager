@@ -1,6 +1,7 @@
 package ch.uhc_yetis.nightmanager.application;
 
 import ch.uhc_yetis.nightmanager.domain.model.*;
+import ch.uhc_yetis.nightmanager.domain.repository.GameCriteriaRepository;
 import ch.uhc_yetis.nightmanager.domain.repository.GameRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +15,8 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -27,14 +26,16 @@ public class GameService {
     private final CategoryService categoryService;
     private final SimpMessagingTemplate template;
     private final NotificationService notificationService;
+    private final GameCriteriaRepository gameCriteriaRepository;
 
     public GameService(GameRepository gameRepository, HallService hallService, CategoryService categoryService,
-                       SimpMessagingTemplate template, NotificationService notificationService) {
+                       SimpMessagingTemplate template, NotificationService notificationService, GameCriteriaRepository gameCriteriaRepository) {
         this.gameRepository = gameRepository;
         this.hallService = hallService;
         this.categoryService = categoryService;
         this.template = template;
         this.notificationService = notificationService;
+        this.gameCriteriaRepository = gameCriteriaRepository;
     }
 
     public List<Game> getAll() {
@@ -73,11 +74,7 @@ public class GameService {
     }
 
     public List<Game> getAll(GameRequestParams requestParams) {
-        Specification<Game> gameSpecs = this.getGameSpecs(requestParams);
-        List<Game> games = this.gameRepository.findAll(gameSpecs);
-        List<Game> gamesSorted = games.stream().sorted(Comparator.comparing(Game::getStartDate))
-                .collect(Collectors.toList());
-        return gamesSorted;
+        return this.gameCriteriaRepository.findGames(requestParams);
     }
 
     private Specification<Game> getGameSpecs(GameRequestParams requestParams) {
@@ -177,18 +174,16 @@ public class GameService {
         return getById(game.getId())
                 .map(persitedGame -> {
                     List<NotificationLog> newNotifications = new ArrayList<>();
-                    if (StringUtils.hasText(persitedGame.getTeamGuest().getPhoneNumber())
-                            && notificationService.getAllNotifications().stream().noneMatch(existingNotification -> existingNotification.getReference().equals(createNotificationReference(game, game.getTeamGuest())))) {
+                    if (notificationService.getAllNotifications().stream().noneMatch(existingNotification -> existingNotification.getReference().equals(createNotificationReference(game, game.getTeamGuest())))) {
                         newNotifications.add(createNotification(persitedGame, persitedGame.getTeamGuest()));
                     }
-                    if (StringUtils.hasText(persitedGame.getTeamHome().getPhoneNumber())
-                            && notificationService.getAllNotifications().stream().noneMatch(existingNotification -> existingNotification.getReference().equals(createNotificationReference(game, game.getTeamHome())))) {
+                    if (notificationService.getAllNotifications().stream().noneMatch(existingNotification -> existingNotification.getReference().equals(createNotificationReference(game, game.getTeamHome())))) {
                         newNotifications.add(createNotification(persitedGame, persitedGame.getTeamHome()));
                     }
                     persitedGame.getNotifications().addAll(newNotifications);
                     newNotifications.forEach(notification -> {
                         try {
-                            notificationService.sendNotification(notification.getText(), notification.getToNumber());
+                            notificationService.sendNotification(notification.getText(), notification.getTagId(), notification.getUrl());
                         } catch (Exception e) {
                             LOGGER.warn("Error sending the notification: " + notification);
                             notification.setSuccess(false);
@@ -209,7 +204,8 @@ public class GameService {
                 "Macht euch bereit und viel Spass\n" +
                 "Eure Yetis";
         notification.setText(text);
-        notification.setToNumber(team.getPhoneNumber());
+        notification.setTagId("team-" + team.getId());
+        notification.setUrl("/v2/public/games?teamId=" + team.getId());
         notification.setSentTime(OffsetDateTime.now());
         notification.setReference(createNotificationReference(game, team));
         notification.setSuccess(true);

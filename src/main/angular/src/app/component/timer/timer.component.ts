@@ -1,29 +1,26 @@
 import {Component} from '@angular/core';
-
+import Tock from 'tocktimer';
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css']
 })
 export class TimerComponent {
-  interval;
+  timer = new Tock({
+    callback: () => this.miliseconds = this.timer.lap()
+  });
   miliseconds = 0;
 
   start() {
-    if (!this.interval) {
-      this.interval = setInterval(() => this.miliseconds += 1000, 1000);
-    }
+    this.timer.start()
   }
 
   stop() {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
-    }
+    this.timer.stop()
   }
 
   reset() {
-    this.stop()
+    this.timer.reset()
     this.miliseconds = 0;
   }
 }

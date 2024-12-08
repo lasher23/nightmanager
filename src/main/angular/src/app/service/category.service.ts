@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpProxyService} from './http-proxy.service';
-import {Category} from '../model/Category';
+import {Category, CategoryState} from '../model/Category';
 
 
 @Injectable({
@@ -13,6 +13,11 @@ export class CategoryService {
 
   getAll(): Promise<Array<Category>> {
     return this.http.get<Array<Category>>('categories');
+  }
+
+  async getAllActive(): Promise<Array<Category>> {
+    const categories = await this.http.get<Array<Category>>('categories');
+    return categories.filter(category => category.state !== CategoryState.DISABLED);
   }
 
   getById(id: number): Promise<Category> {

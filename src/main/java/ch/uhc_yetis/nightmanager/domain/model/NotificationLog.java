@@ -13,10 +13,11 @@ public class NotificationLog {
 
     @Column(length = 10000)
     private String text;
-    private String toNumber;
+    private String tagId;
     private OffsetDateTime sentTime;
     private boolean success;
     private String reference;
+    private String url;
 
     public long getId() {
         return id;
@@ -42,12 +43,12 @@ public class NotificationLog {
         this.sentTime = sentTime;
     }
 
-    public String getToNumber() {
-        return toNumber;
+    public String getTagId() {
+        return tagId;
     }
 
-    public void setToNumber(String to) {
-        this.toNumber = to;
+    public void setTagId(String to) {
+        this.tagId = to;
     }
 
     public boolean isSuccess() {
@@ -64,5 +65,13 @@ public class NotificationLog {
 
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

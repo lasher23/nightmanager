@@ -33,6 +33,44 @@
       </span>
     </div>
   </div>
+  <div class="form-control">
+    <label class="label" for="margin-left">
+      <span class="label-text">Total Spiele Sicht (davor, danach)</span>
+    </label>
+    <div class="join">
+      <input
+        type="number"
+        class="w-40 input input-bordered join-item"
+        id="total-games-before"
+        [(ngModel)]="config.totalGamesView.before"
+      />
+      <input
+        type="number"
+        class="w-40 input input-bordered join-item"
+        id="total-games-after"
+        [(ngModel)]="config.totalGamesView.after"
+      />
+    </div>
+  </div>
+  <div class="form-control">
+    <label class="label" for="margin-left">
+      <span class="label-text">Kategorie Spiele Sicht (davor, danach)</span>
+    </label>
+    <div class="join">
+      <input
+        type="number"
+        class="w-40 input input-bordered join-item"
+        id="category-games-before"
+        [(ngModel)]="config.categoryGamesView.before"
+      />
+      <input
+        type="number"
+        class="w-40 input input-bordered join-item"
+        id="category-games-after"
+        [(ngModel)]="config.categoryGamesView.after"
+      />
+    </div>
+  </div>
   <div>
     <a class="btn btn-primary" (click)="startDisplayMode()" [routerLink]="'carousel'">
       <span>Start Display Mode</span>

@@ -132,20 +132,7 @@ public class TeamService {
         LOGGER.info("Start notification '{}' for category '{}'", notificationType, category.getName());
         List<Team> persistedTeam = this.teamRepository.findByCategory(category);
         LOGGER.info("Following Teams: " + persistedTeam.toString());
-        Stream<Team> filteredTeams = persistedTeam.stream()
-                .filter(team -> {
-                    boolean hasNumber = team.getPhoneNumber() != null;
-                    LOGGER.info("Filtering Team '" + team.getName() + "' hasNumber: '" + hasNumber + "'");
-                    return hasNumber;
-                })
-                .filter(team -> {
-                    String notReference = getNotReference(notificationType, team);
-                    boolean alreadyExists = notificationService.getAllNotifications().stream().map(NotificationLog::getReference).collect(Collectors.toList()).contains(notReference);
-                    LOGGER.info("Filtering Team '" + team.getName() + "' notificationReference: '" + notReference + "' alreadyExists: '" + alreadyExists + "'");
-//                    return alreadyExists;
-                    return true;
-                });
-        filteredTeams
+        persistedTeam
                 .forEach(team -> {
                     String message = notificationProvider.apply(team);
                     if (message == null) {
@@ -156,10 +143,11 @@ public class TeamService {
                     notification.setReference(getNotReference(notificationType, team));
                     notification.setSentTime(OffsetDateTime.now());
                     notification.setSuccess(true);
-                    notification.setToNumber(team.getPhoneNumber());
+                    notification.setTagId("team-" + team.getId());
                     notification.setText(message);
+                    notification.setUrl("/v2/public/games?teamId=" + team.getId());
                     try {
-                        notificationService.sendNotification(notification.getText(), notification.getToNumber());
+                        notificationService.sendNotification(notification.getText(), notification.getTagId(), notification.getUrl());
                     } catch (Exception e) {
                         LOGGER.warn("Received error setting notification success to false", e);
                         notification.setSuccess(false);

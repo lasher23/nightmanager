@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {ErrorHandler, NgModule} from '@angular/core';
+import {ErrorHandler, NgModule, isDevMode} from '@angular/core';
 import {A11yModule} from '@angular/cdk/a11y';
 import {BidiModule} from '@angular/cdk/bidi';
 import {ObserversModule} from '@angular/cdk/observers';
@@ -91,6 +91,7 @@ import {AddComponent} from './component/display/add/add.component';
 import { AdminNotificationsOverviewComponent } from './component/admin/admin-notifications-overview/admin-notifications-overview.component';
 import { AdminSendNotificationsComponent } from './component/admin/admin-send-notifications/admin-send-notifications.component';
 import { RefereeGameDetailComponent } from './v2/pages/referee/referee-game-detail/referee-game-detail.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -179,6 +180,12 @@ import { RefereeGameDetailComponent } from './v2/pages/referee/referee-game-deta
     PlatformModule,
     PortalModule,
     CdkStepperModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     LoginService,

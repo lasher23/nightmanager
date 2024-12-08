@@ -4,58 +4,51 @@ import ch.uhc_yetis.nightmanager.domain.model.GameState;
 
 public class GameRequestParams {
 
-  private Long categoryId;
-  private Long hallId;
-  private GameState state;
-  private Integer afterNow;
-  private Integer beforeNow;
-  private Boolean live;
+    private Long categoryId;
+    private Long hallId;
+    private GameState state;
+    private Boolean live;
+    private Long teamId;
 
-  public Boolean getLive() {
-    return live;
-  }
+    public Boolean getLive() {
+        return live;
+    }
 
-  public void setLive(Boolean live) {
-    this.live = live;
-  }
+    public void setLive(Boolean live) {
+        this.live = live;
+    }
 
-  public Integer getAfterNow() {
-    return this.afterNow;
-  }
 
-  public void setAfterNow(Integer afterNow) {
-    this.afterNow = afterNow;
-  }
+    public Long getCategoryId() {
+        return this.categoryId;
+    }
 
-  public Integer getBeforeNow() {
-    return this.beforeNow;
-  }
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
 
-  public void setBeforeNow(Integer beforeNow) {
-    this.beforeNow = beforeNow;
-  }
+    public Long getHallId() {
+        return this.hallId;
+    }
 
-  public Long getCategoryId() {
-    return this.categoryId;
-  }
+    public void setHallId(Long hallId) {
+        this.hallId = hallId;
+    }
 
-  public void setCategoryId(Long categoryId) {
-    this.categoryId = categoryId;
-  }
+    public GameState getState() {
+        return this.state;
+    }
 
-  public Long getHallId() {
-    return this.hallId;
-  }
+    public void setState(GameState state) {
+        this.state = state;
+    }
 
-  public void setHallId(Long hallId) {
-    this.hallId = hallId;
-  }
+    public Long getTeamId() {
+        return teamId;
+    }
 
-  public GameState getState() {
-    return this.state;
-  }
-
-  public void setState(GameState state) {
-    this.state = state;
-  }
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
+    }
 }
+

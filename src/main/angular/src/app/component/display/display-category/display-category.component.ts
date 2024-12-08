@@ -6,6 +6,7 @@ import {TeamService} from '../../../service/team.service';
 import {Team} from '../../../model/Team';
 import {GameService} from '../../../service/game.service';
 import {Game} from '../../../model/Game';
+import {DisplayConfig, DisplayConfigService} from "../../../service/display-config.service";
 
 @Component({
   selector: 'app-display-category',
@@ -37,7 +38,9 @@ export class DisplayCategoryComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private categoryService: CategoryService,
               private teamService: TeamService,
-              private gameService: GameService) {
+              private gameService: GameService,
+              private displayConfigService: DisplayConfigService,
+              ) {
   }
 
   @Input() set category(category: Category) {
@@ -129,7 +132,7 @@ export class DisplayCategoryComponent implements OnInit {
 
   private initGames() {
     return this.gameService.getAllGamesByCategory(this._category.id).then(games => {
-      this.games = this.gameService.getClosestGamesToNow(games, 6, 6);
+      this.games = this.gameService.getClosestGamesToNow(games, this.displayConfigService.getConfig().categoryGamesView.before, this.displayConfigService.getConfig().categoryGamesView.after);
     });
   }
 

@@ -26,12 +26,17 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/assets/fonts"
+              "src/assets/fonts",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest",
+              "src/onesignal/OneSignalSDKWorker.js"
             ],
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {
@@ -95,7 +100,9 @@
             "scripts": [],
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest"
             ]
           }
         },
@@ -140,5 +147,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

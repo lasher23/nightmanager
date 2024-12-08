@@ -8,5 +8,9 @@ export const routes: Routes = [
   {
     path: "referee",
     loadChildren: () => import("./pages/referee/referee.routes").then(d => d.routes)
+  },
+  {
+    path: "public",
+    loadChildren: () => import("./pages/public/public.routes").then(d => d.routes)
   }
 ]

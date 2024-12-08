@@ -79,4 +79,14 @@ export class GameService {
   notifyGame(game: Game): Promise<any> {
     return this.http.post(`games/notify`, game);
   }
+  getAllGamesByFilter(categoryId: number, teamId: number): Promise<Array<Game>> {
+    const params: { [key: string]: any } = {};
+    if (categoryId !== undefined && categoryId !== null) {
+      params.categoryId = categoryId;
+    }
+    if (teamId !== undefined && teamId !== null) {
+      params.teamId = teamId;
+    }
+    return this.http.get<Array<Game>>('games', params).then(games => this.sortGames(games));
+  }
 }

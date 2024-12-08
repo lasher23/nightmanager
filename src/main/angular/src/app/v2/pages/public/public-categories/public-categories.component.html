@@ -1,0 +1,14 @@
+<div class="p-6">
+  <h1 class="text-2xl font-bold mb-4">Kategorien</h1>
+  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div *ngFor="let category of (categories | async)" class="card shadow-md">
+      <div class="card-body">
+        <h2 class="card-title">{{ category.name }}</h2>
+        <div class="card-actions justify-end">
+          <a class="btn btn-neutral btn-sm" [routerLink]="'/v2/public/catgories/' + category.id+ '/teams'">Teams</a>
+          <a class="btn btn-neutral btn-sm" routerLink="/v2/public/games" [queryParams]="{categoryId: category.id}">Spiele</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
