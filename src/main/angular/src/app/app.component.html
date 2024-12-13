@@ -1,37 +1,44 @@
-<div *ngIf="isReferee">
-  <mat-toolbar class="mat-elevation-z6" color="primary">
-    <button mat-icon-button (click)="opened = !opened">
-      <mat-icon>menu</mat-icon>
-    </button>
-    {{(roleService.role$ | async)?.name }}
-  </mat-toolbar>
-  <mat-sidenav-container class="main-sidenav-container" (backdropClick)="opened = !opened">
-    <mat-sidenav [mode]="mode"
-                 [opened]="opened"
-                 [fixedInViewport]="true"
-                 [fixedTopGap]="layoutGap">
-      <div class="nav-buttons">
-        <button mat-stroked-button (click)="openChat()">Chat</button>
-        <button mat-stroked-button (click)="openGames()">Spiele</button>
-        <button mat-stroked-button (click)="logout()">
-          Ausloggen
-        </button>
+  <ng-container >
+    <div class="navbar bg-base-100">
+      <div class="navbar-start">
+        <!-- Mobile menu -->
+        <div class="dropdown" >
+          <label tabindex="0" class="btn btn-ghost lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </label>
+          <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-white rounded-box w-52 z-50">
+            <ng-container *ngTemplateOutlet="menuItems"></ng-container>
+          </ul>
+        </div>
+        <!-- Logo or title -->
+        <a class="btn btn-ghost normal-case text-xl" routerLink="/v2/public">Yetis</a>
       </div>
-    </mat-sidenav>
-    <div>
-      <router-outlet class="container"></router-outlet>
-    </div>
-  </mat-sidenav-container>
-</div>
-<div *ngIf="!isReferee">
-  <nav class="navbar bg-base-200 shadow-md p-4"*ngIf="location.pathname.includes('v2')">
-    <div class="container mx-auto flex justify-center md:justify-start items-center">
-      <!-- Title -->
-      <a href="/v2/public" class="text-2xl font-bold text-primary">Yetis Night</a>
-    </div>
-  </nav>
-  <router-outlet class="container"></router-outlet>
-</div>
 
+      <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal px-1">
+          <ng-container *ngTemplateOutlet="menuItems"></ng-container>
+        </ul>
+      </div>
+    </div>
+  </ng-container>
+  <router-outlet class="container"></router-outlet>
+<ng-template #menuItems>
+  <li *ngIf="isReferee$ | async">
+    <a routerLink="/referee/games" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Schirri Spiele</a>
+  </li>
+  <li *ngIf="isReferee$ | async">
+    <a routerLink="/referee/chat" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Schirri Chat</a>
+  </li>
+  <li *ngIf="isAdmin$ | async">
+    <a routerLink="/admin" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Admin</a>
+  </li>
+  <li><a routerLink="/v2/public" class="text-xl" (click)="($any(document.activeElement))?.blur()">Kategorien</a></li>
+  <li><a routerLink="/v2/public/games" class="text-xl" (click)="($any(document.activeElement))?.blur()">Alle Spiele</a></li>
+  <li><a routerLink="/v2/public/rules" class="text-xl" (click)="($any(document.activeElement))?.blur()">Regeln & Spielplan</a></li>
+  <li *ngIf="!(isLoggedIn$ | async)"><a routerLink="/login" class="text-xl" (click)="($any(document.activeElement))?.blur()">Login</a></li>
+  <li *ngIf="(isLoggedIn$ | async)"><a routerLink="/login" class="text-xl" (click)="logout()">Logout</a></li>
+</ng-template>
 
 

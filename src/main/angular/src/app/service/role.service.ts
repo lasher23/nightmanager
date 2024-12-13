@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Role} from '../model/Role';
-import {Subject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class RoleService {
     {name: 'REFEREE', defaultRoute: '/referee'},
     {name: 'ADMIN', defaultRoute: '/admin'},
   ];
-  public role$ = new Subject<Role>();
+  public role$ = new BehaviorSubject<Role>(undefined);
 
   constructor() {
     setTimeout(() => this.role$.next(this.getRole()));

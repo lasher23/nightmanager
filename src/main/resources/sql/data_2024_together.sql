@@ -17,8 +17,8 @@ INSERT INTO public.halls (id, name) VALUES (2, 'Matte');
 
 
 -- Kategorien
-INSERT INTO public.categories (id, name, remark, state, type, fk_parent_category, show_on_display) VALUES (100, 'Schüler Kategorie 1', NULL, 1, 0, NULL, true);
-INSERT INTO public.categories (id, name, remark, state, type, fk_parent_category, show_on_display) VALUES (200, 'Schüler Kategorie 2', NULL, 1, 0, NULL, true);
+INSERT INTO public.categories (id, name, remark, state, type, fk_parent_category, show_on_display) VALUES (100, 'Schüler Kategorie 1', 'Kleine Tore', 1, 0, NULL, true);
+INSERT INTO public.categories (id, name, remark, state, type, fk_parent_category, show_on_display) VALUES (200, 'Schüler Kategorie 2', 'Kleine Tore', 1, 0, NULL, true);
 INSERT INTO public.categories (id, name, remark, state, type, fk_parent_category, show_on_display) VALUES (300, 'Schüler Kategorie 3', NULL, 1, 0, NULL, true);
 INSERT INTO public.categories (id, name, remark, state, type, fk_parent_category, show_on_display) VALUES (400, 'Schüler Kategorie 4', NULL, 1, 0, NULL, true);
 
@@ -328,11 +328,11 @@ INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10034,60000,0,0,TRUE ,'2024-12-14 21:10:00',0,0,3000,1,3900,3900);
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10035,60000,0,0,TRUE ,'2024-12-14 21:20:00',0,0,3000,1,3900,3900);
 -- Cat B Stage 4 Inpuls
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10036,60000,0,0,FALSE,'2024-12-14 21:30:00',0,0,5000,1,5006,5001);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10037,60000,0,0,FALSE,'2024-12-14 21:40:00',0,0,5000,1,5008,5003);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10038,60000,0,0,FALSE,'2024-12-14 21:50:00',0,0,5000,1,5010,5005);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10039,60000,0,0,FALSE,'2024-12-14 22:00:00',0,0,5000,1,5002,5007);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10040,60000,0,0,FALSE,'2024-12-14 22:10:00',0,0,5000,1,5004,5009);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10095,60000,0,0,FALSE,'2024-12-14 21:30:00',0,0,8000,1,8006,8001);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10096,60000,0,0,FALSE,'2024-12-14 21:40:00',0,0,8000,1,8008,8003);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10097,60000,0,0,FALSE,'2024-12-14 21:50:00',0,0,8000,1,8010,8005);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10098,60000,0,0,FALSE,'2024-12-14 22:00:00',0,0,8000,1,8002,8007);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10099,60000,0,0,FALSE,'2024-12-14 22:10:00',0,0,8000,1,8004,8009);
 -- Yetis Cup Winner Stage 3 Inpuls
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10041,60000,0,0,TRUE ,'2024-12-14 22:20:00',0,0,2000,1,2900,2900);
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10042,60000,0,0,TRUE ,'2024-12-14 22:30:00',0,0,2000,1,2900,2900);
@@ -401,11 +401,11 @@ INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10093,60000,0,0,TRUE ,'2024-12-14 21:10:00',0,0,2000,2,2900,2900);
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10094,60000,0,0,TRUE ,'2024-12-14 21:20:00',0,0,2000,2,2900,2900);
 -- Cat C Stage 4 Matte
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10095,60000,0,0,FALSE,'2024-12-14 21:30:00',0,0,8000,2,8006,8001);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10096,60000,0,0,FALSE,'2024-12-14 21:40:00',0,0,8000,2,8008,8003);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10097,60000,0,0,FALSE,'2024-12-14 21:50:00',0,0,8000,2,8010,8005);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10098,60000,0,0,FALSE,'2024-12-14 22:00:00',0,0,8000,2,8002,8007);
-INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10099,60000,0,0,FALSE,'2024-12-14 22:10:00',0,0,8000,2,8004,8009);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10036,60000,0,0,FALSE,'2024-12-14 21:30:00',0,0,5000,2,5006,5001);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10037,60000,0,0,FALSE,'2024-12-14 21:40:00',0,0,5000,2,5008,5003);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10038,60000,0,0,FALSE,'2024-12-14 21:50:00',0,0,5000,2,5010,5005);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10039,60000,0,0,FALSE,'2024-12-14 22:00:00',0,0,5000,2,5002,5007);
+INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (10040,60000,0,0,FALSE,'2024-12-14 22:10:00',0,0,5000,2,5004,5009);
 -- Yetis Cup Looser Stage 3 Inpuls
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (100100,60000,0,0,TRUE ,'2024-12-14 22:20:00',0,0,3000,2,3900,3900);
 INSERT INTO games (id,duration,goals_team_guest,goals_team_home,flag_placeholder,start_date,state,type,fk_category,fk_hall,fk_team_home,fk_team_guest) VALUES (100101,60000,0,0,TRUE ,'2024-12-14 22:30:00',0,0,3000,2,3900,3900);

@@ -1,32 +1,6 @@
 <div class="p-6">
   <h1 class="text-2xl font-bold mb-4 text-base-content">Spiele</h1>
   <div class="flex flex-col space-y-2">
-    <div *ngFor="let game of (games | async)" class="card shadow-md flex flex-row items-center p-4 bg-base-100">
-      <!-- Time Section -->
-      <div class="flex-shrink-0 w-20 text-center text-lg font-semibold text-base-content">
-        {{ game.startDate | date: 'HH:mm' }}
-      </div>
-
-      <!-- Game Details -->
-      <div class="flex-grow">
-        <!-- Live Badge -->
-        <div *ngIf="game.live" class="ml-auto flex items-center justify-end">
-          <span class="bg-error text-error-content px-2 py-0.5 text-xs font-bold rounded">
-            LIVE
-          </span>
-        </div>
-        <!-- Team and Score -->
-        <div class="flex justify-between items-center mt-2">
-          <div class="text-sm font-bold text-base-content">{{ game.teamHome.name }}</div>
-          <div class="text-md font-semibold text-base-content" *ngIf="game.live || game.state === 'DONE'">
-            {{ game.goalsTeamHome }} - {{ game.goalsTeamGuest }}
-          </div>
-        </div>
-        <div class="flex justify-between items-center mt-1">
-          <div class="text-sm font-bold text-base-content">{{ game.teamGuest.name }}</div>
-          <div class="text-xs text-base-content">{{ game.hall.name }}</div>
-        </div>
-      </div>
-    </div>
+    <app-game *ngFor="let game of (games | async) || []" [game]="game"></app-game>
   </div>
 </div>

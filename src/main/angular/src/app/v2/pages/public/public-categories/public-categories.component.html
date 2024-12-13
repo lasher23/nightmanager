@@ -5,6 +5,7 @@
       <div class="card-body">
         <h2 class="card-title">{{ category.name }}</h2>
         <div class="card-actions justify-end">
+          <a class="btn btn-neutral btn-sm" [routerLink]="'/v2/public/categories/' + category.id+ '/ranking'">Rangliste</a>
           <a class="btn btn-neutral btn-sm" [routerLink]="'/v2/public/catgories/' + category.id+ '/teams'">Teams</a>
           <a class="btn btn-neutral btn-sm" routerLink="/v2/public/games" [queryParams]="{categoryId: category.id}">Spiele</a>
         </div>

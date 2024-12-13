@@ -2,13 +2,14 @@ import {Component, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {GameService} from "../../../../service/game.service";
 import {ActivatedRoute} from "@angular/router";
-import {map, switchMap} from "rxjs/operators";
+import {switchMap} from "rxjs/operators";
+import {GameComponent} from "./game/game.component";
 
 
 @Component({
   selector: 'app-public-games',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, GameComponent],
   templateUrl: './public-games.component.html',
   styleUrls: ['./public-games.component.css']
 })

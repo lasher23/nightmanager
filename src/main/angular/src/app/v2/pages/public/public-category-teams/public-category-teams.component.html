@@ -34,6 +34,7 @@
     </div>
   </div>
   <div class="mt-6">
-    <button class="btn btn-outline">Alle {{ (category | async)?.name }} Kategorie Spiele</button>
+    <a class="btn btn-outline" routerLink="/v2/public/games"
+       [queryParams]="{categoryId: (categoryId | async)}">Alle {{ (category | async)?.name }} Spiele</a>
   </div>
 </div>

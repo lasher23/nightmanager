@@ -1,22 +1,10 @@
-<div class="refree-games">
-  <table mat-table [dataSource]="games">
-    <ng-container matColumnDef="startDate">
-      <th mat-header-cell *matHeaderCellDef>Zeit</th>
-      <td mat-cell *matCellDef="let element"> {{element.startDate | date: 'HH:mm'}}</td>
+<div class="p-6">
+  <h1 class="text-2xl font-bold mb-4 text-base-content">Spiele</h1>
+  <div class="flex flex-col space-y-2">
+    <ng-container *ngFor="let game of games">
+      <a [routerLink]="'/referee/games/' + game.id">
+        <app-game [game]="game"></app-game>
+      </a>
     </ng-container>
-    <ng-container matColumnDef="teamHome">
-      <th mat-header-cell *matHeaderCellDef>Heim</th>
-      <td mat-cell *matCellDef="let element"> {{element.teamHome.name}}</td>
-    </ng-container>
-    <ng-container matColumnDef="teamGuest">
-      <th mat-header-cell *matHeaderCellDef>Gast</th>
-      <td mat-cell *matCellDef="let element"> {{element.teamGuest.name}}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onGameClick(row)"
-        [class.semi-final]="row.type === 'SEMI_FINAL'"
-        [class.final]="row.type === 'FINAL'"></tr>
-  </table>
-  <mat-spinner *ngIf="games==undefined"></mat-spinner>
+  </div>
 </div>

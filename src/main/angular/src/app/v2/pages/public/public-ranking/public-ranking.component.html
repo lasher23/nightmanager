@@ -1,0 +1,25 @@
+<div class="p-6">
+  <h1 class="text-2xl font-bold mb-4">{{ (category | async)?.name }} Rangliste</h1>
+  <div class="overflow-x-auto">
+    <table class="table w-full">
+      <!-- Table Head -->
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Team</th>
+        <th>Tore</th>
+        <th>Punkte</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Dynamic Rows -->
+      <tr *ngFor="let team of (teams | async); let i = index">
+        <td>{{ team.rank || i + 1 }}</td>
+        <td>{{ team.name }}</td>
+        <td>{{ team.goalsShot }}:{{ team.goalsGotten }}</td>
+        <td>{{ team.points }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

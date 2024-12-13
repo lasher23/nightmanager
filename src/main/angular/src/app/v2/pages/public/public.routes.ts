@@ -18,4 +18,13 @@ export const routes: Routes = [
     path: "games",
     loadComponent: () => import("./public-games/public-games.component").then(c => c.PublicGamesComponent)
   },
+  {
+    path: "rules",
+    loadComponent: () => import("./public-rules/public-rules.component").then(c => c.PublicRulesComponent)
+  },
+  {
+    path: "categories/:categoryId/ranking",
+    loadComponent: () => import("./public-ranking/public-ranking.component").then(c => c.PublicRankingComponent)
+
+  }
 ]

@@ -61,7 +61,7 @@ public class TeamService {
                 List<Game> gamesOfTeam = this.gameService.findGamesOfTeam(team);
                 String gamesMessage = createGamesMessage(gamesOfTeam);
                 return "Liebes Team " + team.getName() + "\n" +
-                        "Herzlich Willkommen am Yetis Turnier 2023. " +
+                        "Herzlich Willkommen am Yetis Turnier 2024. " +
                         "Ihr spielt heute in der Kategorie " + team.getCategory().getName().replace("Kategorie", "") + " und habt folgende Gruppenspiele vor euch:\n" +
                         gamesMessage + "\n" +
                         "Ihr werdet jeweils auf diesem Kanal 15min vor Spielbeginn über euer nächstes Spiel informiert. " +
@@ -121,7 +121,7 @@ public class TeamService {
                 return "Liebes Team " + team.getName() + "\n" +
                         "Ein grossartiges Turnier ist nun zu Ende. Hier ist die Endrangliste deiner Kategorie.\n" +
                         ranking + "\n" +
-                        "Herzlichen Dank für eure Teilnahme und bis zum nächsten Jahr am Yetis Turnier 14.12.2024.\n" +
+                        "Herzlichen Dank für eure Teilnahme und bis zum nächsten Jahr am Yetis Turnier 14.12.2025.\n" +
                         "Eure Yetis Hildisrieden";
             };
             notifyCategory(category, "team-finish-message", notificationProvider);

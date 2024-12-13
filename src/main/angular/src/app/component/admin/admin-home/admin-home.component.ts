@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {StompService} from "../../../stomp.service";
 
 @Component({
   selector: 'app-admin-home',
@@ -8,12 +9,10 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
   styleUrls: ['./admin-home.component.scss']
 })
 export class AdminHomeComponent implements OnInit {
-  interval;
-  miliseconds = 0;
 
   fullMode = false;
 
-  constructor(private activatedRoute: ActivatedRoute) {
+  constructor(private activatedRoute: ActivatedRoute, private stompService: StompService,) {
     this.activatedRoute.queryParams.pipe(takeUntilDestroyed()).subscribe(params => {
       if (params.fullMode) {
         this.fullMode = true
@@ -25,26 +24,10 @@ export class AdminHomeComponent implements OnInit {
   }
 
 
-  start() {
-    console.log(this.interval);
-    if (!this.interval) {
-      this.interval = setInterval(() => this.miliseconds += 1000, 1000);
-    }
+  emitStartClicked() {
+    this.stompService.publish({
+      destination: "/topic/game-started",
+      body: JSON.stringify({action: "startClicked"})
+    })
   }
-
-  stop() {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
-    }
-  }
-
-  reset() {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
-    }
-    this.miliseconds = 0;
-  }
-
 }

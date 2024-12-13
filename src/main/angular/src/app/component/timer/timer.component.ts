@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import Tock from 'tocktimer';
 @Component({
   selector: 'app-timer',
@@ -6,6 +6,8 @@ import Tock from 'tocktimer';
   styleUrls: ['./timer.component.css']
 })
 export class TimerComponent {
+  @Output()
+  startClicked = new EventEmitter<void>();
   timer = new Tock({
     callback: () => this.miliseconds = this.timer.lap()
   });
@@ -13,6 +15,7 @@ export class TimerComponent {
 
   start() {
     this.timer.start()
+    this.startClicked.emit(undefined)
   }
 
   stop() {

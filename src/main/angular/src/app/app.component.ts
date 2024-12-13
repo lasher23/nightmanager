@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, inject, OnChanges, OnInit} from '@angular/core';
 import {RoleService} from './service/role.service';
 import {Router} from '@angular/router';
 import {ChatService} from './service/chat.service';
@@ -7,17 +7,21 @@ import {SnackbarService} from './service/snackbar.service';
 import {Subscription} from "rxjs";
 import {SwUpdate} from "@angular/service-worker";
 import {OneSignal} from "onesignal-ngx";
+import {StompService} from "./stomp.service";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnChanges, OnInit {
+export class AppComponent implements OnInit {
 
   isReferee = false;
   lastChatCheckedDate: Date = new Date(Date.now());
   private subscription: Subscription;
+
+  private gameStartSubscription: Subscription;
 
   constructor(
     private roleService: RoleService,
@@ -27,17 +31,22 @@ export class AppComponent implements OnChanges, OnInit {
     private snackbarService: SnackbarService,
     private oneSignal: OneSignal,
     private sw: SwUpdate,
+    private stompService: StompService,
   ) {
     sw.checkForUpdate().catch(console.error)
     this.oneSignal.init({
       appId: location.href.includes('localhost') ? 'acd8ce34-dd03-467d-8745-153dbf05a0d3' : 'a4c31416-21df-4dec-ad3b-202580f32eca',
     }).catch(console.error)
-    this.isReferee = this.roleService.getRole() && this.roleService.getRole().name === 'REFEREE';
-  }
+    this.isReferee$.subscribe(referee => {
+      if (referee) {
+        this.gameStartSubscription = this.stompService.watch('/topic/game-started').subscribe(() => this.snackbarService.showMessage("Game Started"));
+      } else {
+        this.gameStartSubscription?.unsubscribe()
+      }
+    })
+    if (this.isReferee) {
 
-  ngOnChanges() {
-    this.isReferee = this.roleService.getRole() && this.roleService.getRole().name === 'REFEREE';
-    console.log(this.isReferee);
+    }
   }
 
   ngOnInit() {
@@ -78,4 +87,8 @@ export class AppComponent implements OnChanges, OnInit {
   }
 
   protected readonly location = location;
+  protected readonly document = document;
+  isLoggedIn$ = inject(RoleService).role$.pipe(map(role => !!role));
+  isReferee$ = inject(RoleService).role$.pipe(map(role => role?.name === 'REFEREE'));
+  isAdmin$ = inject(RoleService).role$.pipe(map(role => role?.name === 'ADMIN'));
 }

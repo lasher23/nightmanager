@@ -90,8 +90,8 @@ import {TimerComponent} from './component/timer/timer.component';
 import {AddComponent} from './component/display/add/add.component';
 import { AdminNotificationsOverviewComponent } from './component/admin/admin-notifications-overview/admin-notifications-overview.component';
 import { AdminSendNotificationsComponent } from './component/admin/admin-send-notifications/admin-send-notifications.component';
-import { RefereeGameDetailComponent } from './v2/pages/referee/referee-game-detail/referee-game-detail.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import {GameComponent} from "./v2/pages/public/public-games/game/game.component";
 
 @NgModule({
   declarations: [
@@ -124,7 +124,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     AddComponent,
     AdminNotificationsOverviewComponent,
     AdminSendNotificationsComponent,
-    RefereeGameDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -186,6 +185,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
+    GameComponent,
   ],
   providers: [
     LoginService,

@@ -5,8 +5,6 @@ import {HallService} from '../../../service/hall.service';
 import {Hall} from '../../../model/Hall';
 import {SnackbarService} from '../../../service/snackbar.service';
 import {AdminConfirmDialogComponent} from '../admin-generation/admin-confirm-dialog/admin-confirm-dialog.component';
-import {timeInterval} from 'rxjs/operators';
-import {interval} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {GameChangeNotifierService} from "../../../service/game-change-notifier.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
