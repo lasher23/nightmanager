@@ -1,6 +1,6 @@
 import {Component, inject, OnChanges, OnInit} from '@angular/core';
 import {RoleService} from './service/role.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ChatService} from './service/chat.service';
 import {HallService} from './service/hall.service';
 import {SnackbarService} from './service/snackbar.service';
@@ -22,7 +22,6 @@ export class AppComponent implements OnInit {
   private subscription: Subscription;
 
   private gameStartSubscription: Subscription;
-
   constructor(
     private roleService: RoleService,
     private router: Router,
