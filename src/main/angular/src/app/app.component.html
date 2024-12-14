@@ -29,7 +29,7 @@
     <a routerLink="/referee/games" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Schirri Spiele</a>
   </li>
   <li *ngIf="isReferee$ | async">
-    <a routerLink="/referee/chat" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Schirri Chat</a>
+    <a routerLink="/referee/chats" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Schirri Chat</a>
   </li>
   <li *ngIf="isAdmin$ | async">
     <a routerLink="/admin" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Admin</a>

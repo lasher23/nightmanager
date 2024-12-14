@@ -20,7 +20,7 @@ export class AddComponent implements OnInit {
     '/assets/adds/Blesshess_2022.PNG',
     '/assets/adds/chipeno.png',
     '/assets/adds/CKW_2022.svg',
-    '/assets/adds/Coiffure Flair_2022.tif',
+    '/assets/adds/Coiffure Flair_2022.svg',
     '/assets/adds/Contrast_2023.svg',
     '/assets/adds/Die Mobiliar_2022.PNG',
     '/assets/adds/egli-storen.svg',

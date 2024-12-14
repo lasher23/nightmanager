@@ -44,6 +44,7 @@ export class DisplayLiveGameComponent implements OnInit {
         this.hasNoLiveGames = true;
         return;
       }
+      this.hasNoLiveGames = false;
       this.liveGame = liveGames[0];
       this.gameService.getNextGame(this.liveGame).then(game => this.nextGame = game);
     });
