@@ -90,4 +90,5 @@ export class AppComponent implements OnInit {
   isLoggedIn$ = inject(RoleService).role$.pipe(map(role => !!role));
   isReferee$ = inject(RoleService).role$.pipe(map(role => role?.name === 'REFEREE'));
   isAdmin$ = inject(RoleService).role$.pipe(map(role => role?.name === 'ADMIN'));
+  isShotMaster$ = inject(RoleService).role$.pipe(map(role => role?.name === 'SHOT_MASTER'));
 }

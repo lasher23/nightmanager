@@ -27,4 +27,9 @@ export const routes: Routes = [
     loadComponent: () => import("./public-ranking/public-ranking.component").then(c => c.PublicRankingComponent)
 
   }
+  ,
+  {
+    path: "shots",
+    loadComponent: () => import("./public-shotgame/public-shotgame.component").then(c => c.PublicShotgameComponent)
+  }
 ]

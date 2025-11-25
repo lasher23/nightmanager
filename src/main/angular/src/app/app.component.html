@@ -37,6 +37,8 @@
   <li><a routerLink="/v2/public" class="text-xl" (click)="($any(document.activeElement))?.blur()">Kategorien</a></li>
   <li><a routerLink="/v2/public/games" class="text-xl" (click)="($any(document.activeElement))?.blur()">Alle Spiele</a></li>
   <li><a routerLink="/v2/public/rules" class="text-xl" (click)="($any(document.activeElement))?.blur()">Regeln & Spielplan</a></li>
+  <li><a routerLink="/v2/public/shots" class="text-xl" (click)="($any(document.activeElement))?.blur()">Shots</a></li>
+  <li *ngIf="isShotMaster$ | async"><a routerLink="/v2/shot-master" class="text-xl" (click)="($any(document.activeElement))?.blur()">Shot Master</a></li>
   <li *ngIf="!(isLoggedIn$ | async)"><a routerLink="/login" class="text-xl" (click)="($any(document.activeElement))?.blur()">Login</a></li>
   <li *ngIf="(isLoggedIn$ | async)"><a routerLink="/login" class="text-xl" (click)="logout()">Logout</a></li>
 </ng-template>

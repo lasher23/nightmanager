@@ -15,4 +15,5 @@ export interface Category {
   remark: string;
   type: string;
   showOnDisplay: boolean;
+  shotGameEnabled?: boolean;
 }

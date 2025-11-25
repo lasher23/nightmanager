@@ -26,6 +26,8 @@ public class Category {
     private String additionalSmsText;
     @Column
     private boolean showOnDisplay;
+    @Column(nullable = true)
+    private Boolean shotGameEnabled;
 
 
     public String getRemark() {
@@ -90,5 +92,13 @@ public class Category {
 
     public void setShowOnDisplay(boolean showOnDisplay) {
         this.showOnDisplay = showOnDisplay;
+    }
+
+    public Boolean isShotGameEnabled() {
+        return shotGameEnabled;
+    }
+
+    public void setShotGameEnabled(Boolean shotGameEnabled) {
+        this.shotGameEnabled = shotGameEnabled;
     }
 }

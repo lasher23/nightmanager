@@ -1,0 +1,31 @@
+<div class="p-6">
+  <h1 class="text-2xl font-bold mb-4">Shot Master</h1>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <ng-container *ngIf="entries && entries.length > 0; else noEntries">
+      <div *ngFor="let s of entries" class="card bg-base-100 shadow hover:shadow-lg transition-shadow duration-200 cursor-pointer relative group" (click)="incrementLocal(s.team.id)">
+        <div class="card-body cursor-pointer">
+          <h2 class="card-title text-base sm:text-lg">{{ s.team?.name }}</h2>
+          <p class="text-2xl sm:text-3xl font-bold text-primary">{{ s.shots }}</p>
+          <p *ngIf="getPendingCount(s.team.id) !== 0" class="text-xs font-semibold" [ngClass]="{'text-success': getPendingCount(s.team.id) > 0, 'text-error': getPendingCount(s.team.id) < 0}">
+            <span *ngIf="getPendingCount(s.team.id) > 0">+{{ getPendingCount(s.team.id) }} pending</span>
+            <span *ngIf="getPendingCount(s.team.id) < 0">-{{ getAbsPendingCount(s.team.id) }} pending</span>
+          </p>
+
+          <button class="btn btn-circle btn-xs btn-ghost text-error absolute top-3 right-3" (click)="decrementLocal(s.team.id); $event.stopPropagation()" title="Remove shot (undo)">
+            −
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <ng-template #noEntries>
+    <div *ngIf="loading" class="text-center p-4">Loading…</div>
+    <div *ngIf="!loading" class="text-center p-4">No teams found.</div>
+  </ng-template>
+
+  <div class="mt-4">
+    <button class="btn" (click)="reload()">Reload</button>
+  </div>
+</div>

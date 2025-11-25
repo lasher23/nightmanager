@@ -9,6 +9,7 @@ export class RoleService {
   roles: Array<Role> = [
     {name: 'REFEREE', defaultRoute: '/referee'},
     {name: 'ADMIN', defaultRoute: '/admin'},
+    {name: 'SHOT_MASTER', defaultRoute: '/v2/shot-master'},
   ];
   public role$ = new BehaviorSubject<Role>(undefined);
 

@@ -21,18 +21,16 @@ public class NotificationService {
     private static final String ONE_SIGNAL_API_KEY = System.getenv("ONE_SIGNAL_API_KEY");
 
     private final NotificationRepository notificationRepository;
-    private final RestClient.Builder restClientBuilder;
     private final String appId;
 
 
-    public NotificationService(NotificationRepository notificationRepository, RestClient.Builder restClientBuilder, @Value("${onesignal.app-id}") String appId) {
+    public NotificationService(NotificationRepository notificationRepository, @Value("${onesignal.app-id}") String appId) {
         this.notificationRepository = notificationRepository;
-        this.restClientBuilder = restClientBuilder;
         this.appId = appId;
     }
 
     public void sendNotification(String notification, String tagId, String url) {
-        restClientBuilder.build().post()
+        RestClient.create().post()
                 .uri("https://api.onesignal.com/notifications")
                 .header("Authorization", "Basic " + ONE_SIGNAL_API_KEY)
                 .body(new Notification(appId, "push", List.of("Subscribed Users"), List.of(new Notification.Filter(
