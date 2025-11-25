@@ -4,7 +4,7 @@
   </h1>
 
   <!-- Leader Podium -->
-  <div *ngIf="shots && shots.length > 0" class="max-w-2xl mx-auto mb-16">
+  <div *ngIf="shots && shots.length > 0" class="max-w-6xl mx-auto mb-16 px-4">
     <!-- 1st Place -->
     <div [id]="'team-' + shots[0].team?.id" 
          class="relative mb-8 transition-all duration-500"
@@ -19,14 +19,14 @@
         
         <div class="text-center pt-6">
           <p class="text-6xl font-bold text-white drop-shadow-lg">{{ shots[0].shots }}</p>
-          <p class="text-2xl font-bold text-gray-900 mt-2">{{ shots[0].team?.name }}</p>
+          <p [attr.id]="'team-name-' + shots[0].team?.id" class="team-name text-2xl font-bold text-gray-900 mt-2">{{ shots[0].team?.name }}</p>
           <p class="text-sm text-gray-800 mt-1">Leader</p>
         </div>
       </div>
     </div>
 
     <!-- Rest of the Ranking -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div *ngFor="let s of shots.slice(1); let i = index; let even = even"
            [id]="'team-' + s.team?.id"
            class="transition-all duration-500 transform"
@@ -36,12 +36,12 @@
              'animate-rank-down': rankChangeTeams.get(s.team?.id) === 'down'
            }">
         <div [ngClass]="even ? 'bg-gradient-to-br from-slate-700 to-slate-800' : 'bg-gradient-to-br from-slate-600 to-slate-700'" 
-             class="rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow">
-          <div class="flex items-center gap-4">
-            <div class="text-4xl font-bold text-yellow-400 w-12 text-center">{{ i + 2 }}</div>
+             class="rounded-lg p-8 shadow-lg hover:shadow-2xl transition-shadow">
+          <div class="flex items-center gap-6">
+            <div class="text-5xl font-extrabold text-yellow-400 w-14 text-center">{{ i + 2 }}</div>
             <div class="flex-1">
-              <p class="text-lg font-bold text-white">{{ s.team?.name }}</p>
-              <p class="text-2xl font-bold text-yellow-300">{{ s.shots }} shots</p>
+              <p [attr.id]="'team-name-' + s.team?.id" class="team-name text-lg sm:text-xl font-extrabold text-white">{{ s.team?.name }}</p>
+              <p class="text-3xl font-extrabold text-yellow-300">{{ s.shots }} shots</p>
             </div>
           </div>
         </div>

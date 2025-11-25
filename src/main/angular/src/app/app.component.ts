@@ -16,6 +16,7 @@ import {map} from "rxjs/operators";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  navbarCollapsed = false;
 
   isReferee = false;
   lastChatCheckedDate: Date = new Date(Date.now());
@@ -49,6 +50,12 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    // restore navbar collapsed state from localStorage (desktop only)
+    try {
+      this.navbarCollapsed = localStorage.getItem('navbarCollapsed') === 'true';
+    } catch (e) {
+      this.navbarCollapsed = false;
+    }
     this.roleService.role$.subscribe(role => {
       this.subscription?.unsubscribe()
       this.isReferee = role && role.name === 'REFEREE';
@@ -70,6 +77,15 @@ export class AppComponent implements OnInit {
         });
       }
     });
+  }
+
+  toggleNavbar() {
+    this.navbarCollapsed = !this.navbarCollapsed;
+    try {
+      localStorage.setItem('navbarCollapsed', this.navbarCollapsed ? 'true' : 'false');
+    } catch (e) {
+      // ignore
+    }
   }
 
   logout() {

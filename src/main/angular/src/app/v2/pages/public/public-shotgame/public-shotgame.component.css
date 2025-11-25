@@ -55,3 +55,16 @@
   }
 }
 
+/* team name fit helpers */
+.team-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.team-name {
+  transition: font-size 140ms ease;
+}
+
+

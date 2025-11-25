@@ -1,5 +1,5 @@
   <ng-container *ngIf="!location.pathname.startsWith('/display')">
-    <div class="navbar bg-base-100">
+  <div class="navbar bg-base-100" [class.collapsed]="navbarCollapsed">
       <div class="navbar-start">
         <!-- Mobile menu -->
         <div class="dropdown" >
@@ -21,8 +21,22 @@
           <ng-container *ngTemplateOutlet="menuItems"></ng-container>
         </ul>
       </div>
+      <div class="navbar-end hidden lg:flex">
+        <!-- small toggle icon; size reduced so it sits on the same line as the navbar -->
+        <button class="btn btn-ghost navbar-toggle" title="Toggle navbar" (click)="toggleNavbar()" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" [class.rotate-180]="navbarCollapsed" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+      </div>
     </div>
   </ng-container>
+  <!-- Fixed small toggle shown when navbar is collapsed (desktop only) -->
+  <button *ngIf="navbarCollapsed" class="btn btn-ghost navbar-fixed-toggle hidden lg:inline-flex" (click)="toggleNavbar()" aria-label="Open navigation">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
   <router-outlet class="container"></router-outlet>
 <ng-template #menuItems>
   <li *ngIf="isReferee$ | async">

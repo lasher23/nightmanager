@@ -4,6 +4,8 @@ import {ShotGameService} from '../../../../service/shotgame.service';
 import {ShotChangeNotifierService} from '../../../../service/shot-change-notifier.service';
 import {DestroyRef} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {fromEvent} from 'rxjs';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'app-public-shotgame',
@@ -66,8 +68,48 @@ export class PublicShotgameComponent implements OnInit {
       });
       
       this.shots = data || [];
+      // after DOM updates, adjust team name sizes to fit
+      setTimeout(() => this.adjustAllTeamNames(), 0);
       return data;
     });
+  }
+
+  private adjustAllTeamNames() {
+    // run in next paint to ensure layout is stable
+    requestAnimationFrame(() => {
+      (this.shots || []).forEach(s => {
+        const id = s.team?.id;
+        if (id != null) {
+          const el = document.getElementById(`team-name-${id}`) as HTMLElement | null;
+          if (el) this.adjustFontSizeToFit(el);
+        }
+      });
+    });
+  }
+
+  private adjustFontSizeToFit(el: HTMLElement) {
+    // store numeric original font-size once
+    let orig = el.dataset['originalFontSizeNumeric'];
+    const cs = window.getComputedStyle(el);
+    if (!orig) {
+      orig = (parseFloat(cs.fontSize || '16')).toString();
+      el.dataset['originalFontSizeNumeric'] = orig;
+    }
+
+    // restore original size first
+    el.style.fontSize = parseFloat(el.dataset['originalFontSizeNumeric'] || '16') + 'px';
+
+    const minSize = 12; // px minimum
+    const curSize = parseFloat(window.getComputedStyle(el).fontSize || '16');
+
+    // if text overflows horizontally, compute proportional size in one step
+    if (el.scrollWidth > el.clientWidth) {
+      const ratio = el.clientWidth / el.scrollWidth;
+      let newSize = Math.floor(curSize * ratio);
+      if (newSize < minSize) newSize = minSize;
+      el.style.fontSize = newSize + 'px';
+      // if still overflows, finally set ellipsis (CSS will handle)
+    }
   }
 
   private triggerAnimation(teamId: number) {
@@ -133,5 +175,11 @@ export class PublicShotgameComponent implements OnInit {
     this.reload();
     // subscribe to shot changes and reload
     this.shotChangeNotifier.shotChanges$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.reload());
+    // adjust on window resize
+    fromEvent(window, 'resize').pipe(debounceTime(150), takeUntilDestroyed(this.destroyRef)).subscribe(() => this.adjustAllTeamNames());
+  }
+  
+  ngOnDestroy(): void {
+    // no-op, takeUntilDestroyed handles subscriptions
   }
 }
