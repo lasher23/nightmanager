@@ -3,7 +3,7 @@ import {Category} from "../../../model/Category";
 import {AdminConfirmDialogComponent} from "../admin-generation/admin-confirm-dialog/admin-confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {CategoryService} from "../../../service/category.service";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {lastValueFrom} from "rxjs";
 import {HttpProxyService} from "../../../service/http-proxy.service";
 

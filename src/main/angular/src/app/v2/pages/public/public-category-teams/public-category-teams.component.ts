@@ -33,4 +33,8 @@ export class PublicCategoryTeamsComponent {
   get tagCount() {
     return this.notificationService.subscriptionCount
   }
+
+  get isSubscribed() {
+    return this.notificationService.isSubscribed
+  }
 }
