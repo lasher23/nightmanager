@@ -4,9 +4,10 @@ import {Hall} from '../../../model/Hall';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-referee-halls',
-  templateUrl: './referee-halls.component.html',
-  styleUrls: ['./referee-halls.component.scss']
+    selector: 'app-referee-halls',
+    templateUrl: './referee-halls.component.html',
+    styleUrls: ['./referee-halls.component.scss'],
+    standalone: false
 })
 export class RefereeHallsComponent implements OnInit {
   halls: Array<Hall>;

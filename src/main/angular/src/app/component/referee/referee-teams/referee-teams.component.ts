@@ -4,9 +4,10 @@ import {Team} from '../../../model/Team';
 import {TeamService} from '../../../service/team.service';
 
 @Component({
-  selector: 'app-teams',
-  templateUrl: './referee-teams.component.html',
-  styleUrls: ['./referee-teams.component.scss']
+    selector: 'app-teams',
+    templateUrl: './referee-teams.component.html',
+    styleUrls: ['./referee-teams.component.scss'],
+    standalone: false
 })
 export class RefereeTeamsComponent implements OnInit {
   teams: Array<Team> = [];

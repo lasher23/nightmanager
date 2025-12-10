@@ -9,9 +9,10 @@ import {Game} from '../../../model/Game';
 import {DisplayConfig, DisplayConfigService} from "../../../service/display-config.service";
 
 @Component({
-  selector: 'app-display-category',
-  templateUrl: './display-category.component.html',
-  styleUrls: ['./display-category.component.scss']
+    selector: 'app-display-category',
+    templateUrl: './display-category.component.html',
+    styleUrls: ['./display-category.component.scss'],
+    standalone: false
 })
 export class DisplayCategoryComponent implements OnInit {
   _category: Category;

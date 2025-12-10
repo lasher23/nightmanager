@@ -4,9 +4,10 @@ import { Hall } from '../../../model/Hall';
 import { HallService } from '../../../service/hall.service';
 
 @Component({
-  selector: 'app-display-choose-hall',
-  templateUrl: './display-choose-hall.component.html',
-  styleUrls: ['./display-choose-hall.component.scss']
+    selector: 'app-display-choose-hall',
+    templateUrl: './display-choose-hall.component.html',
+    styleUrls: ['./display-choose-hall.component.scss'],
+    standalone: false
 })
 export class DisplayChooseHallComponent implements OnInit {
   halls: Array<Hall>;

@@ -25,9 +25,10 @@ export interface Displayable {
 
 @UntilDestroy()
 @Component({
-  selector: 'app-display-home-component',
-  templateUrl: './display-home.component.html',
-  styleUrls: ['./display-home.component.scss']
+    selector: 'app-display-home-component',
+    templateUrl: './display-home.component.html',
+    styleUrls: ['./display-home.component.scss'],
+    standalone: false
 })
 export class DisplayHomeComponent implements OnInit, OnDestroy {
   private id: any;

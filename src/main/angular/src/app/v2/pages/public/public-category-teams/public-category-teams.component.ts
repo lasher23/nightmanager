@@ -9,11 +9,10 @@ import {Team} from "../../../../model/Team";
 import { NotificationService } from '../../notifications/notification.service';
 
 @Component({
-  selector: 'app-public-category-teams',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: './public-category-teams.component.html',
-  styleUrls: ['./public-category-teams.component.css']
+    selector: 'app-public-category-teams',
+    imports: [CommonModule, RouterLink],
+    templateUrl: './public-category-teams.component.html',
+    styleUrls: ['./public-category-teams.component.css']
 })
 export class PublicCategoryTeamsComponent {
   private categoryService = inject(CategoryService);

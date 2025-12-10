@@ -7,9 +7,10 @@ import {Game} from '../../../model/Game';
 import {CategoryState} from '../../../model/Category';
 
 @Component({
-  selector: 'app-display-category-details',
-  templateUrl: './display-category-details.component.html',
-  styleUrls: ['./display-category-details.component.scss']
+    selector: 'app-display-category-details',
+    templateUrl: './display-category-details.component.html',
+    styleUrls: ['./display-category-details.component.scss'],
+    standalone: false
 })
 export class DisplayCategoryDetailsComponent implements OnInit {
   teams: Array<Team>;

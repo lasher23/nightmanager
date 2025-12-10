@@ -17,9 +17,10 @@ export interface HallGamesAssignement {
 
 @UntilDestroy()
 @Component({
-  selector: 'app-admin-game-overview',
-  templateUrl: './admin-game-overview.component.html',
-  styleUrls: ['./admin-game-overview.component.scss']
+    selector: 'app-admin-game-overview',
+    templateUrl: './admin-game-overview.component.html',
+    styleUrls: ['./admin-game-overview.component.scss'],
+    standalone: false
 })
 export class AdminGameOverviewComponent implements OnInit {
   games: Array<Game>;

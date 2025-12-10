@@ -4,9 +4,10 @@ import {Team} from '../../../model/Team';
 import {debug} from 'util';
 
 @Component({
-  selector: 'app-admin-teams',
-  templateUrl: './admin-teams.component.html',
-  styleUrls: ['./admin-teams.component.scss']
+    selector: 'app-admin-teams',
+    templateUrl: './admin-teams.component.html',
+    styleUrls: ['./admin-teams.component.scss'],
+    standalone: false
 })
 export class AdminTeamsComponent implements OnInit {
   teams: Team[];

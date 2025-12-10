@@ -5,9 +5,10 @@ import {Router} from '@angular/router';
 import {RoleService} from '../../service/role.service';
 
 @Component({
-  selector: 'app-sidenav',
-  templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+    selector: 'app-sidenav',
+    templateUrl: './sidenav.component.html',
+    styleUrls: ['./sidenav.component.scss'],
+    standalone: false
 })
 export class SidenavComponent implements OnInit {
   mode = 'side';

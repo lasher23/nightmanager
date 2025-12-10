@@ -8,9 +8,10 @@ import {interval} from 'rxjs';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-display-live-game',
-  templateUrl: './display-live-game.component.html',
-  styleUrls: ['./display-live-game.component.scss']
+    selector: 'app-display-live-game',
+    templateUrl: './display-live-game.component.html',
+    styleUrls: ['./display-live-game.component.scss'],
+    standalone: false
 })
 export class DisplayLiveGameComponent implements OnInit {
   liveGame: Game;

@@ -6,11 +6,10 @@ import {ActivatedRoute} from "@angular/router";
 import {map, switchMap} from "rxjs/operators";
 
 @Component({
-  selector: 'app-public-ranking',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './public-ranking.component.html',
-  styleUrls: ['./public-ranking.component.css']
+    selector: 'app-public-ranking',
+    imports: [CommonModule],
+    templateUrl: './public-ranking.component.html',
+    styleUrls: ['./public-ranking.component.css']
 })
 export class PublicRankingComponent {
   private categoryService = inject(CategoryService);

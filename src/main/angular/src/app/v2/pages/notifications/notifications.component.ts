@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 
 @Component({
-    standalone: true,
     imports: [CommonModule],
     selector: 'nm-notifications',
     template: `

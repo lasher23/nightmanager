@@ -7,9 +7,10 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
 @UntilDestroy()
 @Component({
-  selector: 'app-referee-chat',
-  templateUrl: './referee-chat.component.html',
-  styleUrls: ['./referee-chat.component.scss']
+    selector: 'app-referee-chat',
+    templateUrl: './referee-chat.component.html',
+    styleUrls: ['./referee-chat.component.scss'],
+    standalone: false
 })
 export class RefereeChatComponent implements OnInit, AfterViewInit {
   chats: Array<Chat>;

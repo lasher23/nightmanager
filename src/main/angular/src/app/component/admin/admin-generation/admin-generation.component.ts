@@ -6,9 +6,10 @@ import {AdminConfirmDialogComponent} from './admin-confirm-dialog/admin-confirm-
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-admin-generation',
-  templateUrl: './admin-generation.component.html',
-  styleUrls: ['./admin-generation.component.scss']
+    selector: 'app-admin-generation',
+    templateUrl: './admin-generation.component.html',
+    styleUrls: ['./admin-generation.component.scss'],
+    standalone: false
 })
 export class AdminGenerationComponent implements OnInit {
   categories: Array<Category>;

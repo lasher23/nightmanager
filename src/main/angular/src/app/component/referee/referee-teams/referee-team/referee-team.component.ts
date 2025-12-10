@@ -4,9 +4,10 @@ import {Team} from '../../../../model/Team';
 import {TeamService} from '../../../../service/team.service';
 
 @Component({
-  selector: 'app-team',
-  templateUrl: './referee-team.component.html',
-  styleUrls: ['./referee-team.component.scss']
+    selector: 'app-team',
+    templateUrl: './referee-team.component.html',
+    styleUrls: ['./referee-team.component.scss'],
+    standalone: false
 })
 export class RefereeTeamComponent {
   private team: Team;

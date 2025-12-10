@@ -7,11 +7,10 @@ import {GameComponent} from "./game/game.component";
 
 
 @Component({
-  selector: 'app-public-games',
-  standalone: true,
-  imports: [CommonModule, GameComponent],
-  templateUrl: './public-games.component.html',
-  styleUrls: ['./public-games.component.css']
+    selector: 'app-public-games',
+    imports: [CommonModule, GameComponent],
+    templateUrl: './public-games.component.html',
+    styleUrls: ['./public-games.component.css']
 })
 export class PublicGamesComponent {
   gameService = inject(GameService);

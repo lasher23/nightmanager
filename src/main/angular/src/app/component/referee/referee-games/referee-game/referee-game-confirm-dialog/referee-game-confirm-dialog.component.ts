@@ -9,9 +9,10 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'app-referee-game-confirm-dialog',
-  templateUrl: './referee-game-confirm-dialog.component.html',
-  styleUrls: ['./referee-game-confirm-dialog.component.scss']
+    selector: 'app-referee-game-confirm-dialog',
+    templateUrl: './referee-game-confirm-dialog.component.html',
+    styleUrls: ['./referee-game-confirm-dialog.component.scss'],
+    standalone: false
 })
 export class RefereeGameConfirmDialogComponent implements OnInit {
   text: string;

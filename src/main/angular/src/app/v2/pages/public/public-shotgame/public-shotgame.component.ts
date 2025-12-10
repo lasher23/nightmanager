@@ -8,11 +8,10 @@ import {fromEvent} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-public-shotgame',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './public-shotgame.component.html',
-  styleUrls: ['./public-shotgame.component.css']
+    selector: 'app-public-shotgame',
+    imports: [CommonModule],
+    templateUrl: './public-shotgame.component.html',
+    styleUrls: ['./public-shotgame.component.css']
 })
 export class PublicShotgameComponent implements OnInit {
   private shotService = inject(ShotGameService);

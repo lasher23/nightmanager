@@ -4,9 +4,10 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {StompService} from "../../../stomp.service";
 
 @Component({
-  selector: 'app-admin-home',
-  templateUrl: './admin-home.component.html',
-  styleUrls: ['./admin-home.component.scss']
+    selector: 'app-admin-home',
+    templateUrl: './admin-home.component.html',
+    styleUrls: ['./admin-home.component.scss'],
+    standalone: false
 })
 export class AdminHomeComponent implements OnInit {
 

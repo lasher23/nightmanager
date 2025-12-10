@@ -8,9 +8,10 @@ import {lastValueFrom} from "rxjs";
 import {HttpProxyService} from "../../../service/http-proxy.service";
 
 @Component({
-  selector: 'app-admin-send-notifications',
-  templateUrl: './admin-send-notifications.component.html',
-  styleUrls: ['./admin-send-notifications.component.css']
+    selector: 'app-admin-send-notifications',
+    templateUrl: './admin-send-notifications.component.html',
+    styleUrls: ['./admin-send-notifications.component.css'],
+    standalone: false
 })
 export class AdminSendNotificationsComponent implements OnInit {
   displayedColumns = ['name', 'state', "send"];

@@ -5,9 +5,10 @@ import {GameService} from '../../../service/game.service';
 import {Game} from '../../../model/Game';
 
 @Component({
-  selector: 'app-referee-games',
-  templateUrl: './referee-games.component.html',
-  styleUrls: ['./referee-games.component.scss']
+    selector: 'app-referee-games',
+    templateUrl: './referee-games.component.html',
+    styleUrls: ['./referee-games.component.scss'],
+    standalone: false
 })
 export class RefereeGamesComponent implements OnInit {
   games: Array<Game>;

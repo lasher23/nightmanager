@@ -5,11 +5,10 @@ import {DisplayConfig, DisplayConfigService} from "../../../../service/display-c
 import {FormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'app-display-v2',
-  standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
-  templateUrl: './display-home-v2.component.html',
-  styleUrls: ['./display-home-v2.component.css']
+    selector: 'app-display-v2',
+    imports: [CommonModule, RouterLink, FormsModule],
+    templateUrl: './display-home-v2.component.html',
+    styleUrls: ['./display-home-v2.component.css']
 })
 export class DisplayHomeV2Component {
   config: DisplayConfig

@@ -4,9 +4,10 @@ import {CategoryService} from '../../../service/category.service';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-display-category-overview',
-  templateUrl: './display-category-overview.component.html',
-  styleUrls: ['./display-category-overview.component.scss']
+    selector: 'app-display-category-overview',
+    templateUrl: './display-category-overview.component.html',
+    styleUrls: ['./display-category-overview.component.scss'],
+    standalone: false
 })
 export class DisplayCategoryOverviewComponent implements OnInit {
   categories: Array<Category>;

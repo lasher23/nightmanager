@@ -9,9 +9,10 @@ import {RefereeGameConfirmDialogComponent} from './referee-game-confirm-dialog/r
 import {MatDialog} from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-referee-game',
-  templateUrl: './referee-game.component.html',
-  styleUrls: ['./referee-game.component.scss']
+    selector: 'app-referee-game',
+    templateUrl: './referee-game.component.html',
+    styleUrls: ['./referee-game.component.scss'],
+    standalone: false
 })
 export class RefereeGameComponent implements OnInit {
   game: Game;

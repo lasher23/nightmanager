@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-admin-confirm-dialog',
-  templateUrl: './admin-confirm-dialog.component.html',
-  styleUrls: ['./admin-confirm-dialog.component.scss']
+    selector: 'app-admin-confirm-dialog',
+    templateUrl: './admin-confirm-dialog.component.html',
+    styleUrls: ['./admin-confirm-dialog.component.scss'],
+    standalone: false
 })
 export class AdminConfirmDialogComponent implements OnInit {
 

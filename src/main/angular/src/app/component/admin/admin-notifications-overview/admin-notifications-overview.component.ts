@@ -4,9 +4,10 @@ import {lastValueFrom, Observable} from "rxjs";
 import {HttpProxyService} from "../../../service/http-proxy.service";
 
 @Component({
-  selector: 'app-admin-notifications-overview',
-  templateUrl: './admin-notifications-overview.component.html',
-  styleUrls: ['./admin-notifications-overview.component.css']
+    selector: 'app-admin-notifications-overview',
+    templateUrl: './admin-notifications-overview.component.html',
+    styleUrls: ['./admin-notifications-overview.component.css'],
+    standalone: false
 })
 export class AdminNotificationsOverviewComponent implements OnInit {
   notifications: Promise<any[]>;

@@ -6,9 +6,10 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'app-referee-game-dialog',
-  templateUrl: './referee-game-dialog.component.html',
-  styleUrls: ['./referee-game-dialog.component.scss']
+    selector: 'app-referee-game-dialog',
+    templateUrl: './referee-game-dialog.component.html',
+    styleUrls: ['./referee-game-dialog.component.scss'],
+    standalone: false
 })
 export class RefereeGameDialogComponent implements OnInit {
 

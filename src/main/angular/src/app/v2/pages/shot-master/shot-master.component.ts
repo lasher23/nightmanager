@@ -7,11 +7,10 @@ import {DestroyRef} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-shot-master',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './shot-master.component.html',
-  styleUrls: ['./shot-master.component.css']
+    selector: 'app-shot-master',
+    imports: [CommonModule],
+    templateUrl: './shot-master.component.html',
+    styleUrls: ['./shot-master.component.css']
 })
 export class ShotMasterComponent implements OnInit, OnDestroy {
   private shotService = inject(ShotGameService);

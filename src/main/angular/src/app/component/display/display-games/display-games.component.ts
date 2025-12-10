@@ -10,9 +10,10 @@ export interface HallGamesAssignement {
 }
 
 @Component({
-  selector: 'app-display-games',
-  templateUrl: './display-games.component.html',
-  styleUrls: ['./display-games.component.scss']
+    selector: 'app-display-games',
+    templateUrl: './display-games.component.html',
+    styleUrls: ['./display-games.component.scss'],
+    standalone: false
 })
 export class DisplayGamesComponent implements OnInit {
   _games: Array<Game>;

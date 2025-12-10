@@ -4,9 +4,10 @@ import {ChatService} from '../../../service/chat.service';
 import {Hall} from '../../../model/Hall';
 
 @Component({
-  selector: 'app-admin-chat',
-  templateUrl: './admin-chat.component.html',
-  styleUrls: ['./admin-chat.component.scss']
+    selector: 'app-admin-chat',
+    templateUrl: './admin-chat.component.html',
+    styleUrls: ['./admin-chat.component.scss'],
+    standalone: false
 })
 export class AdminChatComponent implements OnInit {
   halls: Array<Hall>;
