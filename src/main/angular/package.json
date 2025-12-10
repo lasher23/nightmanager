@@ -26,7 +26,7 @@
     "@ngneat/until-destroy": "^9.2.2",
     "@stomp/rx-stomp": "^1.2.0",
     "@stomp/stompjs": "^6.1.2",
-    "onesignal-ngx": "^2.3.0",
+    "onesignal-ngx": "^2.0.1",
     "rxjs": "~7.5.0",
     "tocktimer": "^1.1.1",
     "tslib": "^2.3.0",
