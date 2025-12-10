@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { OneSignal } from 'onesignal-ngx';
-import { BehaviorSubject, map, of, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, defer, distinctUntilChanged, from, map, merge, of, startWith, Subject, switchMap, tap } from 'rxjs';
 import { Team } from 'src/app/model/Team';
 
 interface NotificationLogDto {
@@ -16,21 +16,30 @@ const STORAGE_KEY = 'nm_notifications_v1';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
+    triggerOneSignalReady(): any {
+      this.triggerNotifications.next(null);
+    }
     private triggerNotifications = new BehaviorSubject(null);
+    private subscriptionChanged = new Subject();
+
     private oneSignal = inject(OneSignal);
     currentUserNotifications$ = this.triggerNotifications.pipe(switchMap(() => {
-        return this.fetchForTags(this.tagIds)
+        return from(this.getTagIds()).pipe(switchMap(ids => this.fetchForTags(ids)))
     }))
-    unreadNotificationCount$ = this.currentUserNotifications$.pipe(map(notifications => {
-        const readNotifications = this.getReadNotifications();
+    readNotifications$ = new BehaviorSubject(this.getReadNotifications());
+    unreadNotificationCount$ = combineLatest([this.currentUserNotifications$, this.readNotifications$]).pipe(map(([notifications, readNotifications]) => {
         return notifications.map(notification => notification.id)
             .filter(id => !readNotifications.includes(id)).length
     }));
+    subscriptionCount$ = merge(this.subscriptionChanged, this.triggerNotifications)
+        .pipe(switchMap(async () => (await this.getTagIds()).length));
 
 
     constructor(private http: HttpClient) {
-        
-        (this.oneSignal.User as any).addEventListener('change', () => this.triggerNotifications.next(null))
+        this.oneSignal.User.addEventListener('change', () => {
+            this.subscriptionChanged.next(null);
+            this.triggerNotifications.next(null);
+        });
     }
 
     isPushSupported() {
@@ -44,6 +53,7 @@ export class NotificationService {
 
     markAsRead(notifications: { id: number }[]) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify([...new Set(this.getReadNotifications().concat(notifications.map(n => n.id)))]));
+        this.readNotifications$.next(this.getReadNotifications());
     }
 
     private getReadNotifications() {
@@ -51,26 +61,30 @@ export class NotificationService {
     }
     async toggleSubscribe(team: Team) {
         const tagId = NotificationService.tagId(team);
-        if (!this.isSubscribed(team)) {
+        if (! await this.isSubscribedSync(team)) {
             this.oneSignal.User.addTag(tagId, "true")
         } else {
             this.oneSignal.User.removeTag(tagId)
         }
-
-    }
-    isSubscribed(team: Team) {
-        if (!((window as any)?.OneSignal?.User as any)?.getTags) {
-            return;
-        }
-        return (window.OneSignal.User as any).getTags()[NotificationService.tagId(team)] === "true"
+        this.subscriptionChanged.next(null);
+        this.triggerNotifications.next(null);
     }
 
-    get subscriptionCount() {
-        return this.tagIds.length
+    isSubscribed$(team: Team) {
+        return this.subscriptionChanged.pipe(
+            startWith(null),
+            switchMap(() => from(this.isSubscribedSync(team))),
+            distinctUntilChanged(),
+        );
     }
 
-    get tagIds() {
-        const tags = (window.OneSignal?.User as any)?.getTags() || [];
+    private async isSubscribedSync(team: Team): Promise<boolean> {
+        return (await this.oneSignal.User.getTags())[NotificationService.tagId(team)] === "true"
+    }
+
+
+    async getTagIds() {
+        const tags = (await this.oneSignal.User?.getTags()) || [];
         return Object.keys(tags).filter(tag => !!tags[tag])
     }
     private static tagId(team: Team) {

@@ -22,10 +22,10 @@
         <div class="card-body">
           <h2 class="card-title">{{ team.name }}</h2>
           <div class="card-actions justify-end relative group">
-            <button class="btn btn-neutral btn-sm" [disabled]="tagCount >=3 && !isSubscribed(team)"
-              (click)="toggleSubscribe(team)">{{ isSubscribed(team) ? 'Deabonnieren' : 'Abonnieren' }}
+            <button class="btn btn-neutral btn-sm" [disabled]="(subscriptionCount$ | async) >=3 && !(team.isSubscribed$ | async)"
+              (click)="toggleSubscribe(team)">{{ ((team.isSubscribed$ | async)) ? 'Deabonnieren' : 'Abonnieren' }}
             </button>
-            @if (tagCount >= 3 && !isSubscribed(team)) {
+            @if ((subscriptionCount$ | async) >= 3 && !(team.isSubscribed$ | async)) {
               <div
                 class="absolute -top-8 left-1/2 -translate-x-1/2 w-max bg-gray-700 text-white text-xs rounded py-1 px-2 shadow-lg z-10 hidden group-hover:block"
                 >

@@ -9,6 +9,7 @@ import {SwUpdate} from "@angular/service-worker";
 import {OneSignal} from "onesignal-ngx";
 import {StompService} from "./stomp.service";
 import {map} from "rxjs/operators";
+import { NotificationService } from './v2/pages/notifications/notification.service';
 
 @Component({
     selector: 'app-root',
@@ -37,7 +38,9 @@ export class AppComponent implements OnInit {
     sw.checkForUpdate().catch(console.log)
     this.oneSignal.init({
       appId: location.href.includes('localhost') ? 'acd8ce34-dd03-467d-8745-153dbf05a0d3' : 'a4c31416-21df-4dec-ad3b-202580f32eca',
-    }).catch(console.error)
+    })
+    .then(() => this.notificationService.triggerOneSignalReady())
+    .catch(console.error)
     this.isReferee$.subscribe(referee => {
       if (referee) {
         this.gameStartSubscription = this.stompService.watch('/topic/game-started').subscribe(() => this.snackbarService.showMessage("Game Started"));
@@ -108,4 +111,7 @@ export class AppComponent implements OnInit {
   isReferee$ = inject(RoleService).role$.pipe(map(role => role?.name === 'REFEREE'));
   isAdmin$ = inject(RoleService).role$.pipe(map(role => role?.name === 'ADMIN'));
   isShotMaster$ = inject(RoleService).role$.pipe(map(role => role?.name === 'SHOT_MASTER'));
+  // expose unread notifications count observable for the navbar
+  notificationService = inject(NotificationService)
+  unreadNotificationCount$ = this.notificationService.unreadNotificationCount$;
 }
