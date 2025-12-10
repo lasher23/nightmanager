@@ -38,7 +38,7 @@ public class YetisCupGenerator implements Generator {
     public void generate(Category category) {
         List<Category> subCategories = this.categoryService.findByParentCategory(category);
         List<TeamDto> teams = this.teamService.findByCategory(category).stream().sorted(this.teamComparator).collect(Collectors.toList());
-        List<List<TeamDto>> teamSplitted = Lists.partition(teams, 10);
+        List<List<TeamDto>> teamSplitted = List.of(teams.subList(0, 8), teams.subList(8, 18)); // TODO change if more than 18 teams
         for (int i = 0; ; i++) {
             if (i == 50_000) {
                 throw new GenerationException(null, "Please try again, maybe you get more luck,");

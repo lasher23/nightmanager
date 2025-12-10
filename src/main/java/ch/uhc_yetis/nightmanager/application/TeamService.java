@@ -188,6 +188,7 @@ public class TeamService {
                 .withPoints(this.getPoints(team))
                 .withRank(team.getRank())
                 .withPaid(team.isPaid())
+                .withGroupGamesPlayedCount(this.getGroupGamesPlayedCount(team))
                 .build();
     }
 
@@ -195,6 +196,11 @@ public class TeamService {
         return this.gameService.getAllGamesByTypeAndTeamAndState(team, GameType.GROUP_STAGE, GameState.DONE).stream()
                 .map(game -> this.getPointsForTeam(team, game))
                 .mapToInt(value -> value).sum();
+    }
+
+    private int getGroupGamesPlayedCount(Team team) {
+        return (int) this.gameService.getAllGamesByTypeAndTeamAndState(team, GameType.GROUP_STAGE, GameState.DONE).stream()
+                .count();
     }
 
     private int getPointsForTeam(Team team, Game game) {

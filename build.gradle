@@ -43,7 +43,7 @@ node {
 
 processResources {
     dependsOn 'buildAngular'
-    from("$projectDir/src/main/angular/dist/nightmanager") {
+    from("$projectDir/src/main/angular/dist/nightmanager/browser") {
         into "static"
     }
 }

@@ -12,6 +12,7 @@ public class TeamDto {
     private int points;
     private boolean paid;
     private int rank;
+    private int groupGamesPlayedCount;
 
     private TeamDto() {
     }
@@ -52,12 +53,15 @@ public class TeamDto {
         return this.points;
     }
 
+    public int getGroupGamesPlayedCount() {
+        return this.groupGamesPlayedCount;
+    }
+
     public static NameBuilder withId(long id) {
         return new TeamDtoBuilder().withId(id);
     }
 
     private static class TeamDtoBuilder implements IDBuilder, NameBuilder, PlaceholderBuilder, GoalsGottenBuilder, GoalsShotBuilder, OptionalFieldsBuilder, CategoryBuilder, PointBuilder, PaidBuilder, RankBuilder {
-
 
         private TeamDto teamDto;
 
@@ -123,6 +127,11 @@ public class TeamDto {
             this.teamDto.rank = rank;
             return this;
         }
+
+        public OptionalFieldsBuilder withGroupGamesPlayedCount(int groupGamesPlayedCount) {
+            this.teamDto.groupGamesPlayedCount = groupGamesPlayedCount;
+            return this;
+        }
     }
 
     public interface IDBuilder {
@@ -162,6 +171,7 @@ public class TeamDto {
     }
 
     public interface OptionalFieldsBuilder {
+        OptionalFieldsBuilder withGroupGamesPlayedCount(int groupGamesPlayedCount);
         TeamDto build();
     }
 }

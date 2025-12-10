@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {Hall} from '../model/Hall';
-import {HttpProxyService} from './http-proxy.service';
-import {Game} from '../model/Game';
+import { Injectable } from '@angular/core';
+import { Hall } from '../model/Hall';
+import { HttpProxyService } from './http-proxy.service';
+import { Game } from '../model/Game';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class GameService {
   }
 
   getAllGamesByHallAndNotCompleted(hall: Hall): Promise<Array<Game>> {
-    return this.http.get<Array<Game>>('games', {hallId: hall.id, state: 'OPEN'});
+    return this.http.get<Array<Game>>('games', { hallId: hall.id, state: 'OPEN' });
   }
 
   getGameById(id: number): Promise<Game> {
@@ -24,7 +24,7 @@ export class GameService {
   }
 
   getAllGamesByCategory(categoryId: number): Promise<Array<Game>> {
-    return this.http.get<Array<Game>>('games', {categoryId: categoryId});
+    return this.http.get<Array<Game>>('games', { categoryId: categoryId });
   }
 
   completeGame(game: Game): Promise<Game> {
@@ -53,7 +53,7 @@ export class GameService {
       .concat(gamesAfter.splice(0, Math.min(countFromAfter, gamesAfter.length)));
   }
 
-  private sortGames(games: Array<Game>) {
+  sortGames(games: Array<Game>) {
     return games.map(game => {
       game.startDate = new Date(game.startDate);
       return game;
@@ -61,7 +61,7 @@ export class GameService {
   }
 
   updateGameAsLive(game: Game) {
-    return this.http.patch<Game>(`games/${game.id}/live`, {live: true});
+    return this.http.patch<Game>(`games/${game.id}/live`, { live: true });
   }
 
   swapTeams(game: Game) {
@@ -69,7 +69,7 @@ export class GameService {
   }
 
   getLiveGameByHall(hallId: number) {
-    return this.http.get<Array<Game>>('games', {hallId: hallId, live: true});
+    return this.http.get<Array<Game>>('games', { hallId: hallId, live: true });
   }
 
   getNextGame(game: Game): Promise<Game> {
