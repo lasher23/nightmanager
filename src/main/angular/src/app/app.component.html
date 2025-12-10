@@ -1,49 +1,65 @@
   <ng-container *ngIf="!location.pathname.startsWith('/display')">
-  <div class="navbar bg-base-100" [class.collapsed]="navbarCollapsed">
-      <div class="navbar-start">
-        <!-- Mobile menu -->
-        <div class="dropdown" >
-          <label tabindex="0" class="btn btn-ghost lg:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </label>
-          <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-white rounded-box w-52 z-50">
-            <ng-container *ngTemplateOutlet="menuItems"></ng-container>
-          </ul>
-        </div>
-        <!-- Logo or title -->
-        <a class="btn btn-ghost normal-case text-xl" routerLink="/v2/public">Yetis</a>
-      </div>
-
-      <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal px-1">
+  <!-- Mobile navbar (only burger menu) -->
+  <div class="navbar bg-base-100 lg:hidden">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <label tabindex="0" class="btn btn-ghost">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </label>
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-white rounded-box w-52 z-50">
           <ng-container *ngTemplateOutlet="menuItems"></ng-container>
         </ul>
       </div>
-      <div class="navbar-end hidden lg:flex">
-        <!-- small toggle icon; size reduced so it sits on the same line as the navbar -->
-        <div class="flex items-center space-x-2">
-          <a routerLink="/v2/notifications" class="btn btn-ghost btn-circle" title="Notifications">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
-          </a>
-          <button class="btn btn-ghost navbar-toggle" title="Toggle navbar" (click)="toggleNavbar()" aria-label="Toggle navigation">
+    </div>
+    <div class="navbar-center">
+      <a class="btn btn-ghost normal-case text-xl" routerLink="/v2/public">Yetis</a>
+    </div>
+    <div class="navbar-end">
+      <a routerLink="/v2/notifications" class="btn btn-ghost btn-circle" title="Notifications">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Desktop navbar with collapse functionality -->
+  <div class="navbar bg-base-100 navbar-desktop" [class.collapsed]="navbarCollapsed">
+    <div class="navbar-start">
+      <a class="btn btn-ghost normal-case text-xl" routerLink="/v2/public">Yetis</a>
+    </div>
+
+    <div class="navbar-center">
+      <ul class="menu menu-horizontal px-1">
+        <ng-container *ngTemplateOutlet="menuItems"></ng-container>
+      </ul>
+    </div>
+
+    <div class="navbar-end">
+      <div class="flex items-center space-x-2">
+        <a routerLink="/v2/notifications" class="btn btn-ghost btn-circle" title="Notifications">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+        </a>
+        <button class="btn btn-ghost navbar-toggle" title="Toggle navbar" (click)="toggleNavbar()" aria-label="Toggle navigation">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" [class.rotate-180]="navbarCollapsed" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
-          </button>
-        </div>
+        </button>
       </div>
     </div>
-  </ng-container>
-  <!-- Fixed small toggle shown when navbar is collapsed (desktop only) -->
-  <button *ngIf="navbarCollapsed" class="btn btn-ghost navbar-fixed-toggle hidden lg:inline-flex" (click)="toggleNavbar()" aria-label="Open navigation">
+  </div>
+
+  <!-- Fixed toggle shown when navbar is collapsed on desktop -->
+  <button *ngIf="navbarCollapsed" class="btn btn-ghost navbar-fixed-toggle" (click)="toggleNavbar()" aria-label="Open navigation">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
     </svg>
   </button>
+  </ng-container>
   <router-outlet class="container"></router-outlet>
 <ng-template #menuItems>
   <li *ngIf="isReferee$ | async">

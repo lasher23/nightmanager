@@ -15,7 +15,7 @@ import { tap } from 'rxjs';
 
         <div *ngIf="items.length === 0" class="alert alert-info">No notifications</div>
         <div class="space-y-2">
-          <div *ngFor="let n of items" class="card card-compact bg-base-100 shadow cursor-pointer" [class.opacity-60]="n.read" (click)="open(n)">
+          <div *ngFor="let n of items" class="card card-sm bg-base-100 shadow cursor-pointer" [class.opacity-60]="n.read" (click)="open(n)">
             <div class="card-body">
               <p class="text-sm text-muted">{{n.text}}</p>
               <div class="card-actions justify-end">

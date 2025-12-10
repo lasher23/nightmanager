@@ -21,6 +21,11 @@ app-sidenav {
 
 /* Collapsible navbar behavior on large screens only */
 @media (min-width: 1024px) {
+  /* Desktop navbar is shown by default on large screens */
+  .navbar-desktop {
+    display: flex;
+  }
+
   .navbar {
     transition: padding 280ms ease, height 280ms ease, border-color 220ms ease;
     border-bottom: 1px solid rgba(0,0,0,0.08); /* subtle bottom border when expanded */
@@ -65,5 +70,12 @@ app-sidenav {
     padding-bottom: 0.5rem;
     height: auto;
     border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+}
+
+/* Hide fixed toggle on mobile */
+@media (max-width: 1023px) {
+  .navbar-fixed-toggle {
+    display: none !important;
   }
 }
