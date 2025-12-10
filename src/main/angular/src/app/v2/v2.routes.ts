@@ -13,6 +13,10 @@ export const routes: Routes = [
     data: { role: 'SHOT_MASTER' }
   },
   {
+    path: "notifications",
+    loadComponent: () => import("./pages/notifications/notifications.component").then(c => c.NotificationsComponent)
+  },
+  {
     path: "public",
     loadChildren: () => import("./pages/public/public.routes").then(d => d.routes)
   }

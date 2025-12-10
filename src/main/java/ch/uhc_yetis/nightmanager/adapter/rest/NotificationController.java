@@ -40,4 +40,15 @@ public class NotificationController {
     public ResponseEntity<List<NotificationLog>> getNotifications() {
         return ResponseEntity.ok(this.notificationService.getAllNotifications());
     }
+
+    @GetMapping("/tag/{tag}")
+    public ResponseEntity<List<NotificationLog>> getNotificationsByTag(@PathVariable String tag) {
+        return ResponseEntity.ok(this.notificationService.getNotificationsForTag(tag));
+    }
+
+        // fetch notifications for any of the provided tags (body: ["team-1","team-2"])
+        @PostMapping("/tags")
+        public ResponseEntity<List<NotificationLog>> getNotificationsByTags(@RequestBody List<String> tags) {
+            return ResponseEntity.ok(this.notificationService.getNotificationsForTags(tags));
+        }
 }

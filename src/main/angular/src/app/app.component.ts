@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     private sw: SwUpdate,
     private stompService: StompService,
   ) {
-    sw.checkForUpdate().catch(console.error)
+    sw.checkForUpdate().catch(console.log)
     this.oneSignal.init({
       appId: location.href.includes('localhost') ? 'acd8ce34-dd03-467d-8745-153dbf05a0d3' : 'a4c31416-21df-4dec-ad3b-202580f32eca',
     }).catch(console.error)

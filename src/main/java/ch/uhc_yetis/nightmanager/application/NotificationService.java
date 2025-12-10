@@ -3,9 +3,7 @@ package ch.uhc_yetis.nightmanager.application;
 import ch.uhc_yetis.nightmanager.application.onesignal.Notification;
 import ch.uhc_yetis.nightmanager.domain.model.NotificationLog;
 import ch.uhc_yetis.nightmanager.domain.repository.NotificationRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
+// removed unused imports
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,5 +53,14 @@ public class NotificationService {
 
     public List<NotificationLog> getAllNotifications() {
         return this.notificationRepository.findAll();
+    }
+
+    public List<NotificationLog> getNotificationsForTag(String tag) {
+        return this.notificationRepository.findByTagIdOrderBySentTimeDesc(tag);
+    }
+
+    public List<NotificationLog> getNotificationsForTags(List<String> tags) {
+        if (tags == null || tags.isEmpty()) return List.of();
+        return this.notificationRepository.findByTagIdInOrderBySentTimeDesc(tags);
     }
 }

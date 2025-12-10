@@ -42,6 +42,17 @@ app-sidenav {
     background: transparent;
   }
 
+  /* unread badge positioning for notification icon inside navbar */
+  .btn-circle {
+    position: relative;
+  }
+  .btn-circle .badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(30%, -30%);
+  }
+
   /* The inline toggle that sits on the navbar when expanded */
   .navbar .navbar-toggle {
     padding: 0.25rem;
