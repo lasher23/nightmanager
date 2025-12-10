@@ -1,10 +1,10 @@
 <div #messages class="messages" [class.messages-admin]="creator === 'ADMIN'"
-     [class.messages-referee]="creator === 'REFEREE'">
-  <ng-container *ngFor="let chat of chats">
+  [class.messages-referee]="creator === 'REFEREE'">
+  @for (chat of chats; track chat) {
     <div class="message" [class.referee-message]="chat.creator === 'REFEREE'">
       {{chat.message}}
     </div>
-  </ng-container>
+  }
 </div>
 <div class="message-input">
   <mat-form-field>

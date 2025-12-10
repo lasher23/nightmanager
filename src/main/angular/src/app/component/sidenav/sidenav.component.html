@@ -1,27 +1,31 @@
-<div *ngIf="isReferee">
-  <mat-toolbar class="mat-elevation-z6" color="primary">
-    <button mat-icon-button (click)="opened = !opened">
-      <mat-icon>menu</mat-icon>
-    </button>
-    {{(roleService.role$ | async)?.name }}
-  </mat-toolbar>
-  <mat-sidenav-container class="main-sidenav-container" (backdropClick)="opened = !opened">
-    <mat-sidenav [mode]="mode"
-                 [opened]="opened"
-                 [fixedInViewport]="true"
-                 [fixedTopGap]="layoutGap">
-      <button mat-button (click)="logout()">
-        Ausloggen
+@if (isReferee) {
+  <div>
+    <mat-toolbar class="mat-elevation-z6" color="primary">
+      <button mat-icon-button (click)="opened = !opened">
+        <mat-icon>menu</mat-icon>
       </button>
-    </mat-sidenav>
-    <div>
-      <router-outlet class="container"></router-outlet>
-    </div>
-  </mat-sidenav-container>
-</div>
-<div *ngIf="!isReferee">
-  <router-outlet class="container"></router-outlet>
-</div>
+      {{(roleService.role$ | async)?.name }}
+    </mat-toolbar>
+    <mat-sidenav-container class="main-sidenav-container" (backdropClick)="opened = !opened">
+      <mat-sidenav [mode]="mode"
+        [opened]="opened"
+        [fixedInViewport]="true"
+        [fixedTopGap]="layoutGap">
+        <button mat-button (click)="logout()">
+          Ausloggen
+        </button>
+      </mat-sidenav>
+      <div>
+        <router-outlet class="container"></router-outlet>
+      </div>
+    </mat-sidenav-container>
+  </div>
+}
+@if (!isReferee) {
+  <div>
+    <router-outlet class="container"></router-outlet>
+  </div>
+}
 
 
 

@@ -6,21 +6,31 @@
   <ng-container matColumnDef="state">
     <th mat-header-cell *matHeaderCellDef>Generieren</th>
     <td mat-cell *matCellDef="let element">
-      <div *ngIf="element.state === 'CROKI_FIRST'">
-        <button mat-button (click)="generate(element)">Croki generierung</button>
-      </div>
-      <div *ngIf="isGenerateSemis(element)">
-        <button mat-button (click)="generate(element)">Halbfinale generieren</button>
-      </div>
-      <div *ngIf="element.state === 'SEMI_FINAL'">
-        <button mat-button (click)="generate(element)">Finale generieren</button>
-      </div>
-      <div *ngIf="element.state === 'FINAL'">
-        <button mat-button (click)="generate(element)">Endtabelle generieren</button>
-      </div>
-      <div *ngIf="element.state === 'FINISHED'">
-        Kategorie Abgeschlossen
-      </div>
+      @if (element.state === 'CROKI_FIRST') {
+        <div>
+          <button mat-button (click)="generate(element)">Croki generierung</button>
+        </div>
+      }
+      @if (isGenerateSemis(element)) {
+        <div>
+          <button mat-button (click)="generate(element)">Halbfinale generieren</button>
+        </div>
+      }
+      @if (element.state === 'SEMI_FINAL') {
+        <div>
+          <button mat-button (click)="generate(element)">Finale generieren</button>
+        </div>
+      }
+      @if (element.state === 'FINAL') {
+        <div>
+          <button mat-button (click)="generate(element)">Endtabelle generieren</button>
+        </div>
+      }
+      @if (element.state === 'FINISHED') {
+        <div>
+          Kategorie Abgeschlossen
+        </div>
+      }
     </td>
   </ng-container>
 

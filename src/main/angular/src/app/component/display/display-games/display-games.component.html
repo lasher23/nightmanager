@@ -1,49 +1,50 @@
 <div class="display-games">
   <h1 class="title">Aktuelle Spiele</h1>
-  <div *ngFor="let gameHallAssingment of gamesHallAssingments" [style.width]="widthPerHallTable">
-    <h1>{{gameHallAssingment.hall.name}}</h1>
-    <mat-table [dataSource]="gameHallAssingment.games">
-      <ng-container cdkColumnDef="time">
-        <mat-header-cell *cdkHeaderCellDef class="flex-2"><span>Zeit</span></mat-header-cell>
-        <mat-cell *cdkCellDef="let element" class="flex-2"><span>{{element.startDate | date: 'HH:mm'}}</span></mat-cell>
-      </ng-container>
-      <ng-container cdkColumnDef="category">
-        <mat-header-cell *cdkHeaderCellDef class="flex-2"><span>Kategorie</span></mat-header-cell>
-        <mat-cell *cdkCellDef="let element" class="flex-2"><span>{{element?.category?.name}}</span></mat-cell>
-      </ng-container>
-      <ng-container cdkColumnDef="teamHome">
-        <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Heim</span></mat-header-cell>
-        <mat-cell *cdkCellDef="let element" class="flex-4" [class.yellow]="!element.teamHome.paid"
-                  [class.semi-final]="element.type === 'SEMI_FINAL'"
-                  [class.final]="element.type === 'FINAL'">
-          <span>{{element.teamHome.name}}</span></mat-cell>
-      </ng-container>
-      <ng-container cdkColumnDef="goalsTeamHome">
-        <mat-header-cell *cdkHeaderCellDef>Tore</mat-header-cell>
-        <mat-cell *cdkCellDef="let element"><span
-          [class.font-white]="element.state === 'OPEN' || element.teamHome.name === 'Pause'">{{element.goalsTeamHome}}</span>
-        </mat-cell>
-      </ng-container>
-      <ng-container cdkColumnDef="placeholder">
-        <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
-        <mat-cell *cdkCellDef="let element"><span>:</span></mat-cell>
-      </ng-container>
-      <ng-container cdkColumnDef="goalsTeamGuest">
-        <mat-header-cell *cdkHeaderCellDef><span>Tore</span></mat-header-cell>
-        <mat-cell *cdkCellDef="let element"><span
+  @for (gameHallAssingment of gamesHallAssingments; track gameHallAssingment) {
+    <div [style.width]="widthPerHallTable">
+      <h1>{{gameHallAssingment.hall.name}}</h1>
+      <mat-table [dataSource]="gameHallAssingment.games">
+        <ng-container cdkColumnDef="time">
+          <mat-header-cell *cdkHeaderCellDef class="flex-2"><span>Zeit</span></mat-header-cell>
+          <mat-cell *cdkCellDef="let element" class="flex-2"><span>{{element.startDate | date: 'HH:mm'}}</span></mat-cell>
+        </ng-container>
+        <ng-container cdkColumnDef="category">
+          <mat-header-cell *cdkHeaderCellDef class="flex-2"><span>Kategorie</span></mat-header-cell>
+          <mat-cell *cdkCellDef="let element" class="flex-2"><span>{{element?.category?.name}}</span></mat-cell>
+        </ng-container>
+        <ng-container cdkColumnDef="teamHome">
+          <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Heim</span></mat-header-cell>
+          <mat-cell *cdkCellDef="let element" class="flex-4" [class.yellow]="!element.teamHome.paid"
+            [class.semi-final]="element.type === 'SEMI_FINAL'"
+            [class.final]="element.type === 'FINAL'">
+            <span>{{element.teamHome.name}}</span></mat-cell>
+          </ng-container>
+          <ng-container cdkColumnDef="goalsTeamHome">
+            <mat-header-cell *cdkHeaderCellDef>Tore</mat-header-cell>
+            <mat-cell *cdkCellDef="let element"><span
+            [class.font-white]="element.state === 'OPEN' || element.teamHome.name === 'Pause'">{{element.goalsTeamHome}}</span>
+          </mat-cell>
+        </ng-container>
+        <ng-container cdkColumnDef="placeholder">
+          <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+          <mat-cell *cdkCellDef="let element"><span>:</span></mat-cell>
+        </ng-container>
+        <ng-container cdkColumnDef="goalsTeamGuest">
+          <mat-header-cell *cdkHeaderCellDef><span>Tore</span></mat-header-cell>
+          <mat-cell *cdkCellDef="let element"><span
           [class.font-white]="element.state === 'OPEN' || element.teamGuest.name === 'Pause'">{{element.goalsTeamGuest}}</span>
         </mat-cell>
       </ng-container>
       <ng-container cdkColumnDef="teamGuest">
         <mat-header-cell *cdkHeaderCellDef class="classflex-4"><span>Gast</span></mat-header-cell>
         <mat-cell *cdkCellDef="let element" class="flex-4" [class.yellow]="!element.teamGuest.paid"
-                  [class.semi-final]="element.type === 'SEMI_FINAL'"
-                  [class.final]="element.type === 'FINAL'">
+          [class.semi-final]="element.type === 'SEMI_FINAL'"
+          [class.final]="element.type === 'FINAL'">
           <span>{{element.teamGuest.name}}</span></mat-cell>
-      </ng-container>
-
-      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-  </div>
+        </ng-container>
+        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  }
 </div>

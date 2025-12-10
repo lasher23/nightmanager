@@ -1,10 +1,10 @@
 <div class="p-6">
   <h1 class="text-2xl font-bold mb-4 text-base-content">Spiele</h1>
   <div class="flex flex-col space-y-2">
-    <ng-container *ngFor="let game of games">
+    @for (game of games; track game) {
       <a [routerLink]="'/referee/games/' + game.id">
         <app-game [game]="game"></app-game>
       </a>
-    </ng-container>
+    }
   </div>
 </div>

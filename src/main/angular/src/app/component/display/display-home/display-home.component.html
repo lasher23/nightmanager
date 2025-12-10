@@ -1,68 +1,81 @@
-<div *ngIf="displayMode"
-     [style.margin-left]="(displayConfig?.margin.left ?? 0) + 'px'"
-     [style.margin-top]="(displayConfig?.margin.top ?? 0) + 'px'"
-     [style.margin-right]="(displayConfig?.margin.right ?? 0) + 'px'"
-     [style.margin-bottom]="(displayConfig?.margin.bottom ?? 0) + 'px'" class="display-container">
-  <div *ngIf="isCategory()">
-    <app-display-category [category]="currentDisplayble.data"></app-display-category>
+@if (displayMode) {
+  <div
+    [style.margin-left]="(displayConfig?.margin.left ?? 0) + 'px'"
+    [style.margin-top]="(displayConfig?.margin.top ?? 0) + 'px'"
+    [style.margin-right]="(displayConfig?.margin.right ?? 0) + 'px'"
+    [style.margin-bottom]="(displayConfig?.margin.bottom ?? 0) + 'px'" class="display-container">
+    @if (isCategory()) {
+      <div>
+        <app-display-category [category]="currentDisplayble.data"></app-display-category>
+      </div>
+    }
+    @if (isGames()) {
+      <div>
+        <app-display-games [games]="currentDisplayble.data"></app-display-games>
+      </div>
+    }
+    @if (isAdd()) {
+      <div>
+        <app-add [addCount]="addCount" (initialized)="incrementCount()"></app-add>
+      </div>
+    }
   </div>
-  <div *ngIf="isGames()">
-    <app-display-games [games]="currentDisplayble.data"></app-display-games>
-  </div>
-  <div *ngIf="isAdd()">
-    <app-add [addCount]="addCount" (initialized)="incrementCount()"></app-add>
-  </div>
-</div>
-<div *ngIf="!displayMode">
-  <app-timer *ngIf="appTimerActivated"></app-timer>
-  <mat-tab-group style="position: relative;z-index: 1;">
-    <mat-tab label="Kategorien">
-      <app-display-category-overview></app-display-category-overview>
-    </mat-tab>
-    <mat-tab label="Spiele">
-      <mat-table [dataSource]="games" class="display-games" style="min-width: 700px;">
-        <ng-container cdkColumnDef="time">
-          <mat-header-cell *cdkHeaderCellDef class="flex-2"><span>Zeit</span></mat-header-cell>
-          <mat-cell *cdkCellDef="let element" class="flex-2"><span>{{element.startDate | date: 'HH:mm'}}</span>
+}
+@if (!displayMode) {
+  <div>
+    @if (appTimerActivated) {
+      <app-timer></app-timer>
+    }
+    <mat-tab-group style="position: relative;z-index: 1;">
+      <mat-tab label="Kategorien">
+        <app-display-category-overview></app-display-category-overview>
+      </mat-tab>
+      <mat-tab label="Spiele">
+        <mat-table [dataSource]="games" class="display-games" style="min-width: 700px;">
+          <ng-container cdkColumnDef="time">
+            <mat-header-cell *cdkHeaderCellDef class="flex-2"><span>Zeit</span></mat-header-cell>
+            <mat-cell *cdkCellDef="let element" class="flex-2"><span>{{element.startDate | date: 'HH:mm'}}</span>
           </mat-cell>
         </ng-container>
         <ng-container cdkColumnDef="teamHome">
           <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Heim</span></mat-header-cell>
           <mat-cell *cdkCellDef="let element" class="flex-4" [class.semi-final]="element.type === 'SEMI_FINAL'"
-                    [class.final]="element.type === 'FINAL'"><span>{{element.teamHome.name}}</span>
+            [class.final]="element.type === 'FINAL'"><span>{{element.teamHome.name}}</span>
           </mat-cell>
         </ng-container>
         <ng-container cdkColumnDef="goalsTeamHome">
           <mat-header-cell *cdkHeaderCellDef><span>Tore</span></mat-header-cell>
           <mat-cell *cdkCellDef="let element">
             <span>{{element.goalsTeamHome}}</span></mat-cell>
-        </ng-container>
-        <ng-container cdkColumnDef="placeholder">
-          <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
-          <mat-cell *cdkCellDef="let element"><span>:</span></mat-cell>
-        </ng-container>
-        <ng-container cdkColumnDef="goalsTeamGuest">
-          <mat-header-cell *cdkHeaderCellDef><span>Tore</span></mat-header-cell>
-          <mat-cell *cdkCellDef="let element"><span>{{element.goalsTeamGuest}}</span></mat-cell>
-        </ng-container>
-        <ng-container cdkColumnDef="teamGuest">
-          <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Gast</span></mat-header-cell>
-          <mat-cell *cdkCellDef="let element" class="flex-4" [class.semi-final]="element.type === 'SEMI_FINAL'"
-                    [class.final]="element.type === 'FINAL'"><span>{{element.teamGuest.name}}</span>
-          </mat-cell>
-        </ng-container>
-        <ng-container cdkColumnDef="hall">
-          <mat-header-cell *cdkHeaderCellDef class="flex-3"><span>Halle</span></mat-header-cell>
-          <mat-cell *cdkCellDef="let element" class="flex-3"><span>{{element.hall.name}}</span></mat-cell>
-        </ng-container>
-
-        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *cdkRowDef="let row; columns: displayedColumns;" [class.live-game]="row.live"></mat-row>
-      </mat-table>
-    </mat-tab>
-  </mat-tab-group>
-</div>
-<footer *ngIf="!displayMode && appTimerActivated">
-  <button mat-button (click)="enterDisplayMode()">Anzeige Modus</button>
-  <button mat-button (click)="displayLiveGame()">Live Game</button>
-</footer>
+          </ng-container>
+          <ng-container cdkColumnDef="placeholder">
+            <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+            <mat-cell *cdkCellDef="let element"><span>:</span></mat-cell>
+          </ng-container>
+          <ng-container cdkColumnDef="goalsTeamGuest">
+            <mat-header-cell *cdkHeaderCellDef><span>Tore</span></mat-header-cell>
+            <mat-cell *cdkCellDef="let element"><span>{{element.goalsTeamGuest}}</span></mat-cell>
+          </ng-container>
+          <ng-container cdkColumnDef="teamGuest">
+            <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Gast</span></mat-header-cell>
+            <mat-cell *cdkCellDef="let element" class="flex-4" [class.semi-final]="element.type === 'SEMI_FINAL'"
+              [class.final]="element.type === 'FINAL'"><span>{{element.teamGuest.name}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container cdkColumnDef="hall">
+            <mat-header-cell *cdkHeaderCellDef class="flex-3"><span>Halle</span></mat-header-cell>
+            <mat-cell *cdkCellDef="let element" class="flex-3"><span>{{element.hall.name}}</span></mat-cell>
+          </ng-container>
+          <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *cdkRowDef="let row; columns: displayedColumns;" [class.live-game]="row.live"></mat-row>
+        </mat-table>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+}
+@if (!displayMode && appTimerActivated) {
+  <footer>
+    <button mat-button (click)="enterDisplayMode()">Anzeige Modus</button>
+    <button mat-button (click)="displayLiveGame()">Live Game</button>
+  </footer>
+}

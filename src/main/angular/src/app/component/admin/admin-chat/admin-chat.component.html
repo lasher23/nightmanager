@@ -1,4 +1,6 @@
-<div *ngFor="let hall of halls" class="chat">
-  <h1 style="height: 2em">{{hall.name}}</h1>
-  <app-referee-chat [hallId]="hall.id" creator="ADMIN"></app-referee-chat>
-</div>
+@for (hall of halls; track hall) {
+  <div class="chat">
+    <h1 style="height: 2em">{{hall.name}}</h1>
+    <app-referee-chat [hallId]="hall.id" creator="ADMIN"></app-referee-chat>
+  </div>
+}

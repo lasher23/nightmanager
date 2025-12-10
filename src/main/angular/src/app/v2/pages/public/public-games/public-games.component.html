@@ -1,6 +1,8 @@
 <div class="p-6">
   <h1 class="text-2xl font-bold mb-4 text-base-content">Spiele</h1>
   <div class="flex flex-col space-y-2">
-    <app-game *ngFor="let game of (games | async) || []" [game]="game"></app-game>
+    @for (game of (games | async) || []; track game) {
+      <app-game [game]="game"></app-game>
+    }
   </div>
 </div>

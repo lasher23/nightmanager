@@ -7,17 +7,21 @@
   <!-- Game Details -->
   <div class="flex-grow">
     <!-- Live Badge -->
-    <div *ngIf="game.live" class="ml-auto flex items-center justify-end">
-          <span class="bg-error text-error-content px-2 py-0.5 text-xs font-bold rounded">
-            LIVE
-          </span>
-    </div>
+    @if (game.live) {
+      <div class="ml-auto flex items-center justify-end">
+        <span class="bg-error text-error-content px-2 py-0.5 text-xs font-bold rounded">
+          LIVE
+        </span>
+      </div>
+    }
     <!-- Team and Score -->
     <div class="flex justify-between items-center mt-2">
       <div class="text-sm font-bold text-base-content">{{ game.teamHome.name }}</div>
-      <div class="text-md font-semibold text-base-content" *ngIf="game.live || game.state === 'DONE'">
-        {{ game.goalsTeamHome }} - {{ game.goalsTeamGuest }}
-      </div>
+      @if (game.live || game.state === 'DONE') {
+        <div class="text-md font-semibold text-base-content">
+          {{ game.goalsTeamHome }} - {{ game.goalsTeamGuest }}
+        </div>
+      }
     </div>
     <div class="flex justify-between items-center mt-1">
       <div class="text-sm font-bold text-base-content">{{ game.teamGuest.name }}</div>

@@ -4,21 +4,23 @@
     <table class="table w-full">
       <!-- Table Head -->
       <thead>
-      <tr>
-        <th>#</th>
-        <th>Team</th>
-        <th>Tore</th>
-        <th>Punkte</th>
-      </tr>
+        <tr>
+          <th>#</th>
+          <th>Team</th>
+          <th>Tore</th>
+          <th>Punkte</th>
+        </tr>
       </thead>
       <tbody>
-      <!-- Dynamic Rows -->
-      <tr *ngFor="let team of (teams | async); let i = index">
-        <td>{{ team.rank || i + 1 }}</td>
-        <td>{{ team.name }}</td>
-        <td>{{ team.goalsShot }}:{{ team.goalsGotten }}</td>
-        <td>{{ team.points }}</td>
-      </tr>
+        <!-- Dynamic Rows -->
+        @for (team of (teams | async); track team; let i = $index) {
+          <tr>
+            <td>{{ team.rank || i + 1 }}</td>
+            <td>{{ team.name }}</td>
+            <td>{{ team.goalsShot }}:{{ team.goalsGotten }}</td>
+            <td>{{ team.points }}</td>
+          </tr>
+        }
       </tbody>
     </table>
   </div>

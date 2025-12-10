@@ -1,22 +1,30 @@
-<div *ngIf="!team1Confirms || !team2Confirms" class="referee-game-confirm-dialog">
-  <div *ngIf="!team1Confirms" style="max-width: 100%"><p>{{game.teamHome.name}}: </p>
-    <p>{{game.goalsTeamHome}} Tore </p>
-    <button mat-button style="max-width: 100%" style="display: inline-block" (click)="team1Confirms=true">OK!</button>
-  </div>
-  <div *ngIf="!team2Confirms" style="max-width: 100%"><p>{{game.teamGuest.name}}: </p>
+@if (!team1Confirms || !team2Confirms) {
+  <div class="referee-game-confirm-dialog">
+    @if (!team1Confirms) {
+      <div style="max-width: 100%"><p>{{game.teamHome.name}}: </p>
+      <p>{{game.goalsTeamHome}} Tore </p>
+      <button mat-button style="max-width: 100%" style="display: inline-block" (click)="team1Confirms=true">OK!</button>
+    </div>
+  }
+  @if (!team2Confirms) {
+    <div style="max-width: 100%"><p>{{game.teamGuest.name}}: </p>
     <p>{{game.goalsTeamGuest}} Tore </p>
     <button mat-button style="display: inline-block" (click)="team2Confirms=true">OK!</button>
   </div>
+}
 </div>
+}
 
-<div *ngIf="team1Confirms && team2Confirms" class="referee-game-confirm-dialog">
-  <div>
-    <p>{{text}}</p>
+@if (team1Confirms && team2Confirms) {
+  <div class="referee-game-confirm-dialog">
+    <div>
+      <p>{{text}}</p>
+    </div>
+    <div>
+      <button mat-flat-button (click)="confirm()">Abschliessen</button>
+    </div>
   </div>
-  <div>
-    <button mat-flat-button (click)="confirm()">Abschliessen</button>
-  </div>
-</div>
+}
 <div class="referee-game-confirm-dialog">
   <button mat-flat-button (click)="cancel()">Abbrechen</button>
 </div>

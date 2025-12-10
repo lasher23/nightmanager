@@ -11,11 +11,13 @@ import { tap } from 'rxjs';
     template: `
   <div class="max-w-4xl mx-auto p-4">
     <h2 class="text-2xl mb-4">Notifications</h2>
-    <ng-container *ngIf="items | async as items">
-
-        <div *ngIf="items.length === 0" class="alert alert-info">No notifications</div>
-        <div class="space-y-2">
-          <div *ngFor="let n of items" class="card card-sm bg-base-100 shadow cursor-pointer" [class.opacity-60]="n.read" (click)="open(n)">
+    @if (items | async; as items) {
+      @if (items.length === 0) {
+        <div class="alert alert-info">No notifications</div>
+      }
+      <div class="space-y-2">
+        @for (n of items; track n) {
+          <div class="card card-sm bg-base-100 shadow cursor-pointer" [class.opacity-60]="n.read" (click)="open(n)">
             <div class="card-body">
               <p class="text-sm text-muted">{{n.text}}</p>
               <div class="card-actions justify-end">
@@ -23,9 +25,10 @@ import { tap } from 'rxjs';
               </div>
             </div>
           </div>
-        </div>
-        </ng-container>
+        }
       </div>
+    }
+  </div>
   `
 })
 export class NotificationsComponent {

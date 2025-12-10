@@ -1,56 +1,58 @@
-<div *ngIf="!showAdd; else add">
-  <div *ngIf="hasNoLiveGames; else scoreboard" class="no-live-game">
-    <div>Momentan kein Live Spiel</div>
+@if (!showAdd) {
+  <div>
+    @if (hasNoLiveGames) {
+      <div class="no-live-game">
+        <div>Momentan kein Live Spiel</div>
+      </div>
+    } @else {
+      <div class="grids">
+        <div class="grid">
+          <div class="score-home score">
+            <h1>
+              {{liveGame?.swappedLiveDisplay ? liveGame?.goalsTeamGuest : liveGame?.goalsTeamHome}}
+            </h1>
+          </div>
+          <div class="seperator">
+            <h1><span>:</span></h1>
+          </div>
+          <div class="score-guest score">
+            <h1>
+              {{liveGame?.swappedLiveDisplay ? liveGame.goalsTeamHome : liveGame?.goalsTeamGuest}}
+            </h1>
+          </div>
+          <div class="name-home name">
+            <h2>
+              {{liveGame?.swappedLiveDisplay ? liveGame?.teamGuest.name : liveGame?.teamHome.name}}
+            </h2>
+          </div>
+          <div>
+            <!-- placeholder -->
+          </div>
+          <div class="name-guest name">
+            <h2>
+              {{liveGame?.swappedLiveDisplay ? liveGame?.teamHome.name :                                                                        liveGame?.teamGuest.name}}
+            </h2>
+          </div>
+        </div>
+        <div class="grid">
+          <h4 class="next-game">Nächstes Spiel</h4>
+          <div class="name-home name">
+            <h3>
+              {{nextGame?.teamHome.name}}
+            </h3>
+          </div>
+          <div class="seperator">
+            <h3><span>:</span></h3>
+          </div>
+          <div class="name-guest name">
+            <h3>
+              {{nextGame?.teamGuest.name}}
+            </h3>
+          </div>
+        </div>
+      </div>
+    }
   </div>
-  <ng-template #scoreboard>
-    <div class="grids">
-      <div class="grid">
-        <div class="score-home score">
-          <h1>
-            {{liveGame?.swappedLiveDisplay ? liveGame?.goalsTeamGuest : liveGame?.goalsTeamHome}}
-          </h1>
-        </div>
-        <div class="seperator">
-          <h1><span>:</span></h1>
-        </div>
-        <div class="score-guest score">
-          <h1>
-            {{liveGame?.swappedLiveDisplay ? liveGame.goalsTeamHome : liveGame?.goalsTeamGuest}}
-          </h1>
-        </div>
-        <div class="name-home name">
-          <h2>
-            {{liveGame?.swappedLiveDisplay ? liveGame?.teamGuest.name : liveGame?.teamHome.name}}
-          </h2>
-        </div>
-        <div>
-          <!-- placeholder -->
-        </div>
-        <div class="name-guest name">
-          <h2>
-            {{liveGame?.swappedLiveDisplay ? liveGame?.teamHome.name :                                                                        liveGame?.teamGuest.name}}
-          </h2>
-        </div>
-      </div>
-      <div class="grid">
-        <h4 class="next-game">Nächstes Spiel</h4>
-        <div class="name-home name">
-          <h3>
-            {{nextGame?.teamHome.name}}
-          </h3>
-        </div>
-        <div class="seperator">
-          <h3><span>:</span></h3>
-        </div>
-        <div class="name-guest name">
-          <h3>
-            {{nextGame?.teamGuest.name}}
-          </h3>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-</div>
-<ng-template #add>
+} @else {
   <app-add [addCount]="addCount"></app-add>
-</ng-template>
+}

@@ -1,4 +1,4 @@
-  <ng-container *ngIf="!location.pathname.startsWith('/display')">
+@if (!location.pathname.startsWith('/display')) {
   <!-- Mobile navbar (only burger menu) -->
   <div class="navbar bg-base-100 lg:hidden">
     <div class="navbar-start">
@@ -24,19 +24,16 @@
       </a>
     </div>
   </div>
-
   <!-- Desktop navbar with collapse functionality -->
   <div class="navbar bg-base-100 navbar-desktop" [class.collapsed]="navbarCollapsed">
     <div class="navbar-start">
       <a class="btn btn-ghost normal-case text-xl" routerLink="/v2/public">Yetis</a>
     </div>
-
     <div class="navbar-center">
       <ul class="menu menu-horizontal px-1">
         <ng-container *ngTemplateOutlet="menuItems"></ng-container>
       </ul>
     </div>
-
     <div class="navbar-end">
       <div class="flex items-center space-x-2">
         <a routerLink="/v2/notifications" class="btn btn-ghost btn-circle" title="Notifications">
@@ -52,32 +49,45 @@
       </div>
     </div>
   </div>
-
   <!-- Fixed toggle shown when navbar is collapsed on desktop -->
-  <button *ngIf="navbarCollapsed" class="btn btn-ghost navbar-fixed-toggle" (click)="toggleNavbar()" aria-label="Open navigation">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-    </svg>
-  </button>
-  </ng-container>
-  <router-outlet class="container"></router-outlet>
+  @if (navbarCollapsed) {
+    <button class="btn btn-ghost navbar-fixed-toggle" (click)="toggleNavbar()" aria-label="Open navigation">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+  }
+}
+<router-outlet class="container"></router-outlet>
 <ng-template #menuItems>
-  <li *ngIf="isReferee$ | async">
-    <a routerLink="/referee/games" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Schirri Spiele</a>
-  </li>
-  <li *ngIf="isReferee$ | async">
-    <a routerLink="/referee/chats" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Schirri Chat</a>
-  </li>
-  <li *ngIf="isAdmin$ | async">
-    <a routerLink="/admin" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Admin</a>
-  </li>
+  @if (isReferee$ | async) {
+    <li>
+      <a routerLink="/referee/games" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Schirri Spiele</a>
+    </li>
+  }
+  @if (isReferee$ | async) {
+    <li>
+      <a routerLink="/referee/chats" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Schirri Chat</a>
+    </li>
+  }
+  @if (isAdmin$ | async) {
+    <li>
+      <a routerLink="/admin" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Admin</a>
+    </li>
+  }
   <li><a routerLink="/v2/public" class="text-xl" (click)="($any(document.activeElement))?.blur()">Kategorien</a></li>
   <li><a routerLink="/v2/public/games" class="text-xl" (click)="($any(document.activeElement))?.blur()">Alle Spiele</a></li>
   <li><a routerLink="/v2/public/rules" class="text-xl" (click)="($any(document.activeElement))?.blur()">Regeln & Spielplan</a></li>
   <li><a routerLink="/v2/public/shots" class="text-xl" (click)="($any(document.activeElement))?.blur()">Shots</a></li>
-  <li *ngIf="isShotMaster$ | async"><a routerLink="/v2/shot-master" class="text-xl" (click)="($any(document.activeElement))?.blur()">Shot Master</a></li>
-  <li *ngIf="!(isLoggedIn$ | async)"><a routerLink="/login" class="text-xl" (click)="($any(document.activeElement))?.blur()">Login</a></li>
-  <li *ngIf="(isLoggedIn$ | async)"><a routerLink="/login" class="text-xl" (click)="logout()">Logout</a></li>
+  @if (isShotMaster$ | async) {
+    <li><a routerLink="/v2/shot-master" class="text-xl" (click)="($any(document.activeElement))?.blur()">Shot Master</a></li>
+  }
+  @if (!(isLoggedIn$ | async)) {
+    <li><a routerLink="/login" class="text-xl" (click)="($any(document.activeElement))?.blur()">Login</a></li>
+  }
+  @if ((isLoggedIn$ | async)) {
+    <li><a routerLink="/login" class="text-xl" (click)="logout()">Logout</a></li>
+  }
 </ng-template>
 
 

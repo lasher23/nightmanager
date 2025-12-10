@@ -1,13 +1,15 @@
 <div class="app-login">
-  <div *ngIf="!roleChoosing">
-    <mat-form-field>
-      <input matInput type="text" placeholder="Benutzername" [(ngModel)]="user.username">
-    </mat-form-field>
-    <br>
-    <mat-form-field>
-      <input matInput type="password" placeholder="Passwort" [(ngModel)]="user.password">
-    </mat-form-field>
-    <br>
-    <button mat-button (click)="onLogin()">Log in</button>
-  </div>
-</div>
+  @if (!roleChoosing) {
+    <div>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Benutzername" [(ngModel)]="user.username">
+      </mat-form-field>
+      <br>
+        <mat-form-field>
+          <input matInput type="password" placeholder="Passwort" [(ngModel)]="user.password">
+        </mat-form-field>
+        <br>
+          <button mat-button (click)="onLogin()">Log in</button>
+        </div>
+      }
+    </div>
