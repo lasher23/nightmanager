@@ -36,6 +36,7 @@ export class AdminGameOverviewComponent implements OnInit {
     'notifyButton',
   ];
   widthPerHallTable = '100%';
+  fullMode: boolean = false;
 
   constructor(
     private gameService: GameService,
@@ -51,6 +52,7 @@ export class AdminGameOverviewComponent implements OnInit {
     this.setup();
     this.gameChangeNotifierService.gameChanges$.pipe(untilDestroyed(this)).subscribe(() => this.setup());
     this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(params => {
+      this.fullMode = !!params.fullMode;
       if (!params.fullMode) {
         this.displayedColumns = [...this.displayedColumns].filter(col => !col.includes("notifyButton"))
       }

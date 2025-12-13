@@ -1,18 +1,26 @@
-<mat-form-field class="example-full-width">
-  <input matInput placeholder="Teamname" [(ngModel)]="search" (input)="filter()">
-</mat-form-field>
-<mat-table [dataSource]="teamsFiltered" style="width: 100%;">
-  <ng-container cdkColumnDef="name">
-    <mat-header-cell *cdkHeaderCellDef>Team</mat-header-cell>
-    <mat-cell *cdkCellDef="let element">{{element.name}}</mat-cell>
-  </ng-container>
-  <ng-container cdkColumnDef="paid">
-    <mat-header-cell *cdkHeaderCellDef>Bezahlt?</mat-header-cell>
-    <mat-cell *cdkCellDef="let element">
-      <mat-slide-toggle [(ngModel)]="element.paid" (change)="save(element)">
-      </mat-slide-toggle>
-    </mat-cell>
-  </ng-container>
-  <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
+<div class="admin-teams">
+  <div class="mb-6">
+    <input type="text" placeholder="Teamname durchsuchen..." class="input input-bordered w-full max-w-xs" [(ngModel)]="search" (input)="filter()" />
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="table table-compact w-full">
+      <thead>
+        <tr class="bg-base-300">
+          <th>Team</th>
+          <th class="text-center">Bezahlt?</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (element of teamsFiltered; track element.id) {
+          <tr class="hover">
+            <td class="font-semibold">{{ element.name }}</td>
+            <td class="text-center">
+              <input type="checkbox" class="checkbox checkbox-sm" [(ngModel)]="element.paid" (change)="save(element)" />
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,6 +1,10 @@
-@for (hall of halls; track hall) {
-  <div class="chat">
-    <h1 style="height: 2em">{{hall.name}}</h1>
-    <app-referee-chat [hallId]="hall.id" creator="ADMIN"></app-referee-chat>
-  </div>
-}
+<div class="admin-chat grid grid-cols-1 lg:grid-cols-2 gap-6">
+  @for (hall of halls; track hall.id) {
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title text-xl mb-4">{{ hall.name }} Chat</h2>
+        <app-referee-chat [hallId]="hall.id" creator="ADMIN"></app-referee-chat>
+      </div>
+    </div>
+  }
+</div>

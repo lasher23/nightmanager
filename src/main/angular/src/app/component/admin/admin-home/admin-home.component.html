@@ -1,27 +1,43 @@
-<app-timer (startClicked)="emitStartClicked()"></app-timer>
-<mat-tab-group>
-  <mat-tab label="Spiele">
-    <app-admin-game-overview></app-admin-game-overview>
-  </mat-tab>
-  @if (fullMode) {
-    <mat-tab label="Generierung">
-      <app-admin-generation></app-admin-generation>
-    </mat-tab>
-  }
-  <mat-tab label="Teams">
-    <app-admin-teams></app-admin-teams>
-  </mat-tab>
-  <mat-tab label="Chat">
-    <app-admin-chat></app-admin-chat>
-  </mat-tab>
-  @if (fullMode) {
-    <mat-tab label="Notifications">
-      <app-admin-notifications-overview></app-admin-notifications-overview>
-    </mat-tab>
-  }
-  @if (fullMode) {
-    <mat-tab label="Send Notifications">
-      <app-admin-send-notifications></app-admin-send-notifications>
-    </mat-tab>
-  }
-</mat-tab-group>
+<div class="min-h-screen bg-base-200">
+  <app-timer (startClicked)="emitStartClicked()"></app-timer>
+  
+  <div class="p-6">
+    <div class="tabs tabs-bordered mb-6 flex flex-wrap">
+      <input type="radio" name="admin_tabs" class="tab" aria-label="Spiele" checked />
+      <div class="tab-content p-4 col-span-full">
+        <app-admin-game-overview></app-admin-game-overview>
+      </div>
+
+      @if (fullMode) {
+        <input type="radio" name="admin_tabs" class="tab" aria-label="Generierung" />
+        <div class="tab-content p-4 col-span-full">
+          <app-admin-generation></app-admin-generation>
+        </div>
+      }
+
+      <input type="radio" name="admin_tabs" class="tab" aria-label="Teams" />
+      <div class="tab-content p-4 col-span-full">
+        <app-admin-teams></app-admin-teams>
+      </div>
+
+      <input type="radio" name="admin_tabs" class="tab" aria-label="Chat" />
+      <div class="tab-content p-4 col-span-full">
+        <app-admin-chat></app-admin-chat>
+      </div>
+
+      @if (fullMode) {
+        <input type="radio" name="admin_tabs" class="tab" aria-label="Notifications" />
+        <div class="tab-content p-4 col-span-full">
+          <app-admin-notifications-overview></app-admin-notifications-overview>
+        </div>
+      }
+
+      @if (fullMode) {
+        <input type="radio" name="admin_tabs" class="tab" aria-label="Send Notifications" />
+        <div class="tab-content p-4 col-span-full">
+          <app-admin-send-notifications></app-admin-send-notifications>
+        </div>
+      }
+    </div>
+  </div>
+</div>

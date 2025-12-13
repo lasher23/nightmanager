@@ -1,20 +1,33 @@
-<table mat-table [dataSource]="categories">
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
-    <td mat-cell *matCellDef="let element"> {{element.name}}</td>
-  </ng-container>
-  <ng-container matColumnDef="state">
-    <th mat-header-cell *matHeaderCellDef>State</th>
-    <td mat-cell *matCellDef="let element">{{element.state}}
-    </td>
-  </ng-container>
-  <ng-container matColumnDef="send">
-    <th mat-header-cell *matHeaderCellDef>Senden</th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-button (click)="sendForCategory(element)">Senden</button>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+<div class="admin-send-notifications">
+  <div class="overflow-x-auto">
+    <table class="table w-full">
+      <thead>
+        <tr class="bg-base-300">
+          <th>Kategorie</th>
+          <th>Status</th>
+          <th>Aktion</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (element of categories; track element.id) {
+          <tr class="hover">
+            <td class="font-semibold">{{ element.name }}</td>
+            <td>
+              <span class="badge"
+                [class.badge-primary]="element.state === 'CROKI_FIRST'"
+                [class.badge-warning]="element.state === 'GROUP_STAGE'"
+                [class.badge-info]="element.state === 'SEMI_FINAL'"
+                [class.badge-error]="element.state === 'FINAL'"
+                [class.badge-success]="element.state === 'FINISHED'">
+                {{ element.state }}
+              </span>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-primary" (click)="sendForCategory(element)">Senden</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
