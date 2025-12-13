@@ -22,60 +22,68 @@
   </div>
 }
 @if (!displayMode) {
-  <div>
+  <div class="p-6 bg-base-200 min-h-screen">
     @if (appTimerActivated) {
       <app-timer></app-timer>
     }
-    <mat-tab-group style="position: relative;z-index: 1;">
-      <mat-tab label="Kategorien">
+    <div class="tabs tabs-bordered mb-6">
+      <input type="radio" name="display_tabs" class="tab" aria-label="Kategorien" checked />
+      <div class="tab-content p-4">
         <app-display-category-overview></app-display-category-overview>
-      </mat-tab>
-      <mat-tab label="Spiele">
-        <mat-table [dataSource]="games" class="display-games" style="min-width: 700px;">
-          <ng-container cdkColumnDef="time">
-            <mat-header-cell *cdkHeaderCellDef class="flex-2"><span>Zeit</span></mat-header-cell>
-            <mat-cell *cdkCellDef="let element" class="flex-2"><span>{{element.startDate | date: 'HH:mm'}}</span>
-          </mat-cell>
-        </ng-container>
-        <ng-container cdkColumnDef="teamHome">
-          <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Heim</span></mat-header-cell>
-          <mat-cell *cdkCellDef="let element" class="flex-4" [class.semi-final]="element.type === 'SEMI_FINAL'"
-            [class.final]="element.type === 'FINAL'"><span>{{element.teamHome.name}}</span>
-          </mat-cell>
-        </ng-container>
-        <ng-container cdkColumnDef="goalsTeamHome">
-          <mat-header-cell *cdkHeaderCellDef><span>Tore</span></mat-header-cell>
-          <mat-cell *cdkCellDef="let element">
-            <span>{{element.goalsTeamHome}}</span></mat-cell>
-          </ng-container>
-          <ng-container cdkColumnDef="placeholder">
-            <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
-            <mat-cell *cdkCellDef="let element"><span>:</span></mat-cell>
-          </ng-container>
-          <ng-container cdkColumnDef="goalsTeamGuest">
-            <mat-header-cell *cdkHeaderCellDef><span>Tore</span></mat-header-cell>
-            <mat-cell *cdkCellDef="let element"><span>{{element.goalsTeamGuest}}</span></mat-cell>
-          </ng-container>
-          <ng-container cdkColumnDef="teamGuest">
-            <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Gast</span></mat-header-cell>
-            <mat-cell *cdkCellDef="let element" class="flex-4" [class.semi-final]="element.type === 'SEMI_FINAL'"
-              [class.final]="element.type === 'FINAL'"><span>{{element.teamGuest.name}}</span>
-            </mat-cell>
-          </ng-container>
-          <ng-container cdkColumnDef="hall">
-            <mat-header-cell *cdkHeaderCellDef class="flex-3"><span>Halle</span></mat-header-cell>
-            <mat-cell *cdkCellDef="let element" class="flex-3"><span>{{element.hall.name}}</span></mat-cell>
-          </ng-container>
-          <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *cdkRowDef="let row; columns: displayedColumns;" [class.live-game]="row.live"></mat-row>
-        </mat-table>
-      </mat-tab>
-    </mat-tab-group>
+      </div>
+
+      <input type="radio" name="display_tabs" class="tab" aria-label="Spiele" />
+      <div class="tab-content p-4">
+        <div class="overflow-x-auto">
+          <table class="table table-compact w-full">
+            <thead>
+              <tr class="bg-base-300">
+                <th>Zeit</th>
+                <th>Heim</th>
+                <th class="text-center">Tore</th>
+                <th class="text-center">:</th>
+                <th class="text-center">Tore</th>
+                <th>Gast</th>
+                <th>Halle</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (element of games; track element.id) {
+                <tr class="hover">
+                  <td class="font-semibold">
+                    {{ element.startDate | date: 'HH:mm' }}
+                    @if (element.live) {
+                      <span class="badge badge-error ml-2">LIVE</span>
+                    }
+                  </td>
+                  <td [class.font-bold]="element.type === 'SEMI_FINAL' || element.type === 'FINAL'">{{ element.teamHome.name }}</td>
+                  <td class="text-center font-bold" [class.text-error]="element.live">
+                    @if (element.state === 'CLOSED' || element.live) {
+                      {{ element.goalsTeamHome }}
+                    }
+                  </td>
+                  <td class="text-center" [class.text-error]="element.live">:</td>
+                  <td class="text-center font-bold" [class.text-error]="element.live">
+                    @if (element.state === 'CLOSED' || element.live) {
+                      {{ element.goalsTeamGuest }}
+                    }
+                  </td>
+                  <td [class.font-bold]="element.type === 'SEMI_FINAL' || element.type === 'FINAL'">{{ element.teamGuest.name }}</td>
+                  <td>
+                    <span class="badge badge-primary">{{ element.hall.name }}</span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 }
 @if (!displayMode && appTimerActivated) {
-  <footer>
-    <button mat-button (click)="enterDisplayMode()">Anzeige Modus</button>
-    <button mat-button (click)="displayLiveGame()">Live Game</button>
+  <footer class="footer footer-center p-4 bg-base-300 text-base-content gap-4">
+    <button class="btn btn-primary" (click)="enterDisplayMode()">Anzeige Modus</button>
+    <button class="btn btn-secondary" (click)="displayLiveGame()">Live Game</button>
   </footer>
 }

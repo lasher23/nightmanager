@@ -1,9 +1,17 @@
-<mat-table [dataSource]="categories" style="width: 100%;">
-  <ng-container cdkColumnDef="name">
-    <mat-header-cell *cdkHeaderCellDef><span>Kategorie</span></mat-header-cell>
-    <mat-cell *cdkCellDef="let element" (click)="openCategory(element)"><span>{{element.name}}</span></mat-cell>
-  </ng-container>
-
-  <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
+<div class="p-6">
+  <h2 class="text-2xl font-bold mb-4">Kategorien</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    @for (element of categories; track element.id) {
+      <button 
+        class="card card-compact bg-base-100 shadow-md hover:shadow-lg cursor-pointer transition-all"
+        (click)="openCategory(element)">
+        <div class="card-body">
+          <h3 class="card-title text-lg">{{ element.name }}</h3>
+          <div class="card-actions justify-end">
+            <span class="badge badge-primary">Kategorie</span>
+          </div>
+        </div>
+      </button>
+    }
+  </div>
+</div>

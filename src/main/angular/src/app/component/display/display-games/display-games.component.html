@@ -1,50 +1,57 @@
-<div class="display-games">
-  <h1 class="title">Aktuelle Spiele</h1>
-  @for (gameHallAssingment of gamesHallAssingments; track gameHallAssingment) {
-    <div [style.width]="widthPerHallTable">
-      <h1>{{gameHallAssingment.hall.name}}</h1>
-      <mat-table [dataSource]="gameHallAssingment.games">
-        <ng-container cdkColumnDef="time">
-          <mat-header-cell *cdkHeaderCellDef class="flex-2"><span>Zeit</span></mat-header-cell>
-          <mat-cell *cdkCellDef="let element" class="flex-2"><span>{{element.startDate | date: 'HH:mm'}}</span></mat-cell>
-        </ng-container>
-        <ng-container cdkColumnDef="category">
-          <mat-header-cell *cdkHeaderCellDef class="flex-2"><span>Kategorie</span></mat-header-cell>
-          <mat-cell *cdkCellDef="let element" class="flex-2"><span>{{element?.category?.name}}</span></mat-cell>
-        </ng-container>
-        <ng-container cdkColumnDef="teamHome">
-          <mat-header-cell *cdkHeaderCellDef class="flex-4"><span>Heim</span></mat-header-cell>
-          <mat-cell *cdkCellDef="let element" class="flex-4" [class.yellow]="!element.teamHome.paid"
-            [class.semi-final]="element.type === 'SEMI_FINAL'"
-            [class.final]="element.type === 'FINAL'">
-            <span>{{element.teamHome.name}}</span></mat-cell>
-          </ng-container>
-          <ng-container cdkColumnDef="goalsTeamHome">
-            <mat-header-cell *cdkHeaderCellDef>Tore</mat-header-cell>
-            <mat-cell *cdkCellDef="let element"><span
-            [class.font-white]="element.state === 'OPEN' || element.teamHome.name === 'Pause'">{{element.goalsTeamHome}}</span>
-          </mat-cell>
-        </ng-container>
-        <ng-container cdkColumnDef="placeholder">
-          <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
-          <mat-cell *cdkCellDef="let element"><span>:</span></mat-cell>
-        </ng-container>
-        <ng-container cdkColumnDef="goalsTeamGuest">
-          <mat-header-cell *cdkHeaderCellDef><span>Tore</span></mat-header-cell>
-          <mat-cell *cdkCellDef="let element"><span
-          [class.font-white]="element.state === 'OPEN' || element.teamGuest.name === 'Pause'">{{element.goalsTeamGuest}}</span>
-        </mat-cell>
-      </ng-container>
-      <ng-container cdkColumnDef="teamGuest">
-        <mat-header-cell *cdkHeaderCellDef class="classflex-4"><span>Gast</span></mat-header-cell>
-        <mat-cell *cdkCellDef="let element" class="flex-4" [class.yellow]="!element.teamGuest.paid"
-          [class.semi-final]="element.type === 'SEMI_FINAL'"
-          [class.final]="element.type === 'FINAL'">
-          <span>{{element.teamGuest.name}}</span></mat-cell>
-        </ng-container>
-        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
-    </div>
-  }
+<div class="p-8 bg-base-200 min-h-screen">
+  <h1 class="text-4xl font-bold mb-8 text-center text-base-content">Aktuelle Spiele</h1>
+  
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    @for (gameHallAssingment of gamesHallAssingments; track gameHallAssingment.hall.id) {
+      <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+          <h2 class="card-title text-2xl mb-4">{{ gameHallAssingment.hall.name }}</h2>
+          
+          <div class="overflow-x-auto">
+            <table class="table table-sm w-full">
+              <thead>
+                <tr class="bg-base-300">
+                  <th>Zeit</th>
+                  <th>Heim</th>
+                  <th class="text-center">Tore</th>
+                  <th class="text-center">:</th>
+                  <th class="text-center">Tore</th>
+                  <th>Gast</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (element of gameHallAssingment.games; track element.id) {
+                  <tr class="hover">
+                    <td class="font-semibold">
+                      {{ element.startDate | date: 'HH:mm' }}
+                      @if (element.live) {
+                        <span class="badge badge-error ml-2">LIVE</span>
+                      }
+                    </td>
+                    <td [class.font-bold]="element.type === 'SEMI_FINAL' || element.type === 'FINAL'">
+                      {{ element.teamHome.name }}
+                    </td>
+                    <td class="text-center font-bold" [class.text-error]="element.live">
+                      @if (element.state === 'CLOSED' || element.live) {
+                        {{ element.goalsTeamHome }}
+                      }
+                    </td>
+                    <td class="text-center" [class.text-error]="element.live">:</td>
+                    <td class="text-center font-bold" [class.text-error]="element.live">
+                      @if (element.state === 'CLOSED' || element.live) {
+                        {{ element.goalsTeamGuest }}
+                      }
+                    </td>
+                    <td [class.font-bold]="element.type === 'SEMI_FINAL' || element.type === 'FINAL'">
+                      {{ element.teamGuest.name }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
 </div>

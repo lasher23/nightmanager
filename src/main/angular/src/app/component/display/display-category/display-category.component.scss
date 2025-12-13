@@ -1,60 +1,7 @@
 :host {
   display: block;
-
 }
 
 h1 {
   margin: 0;
-}
-
-.title {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
-}
-
-.display-category {
-  width: 100%;
-
-  .teams {
-    width: 28%;
-  }
-
-  .games {
-    width: 68%;
-  }
-
-  div {
-    float: left;
-    margin: 0 1%;
-
-    h1 {
-      width: 100%;
-      text-align: center;
-    }
-
-    table {
-      width: 100%;
-    }
-  }
-
-  .mat-cell {
-    text-align: center;
-  }
-
-  .mat-header-cell {
-    text-align: center;
-  }
-
-  td {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  tr {
-    height: 44px;
-  }
 }
