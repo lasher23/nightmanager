@@ -32,13 +32,13 @@
                       {{ element.teamHome.name }}
                     </td>
                     <td class="text-center font-bold" [class.text-error]="element.live">
-                      @if (element.state === 'CLOSED' || element.live) {
+                      @if (element.state === 'DONE' || element.live) {
                         {{ element.goalsTeamHome }}
                       }
                     </td>
                     <td class="text-center" [class.text-error]="element.live">:</td>
                     <td class="text-center font-bold" [class.text-error]="element.live">
-                      @if (element.state === 'CLOSED' || element.live) {
+                      @if (element.state === 'DONE' || element.live) {
                         {{ element.goalsTeamGuest }}
                       }
                     </td>

@@ -71,7 +71,9 @@
                       {{ element.teamHome.name }}
                     </td>
                     <td class="text-center font-bold" [class.text-error]="element.live">
-                      {{ element.goalsTeamHome }}:{{ element.goalsTeamGuest }}
+                      @if (element.state === 'DONE' || element.live) {
+                        {{ element.goalsTeamHome }}:{{ element.goalsTeamGuest }}
+                      }
                     </td>
                     <td [class.font-bold]="element.type === 'SEMI_FINAL' || element.type === 'FINAL'">
                       {{ element.teamGuest.name }}
