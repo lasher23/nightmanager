@@ -97,7 +97,7 @@ export class DisplayHomeComponent implements OnInit, OnDestroy {
     const gamesDisplayable = [<Displayable>{
       type: DisplayType.GAMES,
       data: this.gameService.getClosestGamesToNow(this.games, this.displayConfig.totalGamesView.before, this.displayConfig.totalGamesView.after)
-        .map(game => ({...game, category: {...game.category, name: game.category.name.replace("Schüler Kategorie", "Kat.").replace("Night ", "").replace("Guuggenmusigen und Firmen", "Guggen + Firmen")}}))
+        .map(game => ({...game, category: {...game.category, name: game.category?.name.replace("Schüler Kategorie", "Kat.").replace("Night ", "").replace("Guuggenmusigen und Firmen", "Guggen + Firmen")}}))
     }];
     const addDisplayable = <Displayable>{
       type: DisplayType.ADD,

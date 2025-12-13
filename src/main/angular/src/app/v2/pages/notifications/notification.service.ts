@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { OneSignal } from 'onesignal-ngx';
-import { BehaviorSubject, combineLatest, defer, distinctUntilChanged, from, map, merge, of, startWith, Subject, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, defer, distinctUntilChanged, from, map, merge, of, startWith, Subject, switchMap, tap, timer } from 'rxjs';
 import { Team } from 'src/app/model/Team';
 
 interface NotificationLogDto {
@@ -23,7 +23,7 @@ export class NotificationService {
     private subscriptionChanged = new Subject();
 
     private oneSignal = inject(OneSignal);
-    currentUserNotifications$ = this.triggerNotifications.pipe(switchMap(() => {
+    currentUserNotifications$ = merge(this.triggerNotifications, timer(0, 30000)).pipe(switchMap(() => {
         return from(this.getTagIds()).pipe(switchMap(ids => this.fetchForTags(ids)))
     }))
     readNotifications$ = new BehaviorSubject(this.getReadNotifications());
