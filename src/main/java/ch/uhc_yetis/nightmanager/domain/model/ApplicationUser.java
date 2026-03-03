@@ -1,25 +1,46 @@
 package ch.uhc_yetis.nightmanager.domain.model;
 
 import jakarta.persistence.*;
-import java.util.Collection;
+
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table
+@Table(name = "application_user")
 public class ApplicationUser {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
     @Column
     private String username;
-    @Column
-    private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role_assignment",
-            joinColumns = @JoinColumn(name = "fk_user"), inverseJoinColumns = @JoinColumn(name = "fk_role"))
-    private Collection<Role> roles;
 
-    public long getId() {
+    @Column(nullable = false)
+    private boolean enabled = true;
+
+    @Column(name = "created_at")
+    private Instant createdAt = Instant.now();
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role_assignment", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    private Set<String> roles = new HashSet<>();
+
+    public Long getId() {
         return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {
@@ -30,15 +51,23 @@ public class ApplicationUser {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
-    public Collection<Role> getRoles() {
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Set<String> getRoles() {
         return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
     }
 }

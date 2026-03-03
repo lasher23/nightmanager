@@ -10,18 +10,17 @@ import {CdkStepperModule} from '@angular/cdk/stepper';
 import {CdkTableModule} from '@angular/cdk/table';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import {AuthenticationService} from './service/authentication.service';
-import {AuthenticationGuard} from './authentication.guard';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {AuthGuard} from './auth/auth.guard';
+import {AuthInterceptor} from './auth/auth.interceptor';
+import {OidcCallbackComponent} from './auth/oidc-callback.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpProxyService} from './service/http-proxy.service';
 import {GlobalErrorHandler} from './global-error-handler';
 import {SnackbarService} from './service/snackbar.service';
-import {LoginComponent} from './component/login/login.component';
 import {HomeComponent} from './component/home/home.component';
-import {LoginService} from './service/login.service';
 import {TeamService} from './service/team.service';
 import {RoleService} from './service/role.service';
 import {CommonModule} from '@angular/common';
@@ -95,7 +94,6 @@ import {GameComponent} from "./v2/pages/public/public-games/game/game.component"
 
 @NgModule({ declarations: [
         AppComponent,
-        LoginComponent,
         RefereeTeamsComponent,
         HomeComponent,
         RefereeTeamComponent,
@@ -182,10 +180,14 @@ import {GameComponent} from "./v2/pages/public/public-games/game/game.component"
             // or after 30 seconds (whichever comes first).
             registrationStrategy: 'registerWhenStable:30000'
         }),
-        GameComponent], providers: [
-        LoginService,
-        AuthenticationService,
-        AuthenticationGuard,
+        GameComponent,
+        OidcCallbackComponent], providers: [
+        AuthGuard,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler

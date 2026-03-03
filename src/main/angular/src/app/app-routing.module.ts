@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {AuthenticationGuard} from './authentication.guard';
-import {LoginComponent} from './component/login/login.component';
+import {AuthGuard} from './auth/auth.guard';
+import {OidcCallbackComponent} from './auth/oidc-callback.component';
 import {HomeComponent} from './component/home/home.component';
 import {RefereeTeamsComponent} from './component/referee/referee-teams/referee-teams.component';
 import {RefereeTeamComponent} from './component/referee/referee-teams/referee-team/referee-team.component';
@@ -20,43 +20,43 @@ import {RefereeChatComponent} from './component/referee/referee-chat/referee-cha
 
 const routes: Routes = [
   {
-    path: 'login',
-    component: LoginComponent,
+    path: 'oidc/callback',
+    component: OidcCallbackComponent,
   },
   {
     path: 'referee/teams',
     component: RefereeTeamsComponent,
-    canActivate: [AuthenticationGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'referee/teams/:id',
     component: RefereeTeamComponent,
-    canActivate: [AuthenticationGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'referee/halls',
     component: RefereeHallsComponent,
-    canActivate: [AuthenticationGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'referee/games',
     component: RefereeGamesComponent,
-    canActivate: [AuthenticationGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'referee/chats',
     component: RefereeChatComponent,
-    canActivate: [AuthenticationGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'referee/games/:id',
     component: RefereeGameComponent,
-    canActivate: [AuthenticationGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'referee',
     component: RefereeGamesComponent,
-    canActivate: [AuthenticationGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'display',
@@ -81,7 +81,7 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminHomeComponent,
-    canActivate: [AuthenticationGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'v2',
@@ -95,7 +95,7 @@ const routes: Routes = [
   {
     path: '**',
     component: HomeComponent,
-    canActivate: [AuthenticationGuard]
+    canActivate: [AuthGuard]
   },
 ];
 

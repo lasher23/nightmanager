@@ -1,43 +1,28 @@
 import {Injectable} from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {AuthenticationService} from './authentication.service';
+import {HttpClient} from '@angular/common/http';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable()
 export class HttpProxyService {
 
-  constructor(private http: HttpClient, private rootService: AuthenticationService) {
+  constructor(private http: HttpClient, private authService: AuthService) {
   }
-
-  createAuthorizationHeader(): HttpHeaders {
-    if (!this.rootService.getJwt()) {
-      return null;
-    }
-    return new HttpHeaders({'Authorization': 'Bearer ' + this.rootService.getJwt()});
-  }
-
 
   get<T>(url: string, queryParameters = {}): Promise<T> {
-    const headers = this.createAuthorizationHeader();
-    return this.http.get<T>(this.rootService.url + url, {
-      headers: headers,
+    return this.http.get<T>(this.authService.url + url, {
       params: queryParameters
     }).toPromise();
   }
 
-  post<T>(url, data): Promise<T> {
-    const headers = this.createAuthorizationHeader();
-    return this.http.post<T>(this.rootService.url + url, data, {
-      headers: headers
-    }).toPromise();
+  post<T>(url: string, data: any): Promise<T> {
+    return this.http.post<T>(this.authService.url + url, data).toPromise();
   }
 
   put<T>(url: string, data: any): Promise<T> {
-    const headers = this.createAuthorizationHeader();
-    return this.http.put<T>(this.rootService.url + url, data, {headers: headers}).toPromise();
+    return this.http.put<T>(this.authService.url + url, data).toPromise();
   }
 
   patch<T>(url: string, data: any): Promise<T> {
-    const headers = this.createAuthorizationHeader();
-    return this.http.patch<T>(this.rootService.url + url, data, {headers: headers}).toPromise();
+    return this.http.patch<T>(this.authService.url + url, data).toPromise();
   }
 }

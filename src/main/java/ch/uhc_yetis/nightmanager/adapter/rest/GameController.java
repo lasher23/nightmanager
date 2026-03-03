@@ -3,7 +3,6 @@ package ch.uhc_yetis.nightmanager.adapter.rest;
 import ch.uhc_yetis.nightmanager.application.GameRequestParams;
 import ch.uhc_yetis.nightmanager.application.GameService;
 import ch.uhc_yetis.nightmanager.domain.model.Game;
-import ch.uhc_yetis.nightmanager.domain.model.Role;
 import ch.uhc_yetis.nightmanager.infrastructure.RoleConstants;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
