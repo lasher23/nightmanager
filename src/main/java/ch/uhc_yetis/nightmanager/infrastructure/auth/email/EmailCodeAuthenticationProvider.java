@@ -1,4 +1,4 @@
-package ch.uhc_yetis.nightmanager.infrastructure.oidc;
+package ch.uhc_yetis.nightmanager.infrastructure.auth.email;
 
 import ch.uhc_yetis.nightmanager.domain.model.ApplicationUser;
 import ch.uhc_yetis.nightmanager.domain.model.VerificationCode;
@@ -10,16 +10,22 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-public class PasswordlessAuthenticationProvider implements AuthenticationProvider {
+/**
+ * Validates the email + verification code and returns an authenticated
+ * {@link EmailCodeAuthenticationToken} on success.
+ */
+@Component
+public class EmailCodeAuthenticationProvider implements AuthenticationProvider {
 
     private final VerificationCodeRepository verificationCodeRepository;
     private final ApplicationUserRepository applicationUserRepository;
 
-    public PasswordlessAuthenticationProvider(VerificationCodeRepository verificationCodeRepository,
-                                             ApplicationUserRepository applicationUserRepository) {
+    public EmailCodeAuthenticationProvider(VerificationCodeRepository verificationCodeRepository,
+                                           ApplicationUserRepository applicationUserRepository) {
         this.verificationCodeRepository = verificationCodeRepository;
         this.applicationUserRepository = applicationUserRepository;
     }
@@ -36,7 +42,6 @@ public class PasswordlessAuthenticationProvider implements AuthenticationProvide
         if (verificationCode.isExpired()) {
             throw new BadCredentialsException("Verification code has expired");
         }
-
         if (!verificationCode.getCode().equals(code)) {
             throw new BadCredentialsException("Invalid verification code");
         }
@@ -52,7 +57,7 @@ public class PasswordlessAuthenticationProvider implements AuthenticationProvide
             throw new BadCredentialsException("User account is disabled");
         }
 
-        return new PasswordlessAuthenticationToken(
+        return new EmailCodeAuthenticationToken(
                 email,
                 user.getRoles().stream()
                         .map(SimpleGrantedAuthority::new)
@@ -62,6 +67,6 @@ public class PasswordlessAuthenticationProvider implements AuthenticationProvide
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return PasswordlessAuthenticationToken.class.isAssignableFrom(authentication);
+        return EmailCodeAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }
