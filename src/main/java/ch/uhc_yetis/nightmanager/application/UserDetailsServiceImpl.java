@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return new User(
                 applicationUser.getEmail(),
-                "", // No password — passwordless authentication
+                "{noop}test", // TODO: temporary dummy password for testing
                 applicationUser.isEnabled(),
                 true, true, true,
                 applicationUser.getRoles().stream()

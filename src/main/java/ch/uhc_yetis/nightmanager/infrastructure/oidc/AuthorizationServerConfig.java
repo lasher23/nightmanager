@@ -28,16 +28,13 @@ import org.springframework.security.oauth2.server.authorization.token.JwtEncodin
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
-import java.util.Set;
 import java.util.UUID;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -71,24 +68,13 @@ public class AuthorizationServerConfig {
         OAuth2AuthorizationServerConfigurer authorizationServer = new OAuth2AuthorizationServerConfigurer();
         http.securityMatcher(authorizationServer.getEndpointsMatcher());
         http.with(authorizationServer, withDefaults());
-        http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(withDefaults());
-        http.oauth2ResourceServer(resourceServer -> resourceServer.jwt(withDefaults()));
-        // Without this, the auth server chain uses RequestAttributeSecurityContextRepository
-        // (request-scoped) and never sees the authentication that was saved to the HttpSession
-        // by PasswordlessAuthenticationFilter. The user would appear anonymous on /oauth2/authorize.
-        http.securityContext(ctx -> ctx.securityContextRepository(new HttpSessionSecurityContextRepository()));
+        http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
         http.exceptionHandling(exceptions -> exceptions
                 .defaultAuthenticationEntryPointFor(
                         new LoginUrlAuthenticationEntryPoint("/login"),
-                        createRequestMatcher()));
+                        new MediaTypeRequestMatcher(MediaType.TEXT_HTML)));
         return http.build();
-    }
-
-    private static RequestMatcher createRequestMatcher() {
-        MediaTypeRequestMatcher requestMatcher = new MediaTypeRequestMatcher(MediaType.TEXT_HTML);
-        requestMatcher.setIgnoredMediaTypes(Set.of(MediaType.ALL));
-        return requestMatcher;
     }
 
     @Bean
