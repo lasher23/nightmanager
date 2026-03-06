@@ -14,7 +14,7 @@ export const authConfig: UserManagerSettings = {
   redirect_uri: `${window.location.origin}/oidc/callback`,
   post_logout_redirect_uri: window.location.origin,
   response_type: 'code',
-  scope: 'openid profile email',
+  scope: 'openid profile email offline_access',
   automaticSilentRenew: true,
   userStore: new WebStorageStateStore({store: window.localStorage}),
 };

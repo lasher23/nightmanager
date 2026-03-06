@@ -20,14 +20,14 @@ export class AuthService {
     this.userManager.events.addUserLoaded(user => {
       this.userSubject.next(user);
     });
-
     this.userManager.events.addUserUnloaded(() => {
       this.userSubject.next(null);
     });
 
     this.userManager.events.addAccessTokenExpired(() => {
       if (!this.loggingOut) {
-        this.login();
+        this.userManager.signinSilent()
+          .catch(console.log);
       }
     });
 
