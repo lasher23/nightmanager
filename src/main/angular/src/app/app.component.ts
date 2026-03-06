@@ -10,6 +10,7 @@ import {OneSignal} from "onesignal-ngx";
 import {StompService} from "./stomp.service";
 import {map} from "rxjs/operators";
 import { NotificationService } from './v2/pages/notifications/notification.service';
+import {AuthService} from './auth/auth.service';
 
 @Component({
     selector: 'app-root',
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
     private snackbarService: SnackbarService,
     private oneSignal: OneSignal,
     private sw: SwUpdate,
+    private authService: AuthService,
     private stompService: StompService,
   ) {
     sw.checkForUpdate().catch(console.log)
@@ -93,8 +95,10 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    localStorage.clear();
-    window.location.href = '';
+    this.authService.logout();
+  }
+  login() {
+    this.authService.login();
   }
 
   openChat() {
@@ -107,7 +111,7 @@ export class AppComponent implements OnInit {
 
   protected readonly location = location;
   protected readonly document = document;
-  isLoggedIn$ = inject(RoleService).role$.pipe(map(role => !!role));
+  isLoggedIn$ = inject(AuthService).user$.pipe(map(user => !!user));
   isReferee$ = inject(RoleService).role$.pipe(map(role => role?.name === 'REFEREE'));
   isAdmin$ = inject(RoleService).role$.pipe(map(role => role?.name === 'ADMIN'));
   isShotMaster$ = inject(RoleService).role$.pipe(map(role => role?.name === 'SHOT_MASTER'));

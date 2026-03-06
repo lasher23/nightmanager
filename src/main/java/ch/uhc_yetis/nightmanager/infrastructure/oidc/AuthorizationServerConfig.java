@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -41,9 +42,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * Provides beans for the Spring Authorization Server.
- * Because we define custom SecurityFilterChain beans (resource server, default chain),
- * the auto-configured auth server filter chain (@ConditionalOnDefaultWebSecurity) backs off.
- * We therefore explicitly create the authorization server security filter chain here.
+ * Because we define custom SecurityFilterChain beans (resource server, default
+ * chain),
+ * the auto-configured auth server filter chain
+ * (@ConditionalOnDefaultWebSecurity) backs off.
+ * We therefore explicitly create the authorization server security filter chain
+ * here.
  */
 @Configuration
 public class AuthorizationServerConfig {
@@ -65,12 +69,13 @@ public class AuthorizationServerConfig {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
-        OAuth2AuthorizationServerConfigurer authorizationServer = new OAuth2AuthorizationServerConfigurer();
-        http.securityMatcher(authorizationServer.getEndpointsMatcher());
-        http.with(authorizationServer, withDefaults());
-        http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(withDefaults());
-        http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
-        http.exceptionHandling(exceptions -> exceptions
+        http
+        .oauth2AuthorizationServer(oauthServer -> {
+            				http.securityMatcher(oauthServer.getEndpointsMatcher());
+                            oauthServer.oidc(Customizer.withDefaults());
+        }
+        ).authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+        .exceptionHandling(exceptions -> exceptions
                 .defaultAuthenticationEntryPointFor(
                         new LoginUrlAuthenticationEntryPoint("/login"),
                         new MediaTypeRequestMatcher(MediaType.TEXT_HTML)));
@@ -151,7 +156,7 @@ public class AuthorizationServerConfig {
             if (user != null) {
                 context.getClaims().claim("roles", user.getRoles());
                 context.getClaims().claim("preferred_username", user.getUsername());
-                context.getClaims().claim("email", user.getEmail());
+                context.getClaims().claim("email", email);
             }
         };
     }

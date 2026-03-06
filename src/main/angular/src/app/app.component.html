@@ -89,10 +89,10 @@
     <li><a routerLink="/v2/shot-master" class="text-xl" (click)="($any(document.activeElement))?.blur()">Shot Master</a></li>
   }
   @if (!(isLoggedIn$ | async)) {
-    <li><a routerLink="/login" class="text-xl" (click)="($any(document.activeElement))?.blur()">Login</a></li>
+    <li><a class="text-xl" (click)="login()">Login</a></li>
   }
   @if ((isLoggedIn$ | async)) {
-    <li><a routerLink="/login" class="text-xl" (click)="logout()">Logout</a></li>
+    <li><a class="text-xl cursor-pointer" (click)="logout()">Logout</a></li>
   }
 </ng-template>
 

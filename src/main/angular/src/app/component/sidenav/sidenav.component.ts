@@ -3,6 +3,7 @@ import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {map} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {RoleService} from '../../service/role.service';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
     selector: 'app-sidenav',
@@ -17,7 +18,7 @@ export class SidenavComponent implements OnInit {
   fixedInViewport = true;
   isReferee = false;
 
-  constructor(private bpo: BreakpointObserver, public roleService: RoleService) {
+  constructor(private bpo: BreakpointObserver, public roleService: RoleService, private authService: AuthService) {
   }
 
   public ngOnInit(): void {
@@ -64,7 +65,6 @@ export class SidenavComponent implements OnInit {
   }
 
   logout() {
-    localStorage.clear();
-    window.location.href = '';
+    this.authService.logout();
   }
 }

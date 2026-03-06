@@ -29,6 +29,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'com.twilio.sdk:twilio:9.14.0'
     implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
@@ -50,4 +51,16 @@ task buildAngular(type: NpmTask) {
     onlyIf { !new File("src/main/angular/dist/nightmanager").exists() }
     dependsOn 'npmInstall'
     args = ['run', 'build']
+}
+
+// Load .env file and inject into bootRun as environment variables
+def envFile = rootProject.file('.env')
+if (envFile.exists()) {
+    envFile.readLines().each { line ->
+        line = line.trim()
+        if (line && !line.startsWith('#')) {
+            def (key, value) = line.split('=', 2)
+            bootRun.environment(key.trim(), value.trim())
+        }
+    }
 }

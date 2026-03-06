@@ -9,6 +9,7 @@
     "!/login",
     "!/login.html",
     "!/oauth2/**",
+    "!/login/oauth2/**",
     "!/.well-known/**",
     "!/connect/**",
     "!/api/**"

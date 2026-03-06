@@ -9,6 +9,7 @@ export class AuthService {
   private userManager: UserManager;
   private userSubject = new BehaviorSubject<User | null>(null);
   public user$: Observable<User | null> = this.userSubject.asObservable();
+  private loggingOut = false;
 
   public get url(): string {
     return 'api/';
@@ -16,7 +17,6 @@ export class AuthService {
 
   constructor() {
     this.userManager = new UserManager(authConfig);
-
     this.userManager.events.addUserLoaded(user => {
       this.userSubject.next(user);
     });
@@ -26,7 +26,9 @@ export class AuthService {
     });
 
     this.userManager.events.addAccessTokenExpired(() => {
-      this.login();
+      if (!this.loggingOut) {
+        this.login();
+      }
     });
 
     // Load user from storage on startup
@@ -48,6 +50,7 @@ export class AuthService {
   }
 
   public async logout(): Promise<void> {
+    this.loggingOut = true;
     await this.userManager.signoutRedirect();
   }
 
