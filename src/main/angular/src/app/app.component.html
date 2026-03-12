@@ -81,6 +81,11 @@
       <a routerLink="/admin" class="text-xl" (click)="($any(document.activeElement))?.blur()" >Admin</a>
     </li>
   }
+  @if (isAdmin$ | async) {
+    <li>
+      <a routerLink="/v2/user-management" class="text-xl" (click)="($any(document.activeElement))?.blur()">User Management</a>
+    </li>
+  }
   <li><a routerLink="/v2/public" class="text-xl" (click)="($any(document.activeElement))?.blur()">Kategorien</a></li>
   <li><a routerLink="/v2/public/games" class="text-xl" (click)="($any(document.activeElement))?.blur()">Alle Spiele</a></li>
   <li><a routerLink="/v2/public/rules" class="text-xl" (click)="($any(document.activeElement))?.blur()">Regeln & Spielplan</a></li>

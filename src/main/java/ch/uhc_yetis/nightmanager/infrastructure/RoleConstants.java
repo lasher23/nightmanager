@@ -45,6 +45,18 @@ public final class RoleConstants {
     public static final String TEAM_CREATE = "team:create";
     public static final String TEAM_UPDATE = "team:update";
 
+    // ── User management permissions ───────────────────────────────────────────
+    public static final String USER_LIST   = "user:list";
+    public static final String USER_GET    = "user:get";
+    public static final String USER_UPDATE = "user:update";
+
+    // ── Role management permissions ───────────────────────────────────────────
+    public static final String ROLE_LIST   = "role:list";
+    public static final String ROLE_GET    = "role:get";
+    public static final String ROLE_CREATE = "role:create";
+    public static final String ROLE_UPDATE = "role:update";
+    public static final String ROLE_DELETE = "role:delete";
+
     private RoleConstants() {}
 }
 

@@ -16,5 +16,9 @@ export const routes: Routes = [
   {
     path: "public",
     loadChildren: () => import("./pages/public/public.routes").then(d => d.routes)
+  },
+  {
+    path: "user-management",
+    loadChildren: () => import("./pages/user-management/user-management.routes").then(r => r.routes)
   }
 ]
