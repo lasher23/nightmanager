@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
       <div class="tabs tabs-boxed mb-6">
         <a class="tab" routerLink="users" routerLinkActive="tab-active">Users</a>
         <a class="tab" routerLink="roles" routerLinkActive="tab-active">Roles</a>
+        <a class="tab" routerLink="otp-users" routerLinkActive="tab-active">OTP Users</a>
       </div>
       <router-outlet />
     </div>

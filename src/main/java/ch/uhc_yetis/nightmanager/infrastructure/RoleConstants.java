@@ -57,6 +57,12 @@ public final class RoleConstants {
     public static final String ROLE_UPDATE = "role:update";
     public static final String ROLE_DELETE = "role:delete";
 
+    // ── OTP user permissions ──────────────────────────────────────────────────
+    public static final String OTP_USER_LIST   = "otp_user:list";
+    public static final String OTP_USER_GET    = "otp_user:get";
+    public static final String OTP_USER_CREATE = "otp_user:create";
+    public static final String OTP_USER_DELETE = "otp_user:delete";
+
     private RoleConstants() {}
 }
 

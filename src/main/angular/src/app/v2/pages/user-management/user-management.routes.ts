@@ -22,6 +22,10 @@ export const routes: Routes = [
         path: 'roles/:id',
         loadComponent: () => import('./role-edit.component').then(c => c.RoleEditComponent)
       },
+      {
+        path: 'otp-users',
+        loadComponent: () => import('./otp-list.component').then(c => c.OtpListComponent)
+      },
     ]
   }
 ];

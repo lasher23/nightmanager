@@ -73,6 +73,34 @@
         <!-- Divider -->
         <div class="divider text-base-content/40 text-xs">oder</div>
 
+        <!-- OTP Token login -->
+        <div id="otpToggleSection">
+            <button class="btn btn-outline btn-secondary w-full" onclick="showOtpStep()">
+                🔑 Mit Token / QR-Code anmelden
+            </button>
+        </div>
+
+        <div id="otpStep" class="hidden">
+            <form action="/login" method="POST" id="otpForm">
+                <input type="hidden" name="login_type" value="otp">
+                <div class="form-control w-full">
+                    <label class="label" for="otpCode">
+                        <span class="label-text">Login-Token</span>
+                    </label>
+                    <input type="text" name="otp_code" id="otpCode" placeholder="Token eingeben..."
+                           autocomplete="off" required
+                           class="input input-bordered w-full font-mono text-sm"/>
+                </div>
+                <button type="submit" class="btn btn-secondary w-full mt-4">
+                    Einloggen
+                </button>
+            </form>
+            <button class="btn btn-ghost btn-sm w-full mt-1" onclick="hideOtpStep()">Abbrechen</button>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider text-base-content/40 text-xs">oder</div>
+
         <!-- Social login -->
         <a href="/oauth2/authorization/microsoft" class="btn btn-outline w-full gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 23 23">
@@ -135,6 +163,29 @@
     document.getElementById('email').addEventListener('keypress', function (e) {
         if (e.key === 'Enter') sendCode();
     });
+
+    function showOtpStep() {
+        document.getElementById('otpToggleSection').classList.add('hidden');
+        document.getElementById('otpStep').classList.remove('hidden');
+        document.getElementById('otpCode').focus();
+    }
+
+    function hideOtpStep() {
+        document.getElementById('otpStep').classList.add('hidden');
+        document.getElementById('otpToggleSection').classList.remove('hidden');
+    }
+
+    // If the URL contains ?otp_code=<token>, auto-fill and submit the OTP form
+    (function () {
+        const params = new URLSearchParams(window.location.search);
+        const otpCode = params.get('otp_code');
+        if (otpCode) {
+            document.getElementById('otpCode').value = otpCode;
+            showOtpStep();
+            // Small delay so the page is fully rendered before submission
+            setTimeout(() => document.getElementById('otpForm').submit(), 200);
+        }
+    })();
 </script>
 
 </body>
