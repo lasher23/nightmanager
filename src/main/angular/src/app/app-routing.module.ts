@@ -1,8 +1,6 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {AuthGuard} from './auth/auth.guard';
 import {OidcCallbackComponent} from './auth/oidc-callback.component';
-import {HomeComponent} from './component/home/home.component';
 import {RefereeTeamsComponent} from './component/referee/referee-teams/referee-teams.component';
 import {RefereeTeamComponent} from './component/referee/referee-teams/referee-team/referee-team.component';
 import {RefereeHallsComponent} from './component/referee/referee-halls/referee-halls.component';
@@ -26,37 +24,30 @@ const routes: Routes = [
   {
     path: 'referee/teams',
     component: RefereeTeamsComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'referee/teams/:id',
     component: RefereeTeamComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'referee/halls',
     component: RefereeHallsComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'referee/games',
     component: RefereeGamesComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'referee/chats',
     component: RefereeChatComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'referee/games/:id',
     component: RefereeGameComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'referee',
     component: RefereeGamesComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'display',
@@ -81,7 +72,6 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminHomeComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'v2',
@@ -94,8 +84,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: HomeComponent,
-    canActivate: [AuthGuard]
+    redirectTo: 'v2/public',
   },
 ];
 

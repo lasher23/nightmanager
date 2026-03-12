@@ -15,9 +15,12 @@ import java.util.stream.Collectors;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final ApplicationUserRepository applicationUserRepository;
+    private final PermissionService permissionService;
 
-    public UserDetailsServiceImpl(ApplicationUserRepository applicationUserRepository) {
+    public UserDetailsServiceImpl(ApplicationUserRepository applicationUserRepository,
+                                  PermissionService permissionService) {
         this.applicationUserRepository = applicationUserRepository;
+        this.permissionService = permissionService;
     }
 
     @Override
@@ -26,14 +29,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (applicationUser == null) {
             throw new UsernameNotFoundException(email);
         }
+        // Resolve the flat permission set from all assigned roles (recursively)
+        var permissions = permissionService.resolvePermissions(applicationUser.getRoles());
         return new User(
                 applicationUser.getEmail(),
                 "{noop}test", // TODO: temporary dummy password for testing
                 applicationUser.isEnabled(),
                 true, true, true,
-                applicationUser.getRoles().stream()
+                permissions.stream()
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList())
         );
     }
 }
+

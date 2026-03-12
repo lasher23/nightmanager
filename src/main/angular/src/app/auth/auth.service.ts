@@ -67,13 +67,15 @@ export class AuthService {
     return user != null && !user.expired;
   }
 
-  public getRoles(): string[] {
+  public get currentUser() {
+    return this.userSubject.value;
+  }
+
+  public getPermissions(): string[] {
     const user = this.userSubject.value;
-    if (!user?.profile) {
-      return [];
-    }
-    const roles = (user.profile as any)['roles'];
-    return Array.isArray(roles) ? roles : [];
+    if (!user?.profile) return [];
+    const perms = (user.profile as any)['permissions'];
+    return Array.isArray(perms) ? perms : [];
   }
 
   public getUsername(): string {

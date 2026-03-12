@@ -20,7 +20,7 @@ public class GenerationController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
+    @PreAuthorize("hasAuthority('" + RoleConstants.GENERATION_CREATE + "')")
     public void generate(@RequestBody Category generationCategory) {
         this.generationService.generateFromCategory(generationCategory);
     }

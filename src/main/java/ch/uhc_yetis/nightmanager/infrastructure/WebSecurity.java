@@ -1,6 +1,8 @@
 package ch.uhc_yetis.nightmanager.infrastructure;
 
 import ch.uhc_yetis.nightmanager.application.UserDetailsServiceImpl;
+import ch.uhc_yetis.nightmanager.infrastructure.auth.AnonymousPermissionEnhancerFilter;
+import ch.uhc_yetis.nightmanager.infrastructure.auth.OidcUserProvisioningService;
 import ch.uhc_yetis.nightmanager.infrastructure.auth.email.EmailCodeAuthenticationConverter;
 import ch.uhc_yetis.nightmanager.infrastructure.auth.email.EmailCodeAuthenticationProvider;
 import ch.uhc_yetis.nightmanager.infrastructure.auth.otp.OtpCodeAuthenticationConverter;
@@ -50,13 +52,19 @@ public class WebSecurity {
     private final EmailCodeAuthenticationProvider emailCodeProvider;
     private final OtpCodeAuthenticationProvider otpCodeProvider;
     private final UserDetailsServiceImpl userDetailsService;
+    private final AnonymousPermissionEnhancerFilter anonymousPermissionEnhancerFilter;
+    private final OidcUserProvisioningService oidcUserProvisioningService;
 
     public WebSecurity(EmailCodeAuthenticationProvider emailCodeProvider,
                        OtpCodeAuthenticationProvider otpCodeProvider,
-                       UserDetailsServiceImpl userDetailsService) {
+                       UserDetailsServiceImpl userDetailsService,
+                       AnonymousPermissionEnhancerFilter anonymousPermissionEnhancerFilter,
+                       OidcUserProvisioningService oidcUserProvisioningService) {
         this.emailCodeProvider = emailCodeProvider;
         this.otpCodeProvider = otpCodeProvider;
         this.userDetailsService = userDetailsService;
+        this.anonymousPermissionEnhancerFilter = anonymousPermissionEnhancerFilter;
+        this.oidcUserProvisioningService = oidcUserProvisioningService;
     }
 
     /**
@@ -102,9 +110,11 @@ public class WebSecurity {
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 )
                 .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(anonymousPermissionEnhancerFilter, org.springframework.security.web.authentication.AnonymousAuthenticationFilter.class)
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login")
                         .defaultSuccessUrl("/", false)
+                        .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserProvisioningService))
                 )
                 .exceptionHandling(ex -> ex
                         .defaultAuthenticationEntryPointFor(
@@ -122,7 +132,7 @@ public class WebSecurity {
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        grantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
+        grantedAuthoritiesConverter.setAuthoritiesClaimName("permissions");
         grantedAuthoritiesConverter.setAuthorityPrefix("");
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();

@@ -146,16 +146,32 @@ public class AuthorizationServerConfig {
     }
 
     /**
-     * Customizes JWT tokens to include user roles and display name.
-     * Both access tokens and ID tokens will contain the roles claim.
+     * Customizes JWT tokens to include resolved permissions and display name.
+     * The 'permissions' claim is a flat list of all permission strings the user
+     * has, derived recursively from their assigned roles.
      */
     @Bean
-    public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(ApplicationUserRepository userRepository) {
+    public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(
+            ApplicationUserRepository userRepository,
+            ch.uhc_yetis.nightmanager.application.PermissionService permissionService) {
         return context -> {
-            String email = context.getPrincipal().getName();
+            var authentication = context.getPrincipal();
+
+            // For Microsoft/OIDC social login, getPrincipal() is an OAuth2AuthenticationToken
+            // whose getName() returns the 'sub' claim (MS user ID), NOT the email.
+            // For local login, getName() is the email (set as username in UserDetailsServiceImpl).
+            String email = null;
+            if (authentication instanceof org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken oauth2Token) {
+                email = oauth2Token.getPrincipal().getAttribute("email");
+            }
+            if (email == null || email.isBlank()) {
+                email = authentication.getName();
+            }
+
             ApplicationUser user = userRepository.findByEmail(email);
             if (user != null) {
-                context.getClaims().claim("roles", user.getRoles());
+                var permissions = permissionService.resolvePermissions(user.getRoles());
+                context.getClaims().claim("permissions", permissions);
                 context.getClaims().claim("preferred_username", user.getUsername());
                 context.getClaims().claim("email", email);
             }

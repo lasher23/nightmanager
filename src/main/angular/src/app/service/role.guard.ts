@@ -1,27 +1,28 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { RoleService } from './role.service';
+import { Observable, map, take } from 'rxjs';
+import { PermissionService } from './permission.service';
 
 @Injectable({ providedIn: 'root' })
 export class RoleGuard implements CanActivate {
-  constructor(private roleService: RoleService, private router: Router) {
+  constructor(private permissionService: PermissionService, private router: Router) {
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    const requiredRole = route.data?.role as string;
-    const current = this.roleService.getRole();
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    const requiredPermission = route.data?.['permission'] as string;
 
-    if (!requiredRole) {
-      return true;
+    if (!requiredPermission) {
+      return new Observable(obs => { obs.next(true); obs.complete(); });
     }
 
-    if (current && current.name === requiredRole) {
-      return true;
-    }
-
-    // not authorized -> redirect to public home
-    this.router.navigate(['/v2/public']);
-    return false;
+    return this.permissionService.has$(requiredPermission).pipe(
+      take(1),
+      map(has => {
+        if (!has) {
+          this.router.navigate(['/v2/public']);
+        }
+        return has;
+      })
+    );
   }
 }

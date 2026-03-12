@@ -23,32 +23,34 @@ public class NotificationController {
     }
 
     @PostMapping("/category")
-    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
+    @PreAuthorize("hasAuthority('" + RoleConstants.NOTIFICATION_CREATE + "')")
     public ResponseEntity<Void> notifyNewCategory(@RequestBody Category category) {
         teamService.notifyCategory(category);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping()
-    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
+    @PreAuthorize("hasAuthority('" + RoleConstants.NOTIFICATION_CREATE + "')")
     public ResponseEntity<Void> resendNotification(@RequestBody NotificationLog notificationLog) {
         this.notificationService.retryNotification(notificationLog);
         return ResponseEntity.noContent().build();
     }
+
     @GetMapping()
-    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
+    @PreAuthorize("hasAuthority('" + RoleConstants.NOTIFICATION_LIST + "')")
     public ResponseEntity<List<NotificationLog>> getNotifications() {
         return ResponseEntity.ok(this.notificationService.getAllNotifications());
     }
 
     @GetMapping("/tag/{tag}")
+    @PreAuthorize("hasAuthority('" + RoleConstants.NOTIFICATION_LIST + "')")
     public ResponseEntity<List<NotificationLog>> getNotificationsByTag(@PathVariable String tag) {
         return ResponseEntity.ok(this.notificationService.getNotificationsForTag(tag));
     }
 
-        // fetch notifications for any of the provided tags (body: ["team-1","team-2"])
-        @PostMapping("/tags")
-        public ResponseEntity<List<NotificationLog>> getNotificationsByTags(@RequestBody List<String> tags) {
-            return ResponseEntity.ok(this.notificationService.getNotificationsForTags(tags));
-        }
+    @PostMapping("/tags")
+    @PreAuthorize("hasAuthority('" + RoleConstants.NOTIFICATION_LIST + "')")
+    public ResponseEntity<List<NotificationLog>> getNotificationsByTags(@RequestBody List<String> tags) {
+        return ResponseEntity.ok(this.notificationService.getNotificationsForTags(tags));
+    }
 }

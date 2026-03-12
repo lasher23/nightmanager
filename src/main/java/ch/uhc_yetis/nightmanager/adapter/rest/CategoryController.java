@@ -21,17 +21,19 @@ public class CategoryController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('" + RoleConstants.CATEGORY_LIST + "')")
     public List<Category> getAll() {
         return this.categoryService.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + RoleConstants.CATEGORY_GET + "')")
     public Category getById(@PathVariable long id) {
         return this.categoryService.findById(id);
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
+    @PreAuthorize("hasAuthority('" + RoleConstants.CATEGORY_CREATE + "')")
     public Category saveNewCategory(@RequestBody Category category) {
         return this.categoryService.createNewCategory(category);
     }

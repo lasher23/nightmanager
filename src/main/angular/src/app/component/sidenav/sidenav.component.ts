@@ -22,7 +22,7 @@ export class SidenavComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.roleService.role$.subscribe(role => this.isReferee = role.name === 'REFEREE');
+    this.roleService.isReferee$.subscribe(isReferee => this.isReferee = isReferee);
     const breakpoints = Object.keys(Breakpoints).map(key => Breakpoints[key]);
     this.bpo.observe(breakpoints)
       .pipe(map(bst => bst.matches))

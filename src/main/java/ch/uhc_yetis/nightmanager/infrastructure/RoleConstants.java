@@ -1,10 +1,50 @@
 package ch.uhc_yetis.nightmanager.infrastructure;
 
+/**
+ * Permission strings used throughout the application.
+ *
+ * Controllers use permission strings of the form "<entity>:<action>".
+ * Roles are defined and seeded in {@link DefaultAdminInitializer}.
+ */
 public final class RoleConstants {
-    public static final String ADMIN = "ADMIN";
-    public static final String REFEREE = "REFEREE";
-    public static final String SHOT_MASTER = "SHOT_MASTER";
 
-    private RoleConstants() {
-    }
+    // ── Category permissions ──────────────────────────────────────────────────
+    public static final String CATEGORY_LIST   = "category:list";
+    public static final String CATEGORY_GET    = "category:get";
+    public static final String CATEGORY_CREATE = "category:create";
+
+    // ── Chat permissions ──────────────────────────────────────────────────────
+    public static final String CHAT_LIST   = "chat:list";
+    public static final String CHAT_CREATE = "chat:create";
+
+    // ── Game permissions ──────────────────────────────────────────────────────
+    public static final String GAME_LIST   = "game:list";
+    public static final String GAME_GET    = "game:get";
+    public static final String GAME_UPDATE = "game:update";
+    public static final String GAME_MANAGE = "game:manage";
+    public static final String GAME_NOTIFY = "game:notify";
+
+    // ── Generation permissions ────────────────────────────────────────────────
+    public static final String GENERATION_CREATE = "generation:create";
+
+    // ── Hall permissions ──────────────────────────────────────────────────────
+    public static final String HALL_LIST = "hall:list";
+    public static final String HALL_GET  = "hall:get";
+
+    // ── Notification permissions ──────────────────────────────────────────────
+    public static final String NOTIFICATION_LIST   = "notification:list";
+    public static final String NOTIFICATION_CREATE = "notification:create";
+
+    // ── Shot permissions ──────────────────────────────────────────────────────
+    public static final String SHOT_LIST   = "shot:list";
+    public static final String SHOT_UPDATE = "shot:update";
+
+    // ── Team permissions ──────────────────────────────────────────────────────
+    public static final String TEAM_LIST   = "team:list";
+    public static final String TEAM_GET    = "team:get";
+    public static final String TEAM_CREATE = "team:create";
+    public static final String TEAM_UPDATE = "team:update";
+
+    private RoleConstants() {}
 }
+

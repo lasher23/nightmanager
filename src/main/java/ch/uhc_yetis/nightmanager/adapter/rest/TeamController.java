@@ -22,6 +22,7 @@ public class TeamController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('" + RoleConstants.TEAM_LIST + "')")
     public List<TeamDto> getAll(@RequestParam(required = false) Long categoryId) {
         if (categoryId == null) {
             return this.teamService.findAll();
@@ -32,6 +33,7 @@ public class TeamController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + RoleConstants.TEAM_GET + "')")
     public ResponseEntity<Team> getById(@PathVariable long id) {
         Optional<Team> team = this.teamService.findById(id);
         if (!team.isPresent()) {
@@ -41,13 +43,13 @@ public class TeamController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
+    @PreAuthorize("hasAuthority('" + RoleConstants.TEAM_CREATE + "')")
     public Team saveNewTeam(@RequestBody Team team) {
         return this.teamService.createNewTeam(team);
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('" + RoleConstants.ADMIN + "')")
+    @PreAuthorize("hasAuthority('" + RoleConstants.TEAM_UPDATE + "')")
     public ResponseEntity<Team> saveItem(@RequestBody Team team) {
         return ResponseEntity.ok(this.teamService.save(team));
     }

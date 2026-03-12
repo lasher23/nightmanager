@@ -1,5 +1,4 @@
 import {Routes} from "@angular/router";
-import { RoleGuard } from '../service/role.guard';
 
 export const routes: Routes = [
   {
@@ -9,8 +8,6 @@ export const routes: Routes = [
   {
     path: "shot-master",
     loadComponent: () => import("./pages/shot-master/shot-master.component").then(c => c.ShotMasterComponent),
-    canActivate: [RoleGuard],
-    data: { role: 'SHOT_MASTER' }
   },
   {
     path: "notifications",
