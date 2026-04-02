@@ -10,6 +10,8 @@ import {OneSignal} from "onesignal-ngx";
 import {StompService} from "./stomp.service";
 import { NotificationService } from './v2/pages/notifications/notification.service';
 import {AuthService} from './auth/auth.service';
+import {TournamentStore} from './service/tournament-store.service';
+import {Tournament} from './model/Tournament';
 
 @Component({
     selector: 'app-root',
@@ -117,5 +119,17 @@ export class AppComponent implements OnInit {
 
   notificationService = inject(NotificationService);
   unreadNotificationCount$ = this.notificationService.unreadNotificationCount$;
+
+  tournamentStore = inject(TournamentStore);
+  tournaments$ = this.tournamentStore.tournaments$;
+  activeTournament$ = this.tournamentStore.active$;
+
+  selectTournament(tournament: Tournament): void {
+    this.tournamentStore.setActive(tournament);
+  }
+
+  trackById(_: number, item: Tournament): number {
+    return item.id;
+  }
 }
 

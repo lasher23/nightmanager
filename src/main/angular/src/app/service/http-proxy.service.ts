@@ -25,4 +25,8 @@ export class HttpProxyService {
   patch<T>(url: string, data: any): Promise<T> {
     return this.http.patch<T>(this.authService.url + url, data).toPromise();
   }
+
+  delete<T>(url: string): Promise<T> {
+    return this.http.delete<T>(this.authService.url + url).toPromise();
+  }
 }

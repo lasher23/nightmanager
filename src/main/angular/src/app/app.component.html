@@ -16,7 +16,9 @@
     <div class="navbar-center">
       <a class="btn btn-ghost normal-case text-xl" routerLink="/v2/public">Yetis</a>
     </div>
-    <div class="navbar-end">
+    <div class="navbar-end flex items-center gap-1">
+      <!-- Tournament selector (mobile) -->
+      <ng-container *ngTemplateOutlet="tournamentSelector"></ng-container>
       <a routerLink="/v2/notifications" class="btn btn-ghost btn-circle" title="Notifications">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
@@ -39,6 +41,8 @@
     </div>
     <div class="navbar-end">
       <div class="flex items-center space-x-2">
+        <!-- Tournament selector (desktop) -->
+        <ng-container *ngTemplateOutlet="tournamentSelector"></ng-container>
         <a routerLink="/v2/notifications" class="btn btn-ghost btn-circle" title="Notifications">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
@@ -65,6 +69,38 @@
   }
 }
 <router-outlet class="container"></router-outlet>
+
+<!-- Tournament selector template (reused in mobile + desktop navbar) -->
+<ng-template #tournamentSelector>
+  @if ((tournaments$ | async)?.length) {
+    <div class="dropdown dropdown-end">
+      <label tabindex="0" class="btn btn-sm btn-outline gap-1 font-normal">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 6h18M9 14h6M9 18h6" />
+        </svg>
+        <span class="max-w-[120px] truncate">{{ (activeTournament$ | async)?.name ?? 'Turnier' }}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </label>
+      <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-50">
+        @for (t of (tournaments$ | async); track trackById($index, t)) {
+          <li>
+            <a (click)="selectTournament(t); ($any(document.activeElement))?.blur()"
+               [class.font-bold]="(activeTournament$ | async)?.id === t.id"
+               class="flex flex-col items-start gap-0">
+              <span>{{ t.name }}</span>
+              @if (t.dateFrom) {
+                <span class="text-xs opacity-60">{{ t.dateFrom | slice:0:10 }}{{ t.dateTo ? ' – ' + (t.dateTo | slice:0:10) : '' }}</span>
+              }
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</ng-template>
+
 <ng-template #menuItems>
   @if (isReferee$ | async) {
     <li>
@@ -84,6 +120,11 @@
   @if (isAdmin$ | async) {
     <li>
       <a routerLink="/v2/user-management" class="text-xl" (click)="($any(document.activeElement))?.blur()">User Management</a>
+    </li>
+  }
+  @if (isAdmin$ | async) {
+    <li>
+      <a routerLink="/v2/tournaments" class="text-xl" (click)="($any(document.activeElement))?.blur()">Turniere</a>
     </li>
   }
   <li><a routerLink="/v2/public" class="text-xl" (click)="($any(document.activeElement))?.blur()">Kategorien</a></li>

@@ -20,5 +20,9 @@ export const routes: Routes = [
   {
     path: "user-management",
     loadChildren: () => import("./pages/user-management/user-management.routes").then(r => r.routes)
+  },
+  {
+    path: "tournaments",
+    loadComponent: () => import("./pages/tournaments/tournaments.component").then(c => c.TournamentsComponent)
   }
 ]

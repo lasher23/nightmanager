@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpProxyService} from './http-proxy.service';
 import {Category, CategoryState} from '../model/Category';
+import {TournamentStore} from './tournament-store.service';
 
 
 @Injectable({
@@ -8,15 +9,16 @@ import {Category, CategoryState} from '../model/Category';
 })
 export class CategoryService {
 
-  constructor(private http: HttpProxyService) {
+  constructor(private http: HttpProxyService, private tournamentStore: TournamentStore) {
   }
 
   getAll(): Promise<Array<Category>> {
-    return this.http.get<Array<Category>>('categories');
+    const tournamentId = this.tournamentStore.getActiveTournamentId();
+    return this.http.get<Array<Category>>('categories', tournamentId ? {tournamentId} : {});
   }
 
   async getAllActive(): Promise<Array<Category>> {
-    const categories = await this.http.get<Array<Category>>('categories');
+    const categories = await this.getAll();
     return categories.filter(category => category.state !== CategoryState.DISABLED);
   }
 

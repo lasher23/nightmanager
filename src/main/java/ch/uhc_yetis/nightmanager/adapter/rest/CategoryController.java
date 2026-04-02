@@ -1,10 +1,8 @@
 package ch.uhc_yetis.nightmanager.adapter.rest;
 
 import ch.uhc_yetis.nightmanager.application.CategoryService;
-import ch.uhc_yetis.nightmanager.application.TeamService;
 import ch.uhc_yetis.nightmanager.domain.model.Category;
 import ch.uhc_yetis.nightmanager.infrastructure.RoleConstants;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +20,10 @@ public class CategoryController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('" + RoleConstants.CATEGORY_LIST + "')")
-    public List<Category> getAll() {
+    public List<Category> getAll(@RequestParam(required = false) Long tournamentId) {
+        if (tournamentId != null) {
+            return this.categoryService.findByTournamentId(tournamentId);
+        }
         return this.categoryService.findAll();
     }
 

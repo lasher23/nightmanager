@@ -9,6 +9,7 @@ public class GameRequestParams {
     private GameState state;
     private Boolean live;
     private Long teamId;
+    private Long tournamentId;
 
     public Boolean getLive() {
         return live;
@@ -49,6 +50,14 @@ public class GameRequestParams {
 
     public void setTeamId(Long teamId) {
         this.teamId = teamId;
+    }
+
+    public Long getTournamentId() {
+        return tournamentId;
+    }
+
+    public void setTournamentId(Long tournamentId) {
+        this.tournamentId = tournamentId;
     }
 }
 

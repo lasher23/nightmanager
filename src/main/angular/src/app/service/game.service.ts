@@ -2,17 +2,23 @@ import { Injectable } from '@angular/core';
 import { Hall } from '../model/Hall';
 import { HttpProxyService } from './http-proxy.service';
 import { Game } from '../model/Game';
+import { TournamentStore } from './tournament-store.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
 
-  constructor(private http: HttpProxyService) {
+  constructor(private http: HttpProxyService, private tournamentStore: TournamentStore) {
+  }
+
+  private get tournamentParams(): { tournamentId?: number } {
+    const id = this.tournamentStore.getActiveTournamentId();
+    return id ? { tournamentId: id } : {};
   }
 
   getAllGamesByHallAndNotCompleted(hall: Hall): Promise<Array<Game>> {
-    return this.http.get<Array<Game>>('games', { hallId: hall.id, state: 'OPEN' });
+    return this.http.get<Array<Game>>('games', { hallId: hall.id, state: 'OPEN', ...this.tournamentParams });
   }
 
   getGameById(id: number): Promise<Game> {
@@ -20,7 +26,7 @@ export class GameService {
   }
 
   getAllGames(): Promise<Array<Game>> {
-    return this.http.get<Array<Game>>('games').then(games => this.sortGames(games));
+    return this.http.get<Array<Game>>('games', { ...this.tournamentParams }).then(games => this.sortGames(games));
   }
 
   getAllGamesByCategory(categoryId: number): Promise<Array<Game>> {
@@ -79,8 +85,9 @@ export class GameService {
   notifyGame(game: Game): Promise<any> {
     return this.http.post(`games/notify`, game);
   }
+
   getAllGamesByFilter(categoryId: number, teamId: number): Promise<Array<Game>> {
-    const params: { [key: string]: any } = {};
+    const params: { [key: string]: any } = { ...this.tournamentParams };
     if (categoryId !== undefined && categoryId !== null) {
       params.categoryId = categoryId;
     }

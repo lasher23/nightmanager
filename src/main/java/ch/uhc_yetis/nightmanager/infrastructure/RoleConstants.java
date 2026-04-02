@@ -63,6 +63,13 @@ public final class RoleConstants {
     public static final String OTP_USER_CREATE = "otp_user:create";
     public static final String OTP_USER_DELETE = "otp_user:delete";
 
+    // ── Tournament permissions ────────────────────────────────────────────────
+    public static final String TOURNAMENT_LIST   = "tournament:list";
+    public static final String TOURNAMENT_GET    = "tournament:get";
+    public static final String TOURNAMENT_CREATE = "tournament:create";
+    public static final String TOURNAMENT_UPDATE = "tournament:update";
+    public static final String TOURNAMENT_DELETE = "tournament:delete";
+
     private RoleConstants() {}
 }
 

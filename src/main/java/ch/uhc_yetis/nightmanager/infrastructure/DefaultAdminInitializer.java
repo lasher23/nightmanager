@@ -55,7 +55,8 @@ public class DefaultAdminInitializer implements ApplicationRunner {
                 RoleConstants.TEAM_LIST,     RoleConstants.TEAM_GET,
                 RoleConstants.SHOT_LIST,
                 RoleConstants.NOTIFICATION_LIST,
-                RoleConstants.CHAT_LIST
+                RoleConstants.CHAT_LIST,
+                RoleConstants.TOURNAMENT_LIST, RoleConstants.TOURNAMENT_GET
         ));
         anonymous.setChildRoles(Set.of());
         roleRepository.save(anonymous);
@@ -90,7 +91,9 @@ public class DefaultAdminInitializer implements ApplicationRunner {
                 RoleConstants.ROLE_LIST,        RoleConstants.ROLE_GET,
                 RoleConstants.ROLE_CREATE,      RoleConstants.ROLE_UPDATE,     RoleConstants.ROLE_DELETE,
                 RoleConstants.OTP_USER_LIST,    RoleConstants.OTP_USER_GET,
-                RoleConstants.OTP_USER_CREATE,  RoleConstants.OTP_USER_DELETE
+                RoleConstants.OTP_USER_CREATE,  RoleConstants.OTP_USER_DELETE,
+                RoleConstants.TOURNAMENT_LIST,  RoleConstants.TOURNAMENT_GET,
+                RoleConstants.TOURNAMENT_CREATE, RoleConstants.TOURNAMENT_UPDATE, RoleConstants.TOURNAMENT_DELETE
         ));
         admin.setChildRoles(Set.of(referee, shotMaster));
         roleRepository.save(admin);

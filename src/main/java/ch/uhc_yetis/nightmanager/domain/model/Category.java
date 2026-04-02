@@ -29,6 +29,10 @@ public class Category {
     @Column(nullable = true)
     private Boolean shotGameEnabled;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_tournament", nullable = true)
+    private Tournament tournament;
+
 
     public String getRemark() {
         return this.remark;
@@ -100,5 +104,13 @@ public class Category {
 
     public void setShotGameEnabled(Boolean shotGameEnabled) {
         this.shotGameEnabled = shotGameEnabled;
+    }
+
+    public Tournament getTournament() {
+        return tournament;
+    }
+
+    public void setTournament(Tournament tournament) {
+        this.tournament = tournament;
     }
 }

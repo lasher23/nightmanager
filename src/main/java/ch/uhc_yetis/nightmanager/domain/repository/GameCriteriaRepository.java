@@ -51,6 +51,10 @@ public class GameCriteriaRepository {
             predicates.add(cb.or(homeTeamPredicate, guestTeamPredicate));
         }
 
+        if (criteria.getTournamentId() != null) {
+            predicates.add(cb.equal(game.get("category").get("tournament").get("id"), criteria.getTournamentId()));
+        }
+
         if (predicates.isEmpty()) {
             return this.gameRepository.findAll();
         }
