@@ -56,14 +56,15 @@ public class DefaultAdminInitializer implements ApplicationRunner {
                 RoleConstants.SHOT_LIST,
                 RoleConstants.NOTIFICATION_LIST,
                 RoleConstants.CHAT_LIST,
-                RoleConstants.TOURNAMENT_LIST, RoleConstants.TOURNAMENT_GET
+                RoleConstants.TOURNAMENT_LIST,      RoleConstants.TOURNAMENT_GET,
+                RoleConstants.REGISTRATION_GROUP_LIST
         ));
         anonymous.setChildRoles(Set.of());
         roleRepository.save(anonymous);
 
         // USER — base role for every authenticated user; inherits ANONYMOUS
         Role user = findOrCreate("USER");
-        user.setPermissions(Set.of());
+        user.setPermissions(Set.of(RoleConstants.REGISTRATION_REQUEST_CREATE));
         user.setChildRoles(Set.of(anonymous));
         roleRepository.save(user);
 
@@ -93,7 +94,9 @@ public class DefaultAdminInitializer implements ApplicationRunner {
                 RoleConstants.OTP_USER_LIST,    RoleConstants.OTP_USER_GET,
                 RoleConstants.OTP_USER_CREATE,  RoleConstants.OTP_USER_DELETE,
                 RoleConstants.TOURNAMENT_LIST,  RoleConstants.TOURNAMENT_GET,
-                RoleConstants.TOURNAMENT_CREATE, RoleConstants.TOURNAMENT_UPDATE, RoleConstants.TOURNAMENT_DELETE
+                RoleConstants.TOURNAMENT_CREATE, RoleConstants.TOURNAMENT_UPDATE, RoleConstants.TOURNAMENT_DELETE,
+                RoleConstants.REGISTRATION_GROUP_CREATE, RoleConstants.REGISTRATION_GROUP_UPDATE, RoleConstants.REGISTRATION_GROUP_DELETE,
+                RoleConstants.REGISTRATION_REQUEST_LIST, RoleConstants.REGISTRATION_REQUEST_APPROVE, RoleConstants.REGISTRATION_REQUEST_REJECT
         ));
         admin.setChildRoles(Set.of(referee, shotMaster));
         roleRepository.save(admin);

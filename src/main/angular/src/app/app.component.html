@@ -127,6 +127,16 @@
       <a routerLink="/v2/tournaments" class="text-xl" (click)="($any(document.activeElement))?.blur()">Turniere</a>
     </li>
   }
+  @if (isAdmin$ | async) {
+    <li>
+      <a routerLink="/v2/tournaments/registrations" class="text-xl" (click)="($any(document.activeElement))?.blur()">Anmeldungen</a>
+    </li>
+  }
+  @if ((activeTournament$ | async)?.state === 'REGISTRATION_OPEN' && (isLoggedIn$ | async)) {
+    <li>
+      <a routerLink="/v2/public/register" class="text-xl" (click)="($any(document.activeElement))?.blur()">Anmelden</a>
+    </li>
+  }
   <li><a routerLink="/v2/public" class="text-xl" (click)="($any(document.activeElement))?.blur()">Kategorien</a></li>
   <li><a routerLink="/v2/public/games" class="text-xl" (click)="($any(document.activeElement))?.blur()">Alle Spiele</a></li>
   <li><a routerLink="/v2/public/rules" class="text-xl" (click)="($any(document.activeElement))?.blur()">Regeln & Spielplan</a></li>

@@ -31,5 +31,9 @@ export const routes: Routes = [
   {
     path: "shots",
     loadComponent: () => import("./public-shotgame/public-shotgame.component").then(c => c.PublicShotgameComponent)
+  },
+  {
+    path: "register",
+    loadComponent: () => import("./public-register/public-register.component").then(c => c.PublicRegisterComponent)
   }
 ]

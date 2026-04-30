@@ -70,6 +70,18 @@ public final class RoleConstants {
     public static final String TOURNAMENT_UPDATE = "tournament:update";
     public static final String TOURNAMENT_DELETE = "tournament:delete";
 
+    // ── Registration group permissions ────────────────────────────────────────
+    public static final String REGISTRATION_GROUP_LIST   = "registration_group:list";
+    public static final String REGISTRATION_GROUP_CREATE = "registration_group:create";
+    public static final String REGISTRATION_GROUP_UPDATE = "registration_group:update";
+    public static final String REGISTRATION_GROUP_DELETE = "registration_group:delete";
+
+    // ── Registration request permissions ──────────────────────────────────────
+    public static final String REGISTRATION_REQUEST_LIST    = "registration_request:list";
+    public static final String REGISTRATION_REQUEST_CREATE  = "registration_request:create";
+    public static final String REGISTRATION_REQUEST_APPROVE = "registration_request:approve";
+    public static final String REGISTRATION_REQUEST_REJECT  = "registration_request:reject";
+
     private RoleConstants() {}
 }
 

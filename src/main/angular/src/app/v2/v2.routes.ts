@@ -24,5 +24,13 @@ export const routes: Routes = [
   {
     path: "tournaments",
     loadComponent: () => import("./pages/tournaments/tournaments.component").then(c => c.TournamentsComponent)
+  },
+  {
+    path: "tournaments/registrations",
+    loadComponent: () => import("./pages/tournaments/tournament-registrations.component").then(c => c.TournamentRegistrationsComponent)
+  },
+  {
+    path: "tournaments/generate/:groupId",
+    loadComponent: () => import("./pages/tournaments/tournament-generate.component").then(c => c.TournamentGenerateComponent)
   }
 ]
