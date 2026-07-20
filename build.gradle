@@ -36,8 +36,8 @@ dependencies {
 }
 
 node {
-    
-    download = true
+    download = false
+    nodeProjectDir = file("$projectDir/src/main/angular")
 }
 
 processResources {
@@ -48,9 +48,23 @@ processResources {
 }
 
 task buildAngular(type: NpmTask) {
+    workingDir = file("$projectDir/src/main/angular")
     onlyIf { !new File("src/main/angular/dist/nightmanager").exists() }
     dependsOn 'npmInstall'
     args = ['run', 'build']
+}
+
+tasks.named('bootBuildImage') {
+    def repository = (System.getenv('GITHUB_REPOSITORY') ?: rootProject.name).toLowerCase()
+    imageName = "ghcr.io/${repository}:${project.findProperty('imageTag') ?: 'latest'}"
+    publish = project.hasProperty('publish') ? project.property('publish').toBoolean() : false
+    docker {
+        publishRegistry {
+            username = project.findProperty('registryUsername') ?: System.getenv('REGISTRY_USERNAME')
+            password = project.findProperty('registryPassword') ?: System.getenv('REGISTRY_PASSWORD')
+            url = 'https://ghcr.io'
+        }
+    }
 }
 
 // Load .env file and inject into bootRun as environment variables

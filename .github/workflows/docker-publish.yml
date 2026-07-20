@@ -1,0 +1,42 @@
+name: Build and Publish Docker Image
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build and publish image to GHCR
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          ./gradlew bootBuildImage \
+            -Ppublish=true \
+            -PimageTag=${{ github.sha }} \
+            -PregistryUsername=${{ github.actor }} \
+            -PregistryPassword=${{ secrets.GITHUB_TOKEN }}
