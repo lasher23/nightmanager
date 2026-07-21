@@ -8,9 +8,14 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.FactorGrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -43,13 +48,12 @@ public class OtpCodeAuthenticationProvider implements AuthenticationProvider {
 
         var permissions = permissionService.resolvePermissions(otpUser.getRoles());
 
-        return new OtpCodeAuthenticationToken(
-                otpUser.getName(),
-                token,
-                permissions.stream()
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList())
-        );
+        List<GrantedAuthority> authorities = new ArrayList<>(permissions.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList()));
+        authorities.add(FactorGrantedAuthority.withFactor("OTP").issuedAt(Instant.now()).build());
+
+        return new OtpCodeAuthenticationToken(otpUser.getName(), token, authorities);
     }
 
     @Override

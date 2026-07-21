@@ -8,10 +8,15 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.FactorGrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -57,12 +62,12 @@ public class EmailCodeAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("User account is disabled");
         }
 
-        return new EmailCodeAuthenticationToken(
-                email,
-                user.getRoles().stream()
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList())
-        );
+        List<GrantedAuthority> authorities = new ArrayList<>(user.getRoles().stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList()));
+        authorities.add(FactorGrantedAuthority.withFactor("EMAIL_CODE").issuedAt(Instant.now()).build());
+
+        return new EmailCodeAuthenticationToken(email, authorities);
     }
 
     @Override
