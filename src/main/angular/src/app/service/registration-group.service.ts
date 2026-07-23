@@ -31,7 +31,7 @@ export class RegistrationGroupService {
     return this.http.get<number[][]>(`registration-groups/${groupId}/propose`, {count});
   }
 
-  generate(groupId: number, categories: {name: string; requestIds: number[]}[]): Promise<any[]> {
+  generate(groupId: number, categories: {name: string; requestIds: number[]; type: string}[]): Promise<any[]> {
     return this.http.post<any[]>(`registration-groups/${groupId}/generate`, {categories});
   }
 }

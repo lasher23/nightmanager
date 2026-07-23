@@ -1,5 +1,7 @@
 package ch.uhc_yetis.nightmanager.application;
 
+import ch.uhc_yetis.nightmanager.domain.model.CategoryType;
+
 import java.util.List;
 
 /**
@@ -22,6 +24,7 @@ public class GenerationRequest {
     public static class CategoryAssignment {
         private String name;
         private List<Long> requestIds;
+        private CategoryType type;
 
         public String getName() {
             return name;
@@ -37,6 +40,14 @@ public class GenerationRequest {
 
         public void setRequestIds(List<Long> requestIds) {
             this.requestIds = requestIds;
+        }
+
+        public CategoryType getType() {
+            return type;
+        }
+
+        public void setType(CategoryType type) {
+            this.type = type;
         }
     }
 }

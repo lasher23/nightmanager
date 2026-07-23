@@ -7,10 +7,12 @@ import {RegistrationGroupService} from '../../../service/registration-group.serv
 import {RegistrationRequestService} from '../../../service/registration-request.service';
 import {RegistrationGroup} from '../../../model/RegistrationGroup';
 import {RegistrationRequest} from '../../../model/RegistrationRequest';
+import {CategoryType, CATEGORY_TYPE_LABELS} from '../../../model/Category';
 
 interface CategoryBucket {
   name: string;
   requests: RegistrationRequest[];
+  type: CategoryType;
 }
 
 @Component({
@@ -95,6 +97,11 @@ interface CategoryBucket {
                     <input class="input input-sm input-bordered w-full font-bold mb-2"
                            [(ngModel)]="bucket.name"
                            placeholder="Kategoriename" />
+                    <select class="select select-sm select-bordered w-full mb-2" [(ngModel)]="bucket.type">
+                      @for (type of categoryTypes; track type) {
+                        <option [ngValue]="type">{{ categoryTypeLabels[type] }}</option>
+                      }
+                    </select>
                     <span class="text-xs text-gray-400 mb-2 block">{{ bucket.requests.length }} Teams</span>
                     <div class="bucket-col space-y-2"
                          cdkDropList
@@ -165,6 +172,8 @@ export class TournamentGenerateComponent {
   generateError = signal<string | null>(null);
   showSuccess = signal(false);
   categoryCount = 2;
+  categoryTypes = Object.values(CategoryType);
+  categoryTypeLabels = CATEGORY_TYPE_LABELS;
 
   constructor() {
     this.route.params.subscribe(async params => {
@@ -206,6 +215,7 @@ export class TournamentGenerateComponent {
       const newBuckets: CategoryBucket[] = proposal.map((ids, idx) => ({
         name: `${group.name} ${String.fromCharCode(65 + idx)}`,
         requests: ids.map(id => requestMap.get(id)!).filter(Boolean),
+        type: CategoryType.SINGLE_CATEGORY,
       }));
       this.buckets.set(newBuckets);
     } catch (e: any) {
@@ -249,6 +259,7 @@ export class TournamentGenerateComponent {
       const categories = this.buckets().map(b => ({
         name: b.name,
         requestIds: b.requests.map(r => r.id),
+        type: b.type,
       }));
       await this.groupService.generate(group.id, categories);
       this.showSuccess.set(true);

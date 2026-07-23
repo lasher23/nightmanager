@@ -184,7 +184,7 @@ public class RegistrationRequestService {
             Category category = new Category();
             category.setName(assignment.getName());
             category.setState(CategoryState.GROUP_PHASE);
-            category.setType(CategoryType.SINGLE_CATEGORY);
+            category.setType(assignment.getType() != null ? assignment.getType() : CategoryType.SINGLE_CATEGORY);
             category.setTournament(tournament);
             category.setShowOnDisplay(true);
             Category savedCategory = categoryRepository.save(category);

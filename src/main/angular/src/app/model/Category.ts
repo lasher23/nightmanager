@@ -6,6 +6,18 @@ export enum CategoryState {
   DISABLED = 'DISABLED'
 }
 
+export enum CategoryType {
+  SINGLE_CATEGORY = 'SINGLE_CATEGORY',
+  DOUBLE_CATEGORIES = 'DOUBLE_CATEGORIES',
+  YETIS_CUP = 'YETIS_CUP',
+}
+
+export const CATEGORY_TYPE_LABELS: Record<CategoryType, string> = {
+  [CategoryType.SINGLE_CATEGORY]: 'Einzelkategorie',
+  [CategoryType.DOUBLE_CATEGORIES]: 'Doppelkategorie',
+  [CategoryType.YETIS_CUP]: 'Yetis Cup',
+};
+
 export interface Category {
   id: number;
   name: string;
