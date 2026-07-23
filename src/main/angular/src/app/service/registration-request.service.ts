@@ -23,6 +23,14 @@ export class RegistrationRequestService {
     return this.http.patch<RegistrationRequest>(`registration-requests/${id}/approve`, {});
   }
 
+  /**
+   * Sends (or re-sends) the "registration confirmed" email as the acting admin via Microsoft Graph.
+   * Safe to call again if it previously failed — it does not change the request's status.
+   */
+  sendApprovalEmail(id: number): Promise<void> {
+    return this.http.post<void>(`registration-requests/${id}/send-approval-email`, {});
+  }
+
   reject(id: number): Promise<RegistrationRequest> {
     return this.http.patch<RegistrationRequest>(`registration-requests/${id}/reject`, {});
   }

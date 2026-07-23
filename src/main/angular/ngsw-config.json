@@ -12,7 +12,8 @@
     "!/login/oauth2/**",
     "!/.well-known/**",
     "!/connect/**",
-    "!/api/**"
+    "!/api/**",
+    "!/oidc/**"
   ],
   "assetGroups": [
     {

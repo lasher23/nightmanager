@@ -20,6 +20,14 @@ public class ApplicationUser {
     @Column
     private String username;
 
+    /**
+     * The OIDC "sub" (principal name) from the user's last Microsoft Entra login.
+     * Used to look up their delegated Graph access token (e.g. to send mail as them)
+     * outside of their login session, via {@code OAuth2AuthorizedClientManager}.
+     */
+    @Column(name = "microsoft_principal_name")
+    private String microsoftPrincipalName;
+
     @Column(nullable = false)
     private boolean enabled = true;
 
@@ -49,6 +57,14 @@ public class ApplicationUser {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getMicrosoftPrincipalName() {
+        return microsoftPrincipalName;
+    }
+
+    public void setMicrosoftPrincipalName(String microsoftPrincipalName) {
+        this.microsoftPrincipalName = microsoftPrincipalName;
     }
 
     public boolean isEnabled() {

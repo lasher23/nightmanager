@@ -113,14 +113,32 @@ public class DefaultAdminInitializer implements ApplicationRunner {
     }
 
     private void seedDefaultAdmin() {
-        if (applicationUserRepository.count() == 0) {
-            ApplicationUser admin = new ApplicationUser();
+        ApplicationUser admin = applicationUserRepository.findByEmail(defaultAdminEmail);
+        if (admin == null) {
+            admin = new ApplicationUser();
             admin.setEmail(defaultAdminEmail);
             admin.setUsername("Admin");
             admin.setRoles(Set.of("ADMIN"));
             admin.setEnabled(true);
             applicationUserRepository.save(admin);
             log.info("Created default admin user with email: {}", defaultAdminEmail);
+            return;
+        }
+
+        boolean changed = false;
+        if (!admin.isEnabled()) {
+            admin.setEnabled(true);
+            changed = true;
+        }
+        if (!admin.getRoles().contains("ADMIN")) {
+            Set<String> roles = new java.util.HashSet<>(admin.getRoles());
+            roles.add("ADMIN");
+            admin.setRoles(roles);
+            changed = true;
+        }
+        if (changed) {
+            applicationUserRepository.save(admin);
+            log.info("Ensured default admin user is enabled and has ADMIN role: {}", defaultAdminEmail);
         }
     }
 }

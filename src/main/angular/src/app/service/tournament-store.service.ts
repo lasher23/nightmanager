@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, defer, Observable} from 'rxjs';
 import {Tournament} from '../model/Tournament';
 import {TournamentService} from './tournament.service';
+import {AuthService} from '../auth/auth.service';
 
 const SESSION_KEY = 'activeTournamentId';
 
@@ -12,11 +13,19 @@ export class TournamentStore {
   private _tournaments$ = new BehaviorSubject<Tournament[]>([]);
   private _active$ = new BehaviorSubject<Tournament | null>(null);
 
-  tournaments$: Observable<Tournament[]> = this._tournaments$.asObservable();
-  active$: Observable<Tournament | null> = this._active$.asObservable();
+  // Lazy: the underlying load() call only happens once someone subscribes, and
+  // every new subscription triggers a fresh load (re-fetching from the backend).
+  tournaments$: Observable<Tournament[]> = defer(() => {
+    this.load();
+    return this._tournaments$.asObservable();
+  });
+
+  active$: Observable<Tournament | null> = defer(() => {
+    this.load();
+    return this._active$.asObservable();
+  });
 
   constructor(private tournamentService: TournamentService) {
-    this.load();
   }
 
   private async load(): Promise<void> {

@@ -20,6 +20,9 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.FactorGrantedAuthority;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
@@ -41,7 +44,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
@@ -116,7 +121,7 @@ public class WebSecurity {
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login")
                         .defaultSuccessUrl("/", false)
-                        .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserProvisioningService))
+                        .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserProvisioningService).userAuthoritiesMapper(bugFixOidcUserAuthoritiesMapper()))
                 )
                 .exceptionHandling(ex -> ex
                         .defaultAuthenticationEntryPointFor(
@@ -129,6 +134,15 @@ public class WebSecurity {
                         )
                 )
                 .build();
+    }
+
+    // TODO remove once Spring Security 7.X contains the long term fix
+    private GrantedAuthoritiesMapper bugFixOidcUserAuthoritiesMapper() {
+        return authorities -> {
+            Set<GrantedAuthority> mapped = new LinkedHashSet<>(authorities);
+            mapped.add(FactorGrantedAuthority.fromAuthority(FactorGrantedAuthority.AUTHORIZATION_CODE_AUTHORITY));
+            return mapped;
+        };
     }
 
     /**

@@ -46,8 +46,15 @@ public class OidcUserProvisioningService extends OidcUserService {
             newUser.setUsername(oidcUser.getFullName() != null ? oidcUser.getFullName() : email);
             newUser.setEnabled(true);
             newUser.setRoles(Set.of("USER"));
+            newUser.setMicrosoftPrincipalName(oidcUser.getName());
             applicationUserRepository.save(newUser);
             log.info("Provisioned new user on first OIDC login: {}", email);
+        } else {
+            ApplicationUser existingUser = applicationUserRepository.findByEmail(email);
+            if (!oidcUser.getName().equals(existingUser.getMicrosoftPrincipalName())) {
+                existingUser.setMicrosoftPrincipalName(oidcUser.getName());
+                applicationUserRepository.save(existingUser);
+            }
         }
 
         return oidcUser;

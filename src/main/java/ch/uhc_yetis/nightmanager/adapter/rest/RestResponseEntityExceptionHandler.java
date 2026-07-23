@@ -1,5 +1,6 @@
 package ch.uhc_yetis.nightmanager.adapter.rest;
 
+import ch.uhc_yetis.nightmanager.application.CustomException;
 import ch.uhc_yetis.nightmanager.application.generation.GenerationException;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -21,4 +22,19 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         LoggerFactory.getLogger(this.getClass()).trace(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(HttpErrorObject.withTimestamp(LocalDateTime.now()).withPath(request.getContextPath()).withMessage(ex.getMessage()).withError("Invalide Login Daten").build());
     }
+
+    @ExceptionHandler(value = {CustomException.class})
+    protected ResponseEntity<HttpErrorObject> handleCustomException(CustomException ex, WebRequest request) {
+        LoggerFactory.getLogger(this.getClass()).warn(ex.getError(), ex);
+        HttpStatus httpStatus = HttpStatus.resolve(ex.getStatus().getHttpCode());
+        if (httpStatus == null) {
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return ResponseEntity.status(httpStatus).body(HttpErrorObject.withTimestamp(LocalDateTime.now())
+                .withPath(request.getContextPath())
+                .withMessage(ex.getError())
+                .withError(ex.getError())
+                .build());
+    }
 }
+

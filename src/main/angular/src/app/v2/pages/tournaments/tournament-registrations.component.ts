@@ -78,12 +78,27 @@ import {RegistrationRequest, STATUS_LABELS} from '../../../model/RegistrationReq
                             </span>
                           </td>
                           <td class="text-right">
-                            <div class="flex gap-1 justify-end">
-                              @if (req.status !== 'APPROVED') {
-                                <button class="btn btn-xs btn-success btn-outline" (click)="approve(req)">✓</button>
-                              }
-                              @if (req.status !== 'REJECTED') {
-                                <button class="btn btn-xs btn-error btn-outline" (click)="reject(req)">✗</button>
+                            <div class="flex flex-col items-end gap-1">
+                              <div class="flex gap-1 justify-end">
+                                @if (req.status !== 'APPROVED') {
+                                  <button class="btn btn-xs btn-success btn-outline" (click)="approve(req)">✓</button>
+                                }
+                                @if (req.status !== 'REJECTED') {
+                                  <button class="btn btn-xs btn-error btn-outline" (click)="reject(req)">✗</button>
+                                }
+                              </div>
+                              @if (req.status === 'APPROVED') {
+                                <button class="btn btn-xs btn-outline" [class.btn-warning]="emailErrors()[req.id]"
+                                        [disabled]="emailSending()[req.id]"
+                                        (click)="sendApprovalEmail(req.id)">
+                                  @if (emailSending()[req.id]) { <span class="loading loading-spinner loading-xs"></span> }
+                                  {{ emailErrors()[req.id] ? 'E-Mail erneut senden' : 'Bestätigungs-E-Mail senden' }}
+                                </button>
+                                @if (emailErrors()[req.id]) {
+                                  <span class="text-xs text-error">{{ emailErrors()[req.id] }}</span>
+                                } @else if (emailSending()[req.id]) {
+                                  <span class="text-xs text-gray-400">E-Mail wird gesendet…</span>
+                                }
                               }
                             </div>
                           </td>
@@ -164,6 +179,10 @@ export class TournamentRegistrationsComponent {
   savingGroup = signal(false);
   deletingGroup = signal(false);
 
+  // Per-request state for the "registration confirmed" email (sent after a successful approve()).
+  emailSending = signal<Record<number, boolean>>({});
+  emailErrors = signal<Record<number, string>>({});
+
   constructor() {
     this.tournamentStore.active$.subscribe(t => {
       if (t) this.loadAll(t.id);
@@ -187,7 +206,7 @@ export class TournamentRegistrationsComponent {
       }
       this.requestsByGroup.set(byGroup);
     } catch (e: any) {
-      this.error.set(e?.message ?? 'Fehler beim Laden');
+      this.error.set(this.extractErrorMessage(e) ?? 'Fehler beim Laden');
     } finally {
       this.loading.set(false);
     }
@@ -215,7 +234,7 @@ export class TournamentRegistrationsComponent {
       this.editGroupTarget.set(null);
       await this.loadAll(t);
     } catch (e: any) {
-      this.error.set(e?.message ?? 'Fehler beim Speichern');
+      this.error.set(this.extractErrorMessage(e) ?? 'Fehler beim Speichern');
     } finally {
       this.savingGroup.set(false);
     }
@@ -231,7 +250,7 @@ export class TournamentRegistrationsComponent {
       this.deleteGroupTarget.set(null);
       await this.loadAll(t);
     } catch (e: any) {
-      this.error.set(e?.message ?? 'Fehler beim Löschen');
+      this.error.set(this.extractErrorMessage(e) ?? 'Fehler beim Löschen');
     } finally {
       this.deletingGroup.set(false);
     }
@@ -242,7 +261,25 @@ export class TournamentRegistrationsComponent {
       const updated = await this.requestService.approve(req.id);
       this.updateRequest(updated);
     } catch (e: any) {
-      this.error.set(e?.message ?? 'Fehler');
+      this.error.set(this.extractErrorMessage(e) ?? 'Fehler');
+      return;
+    }
+    // Only attempt to send the confirmation email once the backend has actually approved the request.
+    await this.sendApprovalEmail(req.id);
+  }
+
+  async sendApprovalEmail(requestId: number): Promise<void> {
+    this.emailSending.update(m => ({...m, [requestId]: true}));
+    this.emailErrors.update(m => {
+      const {[requestId]: _, ...rest} = m;
+      return rest;
+    });
+    try {
+      await this.requestService.sendApprovalEmail(requestId);
+    } catch (e: any) {
+      this.emailErrors.update(m => ({...m, [requestId]: this.extractErrorMessage(e) ?? 'E-Mail konnte nicht gesendet werden'}));
+    } finally {
+      this.emailSending.update(m => ({...m, [requestId]: false}));
     }
   }
 
@@ -251,8 +288,13 @@ export class TournamentRegistrationsComponent {
       const updated = await this.requestService.reject(req.id);
       this.updateRequest(updated);
     } catch (e: any) {
-      this.error.set(e?.message ?? 'Fehler');
+      this.error.set(this.extractErrorMessage(e) ?? 'Fehler');
     }
+  }
+
+  /** Backend errors are returned as an HttpErrorObject body ({ message, error, ... }). */
+  private extractErrorMessage(e: any): string | undefined {
+    return e?.error?.message ?? e?.error?.error ?? e?.message;
   }
 
   private updateRequest(updated: RegistrationRequest): void {

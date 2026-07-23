@@ -64,6 +64,16 @@ public class RegistrationRequestController {
         return registrationRequestService.approve(id);
     }
 
+    /**
+     * Sends (or re-sends) the "registration confirmed" email as the acting admin via Microsoft Graph.
+     * Separate from {@link #approve} so the frontend can retry just the email without re-approving.
+     */
+    @PostMapping("/{id}/send-approval-email")
+    @PreAuthorize("hasAuthority('" + RoleConstants.REGISTRATION_REQUEST_APPROVE + "')")
+    public void sendApprovalEmail(@PathVariable Long id, Authentication authentication) {
+        registrationRequestService.sendApprovalEmail(id, extractEmail(authentication));
+    }
+
     @PatchMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('" + RoleConstants.REGISTRATION_REQUEST_REJECT + "')")
     public RegistrationRequest reject(@PathVariable Long id) {
