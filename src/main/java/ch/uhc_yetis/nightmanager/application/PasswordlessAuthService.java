@@ -1,6 +1,6 @@
 package ch.uhc_yetis.nightmanager.application;
 
-import ch.uhc_yetis.nightmanager.application.mail.GraphSystemMailService;
+import ch.uhc_yetis.nightmanager.application.mail.SystemMailSender;
 import ch.uhc_yetis.nightmanager.domain.model.ApplicationUser;
 import ch.uhc_yetis.nightmanager.domain.model.VerificationCode;
 import ch.uhc_yetis.nightmanager.domain.repository.ApplicationUserRepository;
@@ -21,12 +21,12 @@ public class PasswordlessAuthService {
 
     private final VerificationCodeRepository verificationCodeRepository;
     private final ApplicationUserRepository applicationUserRepository;
-    private final GraphSystemMailService graphSystemMailService;
+    private final SystemMailSender graphSystemMailService;
     private final SecureRandom secureRandom = new SecureRandom();
 
     public PasswordlessAuthService(VerificationCodeRepository verificationCodeRepository,
                                    ApplicationUserRepository applicationUserRepository,
-                                   GraphSystemMailService graphSystemMailService) {
+                                   SystemMailSender graphSystemMailService) {
         this.verificationCodeRepository = verificationCodeRepository;
         this.applicationUserRepository = applicationUserRepository;
         this.graphSystemMailService = graphSystemMailService;

@@ -31,7 +31,7 @@ public class Team {
     private List<NotificationLog> notifications;
 
     public boolean isPaid() {
-        return this.paid;
+        return Objects.nonNull(this.paid) && this.paid;
     }
 
     public void setPaid(boolean paid) {

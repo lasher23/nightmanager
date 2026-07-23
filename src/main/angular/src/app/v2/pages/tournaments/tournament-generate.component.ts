@@ -268,7 +268,11 @@ export class TournamentGenerateComponent {
     const now = new Date();
     const ages = req.memberBirthdays.map(d => {
       const b = new Date(d);
-      return now.getFullYear() - b.getFullYear();
+      let age = now.getFullYear() - b.getFullYear();
+      const hasNotHadBirthdayYet = now.getMonth() < b.getMonth() ||
+        (now.getMonth() === b.getMonth() && now.getDate() < b.getDate());
+      if (hasNotHadBirthdayYet) age--;
+      return age;
     });
     return Math.round(ages.reduce((a, b) => a + b, 0) / ages.length);
   }

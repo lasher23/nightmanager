@@ -2,6 +2,7 @@ package ch.uhc_yetis.nightmanager.application.mail;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -17,7 +18,8 @@ import java.util.Arrays;
  * {@code Mail.Send} delegated scope to have been consented to at login time).
  */
 @Service
-public class GraphUserMailService {
+@ConditionalOnProperty(name = "nightmanager.mail.mock-enabled", havingValue = "false", matchIfMissing = true)
+public class GraphUserMailService implements UserMailSender {
 
     private static final Logger log = LoggerFactory.getLogger(GraphUserMailService.class);
     private static final String REGISTRATION_ID = "microsoft";
@@ -37,6 +39,7 @@ public class GraphUserMailService {
      * @param microsoftPrincipalName the OIDC "sub" stored on the {@code ApplicationUser}
      *                                who should appear as the sender
      */
+    @Override
     public void sendMailAsUser(String microsoftPrincipalName, String subject, String htmlContent, String... toRecipients) {
         if (microsoftPrincipalName == null || microsoftPrincipalName.isBlank()) {
             throw new IllegalStateException("Kein Microsoft-Konto mit diesem Benutzer verknüpft — bitte einmal über Microsoft anmelden.");
@@ -62,6 +65,7 @@ public class GraphUserMailService {
      *                          controller method. Its access token must include the
      *                          {@code Mail.Send} scope.
      */
+    @Override
     public void sendMailAsUser(OAuth2AuthorizedClient authorizedClient, String subject, String htmlContent, String... toRecipients) {
         if (authorizedClient == null) {
             throw new IllegalStateException("No Microsoft account linked for this user — cannot send mail on their behalf");

@@ -1,6 +1,6 @@
 package ch.uhc_yetis.nightmanager.adapter.rest;
 
-import ch.uhc_yetis.nightmanager.application.mail.GraphUserMailService;
+import ch.uhc_yetis.nightmanager.application.mail.UserMailSender;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/mail")
 public class GraphMailController {
 
-    private final GraphUserMailService graphUserMailService;
+    private final UserMailSender graphUserMailService;
 
-    public GraphMailController(GraphUserMailService graphUserMailService) {
+    public GraphMailController(UserMailSender graphUserMailService) {
         this.graphUserMailService = graphUserMailService;
     }
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -20,7 +21,8 @@ import java.util.Arrays;
  * that {@link #systemSender} refers to a real mailbox the app is allowed to send from.
  */
 @Service
-public class GraphSystemMailService {
+@ConditionalOnProperty(name = "nightmanager.mail.mock-enabled", havingValue = "false", matchIfMissing = true)
+public class GraphSystemMailService implements SystemMailSender {
 
     private static final Logger log = LoggerFactory.getLogger(GraphSystemMailService.class);
     private static final String GRAPH_SCOPE = "https://graph.microsoft.com/.default";
@@ -47,11 +49,13 @@ public class GraphSystemMailService {
     }
 
     /** Sends a plain-text email from the configured system mailbox. */
+    @Override
     public void sendMail(String subject, String content, String... toRecipients) {
         send(GraphMailMessage.of(subject, content, toRecipients), subject, toRecipients);
     }
 
     /** Sends an HTML email from the configured system mailbox. */
+    @Override
     public void sendHtmlMail(String subject, String htmlContent, String... toRecipients) {
         send(GraphMailMessage.ofHtml(subject, htmlContent, toRecipients), subject, toRecipients);
     }

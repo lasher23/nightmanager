@@ -1,6 +1,6 @@
 package ch.uhc_yetis.nightmanager.application;
 
-import ch.uhc_yetis.nightmanager.application.mail.GraphUserMailService;
+import ch.uhc_yetis.nightmanager.application.mail.UserMailSender;
 import ch.uhc_yetis.nightmanager.domain.model.*;
 import ch.uhc_yetis.nightmanager.domain.repository.ApplicationUserRepository;
 import ch.uhc_yetis.nightmanager.domain.repository.CategoryRepository;
@@ -27,14 +27,14 @@ public class RegistrationRequestService {
     private final CategoryRepository categoryRepository;
     private final TeamRepository teamRepository;
     private final ApplicationUserRepository applicationUserRepository;
-    private final GraphUserMailService graphUserMailService;
+    private final UserMailSender graphUserMailService;
 
     public RegistrationRequestService(RegistrationRequestRepository requestRepository,
                                       RegistrationGroupRepository groupRepository,
                                       CategoryRepository categoryRepository,
                                       TeamRepository teamRepository,
                                       ApplicationUserRepository applicationUserRepository,
-                                      GraphUserMailService graphUserMailService) {
+                                      UserMailSender graphUserMailService) {
         this.requestRepository = requestRepository;
         this.groupRepository = groupRepository;
         this.categoryRepository = categoryRepository;
