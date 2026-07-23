@@ -25,7 +25,10 @@ export class TournamentStore {
     return this._active$.asObservable();
   });
 
-  constructor(private tournamentService: TournamentService) {
+  constructor(private tournamentService: TournamentService, authService: AuthService) {
+    authService.user$.subscribe(() => {
+        this.load();
+    });
   }
 
   private async load(): Promise<void> {
