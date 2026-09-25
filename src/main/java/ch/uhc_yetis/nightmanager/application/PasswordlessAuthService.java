@@ -34,13 +34,22 @@ public class PasswordlessAuthService {
 
     /**
      * Sends a verification code to the given email address.
-     * Returns true regardless of whether the email exists (to prevent email enumeration).
+     * A new ApplicationUser is provisioned on first request, mirroring OIDC login behavior.
      */
     public boolean sendVerificationCode(String email) {
         ApplicationUser user = applicationUserRepository.findByEmail(email);
-        if (user == null || !user.isEnabled()) {
-            log.warn("Verification code requested for unknown or disabled email: {}", email);
-            return true; // Don't reveal whether email exists
+        if (user == null) {
+            user = new ApplicationUser();
+            user.setEmail(email);
+            user.setUsername(email);
+            user.setEnabled(true);
+            user.setRoles(java.util.Set.of("USER"));
+            user = applicationUserRepository.save(user);
+            log.info("Provisioned new user on first email-code login request: {}", email);
+        }
+        if (!user.isEnabled()) {
+            log.warn("Verification code requested for disabled email: {}", email);
+            return true; // Don't reveal account state
         }
 
         String code = generateCode();

@@ -96,7 +96,8 @@ public class DefaultAdminInitializer implements ApplicationRunner {
                 RoleConstants.TOURNAMENT_LIST,  RoleConstants.TOURNAMENT_GET,
                 RoleConstants.TOURNAMENT_CREATE, RoleConstants.TOURNAMENT_UPDATE, RoleConstants.TOURNAMENT_DELETE,
                 RoleConstants.REGISTRATION_GROUP_CREATE, RoleConstants.REGISTRATION_GROUP_UPDATE, RoleConstants.REGISTRATION_GROUP_DELETE,
-                RoleConstants.REGISTRATION_REQUEST_LIST, RoleConstants.REGISTRATION_REQUEST_APPROVE, RoleConstants.REGISTRATION_REQUEST_REJECT
+                RoleConstants.REGISTRATION_REQUEST_LIST, RoleConstants.REGISTRATION_REQUEST_APPROVE, RoleConstants.REGISTRATION_REQUEST_REJECT,
+                RoleConstants.GAME_GENERATION_LIST, RoleConstants.GAME_GENERATION_CREATE, RoleConstants.GAME_GENERATION_DELETE
         ));
         admin.setChildRoles(Set.of(referee, shotMaster));
         roleRepository.save(admin);

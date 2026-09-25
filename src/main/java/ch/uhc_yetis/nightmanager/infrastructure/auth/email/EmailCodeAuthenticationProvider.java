@@ -11,7 +11,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.FactorGrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -56,7 +55,13 @@ public class EmailCodeAuthenticationProvider implements AuthenticationProvider {
 
         ApplicationUser user = applicationUserRepository.findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found: " + email);
+            // Should already have been provisioned when the code was requested, but guard against races.
+            user = new ApplicationUser();
+            user.setEmail(email);
+            user.setUsername(email);
+            user.setEnabled(true);
+            user.setRoles(java.util.Set.of("USER"));
+            user = applicationUserRepository.save(user);
         }
         if (!user.isEnabled()) {
             throw new BadCredentialsException("User account is disabled");

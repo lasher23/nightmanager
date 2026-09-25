@@ -32,5 +32,13 @@ export const routes: Routes = [
   {
     path: "tournaments/generate/:groupId",
     loadComponent: () => import("./pages/tournaments/tournament-generate.component").then(c => c.TournamentGenerateComponent)
+  },
+  {
+    path: "games/generate",
+    loadComponent: () => import("./pages/game-generation/game-generation-setup.component").then(c => c.GameGenerationSetupComponent)
+  },
+  {
+    path: "games/generate/:id",
+    loadComponent: () => import("./pages/game-generation/game-generation-editor.component").then(c => c.GameGenerationEditorComponent)
   }
 ]

@@ -132,6 +132,11 @@
       <a routerLink="/v2/tournaments/registrations" class="text-xl" (click)="($any(document.activeElement))?.blur()">Anmeldungen</a>
     </li>
   }
+  @if (isAdmin$ | async) {
+    <li>
+      <a routerLink="/v2/games/generate" class="text-xl" (click)="($any(document.activeElement))?.blur()">Spielplan generieren</a>
+    </li>
+  }
   @if ((activeTournament$ | async)?.state === 'REGISTRATION_OPEN' && (isLoggedIn$ | async)) {
     <li>
       <a routerLink="/v2/public/register" class="text-xl" (click)="($any(document.activeElement))?.blur()">Anmelden</a>
