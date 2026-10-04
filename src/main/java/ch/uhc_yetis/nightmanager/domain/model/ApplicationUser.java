@@ -48,7 +48,7 @@ public class ApplicationUser {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email == null ? null : email.trim().toLowerCase();
     }
 
     public String getUsername() {
