@@ -45,6 +45,13 @@ public class RegistrationRequestController {
         return authentication.getName();
     }
 
+    /** Registrations submitted by the current user for the given tournament. */
+    @GetMapping("/mine")
+    @PreAuthorize("hasAuthority('" + RoleConstants.REGISTRATION_REQUEST_CREATE + "')")
+    public List<RegistrationRequest> getMine(@RequestParam Long tournamentId, Authentication authentication) {
+        return registrationRequestService.findMine(tournamentId, extractEmail(authentication));
+    }
+
     @GetMapping
     @PreAuthorize("hasAuthority('" + RoleConstants.REGISTRATION_REQUEST_LIST + "')")
     public List<RegistrationRequest> getByGroup(@RequestParam(required = false) Long groupId,

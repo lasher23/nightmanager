@@ -11,4 +11,5 @@ public interface RegistrationRequestRepository extends JpaRepository<Registratio
     List<RegistrationRequest> findByRegistrationGroup(RegistrationGroup group);
     List<RegistrationRequest> findByRegistrationGroupAndStatus(RegistrationGroup group, RegistrationRequestStatus status);
     List<RegistrationRequest> findByRegistrationGroup_Tournament_Id(Long tournamentId);
+    List<RegistrationRequest> findByContactEmailIgnoreCaseAndRegistrationGroup_Tournament_IdOrderByCreatedAtDesc(String contactEmail, Long tournamentId);
 }

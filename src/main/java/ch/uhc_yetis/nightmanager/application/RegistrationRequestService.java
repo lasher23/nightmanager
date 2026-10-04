@@ -64,6 +64,10 @@ public class RegistrationRequestService {
         return requestRepository.findByRegistrationGroup_Tournament_Id(tournamentId);
     }
 
+    public List<RegistrationRequest> findMine(Long tournamentId, String contactEmail) {
+        return requestRepository.findByContactEmailIgnoreCaseAndRegistrationGroup_Tournament_IdOrderByCreatedAtDesc(contactEmail, tournamentId);
+    }
+
     public RegistrationRequest approve(Long id) {
         return updateStatus(id, RegistrationRequestStatus.APPROVED);
     }

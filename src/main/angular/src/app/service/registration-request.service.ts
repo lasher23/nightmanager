@@ -19,6 +19,10 @@ export class RegistrationRequestService {
     return this.http.get<RegistrationRequest[]>('registration-requests', {tournamentId});
   }
 
+  getMine(tournamentId: number): Promise<RegistrationRequest[]> {
+    return this.http.get<RegistrationRequest[]>('registration-requests/mine', {tournamentId});
+  }
+
   approve(id: number): Promise<RegistrationRequest> {
     return this.http.patch<RegistrationRequest>(`registration-requests/${id}/approve`, {});
   }

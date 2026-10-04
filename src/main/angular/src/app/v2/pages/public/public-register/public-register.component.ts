@@ -1,4 +1,4 @@
-import {Component, inject, signal, computed} from '@angular/core';
+import {Component, inject, signal, computed, effect} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
@@ -8,6 +8,7 @@ import {RegistrationRequestService} from '../../../../service/registration-reque
 import {RegistrationGroup} from '../../../../model/RegistrationGroup';
 import {TournamentState} from '../../../../model/Tournament';
 import {AuthService} from '../../../../auth/auth.service';
+import {RegistrationRequest, STATUS_LABELS} from '../../../../model/RegistrationRequest';
 import {map} from 'rxjs';
 
 @Component({
@@ -99,6 +100,29 @@ import {map} from 'rxjs';
           </button>
         </div>
       }
+
+      @if (isLoggedIn() && myRequests().length > 0) {
+        <h2 class="text-xl font-bold mt-10 mb-3">Meine angemeldeten Teams</h2>
+        <div class="flex flex-col gap-2">
+          @for (r of myRequests(); track r.id) {
+            <div class="flex items-center justify-between gap-3 p-3 rounded-lg border border-base-300">
+              <div class="min-w-0">
+                <div class="font-medium truncate">{{ r.teamName }}</div>
+                <div class="text-xs text-gray-500">
+                  {{ r.registrationGroup?.name }}
+                  @if (r.createdAt) { &nbsp;·&nbsp;{{ r.createdAt | slice:0:10 }} }
+                </div>
+              </div>
+              <span class="badge shrink-0"
+                    [class.badge-warning]="r.status === 'PENDING'"
+                    [class.badge-success]="r.status === 'APPROVED'"
+                    [class.badge-error]="r.status === 'REJECTED'">
+                {{ statusLabels[r.status] }}
+              </span>
+            </div>
+          }
+        </div>
+      }
     </div>
   `
 })
@@ -116,6 +140,8 @@ export class PublicRegisterComponent {
   );
 
   groups = signal<RegistrationGroup[]>([]);
+  myRequests = signal<RegistrationRequest[]>([]);
+  statusLabels = STATUS_LABELS;
   loading = signal(true);
   error = signal<string | null>(null);
   saving = signal(false);
@@ -129,6 +155,15 @@ export class PublicRegisterComponent {
   selectedGroup = computed(() => this.groups().find(g => +g.id === +(this.selectedGroupId() ?? -1)) ?? null);
 
   constructor() {
+    effect(() => {
+      const t = this.tournament();
+      if (t && this.isLoggedIn()) {
+        this.loadMine(t.id);
+      } else {
+        this.myRequests.set([]);
+      }
+    });
+
     this.tournamentStore.active$.subscribe(async t => {
       if (!t) { this.loading.set(false); return; }
       try {
@@ -141,6 +176,14 @@ export class PublicRegisterComponent {
         this.loading.set(false);
       }
     });
+  }
+
+  private async loadMine(tournamentId: number): Promise<void> {
+    try {
+      this.myRequests.set(await this.registrationRequestService.getMine(tournamentId));
+    } catch {
+      this.myRequests.set([]);
+    }
   }
 
   login(): void {
@@ -162,6 +205,8 @@ export class PublicRegisterComponent {
         memberBirthdays: filledBirthdays.length ? filledBirthdays : [],
       });
       this.submitted.set(true);
+      const t = this.tournament();
+      if (t) await this.loadMine(t.id);
     } catch (e: any) {
       this.error.set(e?.error?.message ?? 'Fehler beim Einreichen der Anmeldung.');
     } finally {
