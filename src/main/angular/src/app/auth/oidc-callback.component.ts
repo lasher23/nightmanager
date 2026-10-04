@@ -19,8 +19,9 @@ export class OidcCallbackComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      await this.authService.handleCallback();
-      this.router.navigateByUrl(this.roleService.getDefaultRoute());
+      const user = await this.authService.handleCallback();
+      const returnUrl = typeof user.state === 'string' && user.state.startsWith('/') && !user.state.startsWith('//') ? user.state : null;
+      this.router.navigateByUrl(returnUrl ?? this.roleService.getDefaultRoute());
     } catch (e) {
       console.error('OIDC callback error', e);
       this.router.navigateByUrl('/v2/public');

@@ -7,6 +7,8 @@ import {RegistrationGroupService} from '../../../../service/registration-group.s
 import {RegistrationRequestService} from '../../../../service/registration-request.service';
 import {RegistrationGroup} from '../../../../model/RegistrationGroup';
 import {TournamentState} from '../../../../model/Tournament';
+import {AuthService} from '../../../../auth/auth.service';
+import {map} from 'rxjs';
 
 @Component({
   selector: 'app-public-register',
@@ -25,6 +27,11 @@ import {TournamentState} from '../../../../model/Tournament';
           </svg>
           <span>Anmeldungen für <strong>{{ tournament()?.name }}</strong> sind derzeit nicht offen.</span>
         </div>
+      } @else if (!isLoggedIn()) {
+        <div class="alert alert-info mt-4">
+          <span>Um ein Team anzumelden, musst du dich zuerst einloggen.</span>
+        </div>
+        <button class="btn btn-primary mt-4" (click)="login()">Login</button>
       } @else if (submitted()) {
         <div class="alert alert-success mt-4">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -100,7 +107,13 @@ export class PublicRegisterComponent {
   private registrationGroupService = inject(RegistrationGroupService);
   private registrationRequestService = inject(RegistrationRequestService);
 
+  private authService = inject(AuthService);
+
   tournament = toSignal(this.tournamentStore.active$);
+  isLoggedIn = toSignal(
+    this.authService.user$.pipe(map(u => u != null && !u.expired)),
+    {initialValue: this.authService.isLoggedIn()}
+  );
 
   groups = signal<RegistrationGroup[]>([]);
   loading = signal(true);
@@ -128,6 +141,10 @@ export class PublicRegisterComponent {
         this.loading.set(false);
       }
     });
+  }
+
+  login(): void {
+    this.authService.login('/v2/public/register');
   }
 
   isValid(): boolean {

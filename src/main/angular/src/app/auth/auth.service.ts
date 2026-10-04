@@ -39,8 +39,8 @@ export class AuthService {
     });
   }
 
-  public async login(): Promise<void> {
-    await this.userManager.signinRedirect();
+  public async login(returnUrl?: string): Promise<void> {
+    await this.userManager.signinRedirect(returnUrl ? {state: returnUrl} : undefined);
   }
 
   public async handleCallback(): Promise<User> {
