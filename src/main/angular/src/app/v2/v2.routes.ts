@@ -40,5 +40,9 @@ export const routes: Routes = [
   {
     path: "games/generate/:id",
     loadComponent: () => import("./pages/game-generation/game-generation-editor.component").then(c => c.GameGenerationEditorComponent)
+  },
+  {
+    path: "simulation",
+    loadComponent: () => import("./pages/simulation/simulation.component").then(c => c.SimulationComponent)
   }
 ]

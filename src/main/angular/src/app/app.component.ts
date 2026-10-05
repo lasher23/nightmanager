@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {RoleService} from './service/role.service';
 import {Router} from '@angular/router';
 import {ChatService} from './service/chat.service';
@@ -27,6 +27,8 @@ export class AppComponent implements OnInit {
   private subscription: Subscription;
   private gameStartSubscription: Subscription;
 
+  updateAvailable = signal(false);
+
   constructor(
     private roleService: RoleService,
     private router: Router,
@@ -39,6 +41,11 @@ export class AppComponent implements OnInit {
     private stompService: StompService,
   ) {
     sw.checkForUpdate().catch(console.log);
+    sw.versionUpdates.subscribe(event => {
+      if (event.type === 'VERSION_READY') {
+        this.updateAvailable.set(true);
+      }
+    });
     this.oneSignal.init({
       appId: location.href.includes('localhost') ? 'acd8ce34-dd03-467d-8745-153dbf05a0d3' : 'a4c31416-21df-4dec-ad3b-202580f32eca',
     })
@@ -83,6 +90,10 @@ export class AppComponent implements OnInit {
         });
       }
     });
+  }
+
+  applyUpdate() {
+    this.sw.activateUpdate().then(() => document.location.reload());
   }
 
   toggleNavbar() {

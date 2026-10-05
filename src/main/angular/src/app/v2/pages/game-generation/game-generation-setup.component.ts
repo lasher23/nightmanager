@@ -1,7 +1,7 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {TournamentService} from '../../../service/tournament.service';
 import {GameGenerationService} from '../../../service/game-generation.service';
 import {Tournament} from '../../../model/Tournament';
@@ -105,6 +105,7 @@ export class GameGenerationSetupComponent implements OnInit {
   private tournamentService = inject(TournamentService);
   private gameGenerationService = inject(GameGenerationService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   tournaments = signal<Tournament[]>([]);
   categories = signal<Category[]>([]);
@@ -124,6 +125,12 @@ export class GameGenerationSetupComponent implements OnInit {
     now.setMinutes(0, 0, 0);
     now.setHours(now.getHours() + 1);
     this.startTime = this.toLocalDateTimeInput(now);
+
+    const preselect = Number(this.route.snapshot.queryParamMap.get('tournamentId'));
+    if (preselect) {
+      this.selectedTournamentId = preselect;
+      await this.onTournamentChange();
+    }
   }
 
   async onTournamentChange(): Promise<void> {

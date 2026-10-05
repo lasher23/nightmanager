@@ -23,6 +23,9 @@ public class Tournament {
     @Column(nullable = false)
     private TournamentState state = TournamentState.DRAFT;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean simulation = false;
+
     public Long getId() {
         return id;
     }
@@ -61,6 +64,14 @@ public class Tournament {
 
     public void setState(TournamentState state) {
         this.state = state;
+    }
+
+    public boolean isSimulation() {
+        return simulation;
+    }
+
+    public void setSimulation(boolean simulation) {
+        this.simulation = simulation;
     }
 }
 

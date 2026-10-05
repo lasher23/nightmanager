@@ -32,6 +32,9 @@ public final class RoleConstants {
     public static final String GAME_GENERATION_CREATE = "game_generation:create";
     public static final String GAME_GENERATION_DELETE = "game_generation:delete";
 
+    // ── Simulation permissions ─────────────────────────────────────────────────
+    public static final String SIMULATION_MANAGE = "simulation:manage";
+
     // ── Hall permissions ──────────────────────────────────────────────────────
     public static final String HALL_LIST = "hall:list";
     public static final String HALL_GET  = "hall:get";

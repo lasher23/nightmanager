@@ -68,6 +68,12 @@
     </button>
   }
 }
+@if (updateAvailable()) {
+  <div class="w-full bg-info text-info-content px-4 py-2 flex items-center justify-between gap-2 text-sm cursor-pointer" (click)="applyUpdate()">
+    <span>Eine neue Version ist verfugbar. Klicke hier zum Aktualisieren.</span>
+    <button class="btn btn-xs btn-neutral shrink-0">Aktualisieren</button>
+  </div>
+}
 <router-outlet class="container"></router-outlet>
 
 <!-- Tournament selector template (reused in mobile + desktop navbar) -->
@@ -135,6 +141,11 @@
   @if (isAdmin$ | async) {
     <li>
       <a routerLink="/v2/games/generate" class="text-xl" (click)="($any(document.activeElement))?.blur()">Spielplan generieren</a>
+    </li>
+  }
+  @if (isAdmin$ | async) {
+    <li>
+      <a routerLink="/v2/simulation" class="text-xl" (click)="($any(document.activeElement))?.blur()">Simulation</a>
     </li>
   }
   @if ((activeTournament$ | async)?.state === 'REGISTRATION_OPEN') {
