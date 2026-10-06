@@ -95,7 +95,7 @@ import {Tournament, TournamentState, TOURNAMENT_STATE_LABELS} from '../../../mod
         <dialog class="modal modal-open">
           <div class="modal-box">
             <h3 class="font-bold text-lg">Turnier "{{ deleteTarget()!.name }}" löschen?</h3>
-            <p class="py-2 text-sm text-gray-500">Kategorien dieses Turniers werden nicht gelöscht, aber die Turnier-Zuordnung wird aufgehoben.</p>
+            <p class="py-2 text-sm text-gray-500">Das Turnier wird ausgeblendet. Die Daten bleiben erhalten.</p>
             <div class="modal-action">
               <button class="btn btn-ghost" (click)="deleteTarget.set(null)">Abbrechen</button>
               <button class="btn btn-error" [disabled]="deleting()" (click)="doDelete()">

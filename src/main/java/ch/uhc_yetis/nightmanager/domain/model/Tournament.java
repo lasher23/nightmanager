@@ -26,6 +26,9 @@ public class Tournament {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean simulation = false;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean deleted = false;
+
     public Long getId() {
         return id;
     }
@@ -72,6 +75,14 @@ public class Tournament {
 
     public void setSimulation(boolean simulation) {
         this.simulation = simulation;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }
 

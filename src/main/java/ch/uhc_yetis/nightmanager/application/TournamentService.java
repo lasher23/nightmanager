@@ -15,7 +15,7 @@ public class TournamentService {
     }
 
     public List<Tournament> findAll() {
-        return this.tournamentRepository.findAll();
+        return this.tournamentRepository.findByDeletedFalse();
     }
 
     public Tournament findById(long id) {
@@ -33,6 +33,8 @@ public class TournamentService {
     }
 
     public void delete(long id) {
-        this.tournamentRepository.deleteById(id);
+        Tournament tournament = findById(id);
+        tournament.setDeleted(true);
+        this.tournamentRepository.save(tournament);
     }
 }
