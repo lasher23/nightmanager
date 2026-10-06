@@ -16,6 +16,10 @@ public class RegistrationGroup {
     @Column(name = "requires_age", nullable = false)
     private boolean requiresAge = false;
 
+    // JSON array of {label, value} rows shown on the public register page
+    @Column(columnDefinition = "text")
+    private String info;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_tournament", nullable = false)
     private Tournament tournament;
@@ -42,6 +46,14 @@ public class RegistrationGroup {
 
     public void setRequiresAge(boolean requiresAge) {
         this.requiresAge = requiresAge;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public Tournament getTournament() {

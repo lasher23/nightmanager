@@ -5,7 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {TournamentStore} from '../../../../service/tournament-store.service';
 import {RegistrationGroupService} from '../../../../service/registration-group.service';
 import {RegistrationRequestService} from '../../../../service/registration-request.service';
-import {RegistrationGroup} from '../../../../model/RegistrationGroup';
+import {RegistrationGroup, parseGroupInfo} from '../../../../model/RegistrationGroup';
 import {TournamentState} from '../../../../model/Tournament';
 import {AuthService} from '../../../../auth/auth.service';
 import {RegistrationRequest, STATUS_LABELS} from '../../../../model/RegistrationRequest';
@@ -16,7 +16,7 @@ import {map} from 'rxjs';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="max-w-lg mx-auto p-4">
+    <div class="max-w-2xl mx-auto p-4">
       <h1 class="text-3xl font-bold mb-2">Anmelden</h1>
 
       @if (loading()) {
@@ -74,6 +74,22 @@ import {map} from 'rxjs';
                   <option [value]="g.id">{{ g.name }}</option>
                 }
               </select>
+            </div>
+          }
+
+          <!-- Group information -->
+          @if (infoRows().length) {
+            <div class="overflow-x-auto rounded-lg border border-base-300">
+              <table class="table table-zebra w-full">
+                <tbody>
+                  @for (row of infoRows(); track $index) {
+                    <tr>
+                      <th class="align-top w-1/3 whitespace-normal">{{ row.label }}</th>
+                      <td class="whitespace-pre-line">{{ row.value }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
             </div>
           }
 
@@ -153,6 +169,7 @@ export class PublicRegisterComponent {
   birthdaySlots = [0, 1, 2, 3, 4];
 
   selectedGroup = computed(() => this.groups().find(g => +g.id === +(this.selectedGroupId() ?? -1)) ?? null);
+  infoRows = computed(() => parseGroupInfo(this.selectedGroup()?.info));
 
   constructor() {
     effect(() => {

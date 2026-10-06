@@ -49,6 +49,7 @@ public class RegistrationGroupController {
         RegistrationGroup existing = registrationGroupService.findById(id);
         existing.setName(group.getName());
         existing.setRequiresAge(group.isRequiresAge());
+        existing.setInfo(group.getInfo());
         return registrationGroupService.save(existing);
     }
 

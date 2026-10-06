@@ -5,7 +5,7 @@ import {RouterLink} from '@angular/router';
 import {TournamentStore} from '../../../service/tournament-store.service';
 import {RegistrationGroupService} from '../../../service/registration-group.service';
 import {RegistrationRequestService} from '../../../service/registration-request.service';
-import {RegistrationGroup} from '../../../model/RegistrationGroup';
+import {RegistrationGroup, RegistrationGroupInfoRow, infoRowsToText, parseGroupInfo, parseInfoText} from '../../../model/RegistrationGroup';
 import {RegistrationRequest, STATUS_LABELS} from '../../../model/RegistrationRequest';
 
 @Component({
@@ -119,7 +119,7 @@ import {RegistrationRequest, STATUS_LABELS} from '../../../model/RegistrationReq
     <!-- Create / Edit group modal -->
     @if (editGroupTarget()) {
       <dialog class="modal modal-open">
-        <div class="modal-box">
+        <div class="modal-box max-w-3xl">
           <h3 class="font-bold text-lg">{{ editGroupTarget()!.id ? 'Gruppe bearbeiten' : 'Neue Anmeldegruppe' }}</h3>
           <div class="flex flex-col gap-4 mt-4">
             <div>
@@ -130,6 +130,31 @@ import {RegistrationRequest, STATUS_LABELS} from '../../../model/RegistrationReq
               <span class="label-text">Altersangabe erforderlich</span>
               <input type="checkbox" class="toggle toggle-info" [(ngModel)]="editGroupTarget()!.requiresAge" />
             </label>
+
+            <div>
+              <label class="label"><span class="label-text font-medium">Anmeldeinformationen</span></label>
+              <div class="flex flex-col gap-2">
+                @for (row of editInfoRows(); track $index) {
+                  <div class="flex gap-2 items-start">
+                    <input class="input input-bordered input-sm w-40 shrink-0" [(ngModel)]="row.label" placeholder="Titel" />
+                    <textarea class="textarea textarea-bordered textarea-sm flex-1" rows="2" [(ngModel)]="row.value" placeholder="Inhalt"></textarea>
+                    <button class="btn btn-ghost btn-sm" (click)="removeInfoRow($index)">✗</button>
+                  </div>
+                }
+                <div>
+                  <button class="btn btn-sm btn-outline" (click)="addInfoRow()">+ Zeile</button>
+                </div>
+              </div>
+              <details class="mt-3">
+                <summary class="cursor-pointer text-sm text-gray-500">Text / Tabelle einfügen</summary>
+                <p class="text-xs text-gray-500 mt-2">Pro Zeile "Titel: Inhalt" oder "Titel&lt;Tab&gt;Inhalt" (z.B. aus Excel). Zeilen ohne Trennzeichen werden an den vorherigen Inhalt angehängt.</p>
+                <textarea class="textarea textarea-bordered w-full mt-2" rows="6" [(ngModel)]="pasteText"></textarea>
+                <div class="flex gap-2 mt-2">
+                  <button class="btn btn-sm btn-secondary" [disabled]="!pasteText.trim()" (click)="importPaste()">Übernehmen (ersetzt Zeilen)</button>
+                  <button class="btn btn-sm btn-outline" [disabled]="!editInfoRows().length" (click)="copyAsText()">Aktuelle Zeilen kopieren</button>
+                </div>
+              </details>
+            </div>
           </div>
           <div class="modal-action">
             <button class="btn btn-ghost" (click)="editGroupTarget.set(null)">Abbrechen</button>
@@ -178,6 +203,8 @@ export class TournamentRegistrationsComponent {
   deleteGroupTarget = signal<RegistrationGroup | null>(null);
   savingGroup = signal(false);
   deletingGroup = signal(false);
+  editInfoRows = signal<RegistrationGroupInfoRow[]>([]);
+  pasteText = '';
 
   // Per-request state for the "registration confirmed" email (sent after a successful approve()).
   emailSending = signal<Record<number, boolean>>({});
@@ -214,10 +241,37 @@ export class TournamentRegistrationsComponent {
 
   openCreateGroup(): void {
     this.editGroupTarget.set({name: '', requiresAge: false} as any);
+    this.editInfoRows.set([]);
+    this.pasteText = '';
   }
 
   openEditGroup(g: RegistrationGroup): void {
     this.editGroupTarget.set({...g});
+    this.editInfoRows.set(parseGroupInfo(g.info).map(r => ({...r})));
+    this.pasteText = '';
+  }
+
+  addInfoRow(): void {
+    this.editInfoRows.update(rows => [...rows, {label: '', value: ''}]);
+  }
+
+  removeInfoRow(i: number): void {
+    this.editInfoRows.update(rows => rows.filter((_, idx) => idx !== i));
+  }
+
+  importPaste(): void {
+    this.editInfoRows.set(parseInfoText(this.pasteText));
+    this.pasteText = '';
+  }
+
+  // Also fills the textarea so the text can be copied manually if the clipboard API is unavailable.
+  async copyAsText(): Promise<void> {
+    this.pasteText = infoRowsToText(this.editInfoRows());
+    try {
+      await navigator.clipboard.writeText(this.pasteText);
+    } catch {
+      // textarea fallback
+    }
   }
 
   async saveGroup(): Promise<void> {
@@ -226,10 +280,12 @@ export class TournamentRegistrationsComponent {
     if (!target?.name?.trim() || !t) return;
     this.savingGroup.set(true);
     try {
+      const rows = this.editInfoRows().filter(r => r.label.trim() || r.value.trim());
+      const payload = {...target, info: rows.length ? JSON.stringify(rows) : null};
       if ((target as any).id) {
-        await this.groupService.update((target as any).id, target);
+        await this.groupService.update((target as any).id, payload);
       } else {
-        await this.groupService.create(t, target);
+        await this.groupService.create(t, payload);
       }
       this.editGroupTarget.set(null);
       await this.loadAll(t);
