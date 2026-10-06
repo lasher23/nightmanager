@@ -64,6 +64,12 @@ import {map} from 'rxjs';
             <input class="input input-bordered w-full" [(ngModel)]="teamName" placeholder="z.B. Die Unbesiegbaren" />
           </div>
 
+          <!-- Team leader -->
+          <div>
+            <label class="label"><span class="label-text font-medium">Teamchef *</span></label>
+            <input class="input input-bordered w-full" [(ngModel)]="teamLeader" placeholder="Vor- und Nachname" />
+          </div>
+
           <!-- Registration group -->
           @if (groups().length > 1) {
             <div>
@@ -164,6 +170,7 @@ export class PublicRegisterComponent {
   submitted = signal(false);
 
   teamName = '';
+  teamLeader = '';
   selectedGroupId = signal<number | null>(null);
   birthdays: string[] = ['', '', '', '', ''];
   birthdaySlots = [0, 1, 2, 3, 4];
@@ -208,7 +215,7 @@ export class PublicRegisterComponent {
   }
 
   isValid(): boolean {
-    return !!this.teamName.trim() && !!this.selectedGroupId();
+    return !!this.teamName.trim() && !!this.teamLeader.trim() && !!this.selectedGroupId();
   }
 
   async submit(): Promise<void> {
@@ -219,6 +226,7 @@ export class PublicRegisterComponent {
       const filledBirthdays = this.birthdays.filter(b => !!b);
       await this.registrationRequestService.create(this.selectedGroupId()!, {
         teamName: this.teamName.trim(),
+        teamLeader: this.teamLeader.trim(),
         memberBirthdays: filledBirthdays.length ? filledBirthdays : [],
       });
       this.submitted.set(true);
@@ -234,6 +242,7 @@ export class PublicRegisterComponent {
   reset(): void {
     this.submitted.set(false);
     this.teamName = '';
+    this.teamLeader = '';
     this.birthdays = ['', '', '', '', ''];
     if (this.groups().length !== 1) this.selectedGroupId.set(null);
   }

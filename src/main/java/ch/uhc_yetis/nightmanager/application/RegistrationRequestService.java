@@ -48,6 +48,10 @@ public class RegistrationRequestService {
         if (group.getTournament().getState() != TournamentState.REGISTRATION_OPEN) {
             throw new CustomException("Anmeldungen sind nur möglich wenn das Turnier im Status 'Anmeldung offen' ist", Status.ALREADY_EXISTS);
         }
+        if (request.getTeamLeader() == null || request.getTeamLeader().isBlank()) {
+            throw new CustomException("Teamchef ist erforderlich", Status.ALREADY_EXISTS);
+        }
+        request.setTeamLeader(request.getTeamLeader().trim());
         request.setId(null);
         request.setContactEmail(contactEmail);
         request.setRegistrationGroup(group);

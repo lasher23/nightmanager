@@ -11,6 +11,7 @@ export const STATUS_LABELS: Record<RegistrationRequestStatus, string> = {
 export interface RegistrationRequest {
   id: number;
   teamName: string;
+  teamLeader?: string | null;
   contactEmail: string;
   status: RegistrationRequestStatus;
   registrationGroup: RegistrationGroup;

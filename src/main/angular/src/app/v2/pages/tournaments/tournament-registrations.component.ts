@@ -54,6 +54,7 @@ import {RegistrationRequest, STATUS_LABELS} from '../../../model/RegistrationReq
                     <thead>
                       <tr>
                         <th>Teamname</th>
+                        <th>Teamchef</th>
                         <th>Kontakt</th>
                         @if (group.requiresAge) { <th>Geburtstage</th> }
                         <th>Eingereicht</th>
@@ -65,6 +66,7 @@ import {RegistrationRequest, STATUS_LABELS} from '../../../model/RegistrationReq
                       @for (req of requestsByGroup()[group.id]; track req.id) {
                         <tr>
                           <td class="font-medium">{{ req.teamName }}</td>
+                          <td class="text-sm">{{ req.teamLeader || '–' }}</td>
                           <td class="text-sm text-gray-500">{{ req.contactEmail }}</td>
                           @if (group.requiresAge) {
                             <td class="text-xs text-gray-500">

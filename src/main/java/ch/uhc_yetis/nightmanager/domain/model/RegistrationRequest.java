@@ -17,6 +17,10 @@ public class RegistrationRequest {
     @Column(nullable = false)
     private String teamName;
 
+    // Nullable in the DB so rows created before this field existed stay valid; required on create in the service.
+    @Column(name = "team_leader")
+    private String teamLeader;
+
     @Column(nullable = false)
     private String contactEmail;
 
@@ -51,6 +55,14 @@ public class RegistrationRequest {
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
+    }
+
+    public String getTeamLeader() {
+        return teamLeader;
+    }
+
+    public void setTeamLeader(String teamLeader) {
+        this.teamLeader = teamLeader;
     }
 
     public String getContactEmail() {
