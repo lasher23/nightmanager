@@ -13,10 +13,10 @@
         </ul>
       </div>
     </div>
-    <div class="navbar-center">
+    <div class="navbar-center shrink-0">
       <a class="btn btn-ghost normal-case text-xl" routerLink="/v2/public">Yetis</a>
     </div>
-    <div class="navbar-end flex items-center gap-1">
+    <div class="navbar-end flex items-center gap-1 min-w-0 flex-nowrap">
       <!-- Tournament selector (mobile) -->
       <ng-container *ngTemplateOutlet="tournamentSelector"></ng-container>
       <a routerLink="/v2/notifications" class="btn btn-ghost btn-circle" title="Notifications">
@@ -80,12 +80,12 @@
 <ng-template #tournamentSelector>
   @if ((tournaments$ | async)?.length) {
     <div class="dropdown dropdown-end">
-      <label tabindex="0" class="btn btn-sm btn-outline gap-1 font-normal">
+      <label tabindex="0" class="btn btn-sm btn-outline gap-1 font-normal flex-nowrap max-w-[6.5rem] sm:max-w-[14rem] overflow-hidden">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 6h18M9 14h6M9 18h6" />
         </svg>
-        <span class="max-w-[120px] truncate">{{ (activeTournament$ | async)?.name ?? 'Turnier' }}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <span class="min-w-0 truncate" [title]="(activeTournament$ | async)?.name ?? ''">{{ (activeTournament$ | async)?.name ?? 'Turnier' }}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>
       </label>
@@ -94,8 +94,8 @@
           <li>
             <a (click)="selectTournament(t); ($any(document.activeElement))?.blur()"
                [class.font-bold]="(activeTournament$ | async)?.id === t.id"
-               class="flex flex-col items-start gap-0">
-              <span>{{ t.name }}</span>
+               class="flex flex-col items-start gap-0 min-w-0">
+              <span class="w-full truncate" [title]="t.name">{{ t.name }}</span>
               @if (t.dateFrom) {
                 <span class="text-xs opacity-60">{{ t.dateFrom | slice:0:10 }}{{ t.dateTo ? ' – ' + (t.dateTo | slice:0:10) : '' }}</span>
               }
