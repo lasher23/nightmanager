@@ -30,7 +30,7 @@ import {map} from 'rxjs';
         </div>
       } @else if (!isLoggedIn()) {
         <div class="alert alert-info mt-4">
-          <span>Um ein Team anzumelden, musst du dich zuerst einloggen.</span>
+          <span>Um ein Team anzumelden, klicke einfach auf "Login" und gib deine E-Mail-Adresse ein. Du erhältst dann per E-Mail einen Code, mit dem du dich anmeldest. Du brauchst kein Passwort oder existierendes Konto.</span>
         </div>
         <button class="btn btn-primary mt-4" (click)="login()">Login</button>
       } @else if (submitted()) {
