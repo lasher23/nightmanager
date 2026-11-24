@@ -10,22 +10,26 @@ import java.util.stream.Collectors;
  */
 record GraphMailMessage(Message message, boolean saveToSentItems) {
 
-    static GraphMailMessage of(String subject, String content, String... toRecipients) {
-        return of(subject, content, "Text", toRecipients);
+    static GraphMailMessage of(String subject, String content, String sender, String... toRecipients) {
+        return of(subject, content, "Text", sender, toRecipients);
     }
 
-    static GraphMailMessage ofHtml(String subject, String htmlContent, String... toRecipients) {
-        return of(subject, htmlContent, "HTML", toRecipients);
+    static GraphMailMessage ofHtml(String subject, String htmlContent, String sender, String... toRecipients) {
+        return of(subject, htmlContent, "HTML", sender, toRecipients);
     }
 
-    private static GraphMailMessage of(String subject, String content, String contentType, String... toRecipients) {
+    private static GraphMailMessage of(String subject, String content, String contentType, String sender, String... toRecipients) {
+        if (sender == null || sender.isBlank()) {
+            throw new IllegalStateException("Die E-Mail-Adresse des Absenders konnte nicht ermittelt werden.");
+        }
         List<Recipient> recipients = Arrays.stream(toRecipients)
                 .map(address -> new Recipient(new EmailAddress(address)))
                 .collect(Collectors.toList());
-        return new GraphMailMessage(new Message(subject, new Body(contentType, content), recipients), false);
+        return new GraphMailMessage(new Message(subject, new Body(contentType, content), recipients,
+                List.of(new Recipient(new EmailAddress(sender)))), false);
     }
 
-    record Message(String subject, Body body, List<Recipient> toRecipients) {}
+    record Message(String subject, Body body, List<Recipient> toRecipients, List<Recipient> ccRecipients) {}
 
     record Body(String contentType, String content) {}
 

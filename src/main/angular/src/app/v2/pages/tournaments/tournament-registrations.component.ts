@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, computed, inject, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
@@ -6,7 +6,16 @@ import {TournamentStore} from '../../../service/tournament-store.service';
 import {RegistrationGroupService} from '../../../service/registration-group.service';
 import {RegistrationRequestService} from '../../../service/registration-request.service';
 import {RegistrationGroup, RegistrationGroupInfoRow, infoRowsToText, parseGroupInfo, parseInfoText} from '../../../model/RegistrationGroup';
-import {RegistrationRequest, STATUS_LABELS} from '../../../model/RegistrationRequest';
+import {RegistrationRequest, RegistrationRequestStatus, STATUS_LABELS} from '../../../model/RegistrationRequest';
+
+const STATUS_ORDER: Record<RegistrationRequestStatus, number> = {PENDING: 0, APPROVED: 1, REJECTED: 2};
+
+function sortRequests(requests: RegistrationRequest[]): RegistrationRequest[] {
+  return [...requests].sort((a, b) =>
+    STATUS_ORDER[a.status] - STATUS_ORDER[b.status] ||
+    new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime() ||
+    a.id - b.id);
+}
 
 @Component({
   selector: 'nm-tournament-registrations',
@@ -18,9 +27,16 @@ import {RegistrationRequest, STATUS_LABELS} from '../../../model/RegistrationReq
         <div>
           <h1 class="text-3xl font-bold">Anmeldungen</h1>
           <p class="text-sm text-gray-500 mt-1">Turnier: {{ (activeTournament$ | async)?.name }}</p>
+          @if (!loading() && !error()) {
+            <p class="text-sm text-gray-500 mt-1">Teams insgesamt: {{ teamCount() }}</p>
+          }
         </div>
         <button class="btn btn-primary btn-sm" (click)="openCreateGroup()">+ Anmeldegruppe</button>
       </div>
+
+      @if (composeSuccess()) {
+        <div class="alert alert-success mb-4" role="status">{{ composeSuccess() }}</div>
+      }
 
       @if (loading()) {
         <div class="flex justify-center py-8"><span class="loading loading-spinner loading-lg"></span></div>
@@ -47,6 +63,7 @@ import {RegistrationRequest, STATUS_LABELS} from '../../../model/RegistrationReq
                   <button class="btn btn-sm btn-error btn-outline" (click)="deleteGroupTarget.set(group)">Löschen</button>
                 </div>
               </div>
+              <p class="text-sm text-gray-500 mb-2">Teams: {{ requestsByGroup()[group.id]?.length || 0 }}</p>
 
               @if (requestsByGroup()[group.id]?.length) {
                 <div class="overflow-x-auto">
@@ -89,6 +106,7 @@ import {RegistrationRequest, STATUS_LABELS} from '../../../model/RegistrationReq
                                   <button class="btn btn-xs btn-error btn-outline" (click)="reject(req)">✗</button>
                                 }
                               </div>
+                              <button class="btn btn-xs btn-outline" (click)="openComposeEmail(req)">E-Mail schreiben</button>
                               @if (req.status === 'APPROVED') {
                                 <button class="btn btn-xs btn-outline" [class.btn-warning]="emailErrors()[req.id]"
                                         [disabled]="emailSending()[req.id]"
@@ -117,6 +135,29 @@ import {RegistrationRequest, STATUS_LABELS} from '../../../model/RegistrationReq
         }
       }
     </div>
+
+    @if (composeTarget(); as target) {
+      <dialog class="modal modal-open">
+        <div class="modal-box">
+          <h3 class="font-bold text-lg">E-Mail an {{ target.teamName }}</h3>
+          <p class="text-sm text-gray-500 mt-2">An: {{ target.contactEmail }}</p>
+          <label class="label" for="email-subject"><span class="label-text">Betreff</span></label>
+          <input id="email-subject" class="input input-bordered w-full" [(ngModel)]="composeSubject" maxlength="255" />
+          <label class="label" for="email-content"><span class="label-text">Nachricht</span></label>
+          <textarea id="email-content" class="textarea textarea-bordered w-full" rows="8" [(ngModel)]="composeContent"></textarea>
+          @if (composeError()) {
+            <div class="alert alert-error mt-3" role="alert">{{ composeError() }}</div>
+          }
+          <div class="modal-action">
+            <button class="btn btn-ghost" [disabled]="composeSending()" (click)="composeTarget.set(null)">Abbrechen</button>
+            <button class="btn btn-primary" [disabled]="composeSending() || !composeSubject.trim() || !composeContent.trim()" (click)="sendCustomEmail()">
+              @if (composeSending()) { <span class="loading loading-spinner loading-sm"></span> }
+              Senden
+            </button>
+          </div>
+        </div>
+      </dialog>
+    }
 
     <!-- Create / Edit group modal -->
     @if (editGroupTarget()) {
@@ -198,6 +239,7 @@ export class TournamentRegistrationsComponent {
 
   groups = signal<RegistrationGroup[]>([]);
   requestsByGroup = signal<Record<number, RegistrationRequest[]>>({});
+  teamCount = computed(() => Object.values(this.requestsByGroup()).reduce((total, requests) => total + requests.length, 0));
   loading = signal(true);
   error = signal<string | null>(null);
 
@@ -211,6 +253,12 @@ export class TournamentRegistrationsComponent {
   // Per-request state for the "registration confirmed" email (sent after a successful approve()).
   emailSending = signal<Record<number, boolean>>({});
   emailErrors = signal<Record<number, string>>({});
+  composeTarget = signal<RegistrationRequest | null>(null);
+  composeSending = signal(false);
+  composeError = signal<string | null>(null);
+  composeSuccess = signal<string | null>(null);
+  composeSubject = '';
+  composeContent = '';
 
   constructor() {
     this.tournamentStore.active$.subscribe(t => {
@@ -232,6 +280,9 @@ export class TournamentRegistrationsComponent {
         const gid = r.registrationGroup.id;
         if (!byGroup[gid]) byGroup[gid] = [];
         byGroup[gid].push(r);
+      }
+      for (const gid of Object.keys(byGroup)) {
+        byGroup[Number(gid)] = sortRequests(byGroup[Number(gid)]);
       }
       this.requestsByGroup.set(byGroup);
     } catch (e: any) {
@@ -341,6 +392,30 @@ export class TournamentRegistrationsComponent {
     }
   }
 
+  openComposeEmail(request: RegistrationRequest): void {
+    this.composeSubject = '';
+    this.composeContent = '';
+    this.composeError.set(null);
+    this.composeSuccess.set(null);
+    this.composeTarget.set(request);
+  }
+
+  async sendCustomEmail(): Promise<void> {
+    const target = this.composeTarget();
+    if (!target || !this.composeSubject.trim() || !this.composeContent.trim() || this.composeSending()) return;
+    this.composeSending.set(true);
+    this.composeError.set(null);
+    try {
+      await this.requestService.sendEmail(target.id, this.composeSubject.trim(), this.composeContent);
+      this.composeTarget.set(null);
+      this.composeSuccess.set(`E-Mail an ${target.contactEmail} gesendet.`);
+    } catch (e: any) {
+      this.composeError.set(this.extractErrorMessage(e) ?? 'E-Mail konnte nicht gesendet werden');
+    } finally {
+      this.composeSending.set(false);
+    }
+  }
+
   async reject(req: RegistrationRequest): Promise<void> {
     try {
       const updated = await this.requestService.reject(req.id);
@@ -359,7 +434,7 @@ export class TournamentRegistrationsComponent {
     const map = {...this.requestsByGroup()};
     const gid = updated.registrationGroup.id;
     if (map[gid]) {
-      map[gid] = map[gid].map(r => r.id === updated.id ? updated : r);
+      map[gid] = sortRequests(map[gid].map(r => r.id === updated.id ? updated : r));
     }
     this.requestsByGroup.set(map);
   }

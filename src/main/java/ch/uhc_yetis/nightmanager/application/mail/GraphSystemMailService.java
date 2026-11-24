@@ -51,13 +51,13 @@ public class GraphSystemMailService implements SystemMailSender {
     /** Sends a plain-text email from the configured system mailbox. */
     @Override
     public void sendMail(String subject, String content, String... toRecipients) {
-        send(GraphMailMessage.of(subject, content, toRecipients), subject, toRecipients);
+        send(GraphMailMessage.of(subject, content, systemSender, toRecipients), subject, toRecipients);
     }
 
     /** Sends an HTML email from the configured system mailbox. */
     @Override
     public void sendHtmlMail(String subject, String htmlContent, String... toRecipients) {
-        send(GraphMailMessage.ofHtml(subject, htmlContent, toRecipients), subject, toRecipients);
+        send(GraphMailMessage.ofHtml(subject, htmlContent, systemSender, toRecipients), subject, toRecipients);
     }
 
     private void send(GraphMailMessage message, String subject, String... toRecipients) {

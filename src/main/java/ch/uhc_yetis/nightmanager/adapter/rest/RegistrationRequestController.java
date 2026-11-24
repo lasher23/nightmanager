@@ -81,6 +81,14 @@ public class RegistrationRequestController {
         registrationRequestService.sendApprovalEmail(id, extractEmail(authentication));
     }
 
+    public record CustomEmailRequest(String subject, String content) {}
+
+    @PostMapping("/{id}/send-email")
+    @PreAuthorize("hasAuthority('" + RoleConstants.REGISTRATION_REQUEST_APPROVE + "')")
+    public void sendEmail(@PathVariable Long id, @RequestBody CustomEmailRequest request, Authentication authentication) {
+        registrationRequestService.sendCustomEmail(id, extractEmail(authentication), request.subject(), request.content());
+    }
+
     @PatchMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('" + RoleConstants.REGISTRATION_REQUEST_REJECT + "')")
     public RegistrationRequest reject(@PathVariable Long id) {

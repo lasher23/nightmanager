@@ -72,14 +72,23 @@ public class GraphUserMailService implements UserMailSender {
         }
 
         String accessToken = authorizedClient.getAccessToken().getTokenValue();
+        GraphUser user = graphClient.get()
+                .uri("/me?$select=mail")
+                .header("Authorization", "Bearer " + accessToken)
+                .retrieve()
+                .body(GraphUser.class);
+        if (user == null || user.mail() == null || user.mail().isBlank()) {
+            throw new IllegalStateException("Die E-Mail-Adresse des Microsoft-Postfachs konnte nicht ermittelt werden.");
+        }
         graphClient.post()
                 .uri("/me/sendMail")
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(GraphMailMessage.ofHtml(subject, htmlContent, toRecipients))
+                .body(GraphMailMessage.ofHtml(subject, htmlContent, user.mail(), toRecipients))
                 .retrieve()
                 .toBodilessEntity();
         log.info("Sent user email '{}' to {}", subject, Arrays.toString(toRecipients));
     }
-}
 
+    private record GraphUser(String mail) {}
+}

@@ -35,6 +35,10 @@ export class RegistrationRequestService {
     return this.http.post<void>(`registration-requests/${id}/send-approval-email`, {});
   }
 
+  sendEmail(id: number, subject: string, content: string): Promise<void> {
+    return this.http.post<void>(`registration-requests/${id}/send-email`, {subject, content});
+  }
+
   reject(id: number): Promise<RegistrationRequest> {
     return this.http.patch<RegistrationRequest>(`registration-requests/${id}/reject`, {});
   }

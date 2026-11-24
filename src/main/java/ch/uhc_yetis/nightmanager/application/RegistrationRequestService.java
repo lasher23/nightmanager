@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.HtmlUtils;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -96,6 +97,23 @@ public class RegistrationRequestService {
         RegistrationRequest request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new CustomException("Anmeldung mit id " + requestId + " nicht gefunden", Status.NOT_FOUND));
 
+        RegistrationGroup group = request.getRegistrationGroup();
+        Tournament tournament = group.getTournament();
+        sendRegistrationEmail(request, actingUserEmail, "Anmeldung bestätigt – " + request.getTeamName(),
+                buildApprovalEmailHtml(request, group, tournament));
+    }
+
+    public void sendCustomEmail(Long requestId, String actingUserEmail, String subject, String content) {
+        if (subject == null || subject.isBlank() || content == null || content.isBlank()) {
+            throw new CustomException("Betreff und Nachricht sind erforderlich.", Status.ALREADY_EXISTS);
+        }
+        RegistrationRequest request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new CustomException("Anmeldung mit id " + requestId + " nicht gefunden", Status.NOT_FOUND));
+        String html = "<div>" + HtmlUtils.htmlEscape(content).replace("\r\n", "\n").replace("\r", "\n").replace("\n", "<br>") + "</div>";
+        sendRegistrationEmail(request, actingUserEmail, subject.trim(), html);
+    }
+
+    private void sendRegistrationEmail(RegistrationRequest request, String actingUserEmail, String subject, String html) {
         ApplicationUser actingUser = applicationUserRepository.findByEmail(actingUserEmail);
         if (actingUser == null || actingUser.getMicrosoftPrincipalName() == null) {
             throw new CustomException(
@@ -103,17 +121,14 @@ public class RegistrationRequestService {
                     Status.MAIL_FAILED);
         }
 
-        RegistrationGroup group = request.getRegistrationGroup();
-        Tournament tournament = group.getTournament();
-
         try {
             graphUserMailService.sendMailAsUser(
                     actingUser.getMicrosoftPrincipalName(),
-                    "Anmeldung bestätigt – " + request.getTeamName(),
-                    buildApprovalEmailHtml(request, group, tournament),
+                    subject,
+                    html,
                     request.getContactEmail());
         } catch (Exception e) {
-            log.error("Failed to send approval email for registration request {}", requestId, e);
+            log.error("Failed to send email for registration request {}", request.getId(), e);
             throw new CustomException("E-Mail konnte nicht gesendet werden: " + e.getMessage(), Status.MAIL_FAILED);
         }
     }
