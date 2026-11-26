@@ -77,10 +77,16 @@ import {map} from 'rxjs';
               <select class="select select-bordered w-full" [ngModel]="selectedGroupId()" (ngModelChange)="selectedGroupId.set(+$event)">
                 <option [value]="null" disabled>Bitte auswählen...</option>
                 @for (g of groups(); track g.id) {
-                  <option [value]="g.id">{{ g.name }}</option>
+                  <option [value]="g.id" [disabled]="g.fullyBooked">{{ g.name }}{{ g.fullyBooked ? ' (ausgebucht)' : '' }}</option>
                 }
               </select>
             </div>
+          }
+
+          @if (selectedGroup()?.fullyBooked) {
+            <div class="alert alert-warning">Diese Anmeldegruppe ist ausgebucht. Es sind keine Anmeldungen mehr möglich.</div>
+          } @else if (groups().length > 0 && allFull()) {
+            <div class="alert alert-warning">Alle Anmeldegruppen sind ausgebucht.</div>
           }
 
           <!-- Group information -->
@@ -176,6 +182,7 @@ export class PublicRegisterComponent {
   birthdaySlots = [0, 1, 2, 3, 4];
 
   selectedGroup = computed(() => this.groups().find(g => +g.id === +(this.selectedGroupId() ?? -1)) ?? null);
+  allFull = computed(() => this.groups().every(g => g.fullyBooked));
   infoRows = computed(() => parseGroupInfo(this.selectedGroup()?.info));
 
   constructor() {
@@ -193,7 +200,7 @@ export class PublicRegisterComponent {
       try {
         const gs = await this.registrationGroupService.getByTournament(t.id);
         this.groups.set(gs);
-        if (gs.length === 1) this.selectedGroupId.set(gs[0].id);
+        if (gs.length === 1 && !gs[0].fullyBooked) this.selectedGroupId.set(gs[0].id);
       } catch {
         // ignore — groups might simply not be set up yet
       } finally {
@@ -215,7 +222,7 @@ export class PublicRegisterComponent {
   }
 
   isValid(): boolean {
-    return !!this.teamName.trim() && !!this.teamLeader.trim() && !!this.selectedGroupId();
+    return !!this.teamName.trim() && !!this.teamLeader.trim() && !!this.selectedGroupId() && !this.selectedGroup()?.fullyBooked;
   }
 
   async submit(): Promise<void> {

@@ -89,6 +89,12 @@ public class RegistrationRequestController {
         registrationRequestService.sendCustomEmail(id, extractEmail(authentication), request.subject(), request.content());
     }
 
+    @PatchMapping("/{id}/move")
+    @PreAuthorize("hasAuthority('" + RoleConstants.REGISTRATION_REQUEST_APPROVE + "')")
+    public RegistrationRequest move(@PathVariable Long id, @RequestParam Long groupId) {
+        return registrationRequestService.moveToGroup(id, groupId);
+    }
+
     @PatchMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('" + RoleConstants.REGISTRATION_REQUEST_REJECT + "')")
     public RegistrationRequest reject(@PathVariable Long id) {

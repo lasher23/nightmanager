@@ -39,6 +39,10 @@ export class RegistrationRequestService {
     return this.http.post<void>(`registration-requests/${id}/send-email`, {subject, content});
   }
 
+  move(id: number, groupId: number): Promise<RegistrationRequest> {
+    return this.http.patch<RegistrationRequest>(`registration-requests/${id}/move?groupId=${groupId}`, {});
+  }
+
   reject(id: number): Promise<RegistrationRequest> {
     return this.http.patch<RegistrationRequest>(`registration-requests/${id}/reject`, {});
   }

@@ -7,6 +7,7 @@ export interface RegistrationGroup {
   id: number;
   name: string;
   requiresAge: boolean;
+  fullyBooked: boolean;
   /** JSON-encoded RegistrationGroupInfoRow[] */
   info?: string | null;
   tournament: { id: number; name: string; state: string };

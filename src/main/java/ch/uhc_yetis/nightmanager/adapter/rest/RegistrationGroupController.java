@@ -50,6 +50,7 @@ public class RegistrationGroupController {
         existing.setName(group.getName());
         existing.setRequiresAge(group.isRequiresAge());
         existing.setInfo(group.getInfo());
+        existing.setFullyBooked(group.isFullyBooked());
         return registrationGroupService.save(existing);
     }
 

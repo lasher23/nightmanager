@@ -54,11 +54,18 @@ function sortRequests(requests: RegistrationRequest[]): RegistrationRequest[] {
                   @if (group.requiresAge) {
                     <span class="badge badge-info badge-sm">Altersangabe erforderlich</span>
                   }
+                  @if (group.fullyBooked) {
+                    <span class="badge badge-error badge-sm">Ausgebucht</span>
+                  }
                 </div>
                 <div class="flex gap-2">
                   <a [routerLink]="['/v2/tournaments/generate', group.id]" class="btn btn-sm btn-outline btn-success">
                     Kategorien generieren
                   </a>
+                  <button class="btn btn-sm btn-outline" [class.btn-warning]="!group.fullyBooked"
+                          (click)="toggleFullyBooked(group)">
+                    {{ group.fullyBooked ? 'Wieder öffnen' : 'Als ausgebucht markieren' }}
+                  </button>
                   <button class="btn btn-sm btn-ghost" (click)="openEditGroup(group)">Bearbeiten</button>
                   <button class="btn btn-sm btn-error btn-outline" (click)="deleteGroupTarget.set(group)">Löschen</button>
                 </div>
@@ -107,6 +114,9 @@ function sortRequests(requests: RegistrationRequest[]): RegistrationRequest[] {
                                 }
                               </div>
                               <button class="btn btn-xs btn-outline" (click)="openComposeEmail(req)">E-Mail schreiben</button>
+                              @if (groups().length > 1) {
+                                <button class="btn btn-xs btn-outline" (click)="openMove(req)">Gruppe wechseln</button>
+                              }
                               @if (req.status === 'APPROVED') {
                                 <button class="btn btn-xs btn-outline" [class.btn-warning]="emailErrors()[req.id]"
                                         [disabled]="emailSending()[req.id]"
@@ -159,6 +169,31 @@ function sortRequests(requests: RegistrationRequest[]): RegistrationRequest[] {
       </dialog>
     }
 
+    @if (moveTarget(); as target) {
+      <dialog class="modal modal-open">
+        <div class="modal-box">
+          <h3 class="font-bold text-lg">{{ target.teamName }} verschieben</h3>
+          <p class="text-sm text-gray-500 mt-2">Aktuelle Gruppe: {{ target.registrationGroup.name }}</p>
+          <label class="label" for="move-group"><span class="label-text">Neue Anmeldegruppe</span></label>
+          <select id="move-group" class="select select-bordered w-full" [(ngModel)]="moveGroupId">
+            @for (g of groups(); track g.id) {
+              @if (g.id !== target.registrationGroup.id) {
+                <option [ngValue]="g.id">{{ g.name }}{{ g.fullyBooked ? ' (ausgebucht)' : '' }}</option>
+              }
+            }
+          </select>
+          <div class="modal-action">
+            <button class="btn btn-ghost" [disabled]="moving()" (click)="moveTarget.set(null)">Abbrechen</button>
+            <button class="btn btn-primary" [disabled]="moving() || !moveGroupId" (click)="doMove()">
+              @if (moving()) { <span class="loading loading-spinner loading-sm"></span> }
+              Verschieben
+            </button>
+          </div>
+        </div>
+        <div class="modal-backdrop" (click)="moveTarget.set(null)"></div>
+      </dialog>
+    }
+
     <!-- Create / Edit group modal -->
     @if (editGroupTarget()) {
       <dialog class="modal modal-open">
@@ -169,6 +204,10 @@ function sortRequests(requests: RegistrationRequest[]): RegistrationRequest[] {
               <label class="label"><span class="label-text">Name</span></label>
               <input class="input input-bordered w-full" [(ngModel)]="editGroupTarget()!.name" placeholder="z.B. Herren, Damen, Mixed..." />
             </div>
+            <label class="cursor-pointer label">
+              <span class="label-text">Ausgebucht (keine Anmeldungen mehr möglich)</span>
+              <input type="checkbox" class="toggle toggle-error" [(ngModel)]="editGroupTarget()!.fullyBooked" />
+            </label>
             <label class="cursor-pointer label">
               <span class="label-text">Altersangabe erforderlich</span>
               <input type="checkbox" class="toggle toggle-info" [(ngModel)]="editGroupTarget()!.requiresAge" />
@@ -257,6 +296,9 @@ export class TournamentRegistrationsComponent {
   composeSending = signal(false);
   composeError = signal<string | null>(null);
   composeSuccess = signal<string | null>(null);
+  moveTarget = signal<RegistrationRequest | null>(null);
+  moving = signal(false);
+  moveGroupId: number | null = null;
   composeSubject = '';
   composeContent = '';
 
@@ -293,7 +335,7 @@ export class TournamentRegistrationsComponent {
   }
 
   openCreateGroup(): void {
-    this.editGroupTarget.set({name: '', requiresAge: false} as any);
+    this.editGroupTarget.set({name: '', requiresAge: false, fullyBooked: false} as any);
     this.editInfoRows.set([]);
     this.pasteText = '';
   }
@@ -413,6 +455,39 @@ export class TournamentRegistrationsComponent {
       this.composeError.set(this.extractErrorMessage(e) ?? 'E-Mail konnte nicht gesendet werden');
     } finally {
       this.composeSending.set(false);
+    }
+  }
+
+  async toggleFullyBooked(group: RegistrationGroup): Promise<void> {
+    const t = this.tournamentStore.getActiveTournamentId();
+    if (!t) return;
+    try {
+      await this.groupService.update(group.id, {...group, fullyBooked: !group.fullyBooked});
+      await this.loadAll(t);
+    } catch (e: any) {
+      this.error.set(this.extractErrorMessage(e) ?? 'Fehler beim Speichern');
+    }
+  }
+
+  openMove(req: RegistrationRequest): void {
+    this.moveGroupId = null;
+    this.moveTarget.set(req);
+  }
+
+  async doMove(): Promise<void> {
+    const target = this.moveTarget();
+    const t = this.tournamentStore.getActiveTournamentId();
+    if (!target || !this.moveGroupId || !t) return;
+    this.moving.set(true);
+    try {
+      await this.requestService.move(target.id, this.moveGroupId);
+      this.moveTarget.set(null);
+      await this.loadAll(t);
+    } catch (e: any) {
+      this.moveTarget.set(null);
+      this.error.set(this.extractErrorMessage(e) ?? 'Fehler beim Verschieben');
+    } finally {
+      this.moving.set(false);
     }
   }
 

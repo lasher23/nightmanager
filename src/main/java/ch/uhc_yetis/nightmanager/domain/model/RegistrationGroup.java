@@ -16,6 +16,9 @@ public class RegistrationGroup {
     @Column(name = "requires_age", nullable = false)
     private boolean requiresAge = false;
 
+    @Column(name = "fully_booked", nullable = false, columnDefinition = "boolean default false")
+    private boolean fullyBooked = false;
+
     // JSON array of {label, value} rows shown on the public register page
     @Column(columnDefinition = "text")
     private String info;
@@ -46,6 +49,14 @@ public class RegistrationGroup {
 
     public void setRequiresAge(boolean requiresAge) {
         this.requiresAge = requiresAge;
+    }
+
+    public boolean isFullyBooked() {
+        return fullyBooked;
+    }
+
+    public void setFullyBooked(boolean fullyBooked) {
+        this.fullyBooked = fullyBooked;
     }
 
     public String getInfo() {

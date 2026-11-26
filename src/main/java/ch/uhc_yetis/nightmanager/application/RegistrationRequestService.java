@@ -49,6 +49,9 @@ public class RegistrationRequestService {
         if (group.getTournament().getState() != TournamentState.REGISTRATION_OPEN) {
             throw new CustomException("Anmeldungen sind nur möglich wenn das Turnier im Status 'Anmeldung offen' ist", Status.ALREADY_EXISTS);
         }
+        if (group.isFullyBooked()) {
+            throw new CustomException("Die Anmeldegruppe \"" + group.getName() + "\" ist ausgebucht", Status.ALREADY_EXISTS);
+        }
         if (request.getTeamLeader() == null || request.getTeamLeader().isBlank()) {
             throw new CustomException("Teamchef ist erforderlich", Status.ALREADY_EXISTS);
         }
@@ -79,6 +82,18 @@ public class RegistrationRequestService {
 
     public RegistrationRequest reject(Long id) {
         return updateStatus(id, RegistrationRequestStatus.REJECTED);
+    }
+
+    /** Moves a registration to another registration group of the same tournament. */
+    public RegistrationRequest moveToGroup(Long id, Long targetGroupId) {
+        RegistrationRequest request = requestRepository.findById(id)
+                .orElseThrow(() -> new CustomException("Anmeldung mit id " + id + " nicht gefunden", Status.NOT_FOUND));
+        RegistrationGroup target = findGroup(targetGroupId);
+        if (!target.getTournament().getId().equals(request.getRegistrationGroup().getTournament().getId())) {
+            throw new CustomException("Die Zielgruppe gehört zu einem anderen Turnier", Status.ALREADY_EXISTS);
+        }
+        request.setRegistrationGroup(target);
+        return requestRepository.save(request);
     }
 
     private RegistrationRequest updateStatus(Long id, RegistrationRequestStatus status) {
